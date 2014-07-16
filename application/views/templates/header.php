@@ -9,7 +9,7 @@
 
 <html>
     <head lang="en">
-        <title>INDIACom 2015 - <?php echo $title; ?></title>
+        <title>INDIACom 2015</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <link rel="stylesheet" href= "/<?php echo PATH ?>assets/css/bootstrap.css">
@@ -21,8 +21,3 @@
         <script src="/<?php echo PATH ?>assets/js/bootstrap.min.js"></script>
     </head>
     <body>
-    <?php
-        require("navbar.php");
-        require("banner.php");
-        require("quickLinks.php")
-    ?>

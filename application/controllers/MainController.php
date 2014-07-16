@@ -16,10 +16,26 @@ class MainController extends CI_Controller
             show_404();
         }
 
-        $data['title'] = ucfirst($page); // Capitalize the first letter
+        $data['page'] = $this->getLogicalName($page); // Capitalize the first letter
 
-        $this->load->view('templates/header', $data);
+        $this->load->view('templates/header');
+        $this->load->view('templates/navbar', $data);
+        $this->load->view('templates/banner');
+        $this->load->view('templates/quickLinks');
         $this->load->view('pages/'.$page, $data);
         $this->load->view('templates/footer', $data);
+    }
+
+    private function getLogicalName($pageFileName)
+    {
+        switch($pageFileName)
+        {
+            case "index" :
+                return "Home";
+            case "aboutIndiacom":
+                return "About INDIACom";
+            default:
+                return "";
+        }
     }
 }

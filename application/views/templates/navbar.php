@@ -5,6 +5,12 @@
  * Date: 11/07/14
  * Time: 08:38
  */
+
+function SetActiveNavItem($navItem, $page)
+{
+    if($page == $navItem)
+        echo "active";
+}
 ?>
 <style type="text/css">
     .navbar .nav > li > a {
@@ -86,11 +92,11 @@
     <div class="collapse navbar-collapse" id="navbar-collapse">
         <div class="col-md-8 col-sm-7">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="index.php">Home</a></li>
-                <li class="dropdown">
-                    <a href="aboutIndiacom.php" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span class="caret"></span></a>
+                <li class="<?php SetActiveNavItem("Home", $page); ?>"><a href="index">Home</a></li>
+                <li class="dropdown <?php SetActiveNavItem("About INDIACom", $page); ?>">
+                    <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="aboutIndiacom.php">About Indiacom</a></li>
+                        <li><a href="aboutIndiacom">About Indiacom</a></li>
                         <li class="divider"></li>
                         <li><a href="#">INDIACom History</a></li>
                         <li><a href="#">Invited Speaker</a></li>
@@ -101,7 +107,7 @@
                     </ul>
                 </li>
 
-                <li class="dropdown">
+                <li class="dropdown <?php SetActiveNavItem("Submit Paper", $page); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Submit Paper<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Submit Paper</a></li>
@@ -112,8 +118,8 @@
                         <li><a href="#">Payment Modes</a></li>
                     </ul>
                 </li>
-                <li><a href="#">News</a></li>
-                <li class="dropdown">
+                <li class="<?php SetActiveNavItem("News", $page); ?>"><a href="#">News</a></li>
+                <li class="dropdown <?php SetActiveNavItem("Downloads", $page); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Downloads <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Downloads</a></li>
@@ -121,9 +127,9 @@
                         <li><a href="#">Proceedings</a></li>
                     </ul>
                 </li>
-                <li><a href="#">FAQs</a></li>
-                <li><a href="#">Contact Us</a></li>
-                <li><a href="#">Feedback</a></li>
+                <li class="<?php SetActiveNavItem("FAQs", $page); ?>"><a href="#">FAQs</a></li>
+                <li class="<?php SetActiveNavItem("Contact Us", $page); ?>"><a href="#">Contact Us</a></li>
+                <li class="<?php SetActiveNavItem("Feedback", $page); ?>"><a href="#">Feedback</a></li>
             </ul>
         </div>
         <div class="col-md-2 col-sm-3 pull-right">
@@ -135,7 +141,7 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
