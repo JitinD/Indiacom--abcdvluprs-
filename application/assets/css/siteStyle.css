@@ -1,0 +1,89 @@
+body
+{
+    font-family: "Segoe UI Light","Segoe UI";
+    font: "Segoe UI Light","Segoe UI";
+}
+.topBlock
+{
+    padding-top:65px;
+}
+.contentBlock-top
+{
+    padding-top: 10px;
+}
+.contentBlock-bottom
+{
+    padding-bottom: 20px;
+}
+.bottomBlock
+{
+    padding-bottom:70px;
+}
+.sponsorImage
+{
+    height: 100px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.hundredText
+{
+    font-size:100px;
+}
+.thirtyfiveText
+{
+    font-size:35px;
+}
+.sixtyText
+{
+    font-size:60px;
+}
+.newsItem
+{
+    text-decoration: underline;
+}
+.border-bottom
+{
+    border-bottom: 2px solid #D3D3D3;
+}
+.border-side-right
+{
+    border-right: 2px solid #D3D3D3;
+}
+.border-bottom-thick
+{
+    border-bottom: 10px solid #7a2929;
+}
+.carousel-image
+{
+
+}
+.bg-gradient
+{
+    background: -webkit-linear-gradient(left,  #ffffff, #fff2f2 ,#fff2f2  , #ffffff); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ffffff ,#fff2f2 , #fff2f2 , #ffffff); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right,  #ffffff ,#fff2f2 ,#fff2f2 , #ffffff); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right,  #ffffff ,#fff2f2 , #fff2f2 , #ffffff); /* Standard syntax (must be last) */
+}
+.bg-gradient-2
+{
+    background: -webkit-linear-gradient(left,  #fff2f2 ,#fff2f2  , #ffffff); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right,#fff2f2 , #fff2f2 , #ffffff); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right ,#fff2f2 ,#fff2f2 , #ffffff); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right ,#fff2f2 , #fff2f2 , #ffffff); /* Standard syntax (must be last) */
+}
+.bg-dark
+{
+    background-color: #222222;
+}
+.shadow-bottom
+{
+    box-shadow: 0px 5px 15px #888888;
+}
+.bg-dark-blue
+{
+    background-color: #004080;
+}

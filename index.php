@@ -18,6 +18,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
+    define('INDIACOM', 'Indiacom2015/');
 	define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
@@ -191,6 +192,7 @@ if (defined('ENVIRONMENT'))
 		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
 
+    define('PATH', INDIACOM.APPPATH);
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE
