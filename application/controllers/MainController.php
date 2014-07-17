@@ -35,14 +35,16 @@ class MainController extends CI_Controller
         $this->form_validation->set_rules('password', 'Password', 'required|callback_passwordCheck');
         if($this->form_validation->run())
         {
-            //Login succesufll
+            $_SESSION['UserName'] = $username;
+            $_SESSION['Password'] = $password;
         }
         else
         {
             if($this->input->post('submit') == "1")
-                //echo "<br><br><h1>YESS</h1>";
+            {
                 $data['isFormError'] = true;
-            $this->load->view('pages/loginPage', $data);
+            }
+            //$this->load->view('pages/loginPage', $data);
         }
 
         $this->load->view('templates/banner');

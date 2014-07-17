@@ -21,3 +21,4 @@
         <script src="/<?php echo PATH ?>assets/js/bootstrap.min.js"></script>
     </head>
     <body>
+        <div class="container-fluid">

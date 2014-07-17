@@ -132,7 +132,7 @@ function SetActiveNavItem($navItem, $page)
                 <li class="<?php SetActiveNavItem("Feedback", $page); ?>"><a href="#">Feedback</a></li>
             </ul>
         </div>
-        <div class="col-md-2 col-sm-3 pull-right">
+        <div class="col-md-2 col-sm-3">
             <ul class="nav navbar-nav">
                 <li><button class="btn btn-default navbar-btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button></li>
                 <li></li>
