@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 11, 2014 at 04:58 AM
+-- Generation Time: Jul 17, 2014 at 06:49 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -106,11 +106,18 @@ CREATE TABLE IF NOT EXISTS `member_master` (
 
 --
 -- RELATIONS FOR TABLE `member_master`:
---   `member_organization_id`
---       `organization_master` -> `organization_id`
 --   `member_category_id`
 --       `member_category_master` -> `member_category_id`
+--   `member_organization_id`
+--       `organization_master` -> `organization_id`
 --
+
+--
+-- Dumping data for table `member_master`
+--
+
+INSERT INTO `member_master` (`member_id`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_pass`, `member_organization_id`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('12', 'Rana', 'Gadhbadh Nagar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, '2014-07-15 09:46:52', 0);
 
 -- --------------------------------------------------------
 
@@ -141,25 +148,28 @@ CREATE TABLE IF NOT EXISTS `organization_master` (
 
 CREATE TABLE IF NOT EXISTS `paper_master` (
   `paper_id` varchar(20) NOT NULL,
+  `paper_code` varchar(10) NOT NULL,
   `paper_title` varchar(200) NOT NULL,
   `paper_subject_id` varchar(10) NOT NULL,
   `paper_date_of_submission` datetime DEFAULT NULL,
   `paper_presentation_path` varchar(50) DEFAULT NULL,
   `paper_contact_author_id` varchar(10) NOT NULL,
+  `paper_isclose` tinyint(4) NOT NULL DEFAULT '0',
   `paper_hashtag` varchar(64) DEFAULT NULL,
   `paper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `paper_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`paper_id`),
+  UNIQUE KEY `paper_code` (`paper_code`,`paper_subject_id`),
   KEY `paper_contact_author_id` (`paper_contact_author_id`),
   KEY `paper_subject_id` (`paper_subject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- RELATIONS FOR TABLE `paper_master`:
---   `paper_subject_id`
---       `subject_master` -> `subject_id`
 --   `paper_contact_author_id`
 --       `member_master` -> `member_id`
+--   `paper_subject_id`
+--       `subject_master` -> `subject_id`
 --
 
 -- --------------------------------------------------------
@@ -194,12 +204,12 @@ CREATE TABLE IF NOT EXISTS `paper_version_master` (
 
 --
 -- RELATIONS FOR TABLE `paper_version_master`:
---   `paper_version_review_result_id`
---       `review_result_master` -> `review_result_id`
 --   `paper_id`
 --       `paper_master` -> `paper_id`
 --   `paper_version_convener_id`
 --       `user_master` -> `user_id`
+--   `paper_version_review_result_id`
+--       `review_result_master` -> `review_result_id`
 --
 
 -- --------------------------------------------------------
@@ -274,7 +284,6 @@ CREATE TABLE IF NOT EXISTS `role_master` (
 CREATE TABLE IF NOT EXISTS `subject_master` (
   `subject_id` varchar(10) NOT NULL,
   `subject_code` varchar(50) NOT NULL,
-  `subject_event_id` varchar(50) NOT NULL,
   `subject_track_id` varchar(50) NOT NULL,
   `subject_name` varchar(50) NOT NULL,
   `subject_description` varchar(200) DEFAULT NULL,
@@ -282,7 +291,22 @@ CREATE TABLE IF NOT EXISTS `subject_master` (
   `subject_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `subject_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`subject_id`),
-  UNIQUE KEY `subject_code` (`subject_code`,`subject_event_id`,`subject_track_id`)
+  UNIQUE KEY `subject_code` (`subject_code`,`subject_track_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `submission_master`
+--
+
+CREATE TABLE IF NOT EXISTS `submission_master` (
+  `submission_id` varchar(10) NOT NULL,
+  `submission_paper_id` varchar(20) NOT NULL,
+  `submission_member_id` varchar(10) NOT NULL,
+  `submission_hashtag` varchar(64) DEFAULT NULL,
+  `submission_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `submission_dirty` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -378,23 +402,23 @@ ALTER TABLE `member_category_master`
 -- Constraints for table `member_master`
 --
 ALTER TABLE `member_master`
-  ADD CONSTRAINT `member_master_ibfk_2` FOREIGN KEY (`member_organization_id`) REFERENCES `organization_master` (`organization_id`),
-  ADD CONSTRAINT `member_master_ibfk_1` FOREIGN KEY (`member_category_id`) REFERENCES `member_category_master` (`member_category_id`);
+  ADD CONSTRAINT `member_master_ibfk_1` FOREIGN KEY (`member_category_id`) REFERENCES `member_category_master` (`member_category_id`),
+  ADD CONSTRAINT `member_master_ibfk_2` FOREIGN KEY (`member_organization_id`) REFERENCES `organization_master` (`organization_id`);
 
 --
 -- Constraints for table `paper_master`
 --
 ALTER TABLE `paper_master`
-  ADD CONSTRAINT `paper_master_ibfk_3` FOREIGN KEY (`paper_subject_id`) REFERENCES `subject_master` (`subject_id`),
-  ADD CONSTRAINT `paper_master_ibfk_2` FOREIGN KEY (`paper_contact_author_id`) REFERENCES `member_master` (`member_id`);
+  ADD CONSTRAINT `paper_master_ibfk_2` FOREIGN KEY (`paper_contact_author_id`) REFERENCES `member_master` (`member_id`),
+  ADD CONSTRAINT `paper_master_ibfk_3` FOREIGN KEY (`paper_subject_id`) REFERENCES `subject_master` (`subject_id`);
 
 --
 -- Constraints for table `paper_version_master`
 --
 ALTER TABLE `paper_version_master`
-  ADD CONSTRAINT `paper_version_master_ibfk_3` FOREIGN KEY (`paper_version_review_result_id`) REFERENCES `review_result_master` (`review_result_id`),
   ADD CONSTRAINT `paper_version_master_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `paper_master` (`paper_id`),
-  ADD CONSTRAINT `paper_version_master_ibfk_2` FOREIGN KEY (`paper_version_convener_id`) REFERENCES `user_master` (`user_id`);
+  ADD CONSTRAINT `paper_version_master_ibfk_2` FOREIGN KEY (`paper_version_convener_id`) REFERENCES `user_master` (`user_id`),
+  ADD CONSTRAINT `paper_version_master_ibfk_3` FOREIGN KEY (`paper_version_review_result_id`) REFERENCES `review_result_master` (`review_result_id`);
 
 --
 -- Constraints for table `reviewer_master`
