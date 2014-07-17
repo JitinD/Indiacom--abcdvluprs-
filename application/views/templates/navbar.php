@@ -92,7 +92,7 @@ function SetActiveNavItem($navItem, $page)
     <div class="collapse navbar-collapse" id="navbar-collapse">
         <div class="col-md-8 col-sm-7">
             <ul class="nav navbar-nav">
-                <li class="<?php SetActiveNavItem("Home", $page); ?>"><a href="index">Home</a></li>
+                <li class="<?php SetActiveNavItem("Home", $page); ?>"><a href="index"><span class="glyphicon glyphicon-home"></span></a></li>
                 <li class="dropdown <?php SetActiveNavItem("About INDIACom", $page); ?>">
                     <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -140,18 +140,3 @@ function SetActiveNavItem($navItem, $page)
         </div>
     </div>
 </div>
-<!-- Modal -->
-<div class="modal" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-                <h4 class="modal-title" id="myModalLabel">Login</h4>
-            </div>
-            <div class="modal-body">
-                <?php include(dirname(__FILE__) . "/../pages/loginPage.php"); ?>
-            </div>
-        </div>
-    </div>
-</div>
-
