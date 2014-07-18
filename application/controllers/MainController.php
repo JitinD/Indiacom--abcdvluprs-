@@ -44,7 +44,7 @@ class MainController extends CI_Controller
             {
                 $data['isFormError'] = true;
             }
-            //$this->load->view('pages/loginPage', $data);
+            $this->load->view('pages/loginPage', $data);
         }
 
         $this->load->view('templates/banner');
