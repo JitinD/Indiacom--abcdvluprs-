@@ -1,4 +1,4 @@
-<div class="col-md-9 col-md-offset-2 col-sm-8 col-xs-12" xmlns="http://www.w3.org/1999/html">
+<div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0" xmlns="http://www.w3.org/1999/html">
     <span class="h1 text-theme">List of Keynote and Invited Speakers</span>
     <br>
     <span class="h3">
