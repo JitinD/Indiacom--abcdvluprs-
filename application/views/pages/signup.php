@@ -94,9 +94,7 @@
 				<div class="form-group">
 					<label for="organization" class="col-sm-3 control-label">Organization</label>
 					<div class="col-sm-9">
-						<select class="form-control" id="organization">
-							<option value="researchStudent">Long List of options here</option>
-						</select>
+                        <input type="text" class="form-control" id="organization" placeholder="Start typing name of Organization here">
 					</div>
 				</div>
                 <div class="form-group">
