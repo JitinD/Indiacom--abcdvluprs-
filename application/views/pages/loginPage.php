@@ -46,3 +46,6 @@
         </div>
     </div>
 </div>
+<?php if($isFormError):?>
+    <script> $('#loginModal').modal('show'); </script>
+<?php endif;?>
