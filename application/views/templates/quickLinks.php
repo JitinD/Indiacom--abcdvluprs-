@@ -22,9 +22,16 @@
             </li>
 
             <li>
-                <a href="#" class="text-light">Register</a>
+                <a href="signup" class="text-light">Register</a>
             </li>
 
+            <form role="search" class="form-inline navbar-right">
+                <div class="form-group input-sm">
+                    <input type="text" placeholder="Search" class="form-control">
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search"></span></button>
+                </div>
+
+            </form>
         </ul>
     </div>
 </div>

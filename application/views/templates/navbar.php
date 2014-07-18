@@ -77,7 +77,7 @@ function SetActiveNavItem($navItem, $page)
     }
 </style>
 
-<div class="navbar-default navbar-fixed-top shadow-bottom" role="navigation" style="color: #ffffff">
+<div class="navbar-default navbar-fixed-top shadow-bottom" role="navigation">
 
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -90,7 +90,7 @@ function SetActiveNavItem($navItem, $page)
     </div>
 
     <div class="collapse navbar-collapse" id="navbar-collapse">
-        <div class="col-md-8 col-sm-7">
+        <div class="col-md-11 col-sm-11">
             <ul class="nav navbar-nav">
                 <li class="<?php SetActiveNavItem("Home", $page); ?>"><a href="index"><span class="glyphicon glyphicon-home"></span></a></li>
                 <li class="dropdown <?php SetActiveNavItem("About INDIACom", $page); ?>">
@@ -130,12 +130,16 @@ function SetActiveNavItem($navItem, $page)
                 <li class="<?php SetActiveNavItem("FAQs", $page); ?>"><a href="#">FAQs</a></li>
                 <li class="<?php SetActiveNavItem("Contact Us", $page); ?>"><a href="#">Contact Us</a></li>
                 <li class="<?php SetActiveNavItem("Feedback", $page); ?>"><a href="#">Feedback</a></li>
-            </ul>
-        </div>
-        <div class="col-md-2 col-sm-3">
-            <ul class="nav navbar-nav">
+                <li class="<?php SetActiveNavItem("Dashboard", $page); ?>"><a href="#">Dashboard</a></li>
                 <li><button class="btn btn-default navbar-btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button></li>
-                <li></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as Akshay Rana <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Edit Profile</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Logout</a></li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>
