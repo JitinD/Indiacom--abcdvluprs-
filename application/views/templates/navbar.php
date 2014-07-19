@@ -130,16 +130,33 @@ function SetActiveNavItem($navItem, $page)
                 <li class="<?php SetActiveNavItem("FAQs", $page); ?>"><a href="#">FAQs</a></li>
                 <li class="<?php SetActiveNavItem("Contact Us", $page); ?>"><a href="#">Contact Us</a></li>
                 <li class="<?php SetActiveNavItem("Feedback", $page); ?>"><a href="#">Feedback</a></li>
+                <?php
+                    if(isset($_SESSION) && isset($_SESSION['member_id']))
+                    {
+                ?>
                 <li class="<?php SetActiveNavItem("Dashboard", $page); ?>"><a href="#">Dashboard</a></li>
+                <?php
+                    }
+                    if(isset($_SESSION) && !isset($_SESSION['member_id']))
+                    {
+                ?>
                 <li><button class="btn btn-default navbar-btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button></li>
+                <?php
+                    }
+                    else if(isset($_SESSION) && isset($_SESSION['member_name']))
+                    {
+                ?>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as Akshay Rana <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as <?php echo $_SESSION['member_name'] ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Edit Profile</a></li>
                         <li class="divider"></li>
                         <li><a href="#">Logout</a></li>
                     </ul>
                 </li>
+                <?php
+                    }
+                ?>
             </ul>
         </div>
     </div>

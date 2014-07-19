@@ -64,6 +64,21 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
+$dbconfig['hostname'] = $db[$active_group]['hostname'];
+$dbconfig['username'] = $db[$active_group]['username'];
+$dbconfig['password'] = $db[$active_group]['password'];
+$dbconfig['database'] = $db[$active_group]['database'];
+$dbconfig['dbdriver'] = $db[$active_group]['dbdriver'];
+$dbconfig['dbprefix'] = $db[$active_group]['dbprefix'];
+$dbconfig['pconnect'] = $db[$active_group]['pconnect'];
+$dbconfig['db_debug'] = $db[$active_group]['db_debug'];
+$dbconfig['cache_on'] = $db[$active_group]['cache_on'];
+$dbconfig['cachedir'] = $db[$active_group]['cachedir'];
+$dbconfig['char_set'] = $db[$active_group]['char_set'];
+$dbconfig['dbcollat'] = $db[$active_group]['dbcollat'];
+$dbconfig['swap_pre'] = $db[$active_group]['swap_pre'];
+$dbconfig['autoinit'] = $db[$active_group]['autoinit'];
+$dbconfig['stricton'] = $db[$active_group]['stricton'];
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */

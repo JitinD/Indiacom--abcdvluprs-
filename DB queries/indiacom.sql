@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.1.6
+-- version 4.0.4
 -- http://www.phpmyadmin.net
 --
--- Host: 127.0.0.1
--- Generation Time: Jul 17, 2014 at 06:49 PM
--- Server version: 5.6.16
--- PHP Version: 5.5.9
+-- Host: localhost
+-- Generation Time: Jul 19, 2014 at 12:10 PM
+-- Server version: 5.6.12-log
+-- PHP Version: 5.4.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -21,6 +21,21 @@ SET time_zone = "+00:00";
 --
 CREATE DATABASE IF NOT EXISTS `indiacom` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
 USE `indiacom`;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `database_user`
+--
+
+CREATE TABLE IF NOT EXISTS `database_user` (
+  `database_user_name` int(11) NOT NULL,
+  `database_user_password` int(11) NOT NULL,
+  `database_user_hashtag` varchar(64) DEFAULT NULL,
+  `database_user_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `database_user_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`database_user_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -67,12 +82,6 @@ CREATE TABLE IF NOT EXISTS `member_category_master` (
   KEY `member_category_event_id` (`member_category_event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- RELATIONS FOR TABLE `member_category_master`:
---   `member_category_event_id`
---       `event_master` -> `event_id`
---
-
 -- --------------------------------------------------------
 
 --
@@ -103,14 +112,6 @@ CREATE TABLE IF NOT EXISTS `member_master` (
   KEY `member_category_id` (`member_category_id`),
   KEY `member_organization_id` (`member_organization_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- RELATIONS FOR TABLE `member_master`:
---   `member_category_id`
---       `member_category_master` -> `member_category_id`
---   `member_organization_id`
---       `organization_master` -> `organization_id`
---
 
 --
 -- Dumping data for table `member_master`
@@ -164,14 +165,6 @@ CREATE TABLE IF NOT EXISTS `paper_master` (
   KEY `paper_subject_id` (`paper_subject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- RELATIONS FOR TABLE `paper_master`:
---   `paper_contact_author_id`
---       `member_master` -> `member_id`
---   `paper_subject_id`
---       `subject_master` -> `subject_id`
---
-
 -- --------------------------------------------------------
 
 --
@@ -202,15 +195,52 @@ CREATE TABLE IF NOT EXISTS `paper_version_master` (
   KEY `paper_version_review_result_id` (`paper_version_review_result_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- RELATIONS FOR TABLE `paper_version_master`:
---   `paper_id`
---       `paper_master` -> `paper_id`
---   `paper_version_convener_id`
---       `user_master` -> `user_id`
---   `paper_version_review_result_id`
---       `review_result_master` -> `review_result_id`
+-- Table structure for table `privilege_master`
 --
+
+CREATE TABLE IF NOT EXISTS `privilege_master` (
+  `privilege_id` varchar(10) NOT NULL,
+  `privilege_entity` varchar(50) NOT NULL,
+  `privilege_attribute` varchar(50) NOT NULL,
+  `privilege_operation` varchar(10) NOT NULL,
+  PRIMARY KEY (`privilege_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `privilege_master`
+--
+
+INSERT INTO `privilege_master` (`privilege_id`, `privilege_entity`, `privilege_attribute`, `privilege_operation`) VALUES
+('P1', 'user_master', '*', 'Update'),
+('P2', 'paper_master', '*', 'Update');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `privilege_role_mapper`
+--
+
+CREATE TABLE IF NOT EXISTS `privilege_role_mapper` (
+  `privilege_id` varchar(10) NOT NULL,
+  `role_id` int(11) NOT NULL,
+  `privilege_role_mapper_hashtag` varchar(64) DEFAULT NULL,
+  `privilege_role_mapper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `privilege_role_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`privilege_id`,`role_id`),
+  KEY `role_id` (`role_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `privilege_role_mapper`
+--
+
+INSERT INTO `privilege_role_mapper` (`privilege_id`, `role_id`, `privilege_role_mapper_hashtag`, `privilege_role_mapper_dor`, `privilege_role_mapper_dirty`) VALUES
+('P1', 0, NULL, '2014-07-19 11:05:46', 0),
+('P1', 1, NULL, '2014-07-19 11:05:58', 0),
+('P2', 1, NULL, '2014-07-19 11:05:58', 0);
 
 -- --------------------------------------------------------
 
@@ -235,12 +265,6 @@ CREATE TABLE IF NOT EXISTS `reviewer_master` (
   PRIMARY KEY (`reviewer_id`),
   KEY `reviewer_id` (`reviewer_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- RELATIONS FOR TABLE `reviewer_master`:
---   `reviewer_id`
---       `user_master` -> `user_id`
---
 
 -- --------------------------------------------------------
 
@@ -272,8 +296,17 @@ CREATE TABLE IF NOT EXISTS `role_master` (
   `role_hashtag` varchar(64) DEFAULT NULL,
   `role_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `role_dirty` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`role_id`)
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `role_name` (`role_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `role_master`
+--
+
+INSERT INTO `role_master` (`role_id`, `role_name`, `role_hashtag`, `role_dor`, `role_dirty`) VALUES
+(0, 'Author', NULL, '2014-07-19 11:04:43', 0),
+(1, 'Sample Role', NULL, '2014-07-19 11:04:53', 0);
 
 -- --------------------------------------------------------
 
@@ -329,12 +362,6 @@ CREATE TABLE IF NOT EXISTS `track_master` (
   KEY `track_event_id` (`track_event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- RELATIONS FOR TABLE `track_master`:
---   `track_event_id`
---       `event_master` -> `event_id`
---
-
 -- --------------------------------------------------------
 
 --
@@ -352,16 +379,6 @@ CREATE TABLE IF NOT EXISTS `user_event_role_mapper` (
   KEY `role_id` (`role_id`),
   KEY `event_id` (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- RELATIONS FOR TABLE `user_event_role_mapper`:
---   `user_id`
---       `user_master` -> `user_id`
---   `role_id`
---       `role_master` -> `role_id`
---   `event_id`
---       `event_master` -> `event_id`
---
 
 -- --------------------------------------------------------
 
@@ -383,14 +400,14 @@ CREATE TABLE IF NOT EXISTS `user_master` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
--- RELATIONS FOR TABLE `user_master`:
---   `user_registrar`
---       `user_master` -> `user_id`
+-- Constraints for dumped tables
 --
 
 --
--- Constraints for dumped tables
+-- Constraints for table `database_user`
 --
+ALTER TABLE `database_user`
+  ADD CONSTRAINT `database_user_ibfk_1` FOREIGN KEY (`database_user_name`) REFERENCES `role_master` (`role_id`);
 
 --
 -- Constraints for table `member_category_master`
@@ -419,6 +436,13 @@ ALTER TABLE `paper_version_master`
   ADD CONSTRAINT `paper_version_master_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `paper_master` (`paper_id`),
   ADD CONSTRAINT `paper_version_master_ibfk_2` FOREIGN KEY (`paper_version_convener_id`) REFERENCES `user_master` (`user_id`),
   ADD CONSTRAINT `paper_version_master_ibfk_3` FOREIGN KEY (`paper_version_review_result_id`) REFERENCES `review_result_master` (`review_result_id`);
+
+--
+-- Constraints for table `privilege_role_mapper`
+--
+ALTER TABLE `privilege_role_mapper`
+  ADD CONSTRAINT `privilege_role_mapper_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role_master` (`role_id`),
+  ADD CONSTRAINT `privilege_role_mapper_ibfk_1` FOREIGN KEY (`privilege_id`) REFERENCES `privilege_master` (`privilege_id`);
 
 --
 -- Constraints for table `reviewer_master`

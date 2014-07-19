@@ -19,7 +19,9 @@
  *
  */
     session_start();
+    define('HOST', 'localhost/');
     define('INDIACOM', 'Indiacom2015/');
+    define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
 /*
  *---------------------------------------------------------------
