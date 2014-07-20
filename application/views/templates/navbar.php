@@ -96,12 +96,9 @@ function SetActiveNavItem($navItem, $page)
                 <li class="dropdown <?php SetActiveNavItem("About INDIACom", $page); ?>">
                     <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="aboutIndiacom">About Indiacom</a></li>
-                        <li class="divider"></li>
-                        <li><a href="#">INDIACom History</a></li>
-                        <li><a href="#">Invited Speaker</a></li>
-                        <li><a href="#">Sponsors</a></li>
-                        <li><a href="#">Conference Secratariate</a></li>
+                        <li><a href="aboutIndiacom">INDIACom History</a></li>
+                        <li><a href="listofspeakers">Invited Speakers</a></li>
+                        <li><a href="sponsors">Sponsors</a></li>
                         <li><a href="#">Committees</a></li>
                         <li><a href="#">Review Process, Publication and Indexing</a></li>
                     </ul>
@@ -113,7 +110,6 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="#">Submit Paper</a></li>
                         <li class="divider"></li>
                         <li><a href="#">Paper Submission Guidelines</a></li>
-
                         <li><a href="#">Paper Formatting Guidelines</a></li>
                         <li><a href="#">Payment Modes</a></li>
                     </ul>
@@ -128,7 +124,7 @@ function SetActiveNavItem($navItem, $page)
                     </ul>
                 </li>
                 <li class="<?php SetActiveNavItem("FAQs", $page); ?>"><a href="#">FAQs</a></li>
-                <li class="<?php SetActiveNavItem("Contact Us", $page); ?>"><a href="#">Contact Us</a></li>
+                <li class="<?php SetActiveNavItem("Contact Us", $page); ?>"><a href="contactus">Contact Us</a></li>
                 <li class="<?php SetActiveNavItem("Feedback", $page); ?>"><a href="#">Feedback</a></li>
                 <?php
                     if(isset($_SESSION) && isset($_SESSION['member_id']))
@@ -147,11 +143,11 @@ function SetActiveNavItem($navItem, $page)
                     {
                 ?>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Logged in as <?php echo $_SESSION['member_name'] ?> <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Logged in as <?php echo $_SESSION['member_name'] ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Edit Profile</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Logout</a></li>
+                        <li><a href="#" class="bg-danger">Logout</a></li>
                     </ul>
                 </li>
                 <?php

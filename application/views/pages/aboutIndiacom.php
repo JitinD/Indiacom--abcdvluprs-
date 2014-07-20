@@ -1,19 +1,6 @@
 <div class="row contentBlock-top">
     <div class="col-md-2 col-sm-4 col-xs-12">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                About INDIACom
-            </div>
-            <ul class="list-group">
-
-                <li class="list-group-item"><a href="#">INDIACom History</a></li>
-                <li class="list-group-item"><a href="#">Invited Speaker</a></li>
-                <li class="list-group-item"><a href="#">Sponsors</a></li>
-                <li class="list-group-item"><a href="#">Conference Secratariate</a></li>
-                <li class="list-group-item"><a href="#">Committees</a></li>
-                <li class="list-group-item"><a href="#">Review Process, Publication and Indexing</a></li>
-            </ul>
-        </div>
+        <?php include('aboutIndiacomSidePanel.php'); ?>
     </div>
     <div class="col-md-9 col-sm-8 col-xs-12">
         <span class="h1 text-theme">INDIACom</span>
