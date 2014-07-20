@@ -37,7 +37,7 @@
                     9<sup>th</sup> INDIACom; 2015 2<sup>nd</sup> International Conference on Computing for Sustainable Global Development
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <a href="#" ><span class="glyphicon glyphicon-calendar"></span></a>11<sup>th</sup> - 13<sup>th</sup> March, 2015 &nbsp <a href="#" ><span class="glyphicon glyphicon-map-marker"></span></a> Bharati Vidyapeeth, New Delhi, India
+                    <a href="importantdates" ><span class="glyphicon glyphicon-calendar"></span></a>11<sup>th</sup> - 13<sup>th</sup> March, 2015 &nbsp <a href="#" ><span class="glyphicon glyphicon-map-marker"></span></a> Bharati Vidyapeeth, New Delhi, India
                 </div>
             </div>
         </div>

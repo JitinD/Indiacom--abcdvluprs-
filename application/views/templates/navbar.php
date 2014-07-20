@@ -99,7 +99,6 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="aboutIndiacom">INDIACom History</a></li>
                         <li><a href="listofspeakers">Invited Speakers</a></li>
                         <li><a href="sponsors">Sponsors</a></li>
-                        <li><a href="#">Conference Secratariate</a></li>
                         <li><a href="#">Committees</a></li>
                         <li><a href="#">Review Process, Publication and Indexing</a></li>
                     </ul>
@@ -125,7 +124,7 @@ function SetActiveNavItem($navItem, $page)
                     </ul>
                 </li>
                 <li class="<?php SetActiveNavItem("FAQs", $page); ?>"><a href="#">FAQs</a></li>
-                <li class="<?php SetActiveNavItem("Contact Us", $page); ?>"><a href="#">Contact Us</a></li>
+                <li class="<?php SetActiveNavItem("Contact Us", $page); ?>"><a href="contactus">Contact Us</a></li>
                 <li class="<?php SetActiveNavItem("Feedback", $page); ?>"><a href="#">Feedback</a></li>
                 <?php
                     if(isset($_SESSION) && isset($_SESSION['member_id']))
