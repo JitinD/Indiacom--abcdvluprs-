@@ -1,3 +1,7 @@
+<script type="text/javascript" src="/<?php echo PATH?>assets/js/jquery.js"></script>
+<script type="text/javascript" src="/<?php echo PATH?>assets/js/script.js"></script>
+<link href="/<?php echo PATH?>assets/css/style.css" rel="stylesheet" type="text/css">
+
 <div class="container-fluid">
 	<div class="row contentBlock-top">
 		<div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0 h1 text-theme">
@@ -14,7 +18,7 @@
 	</div>
 	<div class="row">
 		<div class="col-md-6 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0">
-			<form class="form-horizontal" role="form">
+			<form class="form-horizontal" role="form" method="post">
 				<div class="form-group">
 					<label for="name" class="col-sm-3 control-label">Name</label>
 					<div class="col-sm-9">
@@ -93,10 +97,11 @@
 
 				<div class="form-group">
 					<label for="organization" class="col-sm-3 control-label">Organization</label>
-					<div class="col-sm-9">
-                        <input type="text" class="form-control" id="organization" placeholder="Start typing name of Organization here">
+					<div class="col-sm-9" id="holder">
+                        <input type="text" class="form-control" name="org" id="keyword" placeholder="Start typing name of Organization here">
 					</div>
-				</div>
+                    <div id="ajax_response"></div>
+                </div>
                 <div class="form-group">
                     <label for="experience" class="col-sm-3 control-label">Experience</label>
                     <div class="col-sm-9">
