@@ -50,8 +50,9 @@
                                         <input type="text" placeholder="Author Name">
                                     </div>
                                 </div>
-                                <div>
-                                    <input type="button" value="Add another author" id="but_addAuthor">
+                                <div class="input-group">
+
+                                    <button class="btn btn-success btn-sm" type="button" id="but_addAuthor"><span class="glyphicon glyphicon-plus"></span> Add Author</button>
                                 </div>
                             </div>
                         </div>
@@ -63,7 +64,6 @@
     </div>
 </div>
 <script>
-    var noofAuth = 1;
     $(document).ready(function()
     {
         $("#but_addAuthor").click(function()
@@ -71,7 +71,7 @@
             var html =  "<div>" +
                 "<input type=\"radio\" name=\"mainAuthor\"> " +
                 "<input type=\"text\" placeholder=\"Author Name\">" +
-                "<input type=\"button\" value=\"Remove\" class=\"but_remove\">" +
+                "<button type=\"button\"  value=\"Remove\" class=\"but_remove btn btn-sm btn-danger\">" +"<span class=\"glyphicon glyphicon-minus\">"+"</span>"+"Remove" + "</button>"
                 "</div>";
             $("#authorList").append(html);
             $(".but_remove").click(function()

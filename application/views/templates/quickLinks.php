@@ -15,7 +15,7 @@
                 <a href="#" class="text-light">Call For Papers</a>
             </li>
             <li>
-                <a href="#" class="text-light">Important Dates</a>
+                <a href="importantdates" class="text-light">Important Dates</a>
             </li>
             <li>
                 <a href="#" class="text-light">Reaching and Accomodation</a>
