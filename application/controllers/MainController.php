@@ -39,6 +39,7 @@ class MainController extends CI_Controller
         $this->LoginModel->setLoginType('M');
         $this->form_validation->set_rules('username', 'Member Id' ,'required|callback_usernameCheck');
         $this->form_validation->set_rules('password', 'Password', 'required|callback_passwordCheck');
+
         if($this->form_validation->run())
         {
             header('Location: index');
