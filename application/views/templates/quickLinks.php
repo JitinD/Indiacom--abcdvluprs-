@@ -12,7 +12,7 @@
         <ul class="list-inline" style="font-size: 16px;">
             <span class="h4 text-muted">Quick Links &raquo;</span
             <li>
-                <a href="#" class="text-light">Call For Papers</a>
+                <a href="callForPapers" class="text-light">Call For Papers</a>
             </li>
             <li>
                 <a href="importantdates" class="text-light">Important Dates</a>

@@ -5,7 +5,7 @@
     <div class="col-md-9 col-sm-8 col-xs-12">
         <span class="h1 text-theme">Sponsors</span>
         <div class="row h4">
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-4 col-sm-4 col-xs-12">
                 <span class="text-theme">Technically Sponsored By</span>
                 <div class="row">
                     <div class="col-md-6 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-10 col-xs-offset-2">
@@ -14,7 +14,7 @@
                 </div>
 
             </div>
-            <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="col-md-8 col-sm-8 col-xs-12">
                 <span class="text-theme">Supported and Promoted By</span>
                 <div class="row">
                     <div class="col-md-6 col-md-offset-0 col-sm-12 col-sm-offset-0 col-xs-10 col-xs-offset-2">

@@ -130,7 +130,7 @@ function SetActiveNavItem($navItem, $page)
                     if(isset($_SESSION) && isset($_SESSION['member_id']))
                     {
                 ?>
-                <li class="<?php SetActiveNavItem("Dashboard", $page); ?>"><a href="#">Dashboard</a></li>
+                <li class="<?php SetActiveNavItem("Dashboard", $page); ?>"><a href="dashboardHome">Dashboard</a></li>
                 <?php
                     }
                     if(isset($_SESSION) && !isset($_SESSION['member_id']))
