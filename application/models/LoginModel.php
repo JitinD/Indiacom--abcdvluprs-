@@ -36,7 +36,7 @@ class LoginModel extends CI_Model
     {
         if($this->loginType == 'M')
         {
-            return $this->memberAuthenticate();
+              return $this->memberAuthenticate();
         }
         else if($this->loginType == 'A')
         {
