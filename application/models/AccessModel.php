@@ -15,7 +15,6 @@ class AccessModel extends CI_Model
 
     public function hasPrivileges($privileges = array())
     {
-
         if(!isset($_SESSION) || !isset($_SESSION['current_role_id']))
         {
             return false;

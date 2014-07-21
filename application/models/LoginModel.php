@@ -51,6 +51,7 @@ class LoginModel extends CI_Model
         $query = $this->db->query($sql, array($this->username, $this->password));
         if($query->num_rows() == 1)
         {
+            $_SESSION['authenticated'] = true;
             $_SESSION['role_id'] = 0;
             $_SESSION['current_role_id'] = 0;
             $_SESSION['member_id'] = $this->username;
@@ -73,6 +74,7 @@ class LoginModel extends CI_Model
             {
                 array_push($_SESSION['role_id'][$row->event_id], $row->role_id);
             }
+            $_SESSION['authenticated'] = true;
             $_SESSION['user_id'] = $this->username;
             $row = $query->row();
             $_SESSION['current_role_id'] = $row->role_id;

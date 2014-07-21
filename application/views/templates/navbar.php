@@ -92,8 +92,8 @@ function SetActiveNavItem($navItem, $page)
     <div class="collapse navbar-collapse" id="navbar-collapse">
         <div class="col-md-11 col-sm-11">
             <ul class="nav navbar-nav">
-                <li class="<?php SetActiveNavItem("Home", $page); ?>"><a href="index"><span class="glyphicon glyphicon-home"></span></a></li>
-                <li class="dropdown <?php SetActiveNavItem("About INDIACom", $page); ?>">
+                <li class="<?php SetActiveNavItem("Home", $navbarItem); ?>"><a href="index"><span class="glyphicon glyphicon-home"></span></a></li>
+                <li class="dropdown <?php SetActiveNavItem("About INDIACom", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="aboutIndiacom">INDIACom History</a></li>
@@ -104,7 +104,7 @@ function SetActiveNavItem($navItem, $page)
                     </ul>
                 </li>
 
-                <li class="dropdown <?php SetActiveNavItem("Submit Paper", $page); ?>">
+                <li class="dropdown <?php SetActiveNavItem("Submit Paper", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Submit Paper<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Submit Paper</a></li>
@@ -114,8 +114,8 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="#">Payment Modes</a></li>
                     </ul>
                 </li>
-                <li class="<?php SetActiveNavItem("News", $page); ?>"><a href="#">News</a></li>
-                <li class="dropdown <?php SetActiveNavItem("Downloads", $page); ?>">
+                <li class="<?php SetActiveNavItem("News", $navbarItem); ?>"><a href="#">News</a></li>
+                <li class="dropdown <?php SetActiveNavItem("Downloads", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Downloads <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Downloads</a></li>
@@ -123,14 +123,14 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="#">Proceedings</a></li>
                     </ul>
                 </li>
-                <li class="<?php SetActiveNavItem("FAQs", $page); ?>"><a href="#">FAQs</a></li>
-                <li class="<?php SetActiveNavItem("Contact Us", $page); ?>"><a href="contactus">Contact Us</a></li>
-                <li class="<?php SetActiveNavItem("Feedback", $page); ?>"><a href="#">Feedback</a></li>
+                <li class="<?php SetActiveNavItem("FAQs", $navbarItem); ?>"><a href="#">FAQs</a></li>
+                <li class="<?php SetActiveNavItem("Contact Us", $navbarItem); ?>"><a href="contactus">Contact Us</a></li>
+                <li class="<?php SetActiveNavItem("Feedback", $navbarItem); ?>"><a href="#">Feedback</a></li>
                 <?php
                     if(isset($_SESSION) && isset($_SESSION['member_id']))
                     {
                 ?>
-                <li class="<?php SetActiveNavItem("Dashboard", $page); ?>"><a href="dashboardHome">Dashboard</a></li>
+                <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a href="dashboardHome">Dashboard</a></li>
                 <?php
                     }
                     if(isset($_SESSION) && !isset($_SESSION['member_id']))
