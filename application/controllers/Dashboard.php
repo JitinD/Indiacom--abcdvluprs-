@@ -14,6 +14,9 @@ class Dashboard extends CI_Controller
     {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
+        $this->load->model('EventModel');
+        $this->load->model('TrackModel');
+        $this->load->model('SubjectModel');
     }
 
     public function index()
@@ -31,18 +34,24 @@ class Dashboard extends CI_Controller
         }
         $data = loginModalInit();
         $data['navbarItem'] = pageNavbarItem($page);
+        $data['events'] = $this->EventModel->getAllEvents();
         $this->load->view('templates/header', $data);
 
-        if($this->input->post('submit') == 'submit')
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('paper_title', "Paper Title", "required");
+        $this->form_validation->set_rules('event', 'Event', 'required');
+        $this->form_validation->set_rules('track', 'Track', 'required');
+        $this->form_validation->set_rules('subject', 'Subject', 'required');
+        $this->form_validation->set_rules('paper_doc', 'Paper', 'required');
+        $this->form_validation->set_rules('main_author', 'Main Author', 'required');
+        $this->form_validation->set_rules('authors', 'Author Id', 'required');
+
+        if($this->form_validation->run())
         {
-            if($status = $this->uploadPaperDoc('paper_doc'))
-            {
-                echo "Upload done";
-            }
-            else
-            {
-                echo "<br><br><h1>Could Not Upload</h1>";
-            }
+            $paperDetails = array(
+                'paper_title' => $this->input->post('paper_title'),
+                'paper_contact_author_id' => $this->input->post('main_author')
+            );
         }
         else
         {
@@ -64,5 +73,17 @@ class Dashboard extends CI_Controller
             return false;
         }
         return true;
+    }
+
+    public function tracks()
+    {
+        $eventId = $this->input->post('eventId');
+        echo $this->TrackModel->getAllTracks($eventId);
+    }
+
+    public function subjects()
+    {
+        $trackId = $this->input->post('trackId');
+        echo $this->SubjectModel->getAllSubjects($trackId);
     }
 }
