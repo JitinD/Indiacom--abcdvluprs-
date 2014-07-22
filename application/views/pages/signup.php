@@ -1,3 +1,5 @@
+<script src="/<?php echo PATH ?>assets/js/AJAX.js"></script>
+<link rel="stylesheet" href="/<?php echo PATH ?>assets/css/AJAXstyle.css">
 <div class="container-fluid">
     <div class="row contentBlock-top">
         <div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0 h1 text-theme">
@@ -6,7 +8,14 @@
     </div>
     <div class="row">
         <div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0 h5">
+            <?php
+            if(isset($_SESSION) && !isset($_SESSION['member_id']))
+            {
+            ?>
             Already a member? <button class="btn btn-sm btn-success">Login</button>
+            <?php
+            }
+            ?>
             <p class="text-muted ">
                 Note: The certificate acknowledging your contributions would be generated based on the records submitted here by you.
             </p>
@@ -112,12 +121,12 @@
                 <div class="form-group">
                     <label for="organization" class="col-sm-3 control-label">Organization</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "organization" class="form-control" id="keyword" placeholder="Start typing name of Organization here">
+                        <input type="text" name = "organization" autocomplete="off" class="form-control" id="keyword" placeholder="Start typing name of Organization here">
+                        <div id="ajax_response"></div>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('organization'); ?>
                     </div>
-                    <div id="ajax_response"></div>
                 </div>
                 <div class="form-group">
                     <label for="experience" class="col-sm-3 control-label">Experience</label>

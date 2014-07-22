@@ -3,13 +3,9 @@ $(document).ready(function(){
 	$(document).click(function(){
 		$("#ajax_response").fadeOut('slow');
 	});
-	$("#keyword").focus();
-	var offset = $("#keyword").offset();
-	var width = $("#keyword").width()-2;
-	$("#ajax_response").css("left",offset.left); 
-	$("#ajax_response").css("width",width);
+	var width = $(".col-sm-9").width();
+    $("#ajax_response").css("width",width);
 	$("#keyword").keyup(function(event){
-		 //alert(event.keyCode);
 		 var keyword = $("#keyword").val();
 		 if(keyword.length)
 		 {
@@ -18,11 +14,14 @@ $(document).ready(function(){
 				 $("#loading").css("visibility","visible");
 				 $.ajax({
 				   type: "POST",
-				   url: "../assets/name_fetch.php",
+				   url: "/Indiacom2015/index.php/AJAX/fetchOrganisationNames",
 				   data: "data="+keyword,
 				   success: function(msg){	
 					if(msg != 0)
-					  $("#ajax_response").fadeIn("slow").html(msg);
+                    {
+                        $("#ajax_response").fadeIn("slow").html(msg);
+                    }
+
 					else
 					{
 					  $("#ajax_response").fadeIn("slow");	
