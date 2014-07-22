@@ -86,7 +86,7 @@ function SetActiveNavItem($navItem, $page)
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" rel="home" href="#">BVICAM</a>
+        <a class="navbar-brand" rel="home" href="http://bvicam.in/">BVICAM</a>
     </div>
 
     <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -136,7 +136,7 @@ function SetActiveNavItem($navItem, $page)
                     if(isset($_SESSION) && !isset($_SESSION['member_id']))
                     {
                 ?>
-                <li><button class="btn btn-default navbar-btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button></li>
+                <li><button class="btn navbar-btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button></li>
                 <?php
                     }
                     else if(isset($_SESSION) && isset($_SESSION['member_name']))

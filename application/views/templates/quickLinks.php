@@ -27,13 +27,18 @@
         </ul>
     </div>
     <div class="col-md-2 col-sm-2 col-xs-12">
-        <form role="search">
-            <div class="input-group input-group-sm">
-                <input type="text" class="form-control input-sm" placeholder="Search" name="srch-term" id="srch-term">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                </div>
-            </div>
-        </form>
+        <script>
+            (function() {
+                var cx = '002313996779439024157:dswyjvoc6dq';
+                var gcse = document.createElement('script');
+                gcse.type = 'text/javascript';
+                gcse.async = true;
+                gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+                    '//www.google.com/cse/cse.js?cx=' + cx;
+                var s = document.getElementsByTagName('script')[0];
+                s.parentNode.insertBefore(gcse, s);
+            })();
+        </script>
+        <gcse:search></gcse:search>
     </div>
 </div>
