@@ -114,7 +114,7 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="#">Payment Modes</a></li>
                     </ul>
                 </li>
-                <li class="<?php SetActiveNavItem("News", $navbarItem); ?>"><a href="#">News</a></li>
+                <li class="<?php SetActiveNavItem("News", $navbarItem); ?>"><a href="news">News</a></li>
                 <li class="dropdown <?php SetActiveNavItem("Downloads", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Downloads <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
