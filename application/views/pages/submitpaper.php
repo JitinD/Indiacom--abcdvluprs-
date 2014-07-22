@@ -10,32 +10,45 @@
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" name="paper_title" id="paper_title" placeholder="Enter paper title">
                             </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('paper_title'); ?>
+                            </div>
                         </div>
 
                         <div class="form-group">
                             <label for="event" class="col-sm-3 control-label">Event</label>
                             <div class="col-sm-9">
-                                <select class="form-control" name="event" id="category">
-
+                                <select class="form-control" name="event" id="events">
+                                    <option>Select Event</option>
+                                    <?php echo $events; ?>
                                 </select>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('event'); ?>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="track" class="col-sm-3 control-label">Track</label>
                             <div class="col-sm-9">
-                                <select class="form-control" name="track" id="category">
-
+                                <select class="form-control" name="track" id="tracks">
+                                    <option>Select Track</option>
                                 </select>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('track'); ?>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="subject" class="col-sm-3 control-label">Subject</label>
                             <div class="col-sm-9">
-                                <select class="form-control" name="subject" id="category">
-
+                                <select class="form-control" name="subject" id="subjects">
+                                    <option>Select Subject</option>
                                 </select>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('subject'); ?>
                             </div>
                         </div>
 
@@ -44,6 +57,9 @@
                             <div class="col-sm-9">
                                 <input type="file" class="form-control" name="paper_doc" id="biodata" placeholder="Choose File">
                             </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('paper_doc'); ?>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -51,8 +67,8 @@
                             <div class="col-sm-9">
                                 <div id="authorList">
                                     <div>
-                                        <input type="radio" name="mainAuthor">
-                                        <input type="text" name="authors" placeholder="Author Name">
+                                        <input type="radio" checked name="main_author">
+                                        <input type="text" name="authors" placeholder="Author Name" value="<?php echo $_SESSION['member_id']; ?>">
                                     </div>
                                 </div>
                                 <div class="input-group">
@@ -60,6 +76,12 @@
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>
                                 </div>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('main_author'); ?>
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('authors'); ?>
                             </div>
                         </div>
 
@@ -89,6 +111,49 @@
             $(".but_remove").click(function()
             {
                 $(this).parentsUntil("#authorList").remove();
+            });
+        });
+
+        $('#events').change(function () {
+            var optionSelected = $(this).find("option:selected");
+            $('#tracks').empty();
+            $('#tracks').append('<option>Select Track</option>')
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/Indiacom2015/index.php/Dashboard/tracks",
+                data: "eventId="+optionSelected.val(),
+                success: function(msg){
+                    if(msg != 0)
+                    {
+                        $('#tracks').append(msg);
+                    }
+
+                    else
+                    {
+
+                    }
+                }
+            });
+        });
+
+        $('#tracks').change(function () {
+            var optionSelected = $(this).find("option:selected");
+            $('#subjects').empty();
+            $('#subjects').append('<option>Select Subject</option>')
+            $.ajax({
+                type: "POST",
+                url: "http://localhost/Indiacom2015/index.php/Dashboard/subjects",
+                data: "trackId="+optionSelected.val(),
+                success: function(msg){
+                    if(msg != 0)
+                    {
+                        $('#subjects').append(msg);
+                    }
+                    else
+                    {
+
+                    }
+                }
             });
         });
     });

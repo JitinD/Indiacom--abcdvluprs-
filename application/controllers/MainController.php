@@ -6,8 +6,7 @@
  * Time: 1:56 PM
  */
 
-require(dirname(__FILE__).'/../config/privileges.php');
-require(dirname(__FILE__).'/../utils/ViewUtils.php');
+
 
 class MainController extends CI_Controller
 {
@@ -19,11 +18,13 @@ class MainController extends CI_Controller
 
     public function viewPage($page = "index")
     {
+        require(dirname(__FILE__).'/../config/privileges.php');
+        require(dirname(__FILE__).'/../utils/ViewUtils.php');
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privileges[$page]) && !$this->AccessModel->hasPrivileges($privileges[$page]))
+        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;

@@ -34,5 +34,15 @@ class RegistrationModel extends CI_Model
         $query = $this -> db -> get('member_category_master');
         return $query ->  row_array();
     }
+
+    public function assignMemberId()
+    {
+        $this -> db -> select('member_id');
+        $this->db->order_by("member_id", "desc");
+        $query = $this -> db -> get('member_master', 1);
+        $member_id_array = $query ->  row_array();
+        $member_id = $member_id_array['member_id'] + 1;
+        return $member_id;
+    }
 }
 
