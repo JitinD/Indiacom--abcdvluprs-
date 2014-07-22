@@ -8,7 +8,7 @@
                         <div class="form-group">
                             <label for="paper_title" class="col-sm-3 control-label">Paper Title</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="paper_title" id="paper_title" placeholder="Enter paper title">
+                                <input type="text" class="form-control" value="<?php echo set_value('paper_title'); ?>" name="paper_title" id="paper_title" placeholder="Enter paper title">
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('paper_title'); ?>
@@ -19,7 +19,7 @@
                             <label for="event" class="col-sm-3 control-label">Event</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="event" id="events">
-                                    <option>Select Event</option>
+                                    <option value>Select Event</option>
                                     <?php echo $events; ?>
                                 </select>
                             </div>
@@ -32,7 +32,7 @@
                             <label for="track" class="col-sm-3 control-label">Track</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="track" id="tracks">
-                                    <option>Select Track</option>
+                                    <option value>Select Track</option>
                                 </select>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -44,7 +44,7 @@
                             <label for="subject" class="col-sm-3 control-label">Subject</label>
                             <div class="col-sm-9">
                                 <select class="form-control" name="subject" id="subjects">
-                                    <option>Select Subject</option>
+                                    <option value>Select Subject</option>
                                 </select>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -67,8 +67,8 @@
                             <div class="col-sm-9">
                                 <div id="authorList">
                                     <div>
-                                        <input type="radio" checked name="main_author">
-                                        <input type="text" name="authors" placeholder="Author Name" value="<?php echo $_SESSION['member_id']; ?>">
+                                        <input type="radio" checked name="main_author" class="main_author" value="<?php echo $_SESSION['member_id']; ?>">
+                                        <input type="text" name="authors[]" placeholder="Author Id" class="authors" value="<?php echo $_SESSION['member_id']; ?>">
                                     </div>
                                 </div>
                                 <div class="input-group">
@@ -103,21 +103,29 @@
         $("#but_addAuthor").click(function()
         {
             var html =  "<div>" +
-                "<input type=\"radio\" name=\"mainAuthor\"> " +
-                "<input type=\"text\" placeholder=\"Author Name\">" +
-                "<button type=\"button\"  value=\"Remove\" class=\"but_remove btn btn-sm btn-danger\">" +"<span class=\"glyphicon glyphicon-minus\">"+"</span>" + "</button>"
+                "<input type=\"radio\" name=\"main_author\" class=\"main_author\"> " +
+                "<input type=\"text\" name=\"authors[]\" class=\"authors\" placeholder=\"Author Id\">" +
+                "<button type=\"button\"  value=\"Remove\" class=\"but_remove btn btn-sm btn-danger\">" +
+                    "<span class=\"glyphicon glyphicon-minus\">" + "</span>" +
+                "</button>" +
                 "</div>";
             $("#authorList").append(html);
             $(".but_remove").click(function()
             {
                 $(this).parentsUntil("#authorList").remove();
             });
+            $('.authors').change(function()
+            {
+                $(this).prev().val($(this).val());
+            });
         });
 
         $('#events').change(function () {
             var optionSelected = $(this).find("option:selected");
             $('#tracks').empty();
-            $('#tracks').append('<option>Select Track</option>')
+            $('#subjects').empty();
+            $('#tracks').append('<option>Select Track</option>');
+            $('#subjects').append('<option>Select Subject</option>');
             $.ajax({
                 type: "POST",
                 url: "http://localhost/Indiacom2015/index.php/Dashboard/tracks",

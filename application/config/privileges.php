@@ -7,3 +7,4 @@
  */
 
 $privilege['Page']['TestPage'] = array("P1", "P2");
+$privilege['Page']['submitpaper'] = array("P1");

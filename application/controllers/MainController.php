@@ -6,8 +6,6 @@
  * Time: 1:56 PM
  */
 
-
-
 class MainController extends CI_Controller
 {
     public function __construct()

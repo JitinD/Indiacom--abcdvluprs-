@@ -5,9 +5,6 @@
  * Date: 7/21/14
  * Time: 8:18 PM
  */
-require(dirname(__FILE__).'/../config/privileges.php');
-require(dirname(__FILE__).'/../utils/ViewUtils.php');
-
 class Dashboard extends CI_Controller
 {
     public function __construct()
@@ -17,17 +14,17 @@ class Dashboard extends CI_Controller
         $this->load->model('EventModel');
         $this->load->model('TrackModel');
         $this->load->model('SubjectModel');
-    }
-
-    public function index()
-    {
-
+        $this->load->model('PaperModel');
+        $this->load->model('SubmissionModel');
+        $this->load->model('AccessModel');
     }
 
     public function submitPaper()
     {
+        require(dirname(__FILE__).'/../config/privileges.php');
+        require(dirname(__FILE__).'/../utils/ViewUtils.php');
         $page = 'submitpaper';
-        if(isset($privileges[$page]) && !$this->AccessModel->hasPrivileges($privileges[$page]))
+        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;
@@ -38,20 +35,25 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/header', $data);
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('paper_title', "Paper Title", "required");
+        $this->form_validation->set_rules('paper_title', "Paper Title", "required|is_unique[paper_master.paper_title]");
         $this->form_validation->set_rules('event', 'Event', 'required');
         $this->form_validation->set_rules('track', 'Track', 'required');
         $this->form_validation->set_rules('subject', 'Subject', 'required');
-        $this->form_validation->set_rules('paper_doc', 'Paper', 'required');
+        //$this->form_validation->set_rules('paper_doc', 'Paper', 'required');
         $this->form_validation->set_rules('main_author', 'Main Author', 'required');
-        $this->form_validation->set_rules('authors', 'Author Id', 'required');
+        $this->form_validation->set_rules('authors', 'Author Id(s)', 'required|callback_authorsCheck');
 
         if($this->form_validation->run())
         {
             $paperDetails = array(
                 'paper_title' => $this->input->post('paper_title'),
+                'paper_subject_id' => $this->input->post('subject'),
                 'paper_contact_author_id' => $this->input->post('main_author')
             );
+            $authors = $this->input->post('authors');
+            $paperId = $this->PaperModel->addPaper($paperDetails);
+            $this->SubmissionModel->addSubmission($paperId, $authors);
+            $this->uploadPaperDoc('paper_doc');
         }
         else
         {
@@ -85,5 +87,24 @@ class Dashboard extends CI_Controller
     {
         $trackId = $this->input->post('trackId');
         echo $this->SubjectModel->getAllSubjects($trackId);
+    }
+
+    public function authorsCheck($authors = array())
+    {
+        $retVal = false;
+        $this->form_validation->set_message('authorsCheck', 'Signed in author missing in authors list');
+        foreach($authors as $author)
+        {
+            if($author == "")
+            {
+                $this->form_validation->set_message('authorsCheck', 'One or more author fields are empty');
+                $retVal = false;
+                break;
+            }
+            if($author == $_SESSION['member_id'])
+                $retVal = true;
+        }
+
+        return $retVal;
     }
 }
