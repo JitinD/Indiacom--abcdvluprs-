@@ -16,6 +16,7 @@
             parent::__construct();
 
             $this -> load -> model('RegistrationModel');
+            $this->load->library('encrypt');
         }
 
         public function index()
@@ -38,6 +39,7 @@
             $this->form_validation->set_rules('pincode', 'Pincode', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('phoneNumber', 'Phone number', 'required');
+            $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
             $this->form_validation->set_rules('organization', 'Organization', 'required');
             $this->form_validation->set_rules('category', 'Category', 'required');
             $this->form_validation->set_rules('password', 'Password', 'required');
@@ -49,6 +51,8 @@
                 $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
                 $category_id_array = $this -> RegistrationModel -> getMemberCategoryId($this -> input -> post('category'));
                 $member_id = $this -> RegistrationModel -> assignMemberId();
+                $pass = $this -> input -> post('password');
+                $encrypted_password = $this->encrypt->encode($pass);
                 if($organization_id_array && $category_id_array)
                 {
 
@@ -64,7 +68,7 @@
                                             'member_designation'    =>   "",
                                             'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
-                                            'member_pass'           =>   $this -> input -> post('password'),
+                                            'member_pass'           =>   $encrypted_password ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
                                             'member_biodata_path'   =>   $this -> input -> post('biodata'),
                                             'member_category_id'    =>   $category_id_array['member_category_id'],

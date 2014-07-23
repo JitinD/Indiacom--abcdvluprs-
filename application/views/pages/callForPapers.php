@@ -4,6 +4,7 @@
     </div>
     <div class="col-md-10 col-sm-8 col-xs-12 col-xs-offset-0 text-justify">
         <span class="h1 text-theme">Call For Papers</span>
+        <hr>
         <div class="row">
             <div class="col-md-12 body-text">
                 <p class="contentBlock-top">

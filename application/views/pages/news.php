@@ -4,6 +4,7 @@
     </div>
     <div class="col-md-9 col-sm-8 col-xs-12">
         <span class="h1 text-theme">News</span>
+        <hr>
         <div class="row h4">
             <div class="col-md-12">
                 <table class="table">

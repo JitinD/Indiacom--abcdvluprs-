@@ -1,7 +1,7 @@
-<div class="container-fluid">
+<div class="container-fluid contentBlock-top">
     <div class="row">
-        <div class="col-md-9 col-sm-8 col-xs-12 col-md-offset-2 col-sm-offset-2 col-xs-offset-0">
-            <span class="h1 text-theme">Submit Paper</span>
+        <div class="col-md-9 col-sm-9 col-xs-12">
+            <span class="h3 text-theme">Submit Paper</span>
             <div class="row body-text">
                 <div class="col-md-12">
                     <form class="form-horizontal" role="form" enctype="multipart/form-data" action="#" method="post">
@@ -65,13 +65,15 @@
                         <div class="form-group">
                             <label for="authors" class="col-sm-3 control-label">Authors</label>
                             <div class="col-sm-9">
+                                <p class="help-block">Use Radio button to select one author as Contact Author</p>
                                 <div id="authorList">
                                     <div>
                                         <input type="radio" checked name="main_author" class="main_author" value="<?php echo $_SESSION['member_id']; ?>">
                                         <input type="text" name="authors[]" placeholder="Author Id" class="authors" value="<?php echo $_SESSION['member_id']; ?>">
                                     </div>
+
                                 </div>
-                                <div class="input-group">
+                                <div class="input-group contentBlock-top">
                                     <button class="btn btn-success btn-sm" type="button" id="but_addAuthor">
                                         <span class="glyphicon glyphicon-plus"></span>
                                     </button>

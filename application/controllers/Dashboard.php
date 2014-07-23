@@ -16,7 +16,26 @@ class Dashboard extends CI_Controller
         $this->load->model('SubjectModel');
         $this->load->model('PaperModel');
         $this->load->model('SubmissionModel');
+        $this->load->model('PaperVersionModel');
         $this->load->model('AccessModel');
+    }
+
+    public function index($page = "dashboardHome")
+    {
+        require(dirname(__FILE__).'/../config/privileges.php');
+        require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
+        {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
+        $data = loginModalInit();
+        $data['navbarItem'] = pageNavbarItem($page);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/dashboard/dashboardPanel');
+        $this->load->view('pages/dashboard/'.$page, $data);
+        $this->load->view('templates/dashboard/dashboardEnding');
+        $this->load->view('templates/footer');
     }
 
     public function submitPaper()
@@ -33,6 +52,7 @@ class Dashboard extends CI_Controller
         $data['navbarItem'] = pageNavbarItem($page);
         $data['events'] = $this->EventModel->getAllEvents();
         $this->load->view('templates/header', $data);
+        $this->load->view('templates/dashboard/dashboardPanel');
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules('paper_title', "Paper Title", "required|is_unique[paper_master.paper_title]");
@@ -53,20 +73,27 @@ class Dashboard extends CI_Controller
             $authors = $this->input->post('authors');
             $paperId = $this->PaperModel->addPaper($paperDetails);
             $this->SubmissionModel->addSubmission($paperId, $authors);
-            $this->uploadPaperDoc('paper_doc');
+            $doc_path = $this->uploadPaperDoc('paper_doc', $this->input->post('event'), $paperId);
+            $versionDetails = array(
+                'paper_id' => $paperId,
+                'paper_version_document_path' => $doc_path
+            );
+            $this->PaperVersionModel->addPaperVersion($versionDetails);
         }
         else
         {
-            $this->load->view('pages/'.$page, $data);
+            $this->load->view('pages/dashboard/'.$page, $data);
+            $this->load->view('templates/dashboard/dashboardEnding');
         }
 
         $this->load->view('templates/footer');
     }
 
-    private function uploadPaperDoc($fileElem)
+    private function uploadPaperDoc($fileElem, $eventId, $paperId)
     {
-        $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'pdf|doc|docx';
+        $config['upload_path'] = "C:/wamp/www/Indiacom2015/uploads/".$eventId;
+        $config['allowed_types'] = 'doc|docx';
+        $config['file_name'] = $paperId . "v1";
 
         $this->load->library('upload', $config);
 
@@ -74,7 +101,8 @@ class Dashboard extends CI_Controller
         {
             return false;
         }
-        return true;
+        $uploadData = $this->upload->data();
+        return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
     }
 
     public function tracks()

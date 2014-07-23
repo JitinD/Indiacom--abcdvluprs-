@@ -27,6 +27,7 @@ function pageNavbarItem($pageFileName)
         case "listofspeakers":
         case "sponsors":
             return "About INDIACom";
+        case "dashboardHome":
         case "submitpaper":
             return "Dashboard";
         default:

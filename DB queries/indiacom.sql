@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 19, 2014 at 12:10 PM
+-- Generation Time: Jul 23, 2014 at 09:02 AM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -65,6 +65,14 @@ CREATE TABLE IF NOT EXISTS `event_master` (
   PRIMARY KEY (`event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `event_master`
+--
+
+INSERT INTO `event_master` (`event_id`, `event_name`, `event_description`, `event_start_date`, `event_end_date`, `event_paper_submission_start_date`, `event_paper_submission_end_date`, `event_abstract_submission_end_date`, `event_abstract_acceptance_notification`, `event_paper_submission_notification`, `event_review_info_avail_after`, `event_clear_min_dues_by`, `event_email`, `event_info`, `event_attachment`, `event_hashtag`, `event_dor`, `event_dirty`) VALUES
+('1', 'IndiaCom 2015', 'Hello World', '2015-04-08 00:00:00', '2015-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-22 19:22:38', 0),
+('2', 'NSC 2015', 'Hello World', '2015-04-12 00:00:00', '2015-04-12 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-22 19:23:08', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -118,7 +126,8 @@ CREATE TABLE IF NOT EXISTS `member_master` (
 --
 
 INSERT INTO `member_master` (`member_id`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_pass`, `member_organization_id`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
-('12', 'Rana', 'Gadhbadh Nagar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, '2014-07-15 09:46:52', 0);
+('12', 'Rana', 'Gadhbadh Nagar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, '2014-07-15 09:46:52', 0),
+('13', 'Saurav Deb Purkayastha', 'E-168, Sector 41 Noida', '201303', 'sauravdebp@gmail.com', '9818865297', '9818865297', NULL, NULL, NULL, NULL, '12345678', NULL, NULL, NULL, NULL, NULL, '2014-07-22 15:42:20', 0);
 
 -- --------------------------------------------------------
 
@@ -160,10 +169,16 @@ CREATE TABLE IF NOT EXISTS `paper_master` (
   `paper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `paper_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`paper_id`),
-  UNIQUE KEY `paper_code` (`paper_code`,`paper_subject_id`),
   KEY `paper_contact_author_id` (`paper_contact_author_id`),
   KEY `paper_subject_id` (`paper_subject_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `paper_master`
+--
+
+INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subject_id`, `paper_date_of_submission`, `paper_presentation_path`, `paper_contact_author_id`, `paper_isclose`, `paper_hashtag`, `paper_dor`, `paper_dirty`) VALUES
+('1', '1', 'cosmos', '1', '2014-07-23 09:01:22', NULL, '13', 0, NULL, '2014-07-23 09:01:22', 0);
 
 -- --------------------------------------------------------
 
@@ -324,8 +339,17 @@ CREATE TABLE IF NOT EXISTS `subject_master` (
   `subject_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `subject_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`subject_id`),
-  UNIQUE KEY `subject_code` (`subject_code`,`subject_track_id`)
+  UNIQUE KEY `subject_code` (`subject_code`,`subject_track_id`),
+  KEY `subject_track_id` (`subject_track_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `subject_master`
+--
+
+INSERT INTO `subject_master` (`subject_id`, `subject_code`, `subject_track_id`, `subject_name`, `subject_description`, `subject_hashtag`, `subject_dor`, `subject_dirty`) VALUES
+('1', '101', '1', 'Quantum Computing', 'Hello World', NULL, '2014-07-22 13:59:10', 0),
+('2', '102', '1', 'Green Data', 'Hello World', NULL, '2014-07-22 13:59:10', 0);
 
 -- --------------------------------------------------------
 
@@ -339,8 +363,19 @@ CREATE TABLE IF NOT EXISTS `submission_master` (
   `submission_member_id` varchar(10) NOT NULL,
   `submission_hashtag` varchar(64) DEFAULT NULL,
   `submission_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `submission_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `submission_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`submission_id`),
+  UNIQUE KEY `submission_paper_id_2` (`submission_paper_id`,`submission_member_id`),
+  KEY `submission_paper_id` (`submission_paper_id`),
+  KEY `submission_member_id` (`submission_member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `submission_master`
+--
+
+INSERT INTO `submission_master` (`submission_id`, `submission_paper_id`, `submission_member_id`, `submission_hashtag`, `submission_dor`, `submission_dirty`) VALUES
+('1', '1', '13', NULL, '2014-07-23 09:01:22', 0);
 
 -- --------------------------------------------------------
 
@@ -361,6 +396,16 @@ CREATE TABLE IF NOT EXISTS `track_master` (
   UNIQUE KEY `track_number` (`track_number`,`track_event_id`),
   KEY `track_event_id` (`track_event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `track_master`
+--
+
+INSERT INTO `track_master` (`track_id`, `track_number`, `track_event_id`, `track_name`, `track_description`, `track_hashtag`, `track_dor`, `track_dirty`) VALUES
+('1', '1', '1', 'Sustainable Computing', 'Hello World', '', '2014-07-22 13:54:13', 0),
+('2', '2', '1', 'Internet of things', 'Hello World', '', '2014-07-22 13:54:13', 0),
+('3', '1', '2', 'The Cloud', 'Hello World', '', '2014-07-22 13:55:15', 0),
+('4', '2', '2', 'Embedded Embedded', 'Hello World', '', '2014-07-22 13:55:15', 0);
 
 -- --------------------------------------------------------
 
@@ -441,14 +486,27 @@ ALTER TABLE `paper_version_master`
 -- Constraints for table `privilege_role_mapper`
 --
 ALTER TABLE `privilege_role_mapper`
-  ADD CONSTRAINT `privilege_role_mapper_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role_master` (`role_id`),
-  ADD CONSTRAINT `privilege_role_mapper_ibfk_1` FOREIGN KEY (`privilege_id`) REFERENCES `privilege_master` (`privilege_id`);
+  ADD CONSTRAINT `privilege_role_mapper_ibfk_1` FOREIGN KEY (`privilege_id`) REFERENCES `privilege_master` (`privilege_id`),
+  ADD CONSTRAINT `privilege_role_mapper_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role_master` (`role_id`);
 
 --
 -- Constraints for table `reviewer_master`
 --
 ALTER TABLE `reviewer_master`
   ADD CONSTRAINT `reviewer_master_ibfk_1` FOREIGN KEY (`reviewer_id`) REFERENCES `user_master` (`user_id`);
+
+--
+-- Constraints for table `subject_master`
+--
+ALTER TABLE `subject_master`
+  ADD CONSTRAINT `subject_master_ibfk_1` FOREIGN KEY (`subject_track_id`) REFERENCES `track_master` (`track_id`);
+
+--
+-- Constraints for table `submission_master`
+--
+ALTER TABLE `submission_master`
+  ADD CONSTRAINT `submission_master_ibfk_1` FOREIGN KEY (`submission_paper_id`) REFERENCES `paper_master` (`paper_id`),
+  ADD CONSTRAINT `submission_master_ibfk_2` FOREIGN KEY (`submission_member_id`) REFERENCES `member_master` (`member_id`);
 
 --
 -- Constraints for table `track_master`

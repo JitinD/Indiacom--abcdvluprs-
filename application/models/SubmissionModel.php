@@ -33,7 +33,7 @@ class SubmissionModel extends CI_Model
 
     private function getSubmissionId()
     {
-        $sql = "Select submission_id From submission_master Order By submission_id Desc";
+        $sql = "Select submission_id From submission_master Order By submission_id Desc Limit 1";
         $query = $this->db->query($sql);
         if($query->num_rows() == 0)
             return 1;
