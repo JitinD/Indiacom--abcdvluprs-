@@ -21,14 +21,13 @@ class SubmissionModel extends CI_Model
             'submission_paper_id' => $paperId,
             'submission_member_id' => ''
         );
-
         foreach($members as $memberId)
         {
             $details['submission_member_id'] = $memberId;
             $this->db->insert('submission_master', $details);
             $details['submission_id']++;
         }
-        return true;
+        return $this->db->trans_status();
     }
 
     private function getSubmissionId()

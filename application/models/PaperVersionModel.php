@@ -20,6 +20,7 @@ class PaperVersionModel extends CI_Model
         $versionDetails['paper_version'] = $this->getPaperVersion($versionDetails['paper_id']);
         $versionDetails['paper_version_date_of_submission'] = date('Y-m-d H:i:s');
         $this->db->insert('paper_version_master', $versionDetails);
+        return $this->db->trans_status();
     }
 
     private function getPaperVersion($paperId)

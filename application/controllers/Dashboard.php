@@ -55,7 +55,7 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/dashboard/dashboardPanel');
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('paper_title', "Paper Title", "required|is_unique[paper_master.paper_title]");
+        $this->form_validation->set_rules('paper_title', "Paper Title", "required");
         $this->form_validation->set_rules('event', 'Event', 'required');
         $this->form_validation->set_rules('track', 'Track', 'required');
         $this->form_validation->set_rules('subject', 'Subject', 'required');
@@ -71,21 +71,45 @@ class Dashboard extends CI_Controller
                 'paper_contact_author_id' => $this->input->post('main_author')
             );
             $authors = $this->input->post('authors');
-            $paperId = $this->PaperModel->addPaper($paperDetails);
-            $this->SubmissionModel->addSubmission($paperId, $authors);
-            $doc_path = $this->uploadPaperDoc('paper_doc', $this->input->post('event'), $paperId);
-            $versionDetails = array(
-                'paper_id' => $paperId,
-                'paper_version_document_path' => $doc_path
-            );
-            $this->PaperVersionModel->addPaperVersion($versionDetails);
+            $this->load->database();
+            $this->db->trans_begin();
+            $paperId = $this->PaperModel->addPaper($paperDetails, $this->input->post('event'));
+            if($paperId == false)
+            {
+                $data['submitPaperError'] = "There was an error creating a new paper. Check contact author Id. <br>
+                                                If problem persists contact the admin.";
+                $this->db->trans_rollback();
+            }
+            else if($this->SubmissionModel->addSubmission($paperId, $authors) == false)
+            {
+                $data['submitPaperError'] = "There was an error adding authors to paper. Check all author Ids. <br>
+                                                If problem persists contact the admin.";
+                $this->db->trans_rollback();
+            }
+            else if(($doc_path = $this->uploadPaperDoc('paper_doc', $this->input->post('event'), $paperId) == false))
+            {
+                $data['uploadError'] = $this->upload->display_errors();
+                $this->db->trans_rollback();
+            }
+            else
+            {
+                $versionDetails = array(
+                    'paper_id' => $paperId,
+                    'paper_version_document_path' => $doc_path
+                );
+                if($this->PaperVersionModel->addPaperVersion($versionDetails) == false)
+                {
+                    $data['submitPaperError'] = "There was an error saving paper doc path. Contact the admin.";
+                    $this->db->trans_rollback();
+                }
+                else
+                {
+                    $this->db->trans_commit();
+                }
+            }
         }
-        else
-        {
-            $this->load->view('pages/dashboard/'.$page, $data);
-            $this->load->view('templates/dashboard/dashboardEnding');
-        }
-
+        $this->load->view('pages/dashboard/'.$page, $data);
+        $this->load->view('templates/dashboard/dashboardEnding');
         $this->load->view('templates/footer');
     }
 
