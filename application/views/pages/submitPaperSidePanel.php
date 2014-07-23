@@ -11,4 +11,3 @@
 
     </ul>
 </div>
-<?php include('importantdatesPanel.php');?>

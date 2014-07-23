@@ -79,10 +79,6 @@
                         <br>
                         <br class="generalTxt">
                 </p>
-                </td>
-                </tr>
-                </table>
-
             </div>
         </div>
     </div>
