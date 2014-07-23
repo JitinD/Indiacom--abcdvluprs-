@@ -92,7 +92,7 @@ function SetActiveNavItem($navItem, $page)
     <div class="collapse navbar-collapse" id="navbar-collapse">
         <div class="col-md-11 col-sm-11">
             <ul class="nav navbar-nav">
-                <li class="<?php SetActiveNavItem("Home", $navbarItem); ?>"><a href="index"><span class="glyphicon glyphicon-home"></span></a></li>
+                <li class="<?php SetActiveNavItem("Home", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>index.php/MainController/viewPage/index"><span class="glyphicon glyphicon-home"></span></a></li>
                 <li class="dropdown <?php SetActiveNavItem("About INDIACom", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -130,7 +130,7 @@ function SetActiveNavItem($navItem, $page)
                     if(isset($_SESSION) && isset($_SESSION['member_id']))
                     {
                 ?>
-                <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a href="dashboardHome">Dashboard</a></li>
+                <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>index.php/Dashboard">Dashboard</a></li>
                 <?php
                     }
                     if(isset($_SESSION) && !isset($_SESSION['member_id']))

@@ -20,6 +20,24 @@ class Dashboard extends CI_Controller
         $this->load->model('AccessModel');
     }
 
+    public function index($page = "dashboardHome")
+    {
+        require(dirname(__FILE__).'/../config/privileges.php');
+        require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
+        {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
+        $data = loginModalInit();
+        $data['navbarItem'] = pageNavbarItem($page);
+        $this->load->view('templates/header', $data);
+        $this->load->view('templates/dashboard/dashboardPanel');
+        $this->load->view('pages/dashboard/'.$page, $data);
+        $this->load->view('templates/dashboard/dashboardEnding');
+        $this->load->view('templates/footer');
+    }
+
     public function submitPaper()
     {
         require(dirname(__FILE__).'/../config/privileges.php');
@@ -34,6 +52,7 @@ class Dashboard extends CI_Controller
         $data['navbarItem'] = pageNavbarItem($page);
         $data['events'] = $this->EventModel->getAllEvents();
         $this->load->view('templates/header', $data);
+        $this->load->view('templates/dashboard/dashboardPanel');
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules('paper_title', "Paper Title", "required|is_unique[paper_master.paper_title]");
@@ -63,7 +82,8 @@ class Dashboard extends CI_Controller
         }
         else
         {
-            $this->load->view('pages/'.$page, $data);
+            $this->load->view('pages/dashboard/'.$page, $data);
+            $this->load->view('templates/dashboard/dashboardEnding');
         }
 
         $this->load->view('templates/footer');

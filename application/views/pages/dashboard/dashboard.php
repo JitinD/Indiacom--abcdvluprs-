@@ -1,7 +1,6 @@
 <div class="row contentBlock-top">
     <div class="col-md-2 col-sm-4 col-xs-12">
         <?php include('dashboardPanel.php');?>
-        <?php include('importantdatesPanel.php');?>
     </div>
 
     <div class="col-md-9 col-sm-8 col-xs-12">
@@ -9,6 +8,5 @@
         <div class="row">
            <?php include('dashboardHome.php');?>
         </div>
-    </div>
 </div>
-
+</div>
