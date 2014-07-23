@@ -35,7 +35,7 @@ class PaperModel extends CI_Model
 
     private function getPaperId()
     {
-        $sql = "Select paper_id From paper_master Order By paper_id Desc";
+        $sql = "Select paper_id From paper_master Order By paper_id Desc Limit 1";
         $query = $this->db->query($sql);
         if($query->num_rows() == 0)
             return 1;
