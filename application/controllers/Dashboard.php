@@ -101,7 +101,8 @@ class Dashboard extends CI_Controller
         {
             return false;
         }
-        return $config['upload_path'] . "/" . $config['file_name'];
+        $uploadData = $this->upload->data();
+        return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
     }
 
     public function tracks()
