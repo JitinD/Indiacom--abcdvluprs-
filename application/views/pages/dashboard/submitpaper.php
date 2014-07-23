@@ -4,6 +4,9 @@
             <span class="h3 text-theme">Submit Paper</span>
             <div class="row body-text">
                 <div class="col-md-12">
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php if(isset($submitPaperError)) echo $submitPaperError; ?>
+                    </div>
                     <form class="form-horizontal" role="form" enctype="multipart/form-data" action="#" method="post">
                         <div class="form-group">
                             <label for="paper_title" class="col-sm-3 control-label">Paper Title</label>
@@ -58,7 +61,10 @@
                                 <input type="file" class="form-control" name="paper_doc" id="biodata" placeholder="Choose File">
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                                <?php echo form_error('paper_doc'); ?>
+                                <?php
+                                echo form_error('paper_doc');
+                                if(isset($uploadError)) echo $uploadError;
+                                ?>
                             </div>
                         </div>
 

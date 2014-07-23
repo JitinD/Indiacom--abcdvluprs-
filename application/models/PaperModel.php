@@ -14,19 +14,26 @@ class PaperModel extends CI_Model
         $this->load->database();
     }
 
-    public function addPaper($paperDetails = array())
+    public function addPaper($paperDetails = array(), $eventId)
     {
         $paperDetails['paper_id'] = $this->getPaperId();
-        $paperDetails['paper_code'] = $this->getPaperCode($paperDetails['paper_subject_id']);
+        $paperDetails['paper_code'] = $this->getPaperCode($eventId);
         $paperDetails['paper_date_of_submission'] = date('Y-m-d H:i:s');
         $this->db->insert('paper_master', $paperDetails);
+        if($this->db->trans_status() == FALSE)
+        {
+            return false;
+        }
         return $paperDetails['paper_id'];
     }
 
-    private function getPaperCode($subjectId)
+    private function getPaperCode($eventId)
     {
-        $sql = "Select paper_code From paper_master Where paper_subject_id = ? Order By paper_code Desc Limit 1";
-        $query = $this->db->query($sql, array($subjectId));
+        $sql1 = "Select track_id From track_master Where track_event_id = ?";
+        $sql2 = "Select subject_id From subject_master Where subject_track_id IN ($sql1)";
+        $sql = "Select paper_code From paper_master Where paper_subject_id IN ($sql2) Order By paper_code Desc Limit 1";
+        //$sql = "Select paper_code From paper_master Where paper_subject_id = ? Order By paper_code Desc Limit 1";
+        $query = $this->db->query($sql, array($eventId));
         if($query->num_rows() == 0)
             return 1;
         $row = $query->row();
