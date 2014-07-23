@@ -146,10 +146,10 @@ if ( ! function_exists('create_captcha'))
 		//  Assign colors
 		// -----------------------------------
 
-		$bg_color		= imagecolorallocate ($im, 255, 255, 255);
-		$border_color	= imagecolorallocate ($im, 153, 102, 102);
-		$text_color		= imagecolorallocate ($im, 204, 153, 153);
-		$grid_color		= imagecolorallocate($im, 255, 182, 182);
+		$bg_color		= imagecolorallocate ($im, 230, 235, 240);
+		$border_color	= imagecolorallocate ($im, 202, 202, 202);
+		$text_color		= imagecolorallocate ($im, 1, 5, 10);
+		$grid_color		= imagecolorallocate($im, 182, 182, 182);
 		$shadow_color	= imagecolorallocate($im, 255, 240, 240);
 
 		// -----------------------------------
@@ -196,7 +196,7 @@ if ( ! function_exists('create_captcha'))
 		}
 		else
 		{
-			$font_size	= 16;
+			$font_size	= 26;
 			$x = rand(0, $img_width/($length/1.5));
 			$y = $font_size+2;
 		}
@@ -211,7 +211,7 @@ if ( ! function_exists('create_captcha'))
 			}
 			else
 			{
-				$y = rand($img_height/2, $img_height-3);
+				$y = rand($img_height/1.2, $img_height-3);
 				imagettftext($im, $font_size, $angle, $x, $y, $text_color, $font_path, substr($word, $i, 1));
 				$x += $font_size;
 			}
