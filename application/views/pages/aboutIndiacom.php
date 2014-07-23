@@ -4,7 +4,8 @@
     </div>
     <div class="col-md-9 col-sm-8 col-xs-12">
         <span class="h1 text-theme">INDIACom</span>
-        <div class="row body-text contentBlock-top">
+        <hr>
+        <div class="row body-text">
             <div class="col-md-12">
                 <p class=" text-dark text-justify">
                     Since its inception in the year 2007, INDIACom has aimed at developing a strategic plan for balanced growth of  nations' economy through IT in critical areas like e-Governance, e-Commerce, Disaster Management, GIS, Nano-Technology, Intellectual Property Rights, AI and Expert Systems, Networking, Software Engineering and other emerging Technologies.

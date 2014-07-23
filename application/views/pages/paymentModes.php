@@ -5,6 +5,7 @@
     </div>
     <div class="col-md-9 col-sm-8 col-xs-12">
         <span class="h1 text-theme">Payment Modes</span>
+        <hr>
         <div class="row body-text text-justify contentBlock-top">
             <div class="col-md-12">
                 <p class="generalTxt">Participants will need to submit the filled in Registration Form (available <a class="faq" href="downloads/Registration_Form_for_INDIACom 2015.pdf">here</a>), in all cases, in person or by Speed Post. Those, who are making online payment must mention their online payment details in the form and send the scanned copy of the filled in Registration Form by E-Mail at conference@bvicam.ac.in. Following are acceptable modes of payment:-

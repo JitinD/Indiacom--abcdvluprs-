@@ -8,7 +8,8 @@
         <span class="h3">
             Invited in Last Seven Editions of INDIACom
         (INDIACom - 2007 to INDIACom - 2014)</span>
-        <div class="row body-text topBlock">
+        <hr>
+        <div class="row body-text">
             <div class="col-md-12">
                 <span class="text-theme">
                     <strong>INDIACom &ndash; 2014</strong>
