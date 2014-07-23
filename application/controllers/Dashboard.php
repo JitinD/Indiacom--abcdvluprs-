@@ -16,6 +16,7 @@ class Dashboard extends CI_Controller
         $this->load->model('SubjectModel');
         $this->load->model('PaperModel');
         $this->load->model('SubmissionModel');
+        $this->load->model('PaperVersionModel');
         $this->load->model('AccessModel');
     }
 
@@ -53,7 +54,12 @@ class Dashboard extends CI_Controller
             $authors = $this->input->post('authors');
             $paperId = $this->PaperModel->addPaper($paperDetails);
             $this->SubmissionModel->addSubmission($paperId, $authors);
-            $this->uploadPaperDoc('paper_doc');
+            $doc_path = $this->uploadPaperDoc('paper_doc', $this->input->post('event'), $paperId);
+            $versionDetails = array(
+                'paper_id' => $paperId,
+                'paper_version_document_path' => $doc_path
+            );
+            $this->PaperVersionModel->addPaperVersion($versionDetails);
         }
         else
         {
@@ -63,10 +69,11 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    private function uploadPaperDoc($fileElem)
+    private function uploadPaperDoc($fileElem, $eventId, $paperId)
     {
-        $config['upload_path'] = './uploads/';
-        $config['allowed_types'] = 'pdf|doc|docx';
+        $config['upload_path'] = "C:/wamp/www/Indiacom2015/uploads/".$eventId;
+        $config['allowed_types'] = 'doc|docx';
+        $config['file_name'] = $paperId . "v1";
 
         $this->load->library('upload', $config);
 
@@ -74,7 +81,7 @@ class Dashboard extends CI_Controller
         {
             return false;
         }
-        return true;
+        return $config['upload_path'] . "/" . $config['file_name'];
     }
 
     public function tracks()
