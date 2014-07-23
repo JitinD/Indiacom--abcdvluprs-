@@ -196,6 +196,7 @@ if (defined('ENVIRONMENT'))
 	}
 
     define('PATH', INDIACOM.APPPATH);
+
 /*
  * --------------------------------------------------------------------
  * LOAD THE BOOTSTRAP FILE

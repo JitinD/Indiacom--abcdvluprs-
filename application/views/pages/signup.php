@@ -152,6 +152,24 @@
                         <?php echo form_error('password2'); ?>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="captcha" class="col-sm-3 control-label">Captcha</label>
+                    <div class="col-sm-9">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <?php echo $image;   ?>
+                            </div>
+                            <div class="col-md-12 contentBlock-top">
+                                <input type="text" name = "captcha" class="form-control" id="captcha" placeholder="Enter the words in the image above">
+                            </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('captcha'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-6">
                         <button type="submit" class="btn btn-primary">Sign Up</button>
