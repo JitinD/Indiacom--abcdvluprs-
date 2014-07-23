@@ -45,12 +45,16 @@ class Login extends CI_Controller
 
     public function passwordCheck($password)
     {
-        $this->LoginModel->setPassword($password);
-        if($this->LoginModel->authenticate())
+        //$this->LoginModel->setPassword($password);
+        $this -> LoginModel -> fetch();
+        if($this->LoginModel->authenticate($password))
         {
             return true;
         }
         $this->form_validation->set_message('passwordCheck', 'Member id or password is invalid');
         return false;
     }
+
+
+
 }

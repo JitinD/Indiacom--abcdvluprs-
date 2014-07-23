@@ -10,33 +10,53 @@ class LoginModel extends CI_Model
 {
     private $username;
     private $password;
+    private $member_name;
     private $loginType;
+
+    public function __construct()
+    {
+        $this->load->database();
+
+    }
+
 
     public function setUsername($username)
     {
         $this->username = $username;
     }
 
-    public function setPassword($password)
+
+    public function fetch()
     {
-        $this->password = $password;
+        $this -> db -> select('member_pass,member_name');
+        $this -> db -> where('member_id', $this -> username);
+        $query = $this -> db -> get('member_master');
+        $member_pass_array = $query -> row_array();
+        $this->password=$member_pass_array['member_pass'];
+        $this->member_name=$member_pass_array['member_name'];
+
+
     }
+
+//    public function setPassword($password)
+//    {
+//        $this->password = $password;
+//    }
+
+
+
 
     public function setLoginType($loginType)
     {
         $this->loginType = $loginType;
     }
 
-    public function __construct()
-    {
-        $this->load->database();
-    }
 
-    public function authenticate()
+    public function authenticate($password)
     {
         if($this->loginType == 'M')
         {
-              return $this->memberAuthenticate();
+              return $this->memberAuthenticate($password);
         }
         else if($this->loginType == 'A')
         {
@@ -45,21 +65,28 @@ class LoginModel extends CI_Model
         return false;
     }
 
-    private function memberAuthenticate()
+    private function memberAuthenticate($password)
     {
-        $sql = "Select * From Member_Master Where member_id=? AND member_pass = ? AND member_dirty = 0";
-        $query = $this->db->query($sql, array($this->username, $this->password));
-        if($query->num_rows() == 1)
+        $this->load->library('encrypt');
+        $encrypted_pass = $this->password;
+        $decrypted_pass = $this->encrypt->decode($encrypted_pass);
+        if(strcmp($decrypted_pass,$password))
         {
+
+//        $sql = "Select * From Member_Master Where member_id=? AND member_pass = ? AND member_dirty = 0";
+//        $query = $this->db->query($sql, array($this->username, $this->password));
+//        if($query->num_rows() == 1)
+//
+//         {
             $_SESSION['authenticated'] = true;
             $_SESSION['role_id'] = 0;
             $_SESSION['current_role_id'] = 0;
             $_SESSION['member_id'] = $this->username;
-            $row = $query->row();
-            $_SESSION['member_name'] = $row->member_name;
+            $_SESSION['member_name'] = $this->member_name;
             return true;
-        }
+//        }
         return false;
+        }
     }
 
     private function adminAuthenticate()
