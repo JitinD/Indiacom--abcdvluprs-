@@ -34,8 +34,6 @@ class LoginModel extends CI_Model
         $member_pass_array = $query -> row_array();
         $this->password=$member_pass_array['member_pass'];
         $this->member_name=$member_pass_array['member_name'];
-
-
     }
 
 //    public function setPassword($password)
@@ -70,23 +68,17 @@ class LoginModel extends CI_Model
         $this->load->library('encrypt');
         $encrypted_pass = $this->password;
         $decrypted_pass = $this->encrypt->decode($encrypted_pass);
-        if(strcmp($decrypted_pass,$password))
+        if($decrypted_pass == $password)
         {
-
-//        $sql = "Select * From Member_Master Where member_id=? AND member_pass = ? AND member_dirty = 0";
-//        $query = $this->db->query($sql, array($this->username, $this->password));
-//        if($query->num_rows() == 1)
-//
-//         {
             $_SESSION['authenticated'] = true;
             $_SESSION['role_id'] = 0;
             $_SESSION['current_role_id'] = 0;
             $_SESSION['member_id'] = $this->username;
             $_SESSION['member_name'] = $this->member_name;
             return true;
-//        }
-        return false;
         }
+
+        return false;
     }
 
     private function adminAuthenticate()

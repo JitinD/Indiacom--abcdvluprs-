@@ -8,6 +8,7 @@
 
 class Login extends CI_Controller
 {
+    public $sample;
     public function __construct()
     {
         parent::__construct();
@@ -20,7 +21,6 @@ class Login extends CI_Controller
         $this->LoginModel->setLoginType('M');
         $this->form_validation->set_rules('username', 'Member Id' ,'required|callback_usernameCheck');
         $this->form_validation->set_rules('password', 'Password', 'required|callback_passwordCheck');
-
         if($this->form_validation->run())
         {
             unset($_SESSION['isFormError']);
@@ -47,7 +47,7 @@ class Login extends CI_Controller
     {
         //$this->LoginModel->setPassword($password);
         $this -> LoginModel -> fetch();
-        if($this->LoginModel->authenticate($password))
+        if($sample = $this->LoginModel->authenticate($password))
         {
             return true;
         }
@@ -55,6 +55,10 @@ class Login extends CI_Controller
         return false;
     }
 
-
+    public function logout()
+    {
+        session_destroy();
+        header('location: /' . INDIACOM . '/index.php/MainController/viewPage/index');
+    }
 
 }

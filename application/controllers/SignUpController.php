@@ -70,8 +70,7 @@
                 $pass = $this -> input -> post('password');
                 $encrypted_password = $this->encrypt->encode($pass);
 
-                if(file_exists($captcha_path.$this->session->userdata['image']))
-                    unlink($captcha_path.$this->session->userdata['image']);
+
 
                 $this->session->unset_userdata('captcha');
                 $this->session->unset_userdata('image');
@@ -103,7 +102,7 @@
 
                     $this -> RegistrationModel -> addMember($member_record);
 
-                    header('Location: MainController/viewPage/index');   // move to successful registration page.
+                    header('Location: SignUpController');   // move to successful registration page.
 
                 }
 
@@ -128,6 +127,8 @@
                     'expiration' => 3600
                 );
 
+                if(isset($this->session->userdata['image']) && file_exists($captcha_path.$this->session->userdata['image']))
+                    unlink($captcha_path.$this->session->userdata['image']);
                 $img = create_captcha($captcha);
                 $data = loginModalInit();
                 $data['navbarItem'] = pageNavbarItem($page);

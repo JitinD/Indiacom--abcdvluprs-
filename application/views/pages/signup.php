@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <label for="name" class="col-sm-3 control-label">Name</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "name" class="form-control" id="name" placeholder="Enter name">
+                        <input type="text" name = "name" class="form-control" value="<?php echo set_value('name'); ?>" id="name" placeholder="Enter name">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('name'); ?>
@@ -37,7 +37,7 @@
                 <div class="form-group">
                     <label for="email" class="col-sm-3 control-label">Email</label>
                     <div class="col-sm-9">
-                        <input type="email" name = "email" class="form-control" id="email" placeholder="Enter email">
+                        <input type="email" name = "email" class="form-control" value="<?php echo set_value('email'); ?>" id="email" placeholder="Enter email">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('email'); ?>
@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <label for="address" class="col-sm-3 control-label">Address</label>
                     <div class="col-sm-9">
-                        <textarea name = "address" class="form-control" id="address" placeholder="Enter full address"></textarea>
+                        <textarea name = "address" class="form-control" id="address" placeholder="Enter full address"><?php echo set_value('address'); ?></textarea>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('address'); ?>
@@ -56,7 +56,7 @@
                 <div class="form-group">
                     <label for="pincode" class="col-sm-3 control-label">Pincode</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "pincode" class="form-control" id="pincode" placeholder="Enter Pincode or Zipcode">
+                        <input type="text" name = "pincode" class="form-control" id="pincode" value="<?php echo set_value('pincode'); ?>" placeholder="Enter Pincode or Zipcode">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('pincode'); ?>
@@ -65,7 +65,7 @@
                 <div class="form-group">
                     <label for="phoneNumber" class="col-sm-3 control-label">Phone Number</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "phoneNumber" class="form-control" id="phoneNumber" placeholder="Enter Phone Number">
+                        <input type="tel" name = "phoneNumber" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('phoneNumber'); ?>
@@ -74,13 +74,13 @@
                 <div class="form-group">
                     <label for="mobileNumber" class="col-sm-3 control-label">Mobile Number</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "mobileNumber" class="form-control" id="mobileNumber" placeholder="Enter Mobile Number">
+                        <input type="tel" name = "mobileNumber" class="form-control" id="mobileNumber" value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="fax" class="col-sm-3 control-label">Fax Number</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "fax" class="form-control" id="fax" placeholder="Enter Fax Number">
+                        <input type="tel" name = "fax" class="form-control" id="fax" value="<?php echo set_value('fax'); ?>" placeholder="Enter Fax Number">
                     </div>
 
                 </div>
@@ -93,20 +93,20 @@
                 <div class="form-group">
                     <label for="csimembershipno" class="col-sm-3 control-label">CSI Membership Number</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "csimembershipno" class="form-control" id="csimembershipno" placeholder="Enter CSI Membership Number">
+                        <input type="text" name = "csimembershipno" class="form-control" id="csimembershipno" value="<?php echo set_value('csimembershipno'); ?>" placeholder="Enter CSI Membership Number">
                     </div>
 
                 </div>
                 <div class="form-group">
                     <label for="ietemembershipno" class="col-sm-3 control-label">IETE Membership Number</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "ietemembershipno" class="form-control" id="ietemembershipno" placeholder="Enter IETE Membership Number">
+                        <input type="text" name = "ietemembershipno" class="form-control" id="ietemembershipno" value="<?php echo set_value('ietemembershipno'); ?>" placeholder="Enter IETE Membership Number">
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="category" class="col-sm-3 control-label">Category</label>
                     <div class="col-sm-9">
-                        <select name = "category" class="form-control" id="category">
+                        <select name = "category" class="form-control" id="category" value="<?php echo set_value('category'); ?>">
                             <option value="researchStudent">Research Student</option>
                             <option value="student">Student</option>
                             <option value="faculty">Faculty</option>
@@ -131,7 +131,7 @@
                 <div class="form-group">
                     <label for="experience" class="col-sm-3 control-label">Experience</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "experience" class="form-control" id="experience" placeholder="Enter Experience in the Organization">
+                        <input type="tel" name = "experience" class="form-control" id="experience" value="<?php echo set_value('experience'); ?>" placeholder="Enter Experience in the Organization">
                     </div>
                 </div>
                 <div class="form-group">
@@ -161,7 +161,7 @@
                                 <?php echo $image;   ?>
                             </div>
                             <div class="col-md-12 contentBlock-top">
-                                <input type="text" name = "captcha" class="form-control" id="captcha" placeholder="Enter the words in the image above">
+                                <input type="text" name = "captcha" class="form-control" id="captcha" placeholder="Enter the letters in the image above">
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('captcha'); ?>

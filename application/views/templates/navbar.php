@@ -147,7 +147,7 @@ function SetActiveNavItem($navItem, $page)
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Edit Profile</a></li>
                         <li class="divider"></li>
-                        <li><a href="#" class="bg-danger">Logout</a></li>
+                        <li><a href= "/<?php echo INDIACOM; ?>index.php/Login/logout" class="bg-danger">Logout</a></li>
                     </ul>
                 </li>
                 <?php
