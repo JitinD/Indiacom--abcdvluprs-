@@ -1,11 +1,11 @@
 <div class="row contentBlock-top">
-    <div class="col-md-2 col-sm-4 col-xs-12">
+    <div class="col-md-2 col-sm-4 hidden-xs">
        <?php include('importantdatesPanel.php'); ?>
     </div>
     <div class="col-md-9 col-sm-8 col-xs-12">
         <span class="h1 text-theme">News</span>
         <hr>
-        <div class="row h4">
+        <div class="row body-text">
             <div class="col-md-12">
                 <table class="table">
                     <thead>
@@ -36,5 +36,19 @@
                 </table>
             </div>
         </div>
+        <div class="row contentBlock-top">
+            <div class="col-md-6 col-md-offset-6 col-sm-6 col-sm-offset-6 col-xs-8 col-xs-offset-3">
+                <div class="btn-toolbar" role="toolbar">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-default">First</button>
+                        <button type="button" class="btn btn-default">Previous</button>
+                        <button type="button" class="btn btn-default">Next</button>
+                        <button type="button" class="btn btn-default">Last</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
+
 </div>
