@@ -74,7 +74,7 @@
                 $this->session->unset_userdata('captcha');
                 $this->session->unset_userdata('image');
 
-                if($organization_id_array && $category_id_array)
+                if($organization_id_array)
                 {
 
                     $member_record = array(
@@ -89,7 +89,7 @@
                                             'member_designation'    =>   "",
                                             'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
-                                            'member_pass'           =>   $encrypted_password ,
+                                            'member_password'           =>   $encrypted_password ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
                                             'member_biodata_path'   =>   $this -> input -> post('biodata'),
                                             'member_category_id'    =>   $this -> input -> post('category'),

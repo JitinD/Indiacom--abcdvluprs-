@@ -16,12 +16,12 @@ class PaperStatusModel extends CI_Model
 
     public function getMemberPapers()
     {
-        $this -> db -> select('paper_id, paper_title, review_result_type_name, paper_version');
-        $query = $this -> db -> get('paperstatusinfo');
+        $this -> db -> select('paper_id, paper_title, review_result_type_name, paper_version_number');
+        $query = $this -> db -> get('paper_status_info');
         $number = 0;
         $paper = "";
         foreach($query -> result() as $record)
-            $paper .= "<tr><td>".(++$number)."</td><td>".$record -> paper_id."</td><td>".$record -> paper_title."</td><td>".$record -> review_result_type_name."</td><td>".$record -> paper_version."</td></tr>";
+            $paper .= "<tr><td>".(++$number)."</td><td>".$record -> paper_id."</td><td>".$record -> paper_title."</td><td>".$record -> review_result_type_name."</td><td>".$record -> paper_version_number."</td></tr>";
 
         return $paper;
 
