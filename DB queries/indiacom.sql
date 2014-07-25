@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jul 23, 2014 at 09:02 AM
+-- Generation Time: Jul 25, 2014 at 06:19 PM
 -- Server version: 5.6.12-log
 -- PHP Version: 5.4.12
 
@@ -29,8 +29,8 @@ USE `indiacom`;
 --
 
 CREATE TABLE IF NOT EXISTS `database_user` (
-  `database_user_name` int(11) NOT NULL,
-  `database_user_password` int(11) NOT NULL,
+  `database_user_name` varchar(32) NOT NULL,
+  `database_user_password` varchar(64) NOT NULL,
   `database_user_hashtag` varchar(64) DEFAULT NULL,
   `database_user_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `database_user_dirty` tinyint(1) NOT NULL DEFAULT '0',
@@ -44,9 +44,9 @@ CREATE TABLE IF NOT EXISTS `database_user` (
 --
 
 CREATE TABLE IF NOT EXISTS `event_master` (
-  `event_id` varchar(10) NOT NULL,
-  `event_name` varchar(50) DEFAULT NULL,
-  `event_description` varchar(200) NOT NULL,
+  `event_id` int(8) NOT NULL AUTO_INCREMENT,
+  `event_name` varchar(50) NOT NULL,
+  `event_description` varchar(200) DEFAULT NULL,
   `event_start_date` datetime NOT NULL,
   `event_end_date` datetime NOT NULL,
   `event_paper_submission_start_date` datetime DEFAULT NULL,
@@ -63,15 +63,15 @@ CREATE TABLE IF NOT EXISTS `event_master` (
   `event_dor` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `event_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `event_master`
 --
 
 INSERT INTO `event_master` (`event_id`, `event_name`, `event_description`, `event_start_date`, `event_end_date`, `event_paper_submission_start_date`, `event_paper_submission_end_date`, `event_abstract_submission_end_date`, `event_abstract_acceptance_notification`, `event_paper_submission_notification`, `event_review_info_avail_after`, `event_clear_min_dues_by`, `event_email`, `event_info`, `event_attachment`, `event_hashtag`, `event_dor`, `event_dirty`) VALUES
-('1', 'IndiaCom 2015', 'Hello World', '2015-04-08 00:00:00', '2015-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-22 19:22:38', 0),
-('2', 'NSC 2015', 'Hello World', '2015-04-12 00:00:00', '2015-04-12 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-22 19:23:08', 0);
+(1, 'IndiaCom 2015', 'Hello World', '2015-04-08 00:00:00', '2015-04-11 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-22 19:22:38', 0),
+(2, 'NSC 2015', 'Hello World', '2015-04-12 00:00:00', '2015-04-12 00:00:00', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-22 19:23:08', 0);
 
 -- --------------------------------------------------------
 
@@ -80,15 +80,25 @@ INSERT INTO `event_master` (`event_id`, `event_name`, `event_description`, `even
 --
 
 CREATE TABLE IF NOT EXISTS `member_category_master` (
-  `member_category_id` int(4) NOT NULL,
+  `member_category_id` int(4) NOT NULL AUTO_INCREMENT,
   `member_category_name` varchar(64) NOT NULL,
-  `member_category_event_id` varchar(10) NOT NULL,
+  `member_category_event_id` int(8) NOT NULL,
   `member_category_hashtag` varchar(64) DEFAULT NULL,
   `member_category_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `member_category_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`member_category_id`),
   KEY `member_category_event_id` (`member_category_event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=7 ;
+
+--
+-- Dumping data for table `member_category_master`
+--
+
+INSERT INTO `member_category_master` (`member_category_id`, `member_category_name`, `member_category_event_id`, `member_category_hashtag`, `member_category_dor`, `member_category_dirty`) VALUES
+(1, 'Research Student', 1, NULL, '2014-07-25 18:01:51', 0),
+(2, 'Student', 1, NULL, '2014-07-25 18:01:51', 0),
+(5, 'Faculty', 1, NULL, '2014-07-25 18:02:36', 0),
+(6, 'Industry Representative', 1, NULL, '2014-07-25 18:02:36', 0);
 
 -- --------------------------------------------------------
 
@@ -99,35 +109,50 @@ CREATE TABLE IF NOT EXISTS `member_category_master` (
 CREATE TABLE IF NOT EXISTS `member_master` (
   `member_id` varchar(10) NOT NULL,
   `member_name` varchar(50) NOT NULL,
-  `member_address` varchar(100) DEFAULT NULL,
-  `member_pincode` varchar(10) DEFAULT NULL,
-  `member_email` varchar(100) DEFAULT NULL,
+  `member_address` varchar(100) NOT NULL,
+  `member_pincode` varchar(10) NOT NULL,
+  `member_email` varchar(100) NOT NULL,
   `member_phone` varchar(20) DEFAULT NULL,
-  `member_mobile` varchar(20) DEFAULT NULL,
+  `member_mobile` varchar(20) NOT NULL,
   `member_fax` varchar(20) DEFAULT NULL,
   `member_designation` varchar(20) DEFAULT NULL,
   `member_csi_mem_no` varchar(30) DEFAULT NULL,
   `member_iete_mem_no` varchar(30) DEFAULT NULL,
-  `member_pass` varchar(20) NOT NULL,
-  `member_organization_id` varchar(10) DEFAULT NULL,
-  `member_biodata_path` varchar(50) DEFAULT NULL,
+  `member_password` varchar(64) NOT NULL,
+  `member_organization_id` int(8) DEFAULT NULL,
+  `member_biodata_path` varchar(100) DEFAULT NULL,
   `member_category_id` int(4) DEFAULT NULL,
   `member_experience` varchar(4) DEFAULT NULL,
   `member_hashtag` varchar(64) DEFAULT NULL,
   `member_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `member_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`member_id`),
-  KEY `member_category_id` (`member_category_id`),
-  KEY `member_organization_id` (`member_organization_id`)
+  KEY `member_organization_id` (`member_organization_id`),
+  KEY `member_category_id` (`member_category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
 --
--- Dumping data for table `member_master`
+-- Table structure for table `news_master`
 --
 
-INSERT INTO `member_master` (`member_id`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_pass`, `member_organization_id`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
-('12', 'Rana', 'Gadhbadh Nagar', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '123', NULL, NULL, NULL, NULL, NULL, '2014-07-15 09:46:52', 0),
-('13', 'Saurav Deb Purkayastha', 'E-168, Sector 41 Noida', '201303', 'sauravdebp@gmail.com', '9818865297', '9818865297', NULL, NULL, NULL, NULL, '12345678', NULL, NULL, NULL, NULL, NULL, '2014-07-22 15:42:20', 0);
+CREATE TABLE IF NOT EXISTS `news_master` (
+  `news_id` int(8) NOT NULL AUTO_INCREMENT,
+  `news_title` varchar(100) NOT NULL,
+  `news_description_url` varchar(100) NOT NULL,
+  `news_publisher_id` int(8) NOT NULL,
+  `news_publish_date` datetime NOT NULL,
+  `news_sticky_date` datetime DEFAULT NULL,
+  `news_event_id` int(8) NOT NULL,
+  `news_attachments_path` varchar(100) DEFAULT NULL,
+  `news_hashtag` varchar(64) DEFAULT NULL,
+  `news_dor` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `news_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`news_id`),
+  KEY `news_publisher_id` (`news_publisher_id`),
+  KEY `news_event_id` (`news_event_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -136,19 +161,27 @@ INSERT INTO `member_master` (`member_id`, `member_name`, `member_address`, `memb
 --
 
 CREATE TABLE IF NOT EXISTS `organization_master` (
-  `organization_id` varchar(10) NOT NULL,
+  `organization_id` int(8) NOT NULL AUTO_INCREMENT,
   `organization_name` varchar(100) NOT NULL,
   `organization_short_name` varchar(20) DEFAULT NULL,
-  `organization_address` varchar(200) NOT NULL,
-  `organization_email` varchar(50) NOT NULL,
-  `organization_phone` varchar(20) NOT NULL,
+  `organization_address` varchar(200) DEFAULT NULL,
+  `organization_email` varchar(50) DEFAULT NULL,
+  `organization_phone` varchar(20) DEFAULT NULL,
   `organization_contact_person_name` varchar(50) DEFAULT NULL,
   `organization_fax` varchar(20) DEFAULT NULL,
   `organization_hashtag` varchar(64) DEFAULT NULL,
   `organization_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `organization_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`organization_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `organization_master`
+--
+
+INSERT INTO `organization_master` (`organization_id`, `organization_name`, `organization_short_name`, `organization_address`, `organization_email`, `organization_phone`, `organization_contact_person_name`, `organization_fax`, `organization_hashtag`, `organization_dor`, `organization_dirty`) VALUES
+(1, 'Bharati Vidyapeeth Institute of Computer Applications and Management', 'BVICAM', NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-25 18:05:42', 0),
+(2, 'ABC-Dvluprs', '@abcdvluprs', NULL, NULL, NULL, NULL, NULL, NULL, '2014-07-25 18:05:42', 0);
 
 -- --------------------------------------------------------
 
@@ -157,29 +190,33 @@ CREATE TABLE IF NOT EXISTS `organization_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `paper_master` (
-  `paper_id` varchar(20) NOT NULL,
+  `paper_id` int(16) NOT NULL AUTO_INCREMENT,
   `paper_code` varchar(10) NOT NULL,
   `paper_title` varchar(200) NOT NULL,
-  `paper_subject_id` varchar(10) NOT NULL,
+  `paper_subject_id` int(8) NOT NULL,
   `paper_date_of_submission` datetime DEFAULT NULL,
-  `paper_presentation_path` varchar(50) DEFAULT NULL,
+  `paper_presentation_path` varchar(100) DEFAULT NULL,
   `paper_contact_author_id` varchar(10) NOT NULL,
-  `paper_isclose` tinyint(4) NOT NULL DEFAULT '0',
+  `paper_isclose` tinyint(1) NOT NULL DEFAULT '0',
   `paper_hashtag` varchar(64) DEFAULT NULL,
   `paper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `paper_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`paper_id`),
   KEY `paper_contact_author_id` (`paper_contact_author_id`),
   KEY `paper_subject_id` (`paper_subject_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
 
 --
--- Dumping data for table `paper_master`
+-- Stand-in structure for view `paper_status_info`
 --
-
-INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subject_id`, `paper_date_of_submission`, `paper_presentation_path`, `paper_contact_author_id`, `paper_isclose`, `paper_hashtag`, `paper_dor`, `paper_dirty`) VALUES
-('1', '1', 'cosmos', '1', '2014-07-23 09:01:22', NULL, '13', 0, NULL, '2014-07-23 09:01:22', 0);
-
+CREATE TABLE IF NOT EXISTS `paper_status_info` (
+`paper_id` int(16)
+,`paper_title` varchar(200)
+,`review_result_type_name` varchar(50)
+,`paper_version_number` int(4)
+);
 -- --------------------------------------------------------
 
 --
@@ -187,13 +224,13 @@ INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subj
 --
 
 CREATE TABLE IF NOT EXISTS `paper_version_master` (
-  `paper_version_id` varchar(10) NOT NULL,
-  `paper_id` varchar(10) NOT NULL,
-  `paper_version` int(2) NOT NULL,
+  `paper_version_id` int(32) NOT NULL AUTO_INCREMENT,
+  `paper_id` int(16) NOT NULL,
+  `paper_version_number` int(4) NOT NULL,
   `paper_version_date_of_submission` datetime NOT NULL,
   `paper_version_document_path` varchar(100) NOT NULL,
   `paper_version_compliance_report_path` varchar(100) DEFAULT NULL,
-  `paper_version_convener_id` int(11) DEFAULT NULL,
+  `paper_version_convener_id` int(8) DEFAULT NULL,
   `paper_version_is_reviewer_assigned` tinyint(1) NOT NULL DEFAULT '0',
   `paper_version_review_date` datetime DEFAULT NULL,
   `paper_version_review_result_id` int(2) DEFAULT NULL,
@@ -208,7 +245,7 @@ CREATE TABLE IF NOT EXISTS `paper_version_master` (
   KEY `paper_id_2` (`paper_id`),
   KEY `paper_version_convener_id` (`paper_version_convener_id`),
   KEY `paper_version_review_result_id` (`paper_version_review_result_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -217,10 +254,13 @@ CREATE TABLE IF NOT EXISTS `paper_version_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `privilege_master` (
-  `privilege_id` varchar(10) NOT NULL,
+  `privilege_id` varchar(8) NOT NULL,
   `privilege_entity` varchar(50) NOT NULL,
   `privilege_attribute` varchar(50) NOT NULL,
   `privilege_operation` varchar(10) NOT NULL,
+  `privilege_hashtag` varchar(64) DEFAULT NULL,
+  `privilege_dor` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `privilege_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`privilege_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -228,9 +268,9 @@ CREATE TABLE IF NOT EXISTS `privilege_master` (
 -- Dumping data for table `privilege_master`
 --
 
-INSERT INTO `privilege_master` (`privilege_id`, `privilege_entity`, `privilege_attribute`, `privilege_operation`) VALUES
-('P1', 'user_master', '*', 'Update'),
-('P2', 'paper_master', '*', 'Update');
+INSERT INTO `privilege_master` (`privilege_id`, `privilege_entity`, `privilege_attribute`, `privilege_operation`, `privilege_hashtag`, `privilege_dor`, `privilege_dirty`) VALUES
+('P1', 'user_master', '*', 'Update', NULL, '2014-07-25 21:01:18', 0),
+('P2', 'paper_master', '*', 'Update', NULL, '2014-07-25 21:01:18', 0);
 
 -- --------------------------------------------------------
 
@@ -239,8 +279,8 @@ INSERT INTO `privilege_master` (`privilege_id`, `privilege_entity`, `privilege_a
 --
 
 CREATE TABLE IF NOT EXISTS `privilege_role_mapper` (
-  `privilege_id` varchar(10) NOT NULL,
-  `role_id` int(11) NOT NULL,
+  `privilege_id` varchar(8) NOT NULL,
+  `role_id` int(8) NOT NULL,
   `privilege_role_mapper_hashtag` varchar(64) DEFAULT NULL,
   `privilege_role_mapper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `privilege_role_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0',
@@ -253,33 +293,9 @@ CREATE TABLE IF NOT EXISTS `privilege_role_mapper` (
 --
 
 INSERT INTO `privilege_role_mapper` (`privilege_id`, `role_id`, `privilege_role_mapper_hashtag`, `privilege_role_mapper_dor`, `privilege_role_mapper_dirty`) VALUES
-('P1', 0, NULL, '2014-07-19 11:05:46', 0),
-('P1', 1, NULL, '2014-07-19 11:05:58', 0),
-('P2', 1, NULL, '2014-07-19 11:05:58', 0);
-
--- --------------------------------------------------------
-
---
--- Table structure for table `reviewer_master`
---
-
-CREATE TABLE IF NOT EXISTS `reviewer_master` (
-  `reviewer_id` int(11) NOT NULL,
-  `reviewer_name` varchar(100) NOT NULL,
-  `reviewer_organization` varchar(255) NOT NULL,
-  `reviewer_designation` varchar(255) DEFAULT NULL,
-  `reviewer_address` varchar(255) DEFAULT NULL,
-  `reviewer_email` varchar(100) NOT NULL,
-  `reviewer_office` varchar(18) DEFAULT NULL,
-  `reviewer_residence` varchar(50) DEFAULT NULL,
-  `reviewer_mobile` varchar(20) DEFAULT NULL,
-  `reviewer_department` varchar(75) DEFAULT NULL,
-  `reviewer_hashtag` varchar(64) DEFAULT NULL,
-  `reviewer_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `reviewer_dirty` tinyint(1) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`reviewer_id`),
-  KEY `reviewer_id` (`reviewer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+('P1', 1, NULL, '2014-07-25 18:07:57', 0),
+('P1', 2, NULL, '2014-07-25 18:07:57', 0),
+('P2', 2, NULL, '2014-07-25 18:08:03', 0);
 
 -- --------------------------------------------------------
 
@@ -288,16 +304,24 @@ CREATE TABLE IF NOT EXISTS `reviewer_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `review_result_master` (
-  `review_result_id` int(2) NOT NULL,
+  `review_result_id` int(2) NOT NULL AUTO_INCREMENT,
   `review_result_type_name` varchar(50) NOT NULL,
-  `review_result_description` varchar(150) NOT NULL,
-  `review_result_message` varchar(150) NOT NULL,
-  `review_result_acronym` varchar(10) NOT NULL,
+  `review_result_description` varchar(150) DEFAULT NULL,
+  `review_result_message` varchar(150) DEFAULT NULL,
+  `review_result_acronym` varchar(10) DEFAULT NULL,
   `review_result_hashtag` varchar(64) DEFAULT NULL,
   `review_result_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `review_result_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`review_result_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `review_result_master`
+--
+
+INSERT INTO `review_result_master` (`review_result_id`, `review_result_type_name`, `review_result_description`, `review_result_message`, `review_result_acronym`, `review_result_hashtag`, `review_result_dor`, `review_result_dirty`) VALUES
+(1, 'Rejected', NULL, NULL, NULL, NULL, '2014-07-25 18:06:42', 0),
+(2, 'Accepted', NULL, NULL, NULL, NULL, '2014-07-25 18:06:42', 0);
 
 -- --------------------------------------------------------
 
@@ -306,22 +330,22 @@ CREATE TABLE IF NOT EXISTS `review_result_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `role_master` (
-  `role_id` int(11) NOT NULL,
+  `role_id` int(8) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(32) NOT NULL,
   `role_hashtag` varchar(64) DEFAULT NULL,
   `role_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `role_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`role_id`),
   UNIQUE KEY `role_name` (`role_name`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `role_master`
 --
 
 INSERT INTO `role_master` (`role_id`, `role_name`, `role_hashtag`, `role_dor`, `role_dirty`) VALUES
-(0, 'Author', NULL, '2014-07-19 11:04:43', 0),
-(1, 'Sample Role', NULL, '2014-07-19 11:04:53', 0);
+(1, 'Author', NULL, '2014-07-25 18:07:04', 0),
+(2, 'Super Admin', NULL, '2014-07-25 18:07:04', 0);
 
 -- --------------------------------------------------------
 
@@ -330,26 +354,31 @@ INSERT INTO `role_master` (`role_id`, `role_name`, `role_hashtag`, `role_dor`, `
 --
 
 CREATE TABLE IF NOT EXISTS `subject_master` (
-  `subject_id` varchar(10) NOT NULL,
-  `subject_code` varchar(50) NOT NULL,
-  `subject_track_id` varchar(50) NOT NULL,
+  `subject_id` int(8) NOT NULL AUTO_INCREMENT,
+  `subject_code` varchar(10) NOT NULL,
+  `subject_track_id` int(8) NOT NULL,
   `subject_name` varchar(50) NOT NULL,
-  `subject_description` varchar(200) DEFAULT NULL,
+  `subject_description` varchar(100) DEFAULT NULL,
   `subject_hashtag` varchar(64) DEFAULT NULL,
   `subject_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `subject_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`subject_id`),
   UNIQUE KEY `subject_code` (`subject_code`,`subject_track_id`),
   KEY `subject_track_id` (`subject_track_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `subject_master`
 --
 
 INSERT INTO `subject_master` (`subject_id`, `subject_code`, `subject_track_id`, `subject_name`, `subject_description`, `subject_hashtag`, `subject_dor`, `subject_dirty`) VALUES
-('1', '101', '1', 'Quantum Computing', 'Hello World', NULL, '2014-07-22 13:59:10', 0),
-('2', '102', '1', 'Green Data', 'Hello World', NULL, '2014-07-22 13:59:10', 0);
+(1, '101', 1, 'Networking', NULL, NULL, '2014-07-25 18:17:17', 0),
+(2, '102', 1, 'Advanced Networking', NULL, NULL, '2014-07-25 18:17:17', 0),
+(3, '103', 2, 'Quantum Computing', NULL, NULL, '2014-07-25 18:17:17', 0),
+(4, '104', 3, 'Databases', NULL, NULL, '2014-07-25 18:17:17', 0),
+(5, '105', 4, 'TOC', NULL, NULL, '2014-07-25 18:17:17', 0),
+(6, '101', 5, 'Graphics', NULL, NULL, '2014-07-25 18:17:17', 0),
+(7, '102', 8, 'Networking', NULL, NULL, '2014-07-25 18:17:17', 0);
 
 -- --------------------------------------------------------
 
@@ -358,8 +387,8 @@ INSERT INTO `subject_master` (`subject_id`, `subject_code`, `subject_track_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `submission_master` (
-  `submission_id` varchar(10) NOT NULL,
-  `submission_paper_id` varchar(20) NOT NULL,
+  `submission_id` int(32) NOT NULL AUTO_INCREMENT,
+  `submission_paper_id` int(16) NOT NULL,
   `submission_member_id` varchar(10) NOT NULL,
   `submission_hashtag` varchar(64) DEFAULT NULL,
   `submission_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -368,14 +397,7 @@ CREATE TABLE IF NOT EXISTS `submission_master` (
   UNIQUE KEY `submission_paper_id_2` (`submission_paper_id`,`submission_member_id`),
   KEY `submission_paper_id` (`submission_paper_id`),
   KEY `submission_member_id` (`submission_member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `submission_master`
---
-
-INSERT INTO `submission_master` (`submission_id`, `submission_paper_id`, `submission_member_id`, `submission_hashtag`, `submission_dor`, `submission_dirty`) VALUES
-('1', '1', '13', NULL, '2014-07-23 09:01:22', 0);
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -384,10 +406,10 @@ INSERT INTO `submission_master` (`submission_id`, `submission_paper_id`, `submis
 --
 
 CREATE TABLE IF NOT EXISTS `track_master` (
-  `track_id` varchar(10) NOT NULL,
+  `track_id` int(8) NOT NULL AUTO_INCREMENT,
   `track_number` varchar(10) NOT NULL,
-  `track_event_id` varchar(10) NOT NULL,
-  `track_name` varchar(100) DEFAULT NULL,
+  `track_event_id` int(8) NOT NULL,
+  `track_name` varchar(100) NOT NULL,
   `track_description` varchar(200) DEFAULT NULL,
   `track_hashtag` varchar(64) NOT NULL,
   `track_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -395,17 +417,19 @@ CREATE TABLE IF NOT EXISTS `track_master` (
   PRIMARY KEY (`track_id`),
   UNIQUE KEY `track_number` (`track_number`,`track_event_id`),
   KEY `track_event_id` (`track_event_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `track_master`
 --
 
 INSERT INTO `track_master` (`track_id`, `track_number`, `track_event_id`, `track_name`, `track_description`, `track_hashtag`, `track_dor`, `track_dirty`) VALUES
-('1', '1', '1', 'Sustainable Computing', 'Hello World', '', '2014-07-22 13:54:13', 0),
-('2', '2', '1', 'Internet of things', 'Hello World', '', '2014-07-22 13:54:13', 0),
-('3', '1', '2', 'The Cloud', 'Hello World', '', '2014-07-22 13:55:15', 0),
-('4', '2', '2', 'Embedded Embedded', 'Hello World', '', '2014-07-22 13:55:15', 0);
+(1, '1', 1, 'International Conference on Sustainable Computing (ICSC-2015)', NULL, '', '2014-07-25 18:09:47', 0),
+(2, '2', 1, 'International Conference on High Performance Computing (ICHPC-2015)', NULL, '', '2014-07-25 18:09:47', 0),
+(3, '3', 1, 'International Conference on High Speed Networking and Information Security (ICHNIS-2015)', NULL, '', '2014-07-25 18:09:47', 0),
+(4, '4', 1, 'International Conference on Software Engineering and Emerging Technologies (ICSEET-2015)', NULL, '', '2014-07-25 18:09:47', 0),
+(5, '1', 2, 'Internet of Things', NULL, '', '2014-07-25 18:10:39', 0),
+(8, '2', 2, 'Embedded Computing', NULL, '', '2014-07-25 18:11:57', 0);
 
 -- --------------------------------------------------------
 
@@ -414,9 +438,9 @@ INSERT INTO `track_master` (`track_id`, `track_number`, `track_event_id`, `track
 --
 
 CREATE TABLE IF NOT EXISTS `user_event_role_mapper` (
-  `user_id` int(11) NOT NULL,
-  `event_id` varchar(10) NOT NULL,
-  `role_id` int(11) NOT NULL,
+  `user_id` int(8) NOT NULL,
+  `event_id` int(8) NOT NULL,
+  `role_id` int(8) NOT NULL,
   `user_event_role_mapper_hashtag` varchar(64) DEFAULT NULL,
   `user_event_role_mapper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_event_role_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0',
@@ -432,17 +456,33 @@ CREATE TABLE IF NOT EXISTS `user_event_role_mapper` (
 --
 
 CREATE TABLE IF NOT EXISTS `user_master` (
-  `user_id` int(11) NOT NULL,
-  `user_name` text NOT NULL,
-  `user_email` varchar(128) NOT NULL,
-  `user_pass` varchar(64) NOT NULL,
-  `user_registrar` int(11) DEFAULT NULL,
+  `user_id` int(8) NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(50) NOT NULL,
+  `user_organization_id` int(8) DEFAULT NULL,
+  `user_designation` varchar(50) DEFAULT NULL,
+  `user_address` varchar(150) DEFAULT NULL,
+  `user_office_address` varchar(150) DEFAULT NULL,
+  `user_mobile` varchar(20) DEFAULT NULL,
+  `user_department` varchar(50) DEFAULT NULL,
+  `user_email` varchar(100) NOT NULL,
+  `user_password` varchar(64) NOT NULL,
+  `user_registrar` int(8) DEFAULT NULL,
   `user_hashtag` varchar(64) DEFAULT NULL,
   `user_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `user_dirty` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`user_id`),
-  KEY `user_registrar` (`user_registrar`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  KEY `user_registrar` (`user_registrar`),
+  KEY `user_organization_id` (`user_organization_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Structure for view `paper_status_info`
+--
+DROP TABLE IF EXISTS `paper_status_info`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `paper_status_info` AS select `paper_master`.`paper_id` AS `paper_id`,`paper_master`.`paper_title` AS `paper_title`,`review_result_master`.`review_result_type_name` AS `review_result_type_name`,`paper_version_master`.`paper_version_number` AS `paper_version_number` from ((`paper_master` join `paper_version_master` on(`paper_master`.`paper_id`)) join `review_result_master` on((`paper_version_master`.`paper_version_review_result_id` = `review_result_master`.`review_result_id`)));
 
 --
 -- Constraints for dumped tables
@@ -452,7 +492,7 @@ CREATE TABLE IF NOT EXISTS `user_master` (
 -- Constraints for table `database_user`
 --
 ALTER TABLE `database_user`
-  ADD CONSTRAINT `database_user_ibfk_1` FOREIGN KEY (`database_user_name`) REFERENCES `role_master` (`role_id`);
+  ADD CONSTRAINT `database_user_ibfk_1` FOREIGN KEY (`database_user_name`) REFERENCES `role_master` (`role_name`);
 
 --
 -- Constraints for table `member_category_master`
@@ -464,36 +504,37 @@ ALTER TABLE `member_category_master`
 -- Constraints for table `member_master`
 --
 ALTER TABLE `member_master`
-  ADD CONSTRAINT `member_master_ibfk_1` FOREIGN KEY (`member_category_id`) REFERENCES `member_category_master` (`member_category_id`),
+  ADD CONSTRAINT `member_master_ibfk_3` FOREIGN KEY (`member_category_id`) REFERENCES `member_category_master` (`member_category_id`),
   ADD CONSTRAINT `member_master_ibfk_2` FOREIGN KEY (`member_organization_id`) REFERENCES `organization_master` (`organization_id`);
+
+--
+-- Constraints for table `news_master`
+--
+ALTER TABLE `news_master`
+  ADD CONSTRAINT `news_master_ibfk_2` FOREIGN KEY (`news_event_id`) REFERENCES `event_master` (`event_id`),
+  ADD CONSTRAINT `news_master_ibfk_1` FOREIGN KEY (`news_publisher_id`) REFERENCES `user_master` (`user_id`);
 
 --
 -- Constraints for table `paper_master`
 --
 ALTER TABLE `paper_master`
-  ADD CONSTRAINT `paper_master_ibfk_2` FOREIGN KEY (`paper_contact_author_id`) REFERENCES `member_master` (`member_id`),
-  ADD CONSTRAINT `paper_master_ibfk_3` FOREIGN KEY (`paper_subject_id`) REFERENCES `subject_master` (`subject_id`);
+  ADD CONSTRAINT `paper_master_ibfk_5` FOREIGN KEY (`paper_subject_id`) REFERENCES `subject_master` (`subject_id`),
+  ADD CONSTRAINT `paper_master_ibfk_4` FOREIGN KEY (`paper_contact_author_id`) REFERENCES `member_master` (`member_id`);
 
 --
 -- Constraints for table `paper_version_master`
 --
 ALTER TABLE `paper_version_master`
-  ADD CONSTRAINT `paper_version_master_ibfk_1` FOREIGN KEY (`paper_id`) REFERENCES `paper_master` (`paper_id`),
-  ADD CONSTRAINT `paper_version_master_ibfk_2` FOREIGN KEY (`paper_version_convener_id`) REFERENCES `user_master` (`user_id`),
-  ADD CONSTRAINT `paper_version_master_ibfk_3` FOREIGN KEY (`paper_version_review_result_id`) REFERENCES `review_result_master` (`review_result_id`);
+  ADD CONSTRAINT `paper_version_master_ibfk_5` FOREIGN KEY (`paper_version_convener_id`) REFERENCES `user_master` (`user_id`),
+  ADD CONSTRAINT `paper_version_master_ibfk_3` FOREIGN KEY (`paper_version_review_result_id`) REFERENCES `review_result_master` (`review_result_id`),
+  ADD CONSTRAINT `paper_version_master_ibfk_4` FOREIGN KEY (`paper_id`) REFERENCES `paper_master` (`paper_id`);
 
 --
 -- Constraints for table `privilege_role_mapper`
 --
 ALTER TABLE `privilege_role_mapper`
-  ADD CONSTRAINT `privilege_role_mapper_ibfk_1` FOREIGN KEY (`privilege_id`) REFERENCES `privilege_master` (`privilege_id`),
-  ADD CONSTRAINT `privilege_role_mapper_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role_master` (`role_id`);
-
---
--- Constraints for table `reviewer_master`
---
-ALTER TABLE `reviewer_master`
-  ADD CONSTRAINT `reviewer_master_ibfk_1` FOREIGN KEY (`reviewer_id`) REFERENCES `user_master` (`user_id`);
+  ADD CONSTRAINT `privilege_role_mapper_ibfk_4` FOREIGN KEY (`role_id`) REFERENCES `role_master` (`role_id`),
+  ADD CONSTRAINT `privilege_role_mapper_ibfk_3` FOREIGN KEY (`privilege_id`) REFERENCES `privilege_master` (`privilege_id`);
 
 --
 -- Constraints for table `subject_master`
@@ -505,8 +546,8 @@ ALTER TABLE `subject_master`
 -- Constraints for table `submission_master`
 --
 ALTER TABLE `submission_master`
-  ADD CONSTRAINT `submission_master_ibfk_1` FOREIGN KEY (`submission_paper_id`) REFERENCES `paper_master` (`paper_id`),
-  ADD CONSTRAINT `submission_master_ibfk_2` FOREIGN KEY (`submission_member_id`) REFERENCES `member_master` (`member_id`);
+  ADD CONSTRAINT `submission_master_ibfk_2` FOREIGN KEY (`submission_member_id`) REFERENCES `member_master` (`member_id`),
+  ADD CONSTRAINT `submission_master_ibfk_3` FOREIGN KEY (`submission_paper_id`) REFERENCES `paper_master` (`paper_id`);
 
 --
 -- Constraints for table `track_master`
@@ -518,14 +559,15 @@ ALTER TABLE `track_master`
 -- Constraints for table `user_event_role_mapper`
 --
 ALTER TABLE `user_event_role_mapper`
-  ADD CONSTRAINT `user_event_role_mapper_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user_master` (`user_id`),
-  ADD CONSTRAINT `user_event_role_mapper_ibfk_2` FOREIGN KEY (`role_id`) REFERENCES `role_master` (`role_id`),
-  ADD CONSTRAINT `user_event_role_mapper_ibfk_3` FOREIGN KEY (`event_id`) REFERENCES `event_master` (`event_id`);
+  ADD CONSTRAINT `user_event_role_mapper_ibfk_5` FOREIGN KEY (`user_id`) REFERENCES `user_master` (`user_id`),
+  ADD CONSTRAINT `user_event_role_mapper_ibfk_3` FOREIGN KEY (`event_id`) REFERENCES `event_master` (`event_id`),
+  ADD CONSTRAINT `user_event_role_mapper_ibfk_4` FOREIGN KEY (`role_id`) REFERENCES `role_master` (`role_id`);
 
 --
 -- Constraints for table `user_master`
 --
 ALTER TABLE `user_master`
+  ADD CONSTRAINT `user_master_ibfk_2` FOREIGN KEY (`user_organization_id`) REFERENCES `organization_master` (`organization_id`),
   ADD CONSTRAINT `user_master_ibfk_1` FOREIGN KEY (`user_registrar`) REFERENCES `user_master` (`user_id`);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

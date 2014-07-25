@@ -1,0 +1,19 @@
+Event_Master
+	event_info - difference between event_info and event_description
+	
+Review_Result_Master
+	review_result_message
+	review_result_description
+	
+Member_Master
+	member_designation - Is to be asked during member registration?
+	member_experience - what type of values does it store? values like '3' or '3 years'??
+	
+subject_master
+	subject_code - what is its format??
+	
+track_master
+	track_number - what is its format??
+	
+member_category_master
+	member_category_event_id - member category is event wise??
