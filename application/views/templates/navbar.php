@@ -13,9 +13,7 @@ function SetActiveNavItem($navItem, $page)
 }
 ?>
 <style type="text/css">
-    .navbar .nav > li > a {
-        padding: 10px 0px 10px;
-    }
+
     .navbar-default {
         background-color: #004080;
         border-color: #48a4ff;
@@ -77,7 +75,7 @@ function SetActiveNavItem($navItem, $page)
     }
 </style>
 
-<div class="navbar-default navbar-fixed-top shadow-bottom" role="navigation">
+<div class="navbar-default navbar-fixed-top" role="navigation">
 
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
@@ -87,12 +85,14 @@ function SetActiveNavItem($navItem, $page)
             <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" rel="home" href="http://bvicam.in/">BVICAM</a>
+        <!--<ul class="nav navbar-nav pull-right">
+            <li class="<?php /*SetActiveNavItem("Home", $navbarItem); */?>"><a href="/<?php /*echo INDIACOM; */?>index.php/MainController/viewPage/index">&nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;</a></li>
+        </ul>-->
     </div>
-
     <div class="collapse navbar-collapse" id="navbar-collapse">
-        <div class="col-md-11 col-sm-11">
+        <div class="col-md-10 col-sm-12">
             <ul class="nav navbar-nav">
-                <li class="<?php SetActiveNavItem("Home", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>index.php/MainController/viewPage/index"><span class="glyphicon glyphicon-home"></span></a></li>
+                <li class="<?php SetActiveNavItem("Home", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>index.php/MainController/viewPage/index">&nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;</a></li>
                 <li class="dropdown <?php SetActiveNavItem("About INDIACom", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
