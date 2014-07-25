@@ -18,10 +18,12 @@ class Dashboard extends CI_Controller
         $this->load->model('SubmissionModel');
         $this->load->model('PaperVersionModel');
         $this->load->model('AccessModel');
+        $this->load->model('PaperStatusModel');
     }
 
     public function index($page = "dashboardHome")
     {
+
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
         if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
@@ -29,7 +31,9 @@ class Dashboard extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
+
         $data = loginModalInit();
+        $data['papers'] = $this -> PaperStatusModel -> getMemberPapers();
         $data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/dashboard/dashboardPanel');

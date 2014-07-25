@@ -64,7 +64,6 @@
             {
 
                 $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
-                $category_id_array = $this -> RegistrationModel -> getMemberCategoryId($this -> input -> post('category'));
                 $member_id = $this -> RegistrationModel -> assignMemberId();
 
                 $pass = $this -> input -> post('password');
@@ -93,7 +92,7 @@
                                             'member_pass'           =>   $encrypted_password ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
                                             'member_biodata_path'   =>   $this -> input -> post('biodata'),
-                                            'member_category_id'    =>   $category_id_array['member_category_id'],
+                                            'member_category_id'    =>   $this -> input -> post('category'),
                                             'member_experience'     =>   $this -> input -> post('experience')
                                          );
 
@@ -133,6 +132,7 @@
                 $data = loginModalInit();
                 $data['navbarItem'] = pageNavbarItem($page);
                 $data['image'] = $img['image'];
+                $data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();
 
                 $this->load->view('templates/header', $data);
                 $this->load->view('pages/'.$page, $data);

@@ -27,22 +27,28 @@ class RegistrationModel extends CI_Model
         return $query ->  row_array();
     }
 
-    public function getMemberCategoryId($category)
-    {
-        $this -> db -> select('member_category_id');
-        $this -> db -> where ('member_category_name', $category);
-        $query = $this -> db -> get('member_category_master');
-        return $query ->  row_array();
-    }
-
     public function assignMemberId()
     {
         $this -> db -> select('member_id');
         $this->db->order_by("member_id", "desc");
         $query = $this -> db -> get('member_master', 1);
+        if($query -> num_rows() == 0)
+            return 1;
         $member_id_array = $query ->  row_array();
         $member_id = $member_id_array['member_id'] + 1;
         return $member_id;
     }
+
+    public function getMemberCategories()
+    {
+        $this -> db -> select('member_category_id, member_category_name');
+        $query = $this -> db -> get('member_category_master');
+        $option = "";
+        foreach($query -> result() as $record)
+            $option .= "<option value='" . $record->member_category_id .  "'>" . $record -> member_category_name . "</option>";
+
+        return $option;
+    }
 }
 
+?>
