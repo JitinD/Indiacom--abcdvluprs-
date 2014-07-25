@@ -11,27 +11,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>1</td>
-            <td>2125</td>
-            <td>Green Revolution</td>
-            <td>Accepted</td>
-            <td>5.0.3</td>
-        </tr>
-        <tr>
-            <td>2</td>
-            <td>1624</td>
-            <td>A very long title of the Paper here. This is to check if the table can handle long titles</td>
-            <td>Under Review</td>
-            <td>4.6.1</td>
-        </tr>
-        <tr>
-            <td>3</td>
-            <td>2125</td>
-            <td>Green Revolution</td>
-            <td>Accepted</td>
-            <td>5.0.3</td>
-        </tr>
+
+        <?php echo $papers ?>
+
         </tbody>
     </table>
 </div>

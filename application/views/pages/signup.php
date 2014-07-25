@@ -107,10 +107,11 @@
                     <label for="category" class="col-sm-3 control-label">Category</label>
                     <div class="col-sm-9">
                         <select name = "category" class="form-control" id="category" value="<?php echo set_value('category'); ?>">
-                            <option value="researchStudent">Research Student</option>
+                            <!--option value="researchStudent">Research Student</option>
                             <option value="student">Student</option>
                             <option value="faculty">Faculty</option>
-                            <option value="industryRepresentative">Industry Representative</option>
+                            <option value="industryRepresentative">Industry Representative</option-->
+                            <?php echo $member_categories; ?>
                         </select>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
