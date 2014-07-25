@@ -1,13 +1,13 @@
 <div class="row contentBlock-top ">
-    <div class="col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
         <?php include('importantdatesPanel.php');?>
     </div>
-    <div class="col-md-9 col-sm-8 col-xs-12">
+    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 text-justify">
         <span class="h1 text-theme">Contact Us</span>
         <hr>
         <div class="row h4">
             <div class="col-md-12 col-sm-12 col-xs-12 body-text">
-                <p class="generalTxt">All correspondence related to the conference,
+                <p>All correspondence related to the conference,
                     including registration forms, DDs etc. must be sent  by speed post with the caption &quot;INDIACom-2015&quot;
                     at the top centre of the envelope, to the following address: -</p>
                 <br/>
@@ -25,10 +25,10 @@
         </div>
         <div class="row body-text">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <table class="table table-responsive table-striped">
+                <table class="table table-responsive table-hover">
                     <tr>
                         <td>
-                            <p class="text-theme" style="margin-bottom: 0">For Registration, Payment Status and Accommodation related queries
+                            <p class="text-theme">For Registration, Payment Status and Accommodation related queries
                             <div>
                                 <strong>Shri  Vishal Jain</strong><br>
                                 Publicity Chair, <em>INDIACom-2015</em><br>

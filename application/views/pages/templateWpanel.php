@@ -1,5 +1,5 @@
 <div class="row contentBlock-top">
-    <div class="col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
 
@@ -11,7 +11,7 @@
             </ul>
         </div>
     </div>
-    <div class="col-md-9 col-sm-8 col-xs-12">
+    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
         <span class="h1 text-theme">INDIACom</span>
         <div class="row h4">
             <div class="col-md-12">

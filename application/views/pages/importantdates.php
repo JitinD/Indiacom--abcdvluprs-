@@ -1,4 +1,4 @@
-<div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0 contentBlock-top">
+<div class="col-lg-9 col-lg-offset-2 col-md-8 col-md-offset-3 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0 contentBlock-top">
     <span class="h1 text-theme">Important Dates</span>
     <hr>
     <div class="row h2 contentBlock-bottom">

@@ -1,8 +1,8 @@
 <div class="row contentBlock-top ">
-    <div class="col-md-2 col-sm-4 col-xs-12">
+    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
         <?php include('importantdatesPanel.php');?>
     </div>
-    <div class="col-md-10 col-sm-8 col-xs-12 col-xs-offset-0 text-justify">
+    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 text-justify">
         <span class="h1 text-theme">Call For Papers</span>
         <hr>
         <div class="row">
