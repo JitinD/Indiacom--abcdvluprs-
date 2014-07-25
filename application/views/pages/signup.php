@@ -2,21 +2,20 @@
 <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/AJAXstyle.css">
 <div class="container-fluid">
     <div class="row contentBlock-top">
-        <div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0 h1 text-theme">
-            Member Registration
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0 h5">
+        <div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0">
+            <h1 class="text-theme">Member Registration</h1>
+            <hr>
             <?php
             if(isset($_SESSION) && !isset($_SESSION['member_id']))
             {
             ?>
+            <p class="body-text">
             Already a member? <button class="btn btn-sm btn-success">Login</button>
+            </p>
             <?php
             }
             ?>
-            <p class="text-muted ">
+            <p class="text-muted body-text">
                 Note: The certificate acknowledging your contributions would be generated based on the records submitted here by you.
             </p>
         </div>
@@ -25,7 +24,7 @@
         <div class="col-md-6 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0">
             <form class="form-horizontal" method = "post" action="#">
                 <div class="form-group">
-                    <label for="name" class="col-sm-3 control-label">Name</label>
+                    <label for="name" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Name</label>
                     <div class="col-sm-9">
                         <input type="text" name = "name" class="form-control" value="<?php echo set_value('name'); ?>" id="name" placeholder="Enter name">
                     </div>
@@ -35,7 +34,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="email" class="col-sm-3 control-label">Email</label>
+                    <label for="email" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Email</label>
                     <div class="col-sm-9">
                         <input type="email" name = "email" class="form-control" value="<?php echo set_value('email'); ?>" id="email" placeholder="Enter email">
                     </div>
@@ -45,7 +44,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="address" class="col-sm-3 control-label">Address</label>
+                    <label for="address" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Address</label>
                     <div class="col-sm-9">
                         <textarea name = "address" class="form-control" id="address" placeholder="Enter full address"><?php echo set_value('address'); ?></textarea>
                     </div>
@@ -54,7 +53,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="pincode" class="col-sm-3 control-label">Pincode</label>
+                    <label for="pincode" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Pincode</label>
                     <div class="col-sm-9">
                         <input type="text" name = "pincode" class="form-control" id="pincode" value="<?php echo set_value('pincode'); ?>" placeholder="Enter Pincode or Zipcode">
                     </div>
@@ -63,7 +62,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phoneNumber" class="col-sm-3 control-label">Phone Number</label>
+                    <label for="phoneNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Phone Number</label>
                     <div class="col-sm-9">
                         <input type="tel" name = "phoneNumber" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
                     </div>
@@ -104,7 +103,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="category" class="col-sm-3 control-label">Category</label>
+                    <label for="category" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Category</label>
                     <div class="col-sm-9">
                         <select name = "category" class="form-control" id="category" value="<?php echo set_value('category'); ?>">
                             <!--option value="researchStudent">Research Student</option>
@@ -120,7 +119,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="organization" class="col-sm-3 control-label">Organization</label>
+                    <label for="organization" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Organization</label>
                     <div class="col-sm-9">
                         <input type="text" name = "organization" autocomplete="off" class="form-control" id="keyword" placeholder="Start typing name of Organization here">
                         <div id="ajax_response"></div>
@@ -136,7 +135,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password" class="col-sm-3 control-label">Password</label>
+                    <label for="password" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Password</label>
                     <div class="col-sm-9">
                         <input type="password" name = "password" class="form-control" id="password" placeholder="Enter strong password">
                     </div>
@@ -145,7 +144,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="password2" class="col-sm-3 control-label">Confirm Password</label>
+                    <label for="password2" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Confirm Password</label>
                     <div class="col-sm-9">
                         <input type="password" name = "password2" class="form-control" id="password2" placeholder="Re-enter password">
                     </div>
