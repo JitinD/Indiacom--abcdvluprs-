@@ -37,10 +37,9 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-$route['home']='MainController/viewPage';
+$route['home']='MainController/viewPage/index';
 $route['aboutIndiacom']='MainController/viewPage/aboutIndiacom';
-$route['signup'] = 'SignupController';
-$route['default_controller'] = 'MainController/viewPage';
+$route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
 
