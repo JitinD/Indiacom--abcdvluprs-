@@ -42,6 +42,7 @@ $route['aboutIndiacom']='MainController/viewPage/aboutIndiacom';
 $route['signup'] = 'SignupController';*/
 $route['default_controller'] = 'MainController/viewPage';
 $route['404_override'] = '';
+$route['d/(:any)'] = '$1';
 $route['(:any)'] = 'MainController/viewPage/$1';
 
 /* End of file routes.php */
