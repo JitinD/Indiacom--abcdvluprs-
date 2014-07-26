@@ -16,7 +16,6 @@ class PaperStatusModel extends CI_Model
 
     public function getMemberPapers()
     {
-        $this -> db -> select('paper_id, paper_title, review_result_type_name, paper_version_number');
         $query = $this -> db -> get('paper_status_info');
         $number = 0;
         $paper = "";
