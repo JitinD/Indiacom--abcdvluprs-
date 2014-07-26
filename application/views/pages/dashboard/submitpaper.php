@@ -136,7 +136,7 @@
             $('#subjects').append('<option>Select Subject</option>');
             $.ajax({
                 type: "POST",
-                url: "http://localhost/Indiacom2015/AJAX/tracks",
+                url: "/<?php echo INDIACOM; ?>d/AJAX/tracks",
                 data: "eventId="+optionSelected.val(),
                 success: function(msg){
                     if(msg != 0)
@@ -158,7 +158,7 @@
             $('#subjects').append('<option>Select Subject</option>')
             $.ajax({
                 type: "POST",
-                url: "http://localhost/Indiacom2015/AJAX/subjects",
+                url: "/<?php echo INDIACOM; ?>d/AJAX/subjects",
                 data: "trackId="+optionSelected.val(),
                 success: function(msg){
                     if(msg != 0)

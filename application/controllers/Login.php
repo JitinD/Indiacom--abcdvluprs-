@@ -26,15 +26,16 @@ class Login extends CI_Controller
             unset($_SESSION['isFormError']);
             unset($_SESSION['usernameError']);
             unset($_SESSION['passwordError']);
+            header('Location: /' . INDIACOM . 'd/Dashboard');
         }
         else
         {
-            //header('Location: ' . $this->input->get('redirect') . '?isFormError=true&usernameError='.form_error('username').'&passwordError='.form_error('password'));
             $_SESSION['isFormError'] = true;
             $_SESSION['usernameError'] = form_error('username');
             $_SESSION['passwordError'] = form_error('password');
+            header('Location: ' . $this->input->get('redirect'));
         }
-        header('Location: ' . $this->input->get('redirect'));
+
     }
 
     public function usernameCheck($username)
@@ -58,7 +59,7 @@ class Login extends CI_Controller
     public function logout()
     {
         session_destroy();
-        header('location: /' . INDIACOM . '/index.php/MainController/viewPage/index');
+        header('location: /' . INDIACOM . 'index');
     }
 
 }
