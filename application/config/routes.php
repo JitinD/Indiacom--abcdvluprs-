@@ -37,12 +37,12 @@
 | in the URL cannot be matched to a valid route.
 |
 */
-$route['home']='MainController/viewPage';
+/*$route['home']='MainController/viewPage';
 $route['aboutIndiacom']='MainController/viewPage/aboutIndiacom';
-$route['signup'] = 'SignupController';
+$route['signup'] = 'SignupController';*/
 $route['default_controller'] = 'MainController/viewPage';
 $route['404_override'] = '';
-
+$route['(:any)'] = 'MainController/viewPage/$1';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */
