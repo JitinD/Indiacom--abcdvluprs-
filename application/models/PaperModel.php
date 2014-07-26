@@ -8,39 +8,63 @@
 
 class PaperModel extends CI_Model
 {
+    public $error;
+    private $papers;
+
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
     }
 
-    public function addPaper($paperDetails = array(), $eventId)
+    public function addPaper(&$paperDetails = array(), $eventId)
     {
-        $paperDetails['paper_id'] = $this->getPaperId();
-        $paperDetails['paper_code'] = $this->getPaperCode($eventId);
+        $paperDetails['paper_id'] = $this->assignPaperId();
+        $paperDetails['paper_code'] = $this->assignPaperCode($eventId);
         $paperDetails['paper_date_of_submission'] = date('Y-m-d H:i:s');
         $this->db->insert('paper_master', $paperDetails);
         if($this->db->trans_status() == FALSE)
         {
+            $this->error = "There was an error creating a new paper. Check contact author Id. <br>If problem persists contact the admin.";
             return false;
         }
         return $paperDetails['paper_id'];
     }
 
-    private function getPaperCode($eventId)
+    public function isUniquePaperTitle($paperTitle)
+    {
+        $pattern = "/[^\w]/";
+        $paperTitle = strtolower(preg_replace($pattern, '', $paperTitle));
+        foreach($this->papers as $paper)
+        {
+            if(strtolower(preg_replace($pattern, '', $paper->paper_title)) == $paperTitle)
+                return false;
+        }
+        return true;
+    }
+
+    private function stripTitle()
+    {
+
+    }
+
+    public function getAllPaperDetails($eventId)
     {
         $sql1 = "Select track_id From track_master Where track_event_id = ?";
         $sql2 = "Select subject_id From subject_master Where subject_track_id IN ($sql1)";
-        $sql = "Select paper_code From paper_master Where paper_subject_id IN ($sql2) Order By paper_code Desc Limit 1";
-        //$sql = "Select paper_code From paper_master Where paper_subject_id = ? Order By paper_code Desc Limit 1";
+        $sql = "Select paper_code, paper_title From paper_master Where paper_subject_id IN ($sql2) Order By paper_code Desc Limit 1";
         $query = $this->db->query($sql, array($eventId));
-        if($query->num_rows() == 0)
-            return 1;
-        $row = $query->row();
-        return $row->paper_code + 1;
+        $this->papers = $query->result();
     }
 
-    private function getPaperId()
+    private function assignPaperCode($eventId)
+    {
+        if(empty($this->papers))
+            return 1;
+        return $this->papers[0]->paper_code + 1;
+    }
+
+    private function assignPaperId()
     {
         $sql = "Select paper_id From paper_master Order By paper_id Desc Limit 1";
         $query = $this->db->query($sql);

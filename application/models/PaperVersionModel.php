@@ -8,6 +8,8 @@
 
 class PaperVersionModel extends CI_Model
 {
+    public $error;
+
     public function __construct()
     {
         parent::__construct();
@@ -17,15 +19,20 @@ class PaperVersionModel extends CI_Model
     public function addPaperVersion($versionDetails = array())
     {
         $versionDetails['paper_version_id'] = $this->getPaperVersionId();
-        $versionDetails['paper_version'] = $this->getPaperVersion($versionDetails['paper_id']);
+        $versionDetails['paper_version_number'] = $this->getPaperVersion($versionDetails['paper_id']);
         $versionDetails['paper_version_date_of_submission'] = date('Y-m-d H:i:s');
         $this->db->insert('paper_version_master', $versionDetails);
-        return $this->db->trans_status();
+        if($this->db->trans_status() == false)
+        {
+            $this->error = "There was an error saving paper doc path. Contact the admin.";
+            return false;
+        }
+        return true;
     }
 
     private function getPaperVersion($paperId)
     {
-        $sql = "Select paper_version From paper_version_master Where paper_id = ? Order By paper_version Desc Limit 1";
+        $sql = "Select paper_version_number From paper_version_master Where paper_id = ? Order By paper_version_number Desc Limit 1";
         $query = $this->db->query($sql, array($paperId));
         if($query->num_rows() == 0)
         {

@@ -8,6 +8,8 @@
 
 class SubmissionModel extends CI_Model
 {
+    public $error;
+
     public function __construct()
     {
         parent::__construct();
@@ -27,7 +29,12 @@ class SubmissionModel extends CI_Model
             $this->db->insert('submission_master', $details);
             $details['submission_id']++;
         }
-        return $this->db->trans_status();
+        if($this->db->trans_status() == false)
+        {
+            $this->error = "There was an error adding authors to paper. Check all author Ids. <br>If problem persists contact the admin.";
+            return false;
+        }
+        return true;
     }
 
     private function getSubmissionId()

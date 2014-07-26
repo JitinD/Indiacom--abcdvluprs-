@@ -59,7 +59,7 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/dashboard/dashboardPanel');
 
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('paper_title', "Paper Title", "required");
+        $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");
         $this->form_validation->set_rules('event', 'Event', 'required');
         $this->form_validation->set_rules('track', 'Track', 'required');
         $this->form_validation->set_rules('subject', 'Subject', 'required');
@@ -80,14 +80,12 @@ class Dashboard extends CI_Controller
             $paperId = $this->PaperModel->addPaper($paperDetails, $this->input->post('event'));
             if($paperId == false)
             {
-                $data['submitPaperError'] = "There was an error creating a new paper. Check contact author Id. <br>
-                                                If problem persists contact the admin.";
+                $data['submitPaperError'] = $this->PaperModel->error;
                 $this->db->trans_rollback();
             }
             else if($this->SubmissionModel->addSubmission($paperId, $authors) == false)
             {
-                $data['submitPaperError'] = "There was an error adding authors to paper. Check all author Ids. <br>
-                                                If problem persists contact the admin.";
+                $data['submitPaperError'] = $this->SubmissionModel->error;
                 $this->db->trans_rollback();
             }
             else if(($doc_path = $this->uploadPaperDoc('paper_doc', $this->input->post('event'), $paperId) == false))
@@ -103,12 +101,14 @@ class Dashboard extends CI_Controller
                 );
                 if($this->PaperVersionModel->addPaperVersion($versionDetails) == false)
                 {
-                    $data['submitPaperError'] = "There was an error saving paper doc path. Contact the admin.";
+                    $data['submitPaperError'] = $this->PaperVersionModel->error;
                     $this->db->trans_rollback();
                 }
                 else
                 {
                     $this->db->trans_commit();
+                    $page .= "Success";
+                    $data['paper_code'] = $paperDetails['paper_code'];
                 }
             }
         }
@@ -133,18 +133,6 @@ class Dashboard extends CI_Controller
         return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
     }
 
-    public function tracks()
-    {
-        $eventId = $this->input->post('eventId');
-        echo $this->TrackModel->getAllTracks($eventId);
-    }
-
-    public function subjects()
-    {
-        $trackId = $this->input->post('trackId');
-        echo $this->SubjectModel->getAllSubjects($trackId);
-    }
-
     public function authorsCheck($authors = array())
     {
         $retVal = false;
@@ -162,5 +150,16 @@ class Dashboard extends CI_Controller
         }
 
         return $retVal;
+    }
+
+    public function paperTitleCheck($paperTitle)
+    {
+        //First get all paper details of selected event
+        $this->PaperModel->getAllPaperDetails($this->input->post('event'));
+
+        if($this->PaperModel->isUniquePaperTitle($paperTitle))
+            return true;
+        $this->form_validation->set_message('paperTitleCheck', 'Paper title is already used');
+        return false;
     }
 }

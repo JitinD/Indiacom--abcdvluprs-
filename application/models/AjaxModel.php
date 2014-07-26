@@ -39,4 +39,28 @@ class AjaxModel extends CI_Model
             $response = false;
         return $response;
     }
+
+    public function getAllTracks($eventId)
+    {
+        $this->load->model('TrackModel');
+        $rows = $this->TrackModel->getAllTracks($eventId);
+        $htmlStr = "";
+        foreach($rows as $row)
+        {
+            $htmlStr .= "<option value='" . $row->track_id . "'>" . $row->track_number . " : " . $row->track_name . "</option>";
+        }
+        return $htmlStr;
+    }
+
+    public function getAllSubjects($trackId)
+    {
+        $this->load->model('SubjectModel');
+        $rows = $this->SubjectModel->getAllSubjects($trackId);
+        $htmlStr = "";
+        foreach($rows as $row)
+        {
+            $htmlStr .= "<option value='" . $row->subject_id . "'>" . $row->subject_code . " : " . $row->subject_name . "</option>";
+        }
+        return $htmlStr;
+    }
 }
