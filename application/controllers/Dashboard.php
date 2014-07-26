@@ -33,7 +33,7 @@ class Dashboard extends CI_Controller
         }
 
         $data = loginModalInit();
-        $data['papers'] = $this -> PaperStatusModel -> getMemberPapers();
+        $data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
         $data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/dashboard/dashboardPanel');
