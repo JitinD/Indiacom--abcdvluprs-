@@ -16,6 +16,16 @@
         public function getOrganizationInfo($member_organization_id)
         {
             $query = $this -> db -> get_where('organization_master', array('organization_id' => $member_organization_id));
-            return $query -> row_array();
+
+            if($query -> num_rows() > 0)
+                return $query -> row_array();
+        }
+
+        public function getOrganizations()
+        {
+            $query = $this -> db -> get('organization_master');
+
+            if($query -> num_rows() > 0)
+                return $query -> result_array();
         }
     }

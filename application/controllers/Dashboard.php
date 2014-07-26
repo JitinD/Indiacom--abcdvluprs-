@@ -19,6 +19,9 @@ class Dashboard extends CI_Controller
         $this->load->model('PaperVersionModel');
         $this->load->model('AccessModel');
         $this->load->model('PaperStatusModel');
+        $this -> load -> model('OrganizationModel');
+        $this -> load -> model('MemberCategoriesModel');
+        $this -> load -> model('MemberModel');
     }
 
     public function index($page = "dashboardHome")
@@ -34,6 +37,7 @@ class Dashboard extends CI_Controller
 
         $data = loginModalInit();
         $data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
+        $data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
         $data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $data);
         $this->load->view('templates/dashboard/dashboardPanel');

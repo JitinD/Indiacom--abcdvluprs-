@@ -25,24 +25,21 @@
         <tbody>
         <tr>
             <td>Name</td>
-            <td>Akshay Rana</td>
+            <td><?php echo $_SESSION['member_name'] ?></td>
         </tr>
         <tr>
             <td>Member ID</td>
-            <td>3252</td>
+            <td><?php echo $_SESSION['member_id'] ?></td>
         </tr>
         <tr>
             <td>Organisation</td>
-            <td>@abcdvluprs</td>
+            <td><?php echo $miniProfile['organization_name'] ?></td>
         </tr>
         <tr>
             <td>Category</td>
-            <td>Student</td>
+            <td><?php echo $miniProfile['member_category_name'] ?></td>
         </tr>
-        <tr>
-            <td></td>
-            <td>@abcdvluprs</td>
-        </tr>
+
         </tbody>
     </table>
 </div>
