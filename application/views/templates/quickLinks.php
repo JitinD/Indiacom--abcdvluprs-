@@ -21,7 +21,7 @@
                 <a href="#" class="text-light">Reaching and Accomodation</a>
             </li>
             <li>
-                <a href="signup" class="text-light">Register</a>
+                <a href="/<?php echo INDIACOM; ?>d/SignUpController" class="text-light">Register</a>
             </li>
         </ul>
     </div>

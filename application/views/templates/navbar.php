@@ -92,13 +92,13 @@ function SetActiveNavItem($navItem, $page)
     <div class="collapse navbar-collapse" id="navbar-collapse">
         <div class="col-md-10 col-sm-12">
             <ul class="nav navbar-nav">
-                <li class="<?php SetActiveNavItem("Home", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>index.php/MainController/viewPage/index">&nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;</a></li>
+                <li class="<?php SetActiveNavItem("Home", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>index">&nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;</a></li>
                 <li class="dropdown <?php SetActiveNavItem("About INDIACom", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="aboutIndiacom">INDIACom History</a></li>
-                        <li><a href="listofspeakers">Invited Speakers</a></li>
-                        <li><a href="sponsors">Sponsors</a></li>
+                        <li><a href="/<?php echo INDIACOM; ?>aboutIndiacom">INDIACom History</a></li>
+                        <li><a href="/<?php echo INDIACOM; ?>listofspeakers">Invited Speakers</a></li>
+                        <li><a href="/<?php echo INDIACOM; ?>sponsors">Sponsors</a></li>
                         <li><a href="#">Committees</a></li>
                         <li><a href="#">Review Process, Publication and Indexing</a></li>
                     </ul>
@@ -130,7 +130,7 @@ function SetActiveNavItem($navItem, $page)
                     if(isset($_SESSION) && isset($_SESSION['member_id']))
                     {
                 ?>
-                <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>index.php/Dashboard">Dashboard</a></li>
+                <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>d/Dashboard">Dashboard</a></li>
                 <?php
                     }
                     if(isset($_SESSION) && !isset($_SESSION['member_id']))
@@ -147,7 +147,7 @@ function SetActiveNavItem($navItem, $page)
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Edit Profile</a></li>
                         <li class="divider"></li>
-                        <li><a href= "/<?php echo INDIACOM; ?>index.php/Login/logout" class="bg-danger">Logout</a></li>
+                        <li><a href= "/<?php echo INDIACOM; ?>d/Login/logout" class="bg-danger">Logout</a></li>
                     </ul>
                 </li>
                 <?php
