@@ -13,7 +13,7 @@
                 <!--?php include(dirname(__FILE__) . "/../pages/loginPage.php"); ?-->
                 <div class="row">
                     <div class="col-md-9 formDiv">
-                        <form role="form" class="form-horizontal" method="post" action="../../Login?redirect=<?php echo $_SERVER['REQUEST_URI']; ?>">
+                        <form role="form" class="form-horizontal" method="post" action="/<?php echo INDIACOM; ?>d/Login?redirect=<?php echo $_SERVER['REQUEST_URI']; ?>">
                             <div class="form-group">
                                 <label for="memberID" class="col-sm-4 control-label h4">Member ID</label>
                                 <div class="col-sm-8">

@@ -14,9 +14,9 @@ class PaperStatusModel extends CI_Model
         $this->load->database();
     }
 
-    public function getMemberPapers()
+    public function getMemberPapers($member_id)
     {
-        $query = $this -> db -> get('paper_status_info');
+        $query = $this -> db -> get_where('paper_status_info',array('submission_member_id' => $member_id));
         $number = 0;
         $paper = "";
         foreach($query -> result() as $record)
