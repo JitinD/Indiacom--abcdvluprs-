@@ -24,7 +24,9 @@ class RegistrationModel extends CI_Model
         $this -> db -> select('organization_id');
         $this -> db -> where ('organization_name', $organization);
         $query = $this -> db -> get('organization_master');
-        return $query ->  row_array();
+
+        if($query -> num_rows() > 0)
+            return $query ->  row_array();
     }
 
     public function assignMemberId()
@@ -36,6 +38,7 @@ class RegistrationModel extends CI_Model
             return 1;
         $member_id_array = $query ->  row_array();
         $member_id = $member_id_array['member_id'] + 1;
+
         return $member_id;
     }
 
