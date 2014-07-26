@@ -18,7 +18,10 @@
                 <a href="importantdates" class="text-light">Important Dates</a>
             </li>
             <li>
-                <a href="#" class="text-light">Reaching and Accomodation</a>
+                <a href="reachingBVICAM" class="text-light">Reaching BVICAM</a>
+            </li>
+            <li>
+                <a href="accomodation" class="text-light">Accomodation</a>
             </li>
             <li>
                 <a href="/<?php echo INDIACOM; ?>d/SignUpController" class="text-light">Register</a>
