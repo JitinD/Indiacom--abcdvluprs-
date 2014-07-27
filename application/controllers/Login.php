@@ -48,7 +48,7 @@ class Login extends CI_Controller
     {
         //$this->LoginModel->setPassword($password);
         $this -> LoginModel -> fetch();
-        if($sample = $this->LoginModel->authenticate($password))
+        if($this->LoginModel->authenticate($password))
         {
             return true;
         }

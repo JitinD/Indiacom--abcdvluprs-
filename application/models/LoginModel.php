@@ -32,7 +32,7 @@ class LoginModel extends CI_Model
         $this -> db -> where('member_id', $this -> username);
         $query = $this -> db -> get('member_master');
         $member_pass_array = $query -> row_array();
-        $this->password=$member_pass_array['member_pass'];
+        $this->password=$member_pass_array['member_password'];
         $this->member_name=$member_pass_array['member_name'];
     }
 
@@ -66,9 +66,9 @@ class LoginModel extends CI_Model
     private function memberAuthenticate($password)
     {
         //$this->load->library('encrypt');
-        //$encrypted_pass = $this->password;
+        $encrypted_pass = md5($password);
         //$decrypted_pass = $this->encrypt->decode($encrypted_pass);
-        //if($decrypted_pass == $password)
+        if($encrypted_pass == $this->password)
         {
             $_SESSION['authenticated'] = true;
             $_SESSION['role_id'] = 1;

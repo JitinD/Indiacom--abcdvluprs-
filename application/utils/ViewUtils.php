@@ -6,7 +6,7 @@
  * Time: 11:38 PM
  */
 
-function loginModalInit()
+function loginModalInit(&$data = array())
 {
     $data['isFormError'] = isset($_SESSION['isFormError']) ? $_SESSION['isFormError'] : false;
     $data['usernameError'] = isset($_SESSION['usernameError']) ? $_SESSION['usernameError'] : "";

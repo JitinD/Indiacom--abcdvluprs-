@@ -43,18 +43,34 @@ class PaperModel extends CI_Model
         return true;
     }
 
-    private function stripTitle()
-    {
-
-    }
-
     public function getAllPaperDetails($eventId)
     {
         $sql1 = "Select track_id From track_master Where track_event_id = ?";
         $sql2 = "Select subject_id From subject_master Where subject_track_id IN ($sql1)";
-        $sql = "Select paper_code, paper_title From paper_master Where paper_subject_id IN ($sql2) Order By paper_code Desc Limit 1";
+        $sql = "Select paper_code, paper_title From paper_master Where paper_subject_id IN ($sql2) Order By paper_code Desc";
         $query = $this->db->query($sql, array($eventId));
         $this->papers = $query->result();
+    }
+
+    public function getPaperDetails($paperId)
+    {
+        $sql = "Select * From paper_master Where paper_id = ?";
+        $query = $this->db->query($sql, array($paperId));
+        return $query->row();
+    }
+
+    public function getPaperEventDetails($paperId)
+    {
+        $sql = "Select event_master.* From
+                (
+                    (
+                        paper_master Join subject_master On paper_master.paper_subject_id = subject_master.subject_id
+                    )
+                    Join track_master On subject_master.subject_track_id = track_master.track_id
+                ) Join event_master On track_master.track_event_id = event_master.event_id
+                Where paper_id = ?";
+        $query = $this->db->query($sql, array($paperId));
+        return $query->row();
     }
 
     private function assignPaperCode($eventId)
