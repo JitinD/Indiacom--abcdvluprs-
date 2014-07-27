@@ -29,6 +29,7 @@ function pageNavbarItem($pageFileName)
             return "About INDIACom";
         case "dashboardHome":
         case "submitpaper":
+        case "submitPaperRevisionList":
             return "Dashboard";
         default:
             return "";

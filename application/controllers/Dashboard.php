@@ -159,9 +159,15 @@ class Dashboard extends CI_Controller
         return false;
     }
 
-    public function submitPaperRevision($paperId)
+    public function submitPaperRevision($paperId = null)
     {
-        $page = "submitPaperRevision";
+        if(isset($paperId))
+            $page = "submitPaperRevision";
+        else
+        {
+            $this->paperVersionList();
+            return;
+        }
 
         if(!$this->isValidPaper($paperId) || !$this->canSubmitRevision($paperId))
         {
@@ -224,6 +230,14 @@ class Dashboard extends CI_Controller
                 $this->db->trans_complete();
             }
         }
+        $this->index($page);
+    }
+
+    private function paperVersionList()
+    {
+        $page = "submitPaperRevisionList";
+        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
+        $this->data['methodName'] = "submitPaperRevision";
         $this->index($page);
     }
 
