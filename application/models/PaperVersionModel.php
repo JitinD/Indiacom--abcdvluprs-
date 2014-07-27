@@ -18,8 +18,8 @@ class PaperVersionModel extends CI_Model
 
     public function addPaperVersion($versionDetails = array())
     {
-        $versionDetails['paper_version_id'] = $this->getPaperVersionId();
-        $versionDetails['paper_version_number'] = $this->getPaperVersion($versionDetails['paper_id']);
+        $versionDetails['paper_version_id'] = $this->assignPaperVersionId();
+        $versionDetails['paper_version_number'] = $this->getLatestPaperVersionNumber($versionDetails['paper_id']) + 1;
         $versionDetails['paper_version_date_of_submission'] = date('Y-m-d H:i:s');
         $this->db->insert('paper_version_master', $versionDetails);
         if($this->db->trans_status() == false)
@@ -30,19 +30,26 @@ class PaperVersionModel extends CI_Model
         return true;
     }
 
-    private function getPaperVersion($paperId)
+    public function getLatestPaperVersionNumber($paperId)
     {
         $sql = "Select paper_version_number From paper_version_master Where paper_id = ? Order By paper_version_number Desc Limit 1";
         $query = $this->db->query($sql, array($paperId));
         if($query->num_rows() == 0)
         {
-            return 1;
+            return 0;
         }
         $row = $query->row();
-        return $row->paper_version + 1;
+        return $row->paper_version_number;
     }
 
-    private function getPaperVersionId()
+    public function getLatestPaperVersionDetails($paperId)
+    {
+        $sql = "Select * From paper_version_master Where paper_id = ? Order By paper_version_number Desc Limit 1";
+        $query = $this->db->query($sql, array($paperId));
+        return $query->row();
+    }
+
+    private function assignPaperVersionId()
     {
         $sql = "Select paper_version_id From paper_version_master Order By paper_version_id Desc Limit 1";
         $query = $this->db->query($sql);

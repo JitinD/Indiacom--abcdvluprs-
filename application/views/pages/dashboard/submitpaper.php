@@ -7,7 +7,7 @@
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php if(isset($submitPaperError)) echo $submitPaperError; ?>
                     </div>
-                    <form class="form-horizontal" role="form" enctype="multipart/form-data" action="#" method="post">
+                    <form class="form-horizontal" role="form" enctype="multipart/form-data" action="/<?php echo INDIACOM; ?>d/Dashboard/submitPaper" method="post">
                         <div class="form-group">
                             <label for="paper_title" class="col-sm-3 control-label">Paper Title</label>
                             <div class="col-sm-9">
@@ -126,6 +126,11 @@
             {
                 $(this).prev().val($(this).val());
             });
+        });
+
+        $('.authors').change(function()
+        {
+            $(this).prev().val($(this).val());
         });
 
         $('#events').change(function () {

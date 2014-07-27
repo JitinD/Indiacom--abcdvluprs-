@@ -7,6 +7,7 @@
  */
 class Dashboard extends CI_Controller
 {
+    private $data = array();
     public function __construct()
     {
         parent::__construct();
@@ -26,41 +27,33 @@ class Dashboard extends CI_Controller
 
     public function index($page = "dashboardHome")
     {
-
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        if ( ! file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
+        {
+            show_404();
+        }
         if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
 
-        $data = loginModalInit();
-        $data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
-        $data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
-        $data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $data);
+        loginModalInit($this->data);
+        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
+        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
+        $this->data['navbarItem'] = pageNavbarItem($page);
+        $this->load->view('templates/header', $this->data);
         $this->load->view('templates/dashboard/dashboardPanel');
-        $this->load->view('pages/dashboard/'.$page, $data);
+        $this->load->view('pages/dashboard/'.$page, $this->data);
         $this->load->view('templates/dashboard/dashboardEnding');
         $this->load->view('templates/footer');
     }
 
     public function submitPaper()
     {
-        require(dirname(__FILE__).'/../config/privileges.php');
-        require(dirname(__FILE__).'/../utils/ViewUtils.php');
         $page = 'submitpaper';
-        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-        $data = loginModalInit();
-        $data['navbarItem'] = pageNavbarItem($page);
-        $data['events'] = $this->EventModel->getAllEvents();
-        $this->load->view('templates/header', $data);
-        $this->load->view('templates/dashboard/dashboardPanel');
+        $this->data['events'] = $this->EventModel->getAllEvents();
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");
@@ -84,17 +77,17 @@ class Dashboard extends CI_Controller
             $paperId = $this->PaperModel->addPaper($paperDetails, $this->input->post('event'));
             if($paperId == false)
             {
-                $data['submitPaperError'] = $this->PaperModel->error;
+                $this->data['submitPaperError'] = $this->PaperModel->error;
                 $this->db->trans_rollback();
             }
             else if($this->SubmissionModel->addSubmission($paperId, $authors) == false)
             {
-                $data['submitPaperError'] = $this->SubmissionModel->error;
+                $this->data['submitPaperError'] = $this->SubmissionModel->error;
                 $this->db->trans_rollback();
             }
-            else if(($doc_path = $this->uploadPaperDoc('paper_doc', $this->input->post('event'), $paperId) == false))
+            else if(($doc_path = $this->uploadPaperVersion('paper_doc', $this->input->post('event'), $paperId)) == false)
             {
-                $data['uploadError'] = $this->upload->display_errors();
+                $this->data['uploadError'] = $this->upload->display_errors();
                 $this->db->trans_rollback();
             }
             else
@@ -105,27 +98,26 @@ class Dashboard extends CI_Controller
                 );
                 if($this->PaperVersionModel->addPaperVersion($versionDetails) == false)
                 {
-                    $data['submitPaperError'] = $this->PaperVersionModel->error;
+                    $this->data['submitPaperError'] = $this->PaperVersionModel->error;
                     $this->db->trans_rollback();
                 }
                 else
                 {
                     $this->db->trans_commit();
                     $page .= "Success";
-                    $data['paper_code'] = $paperDetails['paper_code'];
+                    $this->data['paper_code'] = $paperDetails['paper_code'];
                 }
             }
         }
-        $this->load->view('pages/dashboard/'.$page, $data);
-        $this->load->view('templates/dashboard/dashboardEnding');
-        $this->load->view('templates/footer');
+        $this->index($page);
     }
 
-    private function uploadPaperDoc($fileElem, $eventId, $paperId)
+    private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
         $config['upload_path'] = "C:/wamp/www/Indiacom2015/uploads/".$eventId;
         $config['allowed_types'] = 'doc|docx';
-        $config['file_name'] = $paperId . "v1";
+        $config['file_name'] = $paperId . "v" . $versionNumber;
+        $config['overwrite'] = true;
 
         $this->load->library('upload', $config);
 
@@ -164,6 +156,97 @@ class Dashboard extends CI_Controller
         if($this->PaperModel->isUniquePaperTitle($paperTitle))
             return true;
         $this->form_validation->set_message('paperTitleCheck', 'Paper title is already used');
+        return false;
+    }
+
+    public function submitPaperRevision($paperId)
+    {
+        $page = "submitPaperRevision";
+
+        if(!$this->isValidPaper($paperId) || !$this->canSubmitRevision($paperId))
+        {
+            $this->load->view('pages/errorPage', array('page_error' => "Ooops! Where'd you get that link???"));
+            return;
+        }
+        $paperDetails = $this->PaperModel->getPaperDetails($paperId);
+        $this->data['paper_title'] = $paperDetails->paper_title;
+        $this->data['paper_code'] = $paperDetails->paper_code;
+        $this->data['paper_main_author'] = $paperDetails->paper_contact_author_id;
+        $this->data['paper_version'] = $this->PaperVersionModel->getLatestPaperVersionNumber($paperId) + 1;
+        $submissions = $this->SubmissionModel->getSubmissionsByAttribute('submission_paper_id', $paperId);
+        $authors = array();
+        foreach($submissions as $key=>$submission)
+        {
+            $authors[$key] = $submission->submission_member_id;
+        }
+        $this->data['paper_authors'] = $authors;
+
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('paper_title', "Paper Title", 'required');
+
+        if($this->form_validation->run())
+        {
+            $removed_authors = $this->input->post('removed_authors');
+            $added_authors = $this->input->post('added_authors');
+            $eventDetails = $this->PaperModel->getPaperEventDetails($paperId);
+            $eventId = $eventDetails->event_id;
+            $this->load->database();
+            $this->db->trans_begin();
+            if(!empty($removed_authors) && $this->SubmissionModel->deleteSubmission($paperId, $removed_authors) == false)
+            {
+                $this->db->trans_rollback();
+            }
+            if(!empty($added_authors) && $this->SubmissionModel->addSubmission($paperId, $added_authors) == false)
+            {
+                $this->data['submitPaperRevisionError'] = $this->SubmissionModel->error;
+                $this->db->trans_rollback();
+            }
+            else if(($doc_path = $this->uploadPaperVersion('paper_revision_doc', $eventId, $paperId, $this->data['paper_version'])) == false)
+            {
+                $this->data['uploadRevisionError'] = $this->upload->display_errors();
+                $this->db->trans_rollback();
+            }
+            else
+            {
+                //Revisit this part. Right now ignoring error generated by addPaperVersion.
+                //Reason: When addSubmission leads to setting dirty bit of an entry to 0 then a trans_error occurs which although is handled
+                //in addSubmission leads to a trans_status() == false in addPaperVersion() too even though the entry does go in paperVersionMaster
+                //table correctly.
+                $this->db->trans_commit();
+                $this->db->trans_off();
+                $versionDetails = array(
+                    'paper_id' => $paperId,
+                    'paper_version_document_path' => $doc_path
+                );
+                $this->db->trans_start();
+                $this->PaperVersionModel->addPaperVersion($versionDetails);
+                $page .= "Success";
+                $this->db->trans_complete();
+            }
+        }
+        $this->index($page);
+    }
+
+    //Checks if paper is currently under review
+    private function canSubmitRevision($paperId)
+    {
+        $versionDetails = $this->PaperVersionModel->getLatestPaperVersionDetails($paperId);
+        if($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
+        {
+            return true;
+        }
+        return false;
+    }
+
+    //Checks if the paper is a valid submission by currently logged in member
+    private function isValidPaper($paperId)
+    {
+        $allSubmissions = $this->SubmissionModel->getSubmissionsByAttribute('submission_member_id', $_SESSION['member_id']);
+        foreach($allSubmissions as $submission)
+        {
+            if($submission->submission_paper_id == $paperId)
+                return true;
+        }
         return false;
     }
 }
