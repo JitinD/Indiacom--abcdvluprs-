@@ -71,11 +71,17 @@
     </div>
     <div class="col-md-3 col-sm-6 col-xs-12 text-center">
         <span class="text-theme h2">News</span>
+        <br>
         <ul class="list-group text-left h5">
-            <li class="list-group-item"><a href="#">Call for Papers: INDIACom-2015</a></li>
-            <li class="list-group-item"><a href="#">Plagiarism Policy: INDIACom-2015</a></li>
-            <li class="list-group-item"><a href="#">Papers presented during INDIACom - 2014, are now available online at IEEE Xplore</a></li>
-            <button class="btn btn-default btn-block">All News &raquo;</button>
-        </ul>
+        <?php
+            foreach($news as $new)
+             { ?>
+                 <li class="list-group-item"><a href="<?php echo $new->news_description_url?>"><?php echo $new->news_title."<br>";?></a></li>
+       <?php }
+        ?>
 
+       <a class="btn btn-default btn-block" href="news">All News &raquo;</a>
+        </ul>
     </div>
+
+
