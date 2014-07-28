@@ -28,7 +28,7 @@
                     ?>
                     </tbody>
                     </table>
-                <?php echo $links ?>
+                    <?php echo $links; ?>
 <!--                    <tbody>-->
 <!--                    <tr>-->
 <!--                        <td>1</td>-->

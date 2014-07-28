@@ -80,7 +80,7 @@
        <?php }
         ?>
 
-       <a class="btn btn-default btn-block" href="news">All News &raquo;</a>
+       <a class="btn btn-default btn-block" href="/<?php echo INDIACOM; ?>d/NewsController/AllNews">All News &raquo;</a>
         </ul>
     </div>
 

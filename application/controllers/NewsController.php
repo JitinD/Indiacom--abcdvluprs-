@@ -15,27 +15,26 @@ class NewsController extends CI_Controller
         $this->load->library("pagination");
     }
 
-    public function AllNews() {
+    public function AllNews($page = 0) {
 
 
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
         $config = array();
-        $config["base_url"] = base_url() ."NewsController/AllNews";
+        $config["base_url"] = base_url() ."d/NewsController/AllNews";
         $config["total_rows"] = $this->AllNewsModel->record_count();
-        $config["per_page"] = 20;
-        $config["uri_segment"] = 3;
+        $config["per_page"] = 1;
+        $config["uri_segment"] = 4;
 
         $this->pagination->initialize($config);
 
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-
+        //$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $data = loginModalInit();
         $data["results"] = $this->AllNewsModel->fetch_news($config["per_page"], $page);
-        $data["links"] = $this->pagination->create_links();
-        $data['navbarItem'] = pageNavbarItem($page);
+        $data['links'] = $this->pagination->create_links();
+        $data['navbarItem'] = pageNavbarItem("");
         $this->load->view('templates/header', $data);
-        $this->load->view("pages/news", $data);
+        $this->load->view('pages/news', $data);
         $this->load->view('templates/footer');
 
     }
