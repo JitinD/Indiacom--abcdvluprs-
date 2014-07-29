@@ -90,7 +90,7 @@ function SetActiveNavItem($navItem, $page)
         </ul>-->
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse">
-        <div class="col-md-10 col-sm-12">
+        <div class="col-md-10 col-sm-10">
             <ul class="nav navbar-nav">
                 <li class="<?php SetActiveNavItem("Home", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>index">&nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;</a></li>
                 <li class="dropdown <?php SetActiveNavItem("About INDIACom", $navbarItem); ?>">
@@ -114,7 +114,7 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="#">Payment Modes</a></li>
                     </ul>
                 </li>
-                <li class="<?php SetActiveNavItem("News", $navbarItem); ?>"><a href="news">News</a></li>
+<!--                <li class="--><?php //SetActiveNavItem("News", $navbarItem); ?><!--"><a href="news">News</a></li>-->
                 <li class="dropdown <?php SetActiveNavItem("Downloads", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Downloads <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
@@ -123,9 +123,9 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="#">Proceedings</a></li>
                     </ul>
                 </li>
-                <li class="<?php SetActiveNavItem("FAQs", $navbarItem); ?>"><a href="#">FAQs</a></li>
+<!--                <li class="--><?php //SetActiveNavItem("FAQs", $navbarItem); ?><!--"><a href="#">FAQs</a></li>-->
                 <li class="<?php SetActiveNavItem("Contact Us", $navbarItem); ?>"><a href="contactus">Contact Us</a></li>
-                <li class="<?php SetActiveNavItem("Feedback", $navbarItem); ?>"><a href="#">Feedback</a></li>
+<!--                <li class="--><?php //SetActiveNavItem("Feedback", $navbarItem); ?><!--"><a href="#">Feedback</a></li>-->
                 <?php
                     if(isset($_SESSION) && isset($_SESSION['member_id']))
                     {
@@ -143,7 +143,7 @@ function SetActiveNavItem($navItem, $page)
                     {
                 ?>
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> Logged in as <?php echo $_SESSION['member_name'] ?> <span class="caret"></span></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo $_SESSION['member_name'] ?> <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Edit Profile</a></li>
                         <li class="divider"></li>
