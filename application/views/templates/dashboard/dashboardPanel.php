@@ -2,14 +2,14 @@
     <div class="col-md-2 col-sm-4 col-xs-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Dashboard
+                <a href="/<?php echo INDIACOM; ?>Dashboard/home" style="color: #333">Dashboard</a>
             </div>
             <ul class="list-group">
                 <li class="list-group-item"><a href="#">Edit Profile</a></li>
-                <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>d/Dashboard/submitPaper">Submit Paper</a></li>
-                <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>d/Dashboard/submitPaperRevision">Submit Paper Revision</a></li>
+                <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/submitPaper">Submit Paper</a></li>
+                <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision">Submit Paper Revision</a></li>
                 <li class="list-group-item"><a href="#">Edit Submission</a></li>
-                <li class="list-group-item"><a href="#">Paper Status</a></li>
+                <!--<li class="list-group-item"><a href="#">Paper Status</a></li>-->
                 <li class="list-group-item"><a href="#">Payments</a></li>
 
             </ul>

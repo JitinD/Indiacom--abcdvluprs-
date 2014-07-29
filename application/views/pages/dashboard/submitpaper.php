@@ -7,7 +7,7 @@
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php if(isset($submitPaperError)) echo $submitPaperError; ?>
                     </div>
-                    <form class="form-horizontal" role="form" enctype="multipart/form-data" action="/<?php echo INDIACOM; ?>d/Dashboard/submitPaper" method="post">
+                    <form class="form-horizontal" role="form" enctype="multipart/form-data" action="#" method="post">
                         <div class="form-group">
                             <label for="paper_title" class="col-sm-3 control-label">Paper Title</label>
                             <div class="col-sm-9">
@@ -34,7 +34,7 @@
                         <div class="form-group">
                             <label for="track" class="col-sm-3 control-label">Track</label>
                             <div class="col-sm-9">
-                                <select class="form-control" name="track" id="tracks">
+                                <select disabled class="form-control" name="track" id="tracks">
                                     <option value>Select Track</option>
                                 </select>
                             </div>
@@ -46,7 +46,7 @@
                         <div class="form-group">
                             <label for="subject" class="col-sm-3 control-label">Subject</label>
                             <div class="col-sm-9">
-                                <select class="form-control" name="subject" id="subjects">
+                                <select disabled class="form-control" name="subject" id="subjects">
                                     <option value>Select Subject</option>
                                 </select>
                             </div>
@@ -139,6 +139,8 @@
             $('#subjects').empty();
             $('#tracks').append('<option>Select Track</option>');
             $('#subjects').append('<option>Select Subject</option>');
+            $('#tracks').prop('disabled', true);
+            $('#subjects').prop('disabled', true);
             $.ajax({
                 type: "POST",
                 url: "/<?php echo INDIACOM; ?>d/AJAX/tracks",
@@ -146,6 +148,7 @@
                 success: function(msg){
                     if(msg != 0)
                     {
+                        $('#tracks').removeAttr('disabled');
                         $('#tracks').append(msg);
                     }
 
@@ -160,7 +163,8 @@
         $('#tracks').change(function () {
             var optionSelected = $(this).find("option:selected");
             $('#subjects').empty();
-            $('#subjects').append('<option>Select Subject</option>')
+            $('#subjects').append('<option>Select Subject</option>');
+            $('#subjects').prop('disabled', true);
             $.ajax({
                 type: "POST",
                 url: "/<?php echo INDIACOM; ?>d/AJAX/subjects",
@@ -168,6 +172,7 @@
                 success: function(msg){
                     if(msg != 0)
                     {
+                        $('#subjects').removeAttr('disabled');
                         $('#subjects').append(msg);
                     }
                     else

@@ -12,16 +12,16 @@
         <ul class="list-inline" style="font-size: 16px;">
             <span class="h4 text-muted">Quick Links &raquo;</span
             <li>
-                <a href="callForPapers" class="text-light">Call For Papers</a>
+                <a href="/<?php echo INDIACOM; ?>callForPapers" class="text-light">Call For Papers</a>
             </li>
             <li>
-                <a href="importantdates" class="text-light">Important Dates</a>
+                <a href="/<?php echo INDIACOM; ?>importantdates" class="text-light">Important Dates</a>
             </li>
             <li>
-                <a href="reachingBVICAM" class="text-light">Reaching BVICAM</a>
+                <a href="/<?php echo INDIACOM; ?>reachingBVICAM" class="text-light">Reaching BVICAM</a>
             </li>
             <li>
-                <a href="accomodation" class="text-light">Accomodation</a>
+                <a href="/<?php echo INDIACOM; ?>accomodation" class="text-light">Accomodation</a>
             </li>
             <li>
                 <a href="/<?php echo INDIACOM; ?>d/SignUpController" class="text-light">Register</a>

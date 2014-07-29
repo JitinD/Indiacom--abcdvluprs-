@@ -20,12 +20,14 @@ class Dashboard extends CI_Controller
         $this->load->model('PaperVersionModel');
         $this->load->model('AccessModel');
         $this->load->model('PaperStatusModel');
+        $this->load->model('AuthorPaperDetailedModel');
+        $this->load->model('ReviewResultModel');
         $this -> load -> model('OrganizationModel');
         $this -> load -> model('MemberCategoriesModel');
         $this -> load -> model('MemberModel');
     }
 
-    public function index($page = "dashboardHome")
+    private function index($page = "dashboardHome")
     {
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
@@ -40,14 +42,21 @@ class Dashboard extends CI_Controller
         }
 
         loginModalInit($this->data);
-        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
-        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
+
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/dashboard/dashboardPanel');
         $this->load->view('pages/dashboard/'.$page, $this->data);
         $this->load->view('templates/dashboard/dashboardEnding');
         $this->load->view('templates/footer');
+    }
+
+    public function home()
+    {
+        $page = "dashboardHome";
+        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
+        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
+        $this->index($page);
     }
 
     public function submitPaper()
@@ -114,7 +123,7 @@ class Dashboard extends CI_Controller
 
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
-        $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/upload/".$eventId;
+        $config['upload_path'] = "C:/wamp/www/Indiacom2015/upload/".$eventId;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = $paperId . "v" . $versionNumber;
         $config['overwrite'] = true;
@@ -229,6 +238,26 @@ class Dashboard extends CI_Controller
                 $page .= "Success";
                 $this->db->trans_complete();
             }
+        }
+        $this->index($page);
+    }
+
+    public function paperInfo($paperId)
+    {
+        $page = 'paperInfo';
+        if($this->SubmissionModel->isMemberValidAuthorOfPaper($_SESSION['member_id'], $paperId))
+        {
+            $this->data['paperDetails'] = $this->PaperModel->getPaperDetails($paperId);
+            $this->data['subjectDetails'] = $this->SubjectModel->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
+            $this->data['trackDetails'] = $this->TrackModel->getTrackDetails($this->data['subjectDetails']->subject_track_id);
+            $this->data['eventDetails'] = $this->EventModel->getEventDetails($this->data['trackDetails']->track_event_id);
+            $this->data['allVersionDetails'] = $this->PaperVersionModel->getPaperAllVersionDetails($paperId);
+            $this->data['reviewTypes'] = $this->ReviewResultModel->getAllReviewResultTypeNames();
+            $this->data['submissions'] = $this->SubmissionModel->getSubmissionsByAttribute('submission_paper_id', $paperId);
+        }
+        else
+        {
+            $this->data['invalidAuthorAccess'] = true;
         }
         $this->index($page);
     }

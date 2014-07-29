@@ -124,13 +124,13 @@ function SetActiveNavItem($navItem, $page)
                     </ul>
                 </li>
 <!--                <li class="--><?php //SetActiveNavItem("FAQs", $navbarItem); ?><!--"><a href="#">FAQs</a></li>-->
-                <li class="<?php SetActiveNavItem("Contact Us", $navbarItem); ?>"><a href="contactus">Contact Us</a></li>
+                <li class="<?php SetActiveNavItem("Contact Us", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>contactus">Contact Us</a></li>
 <!--                <li class="--><?php //SetActiveNavItem("Feedback", $navbarItem); ?><!--"><a href="#">Feedback</a></li>-->
                 <?php
                     if(isset($_SESSION) && isset($_SESSION['member_id']))
                     {
                 ?>
-                <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>d/Dashboard">Dashboard</a></li>
+                <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a href="/<?php echo INDIACOM; ?>Dashboard/home">Dashboard</a></li>
                 <?php
                     }
                     if(isset($_SESSION) && !isset($_SESSION['member_id']))

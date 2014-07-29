@@ -26,7 +26,7 @@ class Login extends CI_Controller
             unset($_SESSION['isFormError']);
             unset($_SESSION['usernameError']);
             unset($_SESSION['passwordError']);
-            header('Location: /' . INDIACOM . 'd/Dashboard');
+            header('Location: /' . INDIACOM . 'Dashboard/home');
         }
         else
         {

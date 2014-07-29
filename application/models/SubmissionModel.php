@@ -62,9 +62,20 @@ class SubmissionModel extends CI_Model
 
     public function getSubmissionsByAttribute($attrName, $attrVal)
     {
-        $sql = "Select * From submission_master Where " . $attrName . " = ? AND submission_dirty = 0";
+        $sql = "Select * From submission_master Where $attrName = ? AND submission_dirty = 0";
         $query = $this->db->query($sql, array($attrVal));
+        if($query->num_rows() == 0)
+            return null;
         return $query->result();
+    }
+
+    public function isMemberValidAuthorOfPaper($memberId, $paperId)
+    {
+        $sql = "Select submission_id From submission_master Where submission_member_id = ? And submission_paper_id = ?";
+        $query = $this->db->query($sql, array($memberId, $paperId));
+        if($query->num_rows() == 1)
+            return true;
+        return false;
     }
 
     private function assignSubmissionId()

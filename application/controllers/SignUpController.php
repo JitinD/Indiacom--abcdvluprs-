@@ -33,7 +33,7 @@
         public function index()
         {
             $page = "signup";
-            $captcha_path = "C:/xampp/htdocs/Indiacom2015/application/assets/captcha/";
+            $captcha_path = "C:/wamp/www/Indiacom2015/application/assets/captcha/";
 
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
             {

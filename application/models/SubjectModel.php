@@ -20,4 +20,11 @@ class SubjectModel extends CI_Model
         $query = $this->db->get('subject_master');
         return $query->result();
     }
+
+    public function getSubjectDetails($subjectId)
+    {
+        $sql = "Select * From subject_master Where subject_id = ?";
+        $query = $this->db->query($sql, array($subjectId));
+        return $query->row();
+    }
 }

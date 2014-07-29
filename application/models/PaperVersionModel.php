@@ -44,9 +44,16 @@ class PaperVersionModel extends CI_Model
 
     public function getLatestPaperVersionDetails($paperId)
     {
-        $sql = "Select * From paper_version_master Where paper_id = ? Order By paper_version_number Desc Limit 1";
+        $sql = "Select * From paper_version_master Where paper_id = ? And paper_version_dirty = 0 Order By paper_version_number Desc Limit 1";
         $query = $this->db->query($sql, array($paperId));
         return $query->row();
+    }
+
+    public function getPaperAllVersionDetails($paperId)
+    {
+        $sql = "Select * From paper_version_master Where paper_id = ? And paper_version_dirty = 0";
+        $query = $this->db->query($sql, array($paperId));
+        return $query->result();
     }
 
     private function assignPaperVersionId()

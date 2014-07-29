@@ -12,10 +12,22 @@
         </thead>
         <tbody>
         <?php
-        foreach($papers as $index=>$paper)
+        if(empty($papers))
         {
         ?>
             <tr>
+                <td colspan="5">
+                    You haven't submitted any papers yet. <a href="/<?php echo INDIACOM; ?>Dashboard/submitPaper">Click here</a> to submit a new paper.
+                </td>
+            </tr>
+        <?php
+        }
+        ?>
+        <?php
+        foreach($papers as $index=>$paper)
+        {
+        ?>
+            <tr style="cursor: pointer;" href="/<?php echo INDIACOM; ?>Dashboard/paperInfo/<?php echo $paper->paper_id; ?>">
                 <td><?php echo $index+1; ?></td>
                 <td><?php echo $paper->paper_code; ?></td>
                 <td><?php echo $paper->paper_title; ?></td>
@@ -54,3 +66,13 @@
         </tbody>
     </table>
 </div>
+<script>
+    $(document).ready(function()
+    {
+        $('tr').on("click", function() {
+            if($(this).attr('href') !== undefined){
+                document.location = $(this).attr('href');
+            }
+        });
+    });
+</script>

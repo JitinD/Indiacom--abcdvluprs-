@@ -21,4 +21,11 @@ class TrackModel extends CI_Model
         $query = $this -> db -> get('track_master');
         return $query->result();
     }
+
+    public function getTrackDetails($trackId)
+    {
+        $sql = "Select * From track_master Where track_id = ?";
+        $query = $this->db->query($sql, array($trackId));
+        return $query->row();
+    }
 }

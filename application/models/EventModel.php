@@ -25,4 +25,11 @@ class EventModel extends CI_Model
         }
         return $htmlStr;
     }
+
+    public function getEventDetails($eventId)
+    {
+        $sql = "Select * From event_master Where event_id = ?";
+        $query = $this->db->query($sql, array($eventId));
+        return $query->row();
+    }
 }
