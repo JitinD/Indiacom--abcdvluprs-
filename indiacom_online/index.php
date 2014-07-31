@@ -20,9 +20,10 @@
  */
     session_start();
     define('HOST', 'localhost/');
-    define('INDIACOM', 'Indiacom2015/');
+    define('INDIACOM', 'Indiacom2015/indiacom_online/');
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
+    define('COMMON', 'CommonResources/');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
@@ -60,7 +61,7 @@ if (defined('ENVIRONMENT'))
  * as this file.
  *
  */
-	$system_path = 'system';
+	$system_path = '../system_ci_v2.2.0';
 
 /*
  *---------------------------------------------------------------

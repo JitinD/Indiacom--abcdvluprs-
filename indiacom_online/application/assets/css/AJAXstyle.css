@@ -1,0 +1,49 @@
+#loading{
+    visibility:hidden;
+    padding-left:5px;
+}
+#ajax_response{
+    border : 1px solid #8789E7;
+    background : #FFFFFF;
+    position:absolute;
+    display:none;
+    padding:2px 2px;
+    top:auto;
+    z-index:100;
+}
+#holder{
+    width : 350px;
+}
+.listAJAX {
+    padding:0px 0px;
+    margin:0px;
+    list-style : none;
+}
+.listAJAX li a{
+    text-align : left;
+    padding:2px;
+    cursor:pointer;
+    display:block;
+    text-decoration : none;
+    color:#000000;
+}
+.selectedAJAX{
+    background : #CCCFF2;
+}
+.boldAJAX{
+    font-weight:bold;
+    color: #131E9F;
+}
+.aboutAJAX{
+    text-align:right;
+    font-size:10px;
+    margin : 10px 4px;
+}
+.aboutAJAX a{
+    color:#BCBCBC;
+    text-decoration : none;
+}
+.aboutAJAX a:hover{
+    color:#575757;
+    cursor : default;
+}
