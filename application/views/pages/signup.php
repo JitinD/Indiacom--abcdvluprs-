@@ -1,5 +1,6 @@
 <script src="/<?php echo PATH ?>assets/js/AJAX.js"></script>
 <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/AJAXstyle.css">
+
 <div class="container-fluid">
     <div class="row contentBlock-top">
         <div class="col-md-9 col-md-offset-2 col-sm-8 col-sm-offset-0 col-xs-12 col-xs-offset-0">
@@ -105,12 +106,14 @@
                 <div class="form-group">
                     <label for="category" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Category</label>
                     <div class="col-sm-9">
-                        <select name = "category" class="form-control" id="category" value="<?php echo set_value('category'); ?>">
-                            <!--option value="researchStudent">Research Student</option>
-                            <option value="student">Student</option>
-                            <option value="faculty">Faculty</option>
-                            <option value="industryRepresentative">Industry Representative</option-->
-                            <?php echo $member_categories; ?>
+                        <select name = "category" class="form-control" id="category" >
+                            <?php foreach($member_categories as $category)
+                                  {
+                            ?>
+                                <option value = "<?php echo $category -> member_category_id ?>" <?php echo $this -> input -> post('category') && $this -> input -> post('category') == $category -> member_category_name ? "selected" : ""?>><?php echo $category -> member_category_name ?></option>
+                            <?php
+                                  }
+                            ?>
                         </select>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -121,13 +124,21 @@
                 <div class="form-group">
                     <label for="organization" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Organization</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "organization" autocomplete="off" class="form-control" id="keyword" placeholder="Start typing name of Organization here">
+                        <input type="text" name = "organization" autocomplete="off" class="form-control" id="keyword" value="<?php echo set_value('organization'); ?>" placeholder="Start typing name of Organization here">
                         <div id="ajax_response"></div>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('organization'); ?>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label for="department" class="col-sm-3 control-label">Department</label>
+                    <div class="col-sm-9">
+                        <input type="tel" name = "department" class="form-control" id="department" value="<?php echo set_value('department'); ?>" placeholder="Enter your department">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="experience" class="col-sm-3 control-label">Experience</label>
                     <div class="col-sm-9">

@@ -5,12 +5,14 @@
  * Date: 15/7/14
  * Time: 1:56 PM
  */
-
-    require(dirname(__FILE__).'/../config/privileges.php');
-    require(dirname(__FILE__).'/../utils/ViewUtils.php');
+ 
+	require_once(dirname(__FILE__).'/../config/privileges.php');
+    require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
 
     class SignUpController extends CI_Controller
     {
+        private $data;
+
         public function __construct()
         {
             parent::__construct();
@@ -30,20 +32,31 @@
             return true;
         }
 
-        public function index()
+        private function index($page)
         {
-            $page = "signup";
-            $captcha_path = "C:/wamp/www/Indiacom2015/application/assets/captcha/";
-
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
             {
                 show_404();
             }
-            if(isset($privilege[$page]) && !$this->AccessModel->hasPrivileges($privilege[$page]))
+
+            if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
             {
                 $this->load->view('pages/unauthorizedAccess');
                 return;
             }
+
+            loginModalInit($this->data);
+            $this -> data['navbarItem'] = pageNavbarItem($page);
+            $this->load->view('templates/header', $this -> data);
+            $this->load->view('pages/'.$page, $this -> data);
+            $this->load->view('templates/footer');
+
+        }
+
+        public function signUp()
+        {
+
+            $page = "signup";
 
             $this->load->library('session');
             $this->load->library('form_validation');
@@ -89,7 +102,7 @@
                                             'member_designation'    =>   "",
                                             'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
-                                            'member_password'           =>   $encrypted_password ,
+                                            'member_password'       =>   $encrypted_password ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
                                             'member_biodata_path'   =>   $this -> input -> post('biodata'),
                                             'member_category_id'    =>   $this -> input -> post('category'),
@@ -99,9 +112,30 @@
 
 
 
-                    $this -> RegistrationModel -> addMember($member_record);
+                    if($this -> RegistrationModel -> addMember($member_record))
+                    {
+                        $page .= "Success";
 
-                    header('Location: SignUpController');   // move to successful registration page.
+                        $message = "You are successfully registered.";
+
+                        $this -> data['member_id'] = $member_id;
+
+                        $this->load->library('email');
+
+                        $this->email->from('indiacom15@gmail.com', 'Indiacom 2015');
+                        $this->email->to($this -> input -> post('email'));
+                        $this->email->subject('Email Test');
+                        $this->email->message($message);
+
+                        if($this->email->send())
+                            $this -> data['message'] = "An email has been sent to your registered email id";
+                        else
+                            $this -> data['message'] = "Email can't be sent.";
+
+                    }
+
+
+                    //header('Location: SignUpController');   // move to successful registration page.
 
                 }
 
@@ -110,6 +144,9 @@
             {
                 $this -> load -> helper('captcha');
                 $this -> load -> helper('url');
+
+
+                $captcha_path = "C:/xampp/htdocs/Indiacom2015/application/assets/captcha/";
 
                 $str = array_merge(range(0,9), range('a','z'), range('A', 'Z'));
                 $str = implode("", $str);
@@ -126,21 +163,22 @@
                     'expiration' => 3600
                 );
 
+
+
+                $img = create_captcha($captcha);
+
+                $this -> data['image'] = $img['image'];
+                $this -> data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();
+
                 if(isset($this->session->userdata['image']) && file_exists($captcha_path.$this->session->userdata['image']))
                     unlink($captcha_path.$this->session->userdata['image']);
-                $img = create_captcha($captcha);
-                $data = loginModalInit();
-                $data['navbarItem'] = pageNavbarItem($page);
-                $data['image'] = $img['image'];
-                $data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();
-
-                $this->load->view('templates/header', $data);
-                $this->load->view('pages/'.$page, $data);
-                $this->load->view('templates/footer');
 
                 $this->session->set_userdata(array('captcha'=>$captcha, 'image' => $img['time'].'.jpg'));
+
             }
+            $this->index($page);
         }
+
     }
 
 ?>

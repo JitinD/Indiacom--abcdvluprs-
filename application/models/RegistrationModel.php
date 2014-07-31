@@ -46,11 +46,9 @@ class RegistrationModel extends CI_Model
     {
         $this -> db -> select('member_category_id, member_category_name');
         $query = $this -> db -> get('member_category_master');
-        $option = "";
-        foreach($query -> result() as $record)
-            $option .= "<option value='" . $record->member_category_id .  "'>" . $record -> member_category_name . "</option>";
 
-        return $option;
+        return $query -> result();
+
     }
 }
 
