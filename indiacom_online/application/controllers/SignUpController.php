@@ -146,18 +146,19 @@
                 $this -> load -> helper('url');
 
 
-                $captcha_path = "C:/xampp/htdocs/Indiacom2015/application/assets/captcha/";
+                $captcha_path = dirname(__FILE__)."/../../../CommonResources/assets/captcha/";
 
-                $str = array_merge(range(0,9), range('a','z'), range('A', 'Z'));
+                $str = array_merge(range(1,9), range('a','z'), range('A', 'Z'));
                 $str = implode("", $str);
                 $word  = substr(str_shuffle($str), 0, 8);
 
+                echo base_url();
                 $captcha = array
                 (
                     'word'	=> $word,
                     'img_path'	=> $captcha_path,
-                    'img_url'	=> base_url().'application/assets/captcha/',
-                    'font_path'	=> '../assets/fonts/impact.ttf',
+                    'img_url'	=> base_url().'../CommonResources/assets/captcha/',
+                    'font_path'	=> base_url().'../CommonResources/assets/fonts/impact.ttf',
                     'img_width'	=> '200',
                     'img_height' => 40,
                     'expiration' => 3600
