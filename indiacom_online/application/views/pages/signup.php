@@ -110,7 +110,7 @@
                             <?php foreach($member_categories as $category)
                                   {
                             ?>
-                                <option value = "<?php echo $category -> member_category_id ?>" <?php echo $this -> input -> post('category') && $this -> input -> post('category') == $category -> member_category_name ? "selected" : ""?>><?php echo $category -> member_category_name ?></option>
+                                <option value = "<?php echo $category -> member_category_id ?>"><?php echo $category -> member_category_name ?></option>
                             <?php
                                   }
                             ?>

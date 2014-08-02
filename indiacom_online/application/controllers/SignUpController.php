@@ -23,7 +23,7 @@
 
         public function validate_captcha()
         {
-            if(strcmp($this->input->post('captcha'), $this->session->userdata['captcha']['word']))
+            if(strcmp($this->input->post('captcha'), $this->session->userdata['captcha']))
             {
                 $this->form_validation->set_message('validate_captcha', "Wrong captcha code!");
                 return false;
@@ -89,7 +89,6 @@
 
                 if($organization_id_array)
                 {
-
                     $member_record = array(
                                             'member_id'             =>   $member_id,
                                             'member_name'           =>   $this -> input -> post('name'),
@@ -104,13 +103,13 @@
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
                                             'member_password'       =>   $encrypted_password ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
-                                            'member_biodata_path'   =>   $this -> input -> post('biodata'),
+                                            'member_biodata_path'   =>   "",
                                             'member_category_id'    =>   $this -> input -> post('category'),
                                             'member_experience'     =>   $this -> input -> post('experience')
                                          );
 
 
-
+                    print_r($member_record);
 
                     if($this -> RegistrationModel -> addMember($member_record))
                     {
@@ -152,7 +151,6 @@
                 $str = implode("", $str);
                 $word  = substr(str_shuffle($str), 0, 8);
 
-                echo base_url();
                 $captcha = array
                 (
                     'word'	=> $word,
@@ -174,7 +172,7 @@
                 if(isset($this->session->userdata['image']) && file_exists($captcha_path.$this->session->userdata['image']))
                     unlink($captcha_path.$this->session->userdata['image']);
 
-                $this->session->set_userdata(array('captcha'=>$captcha, 'image' => $img['time'].'.jpg'));
+                $this->session->set_userdata(array('captcha'=>$word, 'image' => $img['time'].'.jpg'));
 
             }
             $this->index($page);

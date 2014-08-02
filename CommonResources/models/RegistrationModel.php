@@ -16,7 +16,7 @@ class RegistrationModel extends CI_Model
 
     public function addMember($memberRecord = array())
     {
-        return $this -> db -> insert('member_master',$memberRecord);
+        return $this -> db -> insert('member_master', $memberRecord);
     }
 
     public function getOrganizationId($organization)
@@ -31,9 +31,13 @@ class RegistrationModel extends CI_Model
 
     public function assignMemberId()
     {
-        $this -> db -> select('member_id');
-        $this->db->order_by("member_id", "desc");
-        $query = $this -> db -> get('member_master', 1);
+        $sql = "SELECT max(cast(`member_id` as UNSIGNED))as `member_id` from `member_master`";
+
+        //$this -> db -> select('max(cast(member_id as UNSIGNED)');
+        //$this->db->order_by("member_id", "desc");
+
+        $query = $this -> db -> query($sql);
+
         if($query -> num_rows() == 0)
             return 1;
         $member_id_array = $query ->  row_array();
