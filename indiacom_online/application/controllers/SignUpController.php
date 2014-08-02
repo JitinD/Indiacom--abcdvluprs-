@@ -32,6 +32,15 @@
             return true;
         }
 
+        public function  validate_confirm_password()
+        {
+            if(strcmp($this -> input -> post('password'), $this -> input -> post('password2')))
+            {
+            $this->form_validation->set_message('validate_confirm_password', "Passwords do not match!");
+            return false;
+            }
+        }
+
         private function index($page)
         {
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
@@ -70,7 +79,7 @@
             $this->form_validation->set_rules('organization', 'Organization', 'required');
             $this->form_validation->set_rules('category', 'Category', 'required');
             $this->form_validation->set_rules('password', 'Password', 'required');
-            $this->form_validation->set_rules('password2', 'Confirm Password', 'required');
+            $this->form_validation->set_rules('password2', 'Confirm Password', 'required|callback_validate_confirm_password');
             $this->form_validation->set_rules('captcha', 'Captcha', 'required|callback_validate_captcha');
 
             if($this->form_validation->run())
@@ -108,8 +117,6 @@
                                             'member_experience'     =>   $this -> input -> post('experience')
                                          );
 
-
-                    print_r($member_record);
 
                     if($this -> RegistrationModel -> addMember($member_record))
                     {
