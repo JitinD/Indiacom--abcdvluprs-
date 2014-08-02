@@ -25,6 +25,7 @@ class Dashboard extends CI_Controller
         $this -> load -> model('OrganizationModel');
         $this -> load -> model('MemberCategoriesModel');
         $this -> load -> model('MemberModel');
+        $this->load->model('RegistrationModel');
     }
 
     private function index($page = "dashboardHome")
@@ -292,4 +293,47 @@ class Dashboard extends CI_Controller
         }
         return false;
     }
+
+    //Allows user to change current password
+    public function changePassword()
+    {
+        $page= 'changePassword';
+        $this->load->library('form_validation');
+        $user = $_SESSION['member_id'];
+        $this->form_validation->set_rules('currentPassword', 'Current Password', 'required|callback_validateCurrentPassword');
+        $this->form_validation->set_rules('newPassword', 'New Password', 'required');
+        $this->form_validation->set_rules('confirmPassword', 'Confirm Password', 'required|callback_validateConfirmPassword');
+        if($this->form_validation->run())
+        {
+           if($this->RegistrationModel->resetPassword($user,$this->input->post('newPassword'),$this->input->post('confirmPassword')))
+           {
+               $page .= "Success";
+           }
+        }
+        $this->index($page);
+    }
+
+    public function validateCurrentPassword()
+    {
+        $user = $_SESSION['member_id'];
+        if($this->RegistrationModel->checkCurrentPassword($user,$this -> input -> post('currentPassword'))==0)
+        {
+            $this->form_validation->set_message('validateCurrentPassword', "Incorrect Password");
+            return false;
+        }
+       return true;
+    }
+
+    public function validateConfirmPassword()
+    {
+        if(strcmp($this->input->post('newPassword'),$this->input->post('confirmPassword')))
+        {
+            $this->form_validation->set_message('validateConfirmPassword',"Both passwords should match");
+            return false;
+        }
+
+        return true;
+    }
+
+
 }

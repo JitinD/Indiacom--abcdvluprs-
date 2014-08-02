@@ -9,7 +9,7 @@
 
 class RegistrationModel extends CI_Model
 {
-    public function __construct()
+   public function __construct()
     {
         $this->load->database();
     }
@@ -42,7 +42,6 @@ class RegistrationModel extends CI_Model
             return 1;
         $member_id_array = $query ->  row_array();
         $member_id = $member_id_array['member_id'] + 1;
-
         return $member_id;
     }
 
@@ -54,6 +53,37 @@ class RegistrationModel extends CI_Model
         return $query -> result();
 
     }
-}
 
+    public function checkCurrentPassword($user_id,$password)
+    {
+        $this->db->select('member_password');
+        $this->db->where('member_id',$user_id);
+        $query=$this->db->get('member_master');
+        $currentPassword_array=$query->row_array();
+        $currentPassword=$currentPassword_array['member_password'];
+        $pass=md5($password);
+        if(!strcmp($currentPassword,$pass))
+        {
+            return 1;
+        }
+
+    }
+
+    public function resetPassword($user_id,$newPassword,$confirmPassword)
+    {
+        if(!strcmp($newPassword,$confirmPassword))
+        {
+            $password=md5($newPassword);
+            $data = array(
+                'member_password' => $password );
+
+            $this->db->where('member_id', $user_id);
+            $this->db->update('member_master', $data);
+
+        return true;
+
+        }
+      return false;
+    }
+}
 ?>
