@@ -10,22 +10,23 @@
 
 
 <html>
-<head>
-</head>
+    <head>
+    </head>
 
-<body>
-<h1> Indiacom 2015 welcomes you! </h1>
-<br/>
-Thank you for signing up.
+    <body>
 
-Your member ID is <?php echo $member_id ?>
-<br/>
+        <h1> Indiacom 2015 welcomes you! </h1>
+        <br/>
+        Thank you for signing up.
 
-Click on the link below to finish your registration process.
+        <br/>
+        <br/>
 
-<a href = "www.google.com">www.indiacom2015/active_code=<?php echo $activation_code ?></a>
+        Click on the link below to finish your registration process.
 
-Thankyou!
+        <a href = "http://localhost/Indiacom2015/indiacom_online/d/SignUpController/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://localhost/Indiacom2015/indiacom_online/d/SignUpController/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
 
-</body>
+        Thankyou!
+
+    </body>
 </html>

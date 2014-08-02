@@ -13,8 +13,8 @@
             <span class="h3 text-theme">Member Registration</span>
             <div class="row body-text">
                 <div class="col-md-12">
-                    You are successfully registered.<br>
-                    Your Member ID : <?php echo $member_id; ?><br><?php echo $message; ?>
+                    <?php   echo $message;  ?>
+                    <br/><br/>
                     <a href="/<?php echo INDIACOM; ?>d/Dashboard">Dashboard Home</a>
                 </div>
             </div>

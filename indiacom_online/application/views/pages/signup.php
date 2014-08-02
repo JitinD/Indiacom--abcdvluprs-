@@ -145,7 +145,7 @@
                         <input type="tel" name = "experience" class="form-control" id="experience" value="<?php echo set_value('experience'); ?>" placeholder="Enter Experience in the Organization">
                     </div>
                 </div>
-                <div class="form-group">
+                <!--div class="form-group">
                     <label for="password" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Password</label>
                     <div class="col-sm-9">
                         <input type="password" name = "password" class="form-control" id="password" placeholder="Enter strong password">
@@ -162,7 +162,7 @@
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('password2'); ?>
                     </div>
-                </div>
+                </div-->
 
                 <div class="form-group">
                     <label for="captcha" class="col-sm-3 control-label">Captcha</label>

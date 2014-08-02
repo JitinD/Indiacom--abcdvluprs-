@@ -9,4 +9,5 @@
         $config['wordwrap'] = TRUE;
         $config['crlf'] = "\r\n";
         $config['newline'] = "\r\n";
+        $config['mailtype'] = 'html';
 ?>

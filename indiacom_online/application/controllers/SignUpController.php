@@ -18,7 +18,7 @@
             parent::__construct();
 
             $this -> load -> model('RegistrationModel');
-            $this->load->library('encrypt');
+
         }
 
         public function validate_captcha()
@@ -32,13 +32,30 @@
             return true;
         }
 
-        public function  validate_confirm_password()
+        public function validate_confirm_password()
         {
             if(strcmp($this -> input -> post('password'), $this -> input -> post('password2')))
             {
-            $this->form_validation->set_message('validate_confirm_password', "Passwords do not match!");
-            return false;
+                $this->form_validation->set_message('validate_confirm_password', "Passwords do not match!");
+                return false;
             }
+            return true;
+        }
+
+        public function sendMail($email_id, $message)
+        {
+            $this->load->library('email');
+
+            $this->email->from('indiacom15@gmail.com', 'Indiacom 2015');
+
+            $this->email->to($email_id);
+            $this->email->subject('Indiacom Registration');
+            $this->email->message($message);
+
+            if($this->email->send())
+                return true;
+
+            return false;
         }
 
         private function index($page)
@@ -62,6 +79,54 @@
 
         }
 
+        public function EnterPassword($member_id, $activation_code)
+        {
+            $page = "EnterPassword";
+
+            $this -> load -> model('MemberModel');
+            $this->load->library('encrypt');
+            $this->load->library('form_validation');
+
+            $member_info = $this -> MemberModel -> getMemberInfo($member_id);
+
+            if(strcmp($activation_code, $member_info['member_password']) || $member_info['member_is_activated'])
+            {
+                $this->load->view('pages/unauthorizedAccess');
+                return;
+            }
+
+            $this->form_validation->set_rules('password', 'Password', 'required');
+            $this->form_validation->set_rules('password2', 'Confirm Password', 'required|callback_validate_confirm_password');
+
+
+            if($this->form_validation->run())
+            {
+                $pass = $this -> input -> post('password');
+                $encrypted_password = md5($pass);
+
+                $update_data = array(
+                                        'member_password'   =>  $encrypted_password,
+                                        'member_is_activated'  =>  1
+                                    );
+
+                $this -> data['member_id'] = $member_id;
+
+                if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
+                {
+                    $message = $this -> load -> view('pages/ListOfServices', $this -> data, true);
+
+                    if($this -> sendMail($member_info['member_email'], $message))
+                        $this -> data['message'] = "An email has been sent to your registered email id. This mail will let you know about the services that would be provided to you.";
+                    else
+                        $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
+
+                    $page = "signupSuccess";
+                }
+            }
+
+            $this->index($page);
+        }
+
         public function signUp()
         {
 
@@ -78,8 +143,6 @@
             $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
             $this->form_validation->set_rules('organization', 'Organization', 'required');
             $this->form_validation->set_rules('category', 'Category', 'required');
-            $this->form_validation->set_rules('password', 'Password', 'required');
-            $this->form_validation->set_rules('password2', 'Confirm Password', 'required|callback_validate_confirm_password');
             $this->form_validation->set_rules('captcha', 'Captcha', 'required|callback_validate_captcha');
 
             if($this->form_validation->run())
@@ -88,10 +151,9 @@
                 $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
                 $member_id = $this -> RegistrationModel -> assignMemberId();
 
-                $pass = $this -> input -> post('password');
-                $encrypted_password = md5($pass);//$this->encrypt->encode($pass);
-
-
+                $active_str = array_merge(range(1,9));
+                $str = implode("", $active_str);
+                $activation_code  = substr(str_shuffle($str), 0, 8);
 
                 $this->session->unset_userdata('captcha');
                 $this->session->unset_userdata('image');
@@ -110,41 +172,31 @@
                                             'member_designation'    =>   "",
                                             'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
-                                            'member_password'       =>   $encrypted_password ,
+                                            'member_password'       =>   $activation_code ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
                                             'member_biodata_path'   =>   "",
                                             'member_category_id'    =>   $this -> input -> post('category'),
-                                            'member_experience'     =>   $this -> input -> post('experience')
+                                            'member_experience'     =>   $this -> input -> post('experience'),
+                                            'member_is_activated'   =>   ""
                                          );
 
 
                     if($this -> RegistrationModel -> addMember($member_record))
                     {
-                        $page .= "Success";
-
-                        $message = "You are successfully registered.";
-
                         $this -> data['member_id'] = $member_id;
+                        $this -> data['activation_code'] = $activation_code;
 
-                        $this->load->library('email');
+                        $message = $this -> load -> view('pages/EmailActiveCode', $this -> data, true);
 
-                        $this->email->from('indiacom15@gmail.com', 'Indiacom 2015');
-                        $this->email->to($this -> input -> post('email'));
-                        $this->email->subject('Email Test');
-                        $this->email->message($message);
-
-                        if($this->email->send())
-                            $this -> data['message'] = "An email has been sent to your registered email id";
+                        if($page = $this -> sendMail($this -> input -> post('email'), $message))
+                            $this -> data['message'] = "An email has been sent to your registered mail id. Click on the activation link provided in the mail to complete your registration process";
                         else
-                            $this -> data['message'] = "Email can't be sent.";
+                            $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
 
+                        $page = "signupSuccess";
                     }
 
-
-                    //header('Location: SignUpController');   // move to successful registration page.
-
                 }
-
             }
             else
             {
@@ -169,9 +221,7 @@
                     'expiration' => 3600
                 );
 
-
-
-                $img = create_captcha($captcha);
+              $img = create_captcha($captcha);
 
                 $this -> data['image'] = $img['image'];
                 $this -> data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();

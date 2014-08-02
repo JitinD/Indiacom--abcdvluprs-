@@ -23,38 +23,33 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="routes.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/config/routes.php">
+      <file leaf-file-name="SignUpController.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/SignUpController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="40" column="47" selection-start="1441" selection-end="1441" vertical-scroll-proportion="-7.980392" vertical-offset="273" max-vertical-offset="884">
+            <state line="82" column="0" selection-start="2345" selection-end="2345" vertical-scroll-proportion="-5.6666665" vertical-offset="1105" max-vertical-offset="4165">
+              <folding>
+                <element signature="e#6#86#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="MemberModel.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CommonResources/models/MemberModel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="47" column="51" selection-start="1517" selection-end="1517" vertical-scroll-proportion="-18.538462" vertical-offset="232" max-vertical-offset="867">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="news.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/views/pages/news.php">
+      <file leaf-file-name="RegistrationModel.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CommonResources/models/RegistrationModel.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="1" column="43" selection-start="78" selection-end="78" vertical-scroll-proportion="0.02905983" vertical-offset="0" max-vertical-offset="1003">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="newsitem.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/views/pages/newsitem.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="14" selection-start="875" selection-end="875" vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="935">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MainController.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/application/controllers/MainController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="24" column="23" selection-start="564" selection-end="564" vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="629">
-              <folding />
+            <state line="55" column="2" selection-start="1407" selection-end="1407" vertical-scroll-proportion="0.8604269" vertical-offset="326" max-vertical-offset="1003">
+              <folding>
+                <marker date="1406950850543" expanded="true" signature="733:809" placeholder="SELECT max(c..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -97,6 +92,18 @@
         <option value="$PROJECT_DIR$/application/config/routes.php" />
         <option value="$PROJECT_DIR$/application/views/pages/newsitem.php" />
         <option value="$PROJECT_DIR$/application/views/pages/news.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/index.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js" />
+        <option value="$PROJECT_DIR$/CommonResources/models/RegistrationModel.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/config/email.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/config/routes.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/EnterPassword.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/ListOfServices.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/EmailActiveCode.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/signupSuccess.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/MemberModel.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/controllers/SignUpController.php" />
       </list>
     </option>
   </component>
@@ -133,7 +140,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -162,7 +168,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="DB queries" />
+              <option name="myItemId" value="indiacom_online" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -173,6 +179,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -187,6 +197,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -205,6 +219,10 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -230,6 +248,10 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="application" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -242,14 +264,195 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dashboard" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="assets" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CommonResources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CommonResources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="SearchEverywhereHistory" value="" />
     <property name="FullScreen" value="false" />
+    <property name="options.lastSelected" value="vcs.Git" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
@@ -284,7 +487,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -324,276 +527,162 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/controllers/AJAX.php">
+    <entry file="file://$PROJECT_DIR$/system_ci_v2.2.0/helpers/captcha_helper.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="44" selection-start="388" selection-end="388" vertical-scroll-proportion="0.0" vertical-offset="323" max-vertical-offset="459">
+        <state line="245" column="51" selection-start="6166" selection-end="6166" vertical-scroll-proportion="0.942953" vertical-offset="3603" max-vertical-offset="4267">
+          <folding>
+            <marker date="1406835089609" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/templates/header.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="41" selection-start="1049" selection-end="1066" vertical-scroll-proportion="0.5862069" vertical-offset="0" max-vertical-offset="609">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/AjaxModel.php">
+    <entry file="file://$PROJECT_DIR$/system_ci_v2.2.0/core/Loader.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="96" selection-start="362" selection-end="362" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="714">
+        <state line="128" column="64" selection-start="2755" selection-end="2755" vertical-scroll-proportion="0.68456376" vertical-offset="1768" max-vertical-offset="21301">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/MainController.php">
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/AJAX.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="9" selection-start="1269" selection-end="1269" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1717" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/navbar.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="94" column="123" selection-start="3146" selection-end="3146" vertical-scroll-proportion="0.0" vertical-offset="1598" max-vertical-offset="2805" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/loginPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="952" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LoginModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="0" selection-start="477" selection-end="477" vertical-scroll-proportion="0.0" vertical-offset="476" max-vertical-offset="1496" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="12" selection-start="183" selection-end="183" vertical-scroll-proportion="0.0" vertical-offset="53" max-vertical-offset="1462" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/MainController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="44" selection-start="480" selection-end="480" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="782" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/navbar.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="151" column="47" selection-start="6456" selection-end="6456" vertical-scroll-proportion="0.0" vertical-offset="2567" max-vertical-offset="2771" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/loginPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="124" selection-start="177" selection-end="177" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="646" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LoginModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="26" selection-start="291" selection-end="291" vertical-scroll-proportion="0.0" vertical-offset="289" max-vertical-offset="527" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="12" selection-start="183" selection-end="183" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="1462" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/footer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="15" selection-start="238" selection-end="238" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="527" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/navbar.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="87" column="20" selection-start="2927" selection-end="2927" vertical-scroll-proportion="0.0" vertical-offset="1479" max-vertical-offset="2669" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="255" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="48" selection-start="501" selection-end="501" vertical-scroll-proportion="0.0" vertical-offset="255" max-vertical-offset="561" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="28" selection-start="564" selection-end="564" vertical-scroll-proportion="0.0" vertical-offset="3055" max-vertical-offset="3604" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="36" selection-start="689" selection-end="689" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="1462" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/loginPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="33" selection-start="95" selection-end="95" vertical-scroll-proportion="0.0" vertical-offset="51" max-vertical-offset="680" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/MainController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="21" column="8" selection-start="485" selection-end="485" vertical-scroll-proportion="0.0" vertical-offset="357" max-vertical-offset="510" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/banner.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="42" selection-start="1589" selection-end="1589" vertical-scroll-proportion="0.0" vertical-offset="369" max-vertical-offset="918" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/quickLinks.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="5" column="14" selection-start="85" selection-end="85" vertical-scroll-proportion="-3.2692308" vertical-offset="0" max-vertical-offset="595" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="28" selection-start="564" selection-end="564" vertical-scroll-proportion="0.0" vertical-offset="3055" max-vertical-offset="3604" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/footer.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="15" selection-start="238" selection-end="238" vertical-scroll-proportion="0.2982456" vertical-offset="0" max-vertical-offset="570" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/aboutIndiacom.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="8" column="0" selection-start="93" selection-end="93" vertical-scroll-proportion="0.02982456" vertical-offset="119" max-vertical-offset="782" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="588" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/banner.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="45" column="42" selection-start="1589" selection-end="1589" vertical-scroll-proportion="0.73157895" vertical-offset="348" max-vertical-offset="918" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system/database/DB_driver.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-10.021052" vertical-offset="5712" max-vertical-offset="24055" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="609" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="3" column="12" selection-start="183" selection-end="183" vertical-scroll-proportion="0.0" vertical-offset="53" max-vertical-offset="1462" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/loginPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="2" column="0" selection-start="129" selection-end="129" vertical-scroll-proportion="0.0" vertical-offset="34" max-vertical-offset="952" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/assets/js/jquery.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="15" selection-start="392" selection-end="392" vertical-scroll-proportion="0.42785236" vertical-offset="0" max-vertical-offset="60435" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/assets/.htaccess">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="14" selection-start="14" selection-end="14" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="102" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/assets/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="609" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/LoginModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="0" selection-start="478" selection-end="478" vertical-scroll-proportion="0.6049822" vertical-offset="68" max-vertical-offset="1411" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/SignUpController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="23" selection-start="772" selection-end="772" vertical-scroll-proportion="-0.03846154" vertical-offset="458" max-vertical-offset="2210" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="588" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/database.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="54" column="33" selection-start="2775" selection-end="2775" vertical-scroll-proportion="-0.05871886" vertical-offset="951" max-vertical-offset="1513" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/AccessModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="629" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="83" selection-start="603" selection-end="678" vertical-scroll-proportion="-7.8461537" vertical-offset="0" max-vertical-offset="425" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/assets/css/AJAXstyle.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="16" selection-start="223" selection-end="223" vertical-scroll-proportion="0.30706075" vertical-offset="0" max-vertical-offset="918" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/templates/navbar.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="138" column="120" selection-start="5891" selection-end="5936" vertical-scroll-proportion="0.73157895" vertical-offset="1844" max-vertical-offset="2703" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/signup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="14" selection-start="742" selection-end="742" vertical-scroll-proportion="0.11929824" vertical-offset="221" max-vertical-offset="2924" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/application/assets/js/AJAX.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="93" column="3" selection-start="2339" selection-end="2339" vertical-scroll-proportion="0.9410802" vertical-offset="1006" max-vertical-offset="1683">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="635">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/AJAX.php">
+    <entry file="file://$PROJECT_DIR$/indiacom_online/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="19" column="44" selection-start="388" selection-end="388" vertical-scroll-proportion="0.4068376" vertical-offset="0" max-vertical-offset="585">
+        <state line="22" column="49" selection-start="640" selection-end="640" vertical-scroll-proportion="0.5637584" vertical-offset="38" max-vertical-offset="3689">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/models/AjaxModel.php">
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="17" column="96" selection-start="362" selection-end="362" vertical-scroll-proportion="0.12820514" vertical-offset="129" max-vertical-offset="714">
+        <state line="16" column="55" selection-start="496" selection-end="496" vertical-scroll-proportion="0.42834646" vertical-offset="0" max-vertical-offset="1683">
+          <folding>
+            <marker date="1406916278985" expanded="false" signature="-1:-1" placeholder="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/PaperStatusModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="20" selection-start="739" selection-end="739" vertical-scroll-proportion="0.51342285" vertical-offset="0" max-vertical-offset="612">
+          <folding>
+            <marker date="1406835084124" expanded="true" signature="-1:-1" placeholder="Select paper..paper_latest_version..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6256">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/controllers/MainController.php">
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/LoginModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="24" column="23" selection-start="564" selection-end="564" vertical-scroll-proportion="-12.423077" vertical-offset="0" max-vertical-offset="629">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.5123153" vertical-offset="921" max-vertical-offset="1768">
+          <folding>
+            <marker date="1406835083947" expanded="true" signature="-1:-1" placeholder="Select * Fro..User_Master..." />
+            <marker date="1406835083947" expanded="true" signature="-1:-1" placeholder="SELECT event..user_event_role_mapper..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="0" selection-start="1065" selection-end="1065" vertical-scroll-proportion="0.027914613" vertical-offset="493" max-vertical-offset="1105">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/routes.php">
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signupSuccess.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="47" selection-start="1441" selection-end="1441" vertical-scroll-proportion="-7.980392" vertical-offset="273" max-vertical-offset="884">
+        <state line="16" column="30" selection-start="435" selection-end="435" vertical-scroll-proportion="0.3180272" vertical-offset="0" max-vertical-offset="588">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/newsitem.php">
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/EmailActiveCode.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="14" selection-start="875" selection-end="875" vertical-scroll-proportion="-13.076923" vertical-offset="0" max-vertical-offset="935">
+        <state line="26" column="11" selection-start="342" selection-end="342" vertical-scroll-proportion="0.6862416" vertical-offset="33" max-vertical-offset="629">
+          <folding>
+            <element signature="e#6#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="48" selection-start="1746" selection-end="1746" vertical-scroll-proportion="0.8719212" vertical-offset="251" max-vertical-offset="935">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/views/pages/news.php">
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="1" column="43" selection-start="78" selection-end="78" vertical-scroll-proportion="0.02905983" vertical-offset="0" max-vertical-offset="1003">
+        <state line="139" column="22" selection-start="8435" selection-end="8435" vertical-scroll-proportion="-0.65384614" vertical-offset="2346" max-vertical-offset="3417">
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/email.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="8" selection-start="399" selection-end="399" vertical-scroll-proportion="0.30706075" vertical-offset="0" max-vertical-offset="609">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/EnterPassword.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="6" selection-start="1954" selection-end="1954" vertical-scroll-proportion="0.942953" vertical-offset="237" max-vertical-offset="901">
+          <folding>
+            <element signature="e#6#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/ListOfServices.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="17" column="0" selection-start="187" selection-end="187" vertical-scroll-proportion="0.47454843" vertical-offset="0" max-vertical-offset="609">
+          <folding>
+            <element signature="e#6#85#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/SignUpController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="82" column="0" selection-start="2345" selection-end="2345" vertical-scroll-proportion="-5.6666665" vertical-offset="1105" max-vertical-offset="4165">
+          <folding>
+            <element signature="e#6#86#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/MemberModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="51" selection-start="1517" selection-end="1517" vertical-scroll-proportion="-18.538462" vertical-offset="232" max-vertical-offset="867">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/RegistrationModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="2" selection-start="1407" selection-end="1407" vertical-scroll-proportion="0.8604269" vertical-offset="326" max-vertical-offset="1003">
+          <folding>
+            <marker date="1406950850543" expanded="true" signature="733:809" placeholder="SELECT max(c..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -42,5 +42,10 @@
             if($query -> num_rows() > 0)
                 return $query -> row_array();
         }
+
+        public function updateMemberInfo($update_data, $member_id)
+        {
+            return $this -> db -> update('member_master', $update_data, array("member_id" => $member_id));
+        }
     }
 ?>
