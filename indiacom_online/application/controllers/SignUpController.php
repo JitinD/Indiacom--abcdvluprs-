@@ -18,7 +18,20 @@
             parent::__construct();
 
             $this -> load -> model('RegistrationModel');
-            $this->load->helper(array('form', 'url'));
+			$this->load->helper(array('form', 'url'));
+        }
+
+        private function hide_mail($email)
+        {
+            $email_id = explode("@", $email);
+            $domain = explode(".", $email_id[1]);
+
+            $visible_username_len = 3;
+            $visible_domain_len = 2;
+
+            return substr($email_id[0],0,$visible_username_len).str_repeat("*", strlen($email_id[0]) - $visible_username_len)."@".
+                substr($domain[0],0,$visible_domain_len).str_repeat("*", strlen($domain[0]) - $visible_domain_len).".".
+                $domain[1];
 
         }
 
@@ -43,6 +56,19 @@
             return true;
         }
 
+        public function formFilledCheck()
+        {
+            $member_id = $this -> input -> post('memberID');
+            $email_id = $this -> input -> post('email');
+
+            if(!$member_id && !$email_id)
+            {
+                $this -> data['error'] = "Both fields can't be empty";
+                return false;
+            }
+            return true;
+        }
+
         public function sendMail($email_id, $message)
         {
             $this->load->library('email');
@@ -58,8 +84,8 @@
 
             return false;
         }
-
-        //uploading member bio data
+		
+		//uploading member bio data
         public function uploadBiodata($fileElem,$eventId,$memberId)
         {
             $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
@@ -77,7 +103,7 @@
 
             return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
         }
-
+		
         private function index($page)
         {
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
@@ -94,8 +120,9 @@
             loginModalInit($this->data);
             $this -> data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this -> data);
-            $this->load->view('pages/'.$page, $this -> data,array('error' => ' ' ));
+            $this->load->view('pages/'.$page, $this -> data, array('error' => ' ');
             $this->load->view('templates/footer');
+
         }
 
         public function EnterPassword($member_id, $activation_code)
@@ -146,8 +173,74 @@
             $this->index($page);
         }
 
+        public function forgotPassword()
+        {
+            $page = "forgotPassword";
+
+            $this->load->library('form_validation');
+            $this -> load -> model('MemberModel');
 
 
+
+            if(isset($_POST['Reset']) && $this->formFilledCheck())
+            {
+                $member_id = $this -> input -> post('memberID');
+                $email_id = $this -> input -> post('email');
+
+                if($email_id)
+                {
+                    if($member_info = $this -> MemberModel -> getMemberInfo_Email($email_id))
+                    {
+                        $member_id = $member_info['member_id'];
+
+                        if(!strcmp($email_id, $member_info['member_email']))
+                        {
+                            $activation_code = $this -> assignActivationCode();
+
+                            $update_data = array('member_password'   =>  $activation_code);
+
+                            if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
+                            {
+                                $this -> data['member_id'] = $member_id;
+                                $this -> data['activation_code'] = $activation_code;
+
+                                $message = $this -> load -> view('pages/EmailActiveCode', $this -> data, true);
+
+                                if($page = $this -> sendMail($this -> input -> post('email'), $message))
+                                    $this -> data['message'] = "An email has been sent to your registered mail id. Click on the activation link provided in the mail to reset your password";
+                                else
+                                    $this -> data['message'] = "Some problem occurred. Email can't be sent. Reset password unsuccessful";
+
+                                $page = "signupSuccess";
+                            }
+
+                        }
+                        else
+                            $this -> data['email_id'] = $this -> hide_mail($member_info['member_email']);
+                    }
+                    else
+                        $this -> data['error'] = "Sorry, no such email ID exists in our database";
+                }
+
+                if(!$email_id && $member_id)
+                {
+                    $member_info = $this -> MemberModel -> getMemberInfo($member_id);
+                    $this -> data['email_id'] = $this -> hide_mail($member_info['member_email']);
+                }
+
+            }
+
+            $this -> index($page);
+
+        }
+
+        public function assignActivationCode()
+        {
+            $active_str = array_merge(range(1,9));
+            $str = implode("", $active_str);
+            $activation_code  = substr(str_shuffle($str), 0, 8);
+            return $activation_code;
+        }
 
         public function signUp()
         {
@@ -172,16 +265,14 @@
 
                 $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
                 $member_id = $this -> RegistrationModel -> assignMemberId();
-
-                if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$member_id)) == false)
+				
+				if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$member_id)) == false)
                 {
                     $this->data['uploadError'] = $this->upload->display_errors();
                     $this->db->trans_rollback();
                 }
 
-                $active_str = array_merge(range(1,9));
-                $str = implode("", $active_str);
-                $activation_code  = substr(str_shuffle($str), 0, 8);
+                $activation_code  = $this -> assignActivationCode();
 
                 $this->session->unset_userdata('captcha');
                 $this->session->unset_userdata('image');
