@@ -11,7 +11,7 @@ class NewsController extends CI_Controller
         parent:: __construct();
         $this->load->helper("url");
         $this->load->model('AccessModel');
-        $this->load->model("AllNewsModel");
+        $this->load->model("NewsModel");
         $this->load->library("pagination");
     }
 
@@ -22,7 +22,7 @@ class NewsController extends CI_Controller
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
         $config = array();
         $config["base_url"] = base_url() ."d/NewsController/AllNews";
-        $config["total_rows"] = $this->AllNewsModel->record_count();
+        $config["total_rows"] = $this->NewsModel->record_count();
         $config["per_page"] = 1;
         $config["uri_segment"] = 4;
 
@@ -30,7 +30,7 @@ class NewsController extends CI_Controller
 
         //$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
         $data = loginModalInit();
-        $data["results"] = $this->AllNewsModel->fetch_news($config["per_page"], $page);
+        $data["results"] = $this->NewsModel->fetch_news($config["per_page"], $page);
         $data['links'] = $this->pagination->create_links();
         $data['navbarItem'] = pageNavbarItem("");
         $this->load->view('templates/header', $data);

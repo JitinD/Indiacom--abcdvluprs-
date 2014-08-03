@@ -12,7 +12,7 @@ class MainController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('AccessModel');
-        $this->load->model('HomeNews');
+        $this->load->model('NewsModel');
     }
 
     public function viewPage($page = "index")
@@ -30,7 +30,7 @@ class MainController extends CI_Controller
         }
 
         $data = loginModalInit();
-        $data['news']=$this->HomeNews->getNewsForHome();
+        $data['news']=$this->NewsModel->getNewsForHome();
         $data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $data);
         $this->load->view('pages/'.$page, $data);
