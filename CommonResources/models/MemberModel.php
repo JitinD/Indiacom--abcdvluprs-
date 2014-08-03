@@ -19,6 +19,18 @@
 
             if($query -> num_rows() > 0)
                 return $query -> row_array();
+            else
+                return null;
+        }
+
+        public function getMemberInfo_Email($email_id)
+        {
+            $query = $this -> db -> get_where('member_master', array('member_email' => $email_id));
+
+            if($query -> num_rows() > 0)
+                return $query -> row_array();
+            else
+                return null;
         }
 
         public function getMembers()

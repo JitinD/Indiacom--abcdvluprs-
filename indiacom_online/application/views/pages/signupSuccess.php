@@ -15,7 +15,6 @@
                 <div class="col-md-12">
                     <?php   echo $message;  ?>
                     <br/><br/>
-                    <a href="/<?php echo INDIACOM; ?>d/Dashboard">Dashboard Home</a>
                 </div>
             </div>
         </div>
