@@ -39,7 +39,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-4">
-                                    <button type="button" class="btn btn-danger btn-lg btn-block">Forgot Password</button>
+                                    <a href="forgotPassword" class="btn btn-danger btn-lg btn-block">Forgot Password</a>
+
                                 </div>
                             </div>
                         </form>

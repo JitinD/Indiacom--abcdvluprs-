@@ -42,7 +42,7 @@
 </div>
 <div class="col-md-3 col-sm-3 col-xs-12">
     <h3 class="text-theme">Profile
-    <button class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil"></span></button>
+    <a href="/<?php echo INDIACOM; ?>d/SignUpController/signup" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil"></span></a>
         </h3>
     <table class="table table-hover table-responsive table-striped body-text">
         <tbody>
