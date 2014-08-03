@@ -42,13 +42,13 @@
 </div>
 <div class="col-md-3 col-sm-3 col-xs-12">
     <h3 class="text-theme">Profile
-    <a href="/<?php echo INDIACOM; ?>d/SignUpController/signup" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil"></span></a>
+    <a href="/<?php echo INDIACOM; ?>Dashboard/editProfile" class="btn btn-sm btn-success"><span class="glyphicon glyphicon-pencil"></span></a>
         </h3>
     <table class="table table-hover table-responsive table-striped body-text">
         <tbody>
         <tr>
             <td>Name</td>
-            <td><?php echo $_SESSION['member_name'] ?></td>
+            <td><?php echo $miniProfile['member_name'] ?></td>
         </tr>
         <tr>
             <td>Member ID</td>

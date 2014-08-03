@@ -57,6 +57,7 @@ class Dashboard extends CI_Controller
         $page = "dashboardHome";
         $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
         $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
+
         $this->index($page);
     }
 
@@ -335,5 +336,54 @@ class Dashboard extends CI_Controller
         return true;
     }
 
+    public function editProfile()
+    {
+        $page="editProfile";
+        $this->data['editProfile'] =$this->MemberModel->getMemberInfo($_SESSION['member_id']);
+        $this -> data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();
+        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('address', 'Address', 'required');
+        $this->form_validation->set_rules('pincode', 'Pincode', 'required');
+        $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('phoneNumber', 'Phone number', 'required');
+        $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
+        $this->form_validation->set_rules('organization', 'Organization', 'required');
+        $this->form_validation->set_rules('category', 'Category', 'required');
+        if($this->form_validation->run())
+        {
+
+            $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
+            if($organization_id_array)
+            {
+                $member_record = array(
+                    'member_id'             =>  $_SESSION['member_id'],
+                    'member_name'           =>   $this -> input -> post('name'),
+                    'member_address'        =>   $this -> input -> post('address'),
+                    'member_pincode'        =>   $this -> input -> post('pincode'),
+                    'member_email'          =>   $this -> input -> post('email'),
+                    'member_phone'          =>   $this -> input -> post('phoneNumber'),
+                    'member_mobile'         =>   $this -> input -> post('mobileNumber'),
+                    'member_fax'            =>   $this -> input -> post('fax'),
+                    'member_designation'    =>   $this -> input -> post('designation'),
+                    'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
+                    'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
+                    'member_organization_id'=>   $organization_id_array['organization_id'],
+                    'member_biodata_path'   =>   "",
+                    'member_category_id'    =>   $this -> input -> post('category'),
+                    'member_experience'     =>   $this -> input -> post('experience'),
+                    'member_is_activated'   =>   ""
+                );
+
+            }
+            $this->MemberModel->updateMemberInfo($member_record,$_SESSION['member_id']);
+            $page .= "Success";
+        }
+
+
+                $this->index($page);
+    }
 
 }
