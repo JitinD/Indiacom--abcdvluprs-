@@ -73,6 +73,9 @@
                             <div class="col-sm-9">
                                 <input type="tel" name = "mobileNumber" class="form-control" id="mobileNumber" value="<?php echo $editProfile['member_mobile']; ?>" placeholder="Enter Mobile Number">
                             </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('mobileNumber'); ?>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label for="fax" class="col-sm-3 control-label">Fax Number</label>
@@ -139,6 +142,9 @@
                             <div class="col-sm-9">
                                 <input type="tel" name = "department" class="form-control" id="department" value="<?php echo $editProfile['member_department']; ?>" placeholder="Enter your department">
                             </div>
+                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('department'); ?>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -146,6 +152,7 @@
                             <div class="col-sm-9">
                                 <input type="text" name = "designation" class="form-control" id="designation" value="<?php echo $editProfile['member_designation']; ?>" placeholder="Enter Designation in the Organization">
                             </div>
+
                         </div>
                             
                         <div class="form-group">

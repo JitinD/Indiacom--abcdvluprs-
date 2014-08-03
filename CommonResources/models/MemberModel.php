@@ -43,7 +43,7 @@
 
         public function getMemberMiniProfile($member_id)
         {
-            $this -> db -> select('member_id,member_name,organization_name, member_category_name');
+            $this -> db -> select('member_id,member_salutation,member_name,organization_name, member_category_name');
             $this -> db -> from('member_master');
             $this -> db -> join('organization_master', 'member_master.member_organization_id = organization_master.organization_id');
             $this -> db -> join('member_category_master', 'member_category_master.member_category_id = member_master.member_category_id');

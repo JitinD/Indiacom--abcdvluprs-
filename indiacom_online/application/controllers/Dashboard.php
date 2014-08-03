@@ -364,6 +364,7 @@ class Dashboard extends CI_Controller
         $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
         $this->load->library('form_validation');
 
+        $this->form_validation->set_rules('salutation', 'Salutation', 'required');
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('address', 'Address', 'required');
         $this->form_validation->set_rules('pincode', 'Pincode', 'required');
@@ -372,6 +373,7 @@ class Dashboard extends CI_Controller
         $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
         $this->form_validation->set_rules('organization', 'Organization', 'required');
         $this->form_validation->set_rules('category', 'Category', 'required');
+        $this->form_validation->set_rules('department', 'Department', 'required');
         if($this->form_validation->run())
         {
 

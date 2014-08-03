@@ -37,7 +37,7 @@
                         </select>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                        <?php echo form_error('name'); ?>
+                        <?php echo form_error('salutation'); ?>
                     </div>
                 </div>
                 <div class="form-group">
@@ -79,7 +79,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phoneNumber" class="col-sm-3 control-label">Phone Number</label>
+                    <label for="phoneNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Phone Number</label>
                     <div class="col-sm-9">
                         <input type="tel" name = "phoneNumber" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
                     </div>
@@ -91,6 +91,9 @@
                     <label for="mobileNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Mobile Number</label>
                     <div class="col-sm-9">
                         <input type="tel" name = "mobileNumber" class="form-control" id="mobileNumber" value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('mobileNumber'); ?>
                     </div>
                 </div>
                 <div class="form-group">
@@ -158,6 +161,9 @@
                     <label for="department" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Department</label>
                     <div class="col-sm-9">
                         <input type="text" name = "department" class="form-control" id="department" value="<?php echo set_value('department'); ?>" placeholder="Enter your department">
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('department'); ?>
                     </div>
                 </div>
 
