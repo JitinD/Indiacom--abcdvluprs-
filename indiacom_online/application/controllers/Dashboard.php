@@ -61,6 +61,26 @@ class Dashboard extends CI_Controller
         $this->index($page);
     }
 
+
+    public function uploadBiodata($fileElem,$eventId,$memberId)
+    {
+        $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+        $config['allowed_types'] = 'doc|docx';
+        $config['file_name'] = $memberId . "biodata";
+        $config['overwrite'] = true;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload($fileElem))
+        {
+            return false;
+        }
+        $uploadData = $this->upload->data();
+
+        return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
+    }
+
+
     public function submitPaper()
     {
         $page = 'submitpaper';
@@ -356,6 +376,11 @@ class Dashboard extends CI_Controller
         {
 
             $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
+            if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$_SESSION['member_id'])) == false)
+            {
+                $this->data['uploadError'] = $this->upload->display_errors();
+                $this->db->trans_rollback();
+            }
             if($organization_id_array)
             {
                 $member_record = array(
@@ -371,7 +396,7 @@ class Dashboard extends CI_Controller
                     'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
                     'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
                     'member_organization_id'=>   $organization_id_array['organization_id'],
-                    'member_biodata_path'   =>   "",
+                    'member_biodata_path'   =>   $doc_path,
                     'member_category_id'    =>   $this -> input -> post('category'),
                     'member_experience'     =>   $this -> input -> post('experience'),
                     'member_is_activated'   =>   ""
