@@ -23,9 +23,16 @@
             <li>
                 <a href="/<?php echo INDIACOM; ?>accomodation" class="text-light">Accomodation</a>
             </li>
+            <?php
+            if ( !isset($_SESSION['member_id']) )
+            {
+            ?>
             <li>
-                <a href="/<?php echo INDIACOM; ?>d/SignUpController" class="text-light">Register</a>
+                <a href="/<?php echo INDIACOM; ?>d/SignUpController/signUp" class="text-light">Register</a>
             </li>
+            <?php
+            }
+            ?>
         </ul>
     </div>
     <div class="col-md-2 col-sm-2 col-xs-12">

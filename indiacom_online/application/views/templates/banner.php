@@ -42,7 +42,7 @@
                             <a href="importantdates" ><span class="glyphicon glyphicon-calendar"></span></a>11<sup>th</sup> - 13<sup>th</sup> March, 2015
                         </div>
                         <div class="col-md-6 col-sm-12 col-xs-12">
-                            <a href="#" ><span class="glyphicon glyphicon-map-marker"></span></a> Bharati Vidyapeeth, New Delhi, India
+                            <a href="reachingBVICAM" ><span class="glyphicon glyphicon-map-marker"></span></a> Bharati Vidyapeeth, New Delhi, India
                         </div>
                      &nbsp
                     </div>

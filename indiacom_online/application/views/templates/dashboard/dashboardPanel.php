@@ -5,7 +5,7 @@
                 <a href="/<?php echo INDIACOM; ?>Dashboard/home" style="color: #333">Dashboard</a>
             </div>
             <ul class="list-group">
-                <li class="list-group-item"><a href="#">Edit Profile</a></li>
+                <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/editProfile"">Edit Profile</a></li>
                 <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/submitPaper">Submit Paper</a></li>
                 <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision">Submit Paper Revision</a></li>
                 <li class="list-group-item"><a href="#">Edit Submission</a></li>
