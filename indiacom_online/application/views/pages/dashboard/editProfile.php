@@ -69,7 +69,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="mobileNumber" class="col-sm-3 control-label">Mobile Number</label>
+                            <label for="mobileNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Mobile Number</label>
                             <div class="col-sm-9">
                                 <input type="tel" name = "mobileNumber" class="form-control" id="mobileNumber" value="<?php echo $editProfile['member_mobile']; ?>" placeholder="Enter Mobile Number">
                             </div>
@@ -138,7 +138,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="department" class="col-sm-3 control-label">Department</label>
+                            <label for="department" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Department</label>
                             <div class="col-sm-9">
                                 <input type="tel" name = "department" class="form-control" id="department" value="<?php echo $editProfile['member_department']; ?>" placeholder="Enter your department">
                             </div>
