@@ -15,7 +15,7 @@
     <body>
 
         Your Member id is : <?php echo $member_id ?>
-
+        <br/>
         These are the list of services that would be provided to you :
 
         <ul>

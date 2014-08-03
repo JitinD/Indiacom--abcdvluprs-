@@ -9,14 +9,13 @@
 
 <div class="container-fluid contentBlock-top">
     <div class="row">
-        <div class="col-md-9 col-sm-9 col-xs-12">
-            <span class="h3 text-theme">Member Registration</span>
-            <div class="row body-text">
-                <div class="col-md-12">
-                    <?php   echo $message;  ?>
-                    <br/><br/>
-                </div>
-            </div>
+        <div class="col-lg-10 col-lg-offset-2 col-md-12  col-md-offset-2 col-sm-12  col-sm-offset-2 col-xs-12">
+            <span class="h1 text-theme">Member Registration</span>
+            <hr>
+            <p class="body-text contentBlock-top">
+                <?php   echo $message;  ?>
+            </p>
+
         </div>
     </div>
 </div>
