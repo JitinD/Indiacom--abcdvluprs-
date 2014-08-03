@@ -23,7 +23,7 @@
     </div>
     <div class="row">
         <div class="col-md-6 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0">
-            <form class="form-horizontal" method = "post" action="#">
+            <form class="form-horizontal" role="form" enctype="multipart/form-data" method = "post" action="#">
                 <div class="form-group">
                     <label for="name" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Name</label>
                     <div class="col-sm-9">
@@ -88,6 +88,12 @@
                     <label for="biodata" class="col-sm-3 control-label">Biodata</label>
                     <div class="col-sm-9">
                         <input type="file" name = "biodata" class="form-control" id="biodata" placeholder="Choose File">
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php
+                        echo form_error('biodata');
+                        if(isset($uploadError)) echo $uploadError;
+                        ?>
                     </div>
                 </div>
                 <div class="form-group">

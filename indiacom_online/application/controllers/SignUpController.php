@@ -18,6 +18,7 @@
             parent::__construct();
 
             $this -> load -> model('RegistrationModel');
+            $this->load->helper(array('form', 'url'));
 
         }
 
@@ -58,6 +59,25 @@
             return false;
         }
 
+        //uploading member bio data
+        public function uploadBiodata($fileElem,$eventId,$memberId)
+        {
+            $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+            $config['allowed_types'] = 'doc|docx';
+            $config['file_name'] = $memberId . "biodata";
+            $config['overwrite'] = true;
+
+            $this->load->library('upload', $config);
+
+            if ( ! $this->upload->do_upload($fileElem))
+            {
+                return false;
+            }
+            $uploadData = $this->upload->data();
+
+            return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
+        }
+
         private function index($page)
         {
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
@@ -74,9 +94,8 @@
             loginModalInit($this->data);
             $this -> data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this -> data);
-            $this->load->view('pages/'.$page, $this -> data);
+            $this->load->view('pages/'.$page, $this -> data,array('error' => ' ' ));
             $this->load->view('templates/footer');
-
         }
 
         public function EnterPassword($member_id, $activation_code)
@@ -127,6 +146,9 @@
             $this->index($page);
         }
 
+
+
+
         public function signUp()
         {
 
@@ -151,6 +173,12 @@
                 $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
                 $member_id = $this -> RegistrationModel -> assignMemberId();
 
+                if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$member_id)) == false)
+                {
+                    $this->data['uploadError'] = $this->upload->display_errors();
+                    $this->db->trans_rollback();
+                }
+
                 $active_str = array_merge(range(1,9));
                 $str = implode("", $active_str);
                 $activation_code  = substr(str_shuffle($str), 0, 8);
@@ -174,7 +202,7 @@
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
                                             'member_password'       =>   $activation_code ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
-                                            'member_biodata_path'   =>   "",
+                                            'member_biodata_path'   =>   $doc_path,
                                             'member_category_id'    =>   $this -> input -> post('category'),
                                             'member_experience'     =>   $this -> input -> post('experience'),
                                             'member_is_activated'   =>   ""
