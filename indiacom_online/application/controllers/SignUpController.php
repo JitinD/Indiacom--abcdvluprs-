@@ -120,7 +120,7 @@
             loginModalInit($this->data);
             $this -> data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this -> data);
-            $this->load->view('pages/'.$page, $this -> data, array('error' => ' ');
+            $this->load->view('pages/'.$page, $this -> data, array('error' => ' '));
             $this->load->view('templates/footer');
 
         }
@@ -135,7 +135,7 @@
 
             $member_info = $this -> MemberModel -> getMemberInfo($member_id);
 
-            if(strcmp($activation_code, $member_info['member_password']) || $member_info['member_is_activated'])
+            if(strcmp($activation_code, $member_info['member_password']))// || $member_info['member_is_activated'])
             {
                 $this->load->view('pages/unauthorizedAccess');
                 return;
