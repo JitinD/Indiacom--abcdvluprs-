@@ -5,7 +5,7 @@
         <div class="row body-text">
             <div class="col-md-11">
                 <span class="help-block">
-                    To reset your password, enter the <kbd>Member ID</kbd> you received at time of registration and your registered <kbd>Email Address</kbd>.
+                    To reset your password, enter the <kbd>Member ID</kbd> you received at time of registration or your registered <kbd>Email Address</kbd>.
                 </span>
                 <span class="help-block">You will receive a reset link in your email. Use that password to login and immediately change your password.</span>
                 <div class="contentBlock-top">

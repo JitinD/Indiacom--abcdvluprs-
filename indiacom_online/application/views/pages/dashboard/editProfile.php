@@ -4,7 +4,7 @@
             <span class="h3 text-theme">Edit Profile</span>
             <div class="row body-text">
                 <div class="col-md-12">
-                    <form class="form-horizontal" enctype="multipart/form-data" method = "post" action="#">
+                    <form class="form-horizontal" enctype="multipart/form-data" method = "post" >
                         <div class="form-group">
                             <label for="salutation"   class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Salutation</label>
                             <div class="col-sm-3">
@@ -89,11 +89,12 @@
                             <div class="col-sm-9">
                                 <input type="file" name = "biodata" class="form-control" id="biodata" placeholder="Choose File">
                             </div>
-                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                            <!--<div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php
-                                echo form_error('biodata');
+/*                                echo form_error('biodata');
                                 if(isset($uploadError)) echo $uploadError;
-                                ?>
+                                */?>
+                            </div>-->
                         </div>
                         <div class="form-group">
                             <label for="csimembershipno" class="col-sm-3 control-label">CSI Membership Number</label>
@@ -161,6 +162,20 @@
                                 <input type="tel" name = "experience" class="form-control" id="experience" value="<?php echo $editProfile['member_experience']; ?>" placeholder="Enter Experience in the Organization">
                             </div>
                         </div>
+
+                        <div class="form-group">
+                                <div class="col-sm-6 col-sm-offset-2">
+                                    <span class="body-text text-danger">
+                                        <?php
+                                        if(isset($error))
+                                            echo $error;
+                                        ?>
+
+                                    </span>
+                                </div>
+
+                        </div>
+
                         <div class="form-group">
                             <div class="col-sm-offset-3 col-sm-6">
                                 <button type="submit" class="btn btn-success">Save Changes</button>

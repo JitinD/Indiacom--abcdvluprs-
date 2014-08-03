@@ -374,10 +374,12 @@ class Dashboard extends CI_Controller
         $this->form_validation->set_rules('organization', 'Organization', 'required');
         $this->form_validation->set_rules('category', 'Category', 'required');
         $this->form_validation->set_rules('department', 'Department', 'required');
+
         if($this->form_validation->run())
         {
 
             $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
+
             if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$_SESSION['member_id'])) == false)
             {
                 $this->data['uploadError'] = $this->upload->display_errors();
@@ -406,9 +408,13 @@ class Dashboard extends CI_Controller
                     'member_is_activated'   =>   ""
                 );
 
+                if($this->MemberModel->updateMemberInfo($member_record, $_SESSION['member_id']))
+                    $page .= "Success";
+
             }
-            $this->MemberModel->updateMemberInfo($member_record,$_SESSION['member_id']);
-            $page .= "Success";
+            else
+                $this -> data['error'] = "No such organization";
+
         }
 
 
