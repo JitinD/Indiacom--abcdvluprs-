@@ -27,7 +27,7 @@
                 <div class="form-group">
                     <label for="salutation" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Salutation</label>
                     <div class="col-sm-3">
-                        <select id="salutation" class="form-control">
+                        <select id="salutation" name="salutation" class="form-control">
                             <option value="Mr">Mr</option>
                             <option value="Ms">Ms</option>
                             <option value="Mrs">Mrs</option>

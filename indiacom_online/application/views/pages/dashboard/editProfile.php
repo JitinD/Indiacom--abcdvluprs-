@@ -6,16 +6,16 @@
                 <div class="col-md-12">
                     <form class="form-horizontal" enctype="multipart/form-data" method = "post" action="#">
                         <div class="form-group">
-                            <label for="salutation" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Salutation</label>
+                            <label for="salutation"   class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Salutation</label>
                             <div class="col-sm-3">
-                                <select id="salutation" class="form-control">
-                                    <option value="Mr">Mr</option>
-                                    <option value="Ms">Ms</option>
-                                    <option value="Mrs">Mrs</option>
-                                    <option value="Dr">Dr</option>
-                                    <option value="Prof">Prof</option>
-                                    <option value="Sir">Sir</option>
-                                </select>
+                                <select id="salutation" name="salutation" value="<?php echo $editProfile['member_salutation']; ?>" class="form-control">
+                                    <option value="Mr"<?=$editProfile['member_salutation'] == "Mr" ? ' selected="selected"' : ''?>>Mr</option>
+                                    <option value="Ms"<?=$editProfile['member_salutation'] == "Ms" ? ' selected="selected"' : ''?>>Ms</option>
+                                    <option value="Mrs"<?=$editProfile['member_salutation'] == "Mrs" ? ' selected="selected"' : ''?>>Mrs</option>
+                                    <option value="Dr"<?=$editProfile['member_salutation'] == "Dr" ? ' selected="selected"' : ''?>>Dr</option>
+                                    <option value="Prof"<?=$editProfile['member_salutation'] == "Prof" ? ' selected="selected"' : ''?>>Prof</option>
+                                    <option value="Sir"<?=$editProfile['member_salutation'] == "Sir" ? ' selected="selected"' : ''?>>Sir</option>
+                          </select>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('name'); ?>
@@ -112,7 +112,7 @@
                                     <?php foreach($member_categories as $category)
                                     {
                                         ?>
-                                        <option value = "<?php echo $category -> member_category_id ?>"><?php echo $category -> member_category_name ?></option>
+                                    <option value ="<?php echo $category -> member_category_id ?>" <?=$editProfile['member_category_id'] ==  $category -> member_category_id  ? 'selected="selected"' : ''?>><?php echo $category -> member_category_name ?></option>
                                     <?php
                                     }
                                     ?>
@@ -137,21 +137,21 @@
                         <div class="form-group">
                             <label for="department" class="col-sm-3 control-label">Department</label>
                             <div class="col-sm-9">
-                                <input type="tel" name = "department" class="form-control" id="department" value="" placeholder="Enter your department">
+                                <input type="tel" name = "department" class="form-control" id="department" value="<?php echo $editProfile['member_department']; ?>" placeholder="Enter your department">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label for="designation" class="col-sm-3 control-label">Designation</label>
                             <div class="col-sm-9">
-                                <input type="text" name = "designation" class="form-control" id="designation" value="<?php echo set_value('designation'); ?>" placeholder="Enter Designation in the Organization">
+                                <input type="text" name = "designation" class="form-control" id="designation" value="<?php echo $editProfile['member_designation']; ?>" placeholder="Enter Designation in the Organization">
                             </div>
                         </div>
                             
                         <div class="form-group">
                             <label for="experience" class="col-sm-3 control-label">Experience</label>
                             <div class="col-sm-9">
-                                <input type="tel" name = "experience" class="form-control" id="experience" value="<?php echo $editProfile['member_experience'];; ?>" placeholder="Enter Experience in the Organization">
+                                <input type="tel" name = "experience" class="form-control" id="experience" value="<?php echo $editProfile['member_experience']; ?>" placeholder="Enter Experience in the Organization">
                             </div>
                         </div>
                         <div class="form-group">

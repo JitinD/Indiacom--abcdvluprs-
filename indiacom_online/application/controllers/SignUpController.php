@@ -281,6 +281,7 @@
                 {
                     $member_record = array(
                                             'member_id'             =>   $member_id,
+                                             'member_salutation'     =>  $this -> input -> post('salutation'),
                                             'member_name'           =>   $this -> input -> post('name'),
                                             'member_address'        =>   $this -> input -> post('address'),
                                             'member_pincode'        =>   $this -> input -> post('pincode'),
@@ -295,6 +296,7 @@
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
                                             'member_biodata_path'   =>   $doc_path,
                                             'member_category_id'    =>   $this -> input -> post('category'),
+                                            'member_department'     =>   $this -> input -> post('department'),
                                             'member_experience'     =>   $this -> input -> post('experience'),
                                             'member_is_activated'   =>   ""
                                          );
