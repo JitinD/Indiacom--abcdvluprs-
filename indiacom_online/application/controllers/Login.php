@@ -52,13 +52,15 @@ class Login extends CI_Controller
         {
             return true;
         }
-        $this->form_validation->set_message('passwordCheck', 'Member id or password is invalid');
+        $this->form_validation->set_message('passwordCheck', $this->LoginModel->error);
         return false;
     }
 
     public function logout()
     {
         session_destroy();
+        $_SESSION['dbUserName'] = 'Minimal';
+        $_SESSION['dbPassword'] = '1234';
         header('location: /' . INDIACOM . 'index');
     }
 

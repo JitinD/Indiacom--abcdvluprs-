@@ -8,6 +8,7 @@
 
 class LoginModel extends CI_Model
 {
+    public $error;
     private $username;
     private $password;
     private $member_name;
@@ -15,8 +16,7 @@ class LoginModel extends CI_Model
 
     public function __construct()
     {
-        $this->load->database();
-
+        $this->load->database('default');
     }
 
 
@@ -67,17 +67,24 @@ class LoginModel extends CI_Model
     {
         //$this->load->library('encrypt');
         $encrypted_pass = md5($password);
+        $this->load->model('RoleModel');
+        $roleName = "Author";
         //$decrypted_pass = $this->encrypt->decode($encrypted_pass);
         if($encrypted_pass == $this->password)
         {
             $_SESSION['authenticated'] = true;
-            $_SESSION['role_id'] = 1;
-            $_SESSION['current_role_id'] = 1;
+            if(($_SESSION['role_id'] = $this->RoleModel->getRoleId($roleName)) == false)
+            {
+                $this->error = $roleName . " role not defined. Contact admin";
+                return false;
+            }
+            $_SESSION['current_role_id'] = $_SESSION['role_id'];
             $_SESSION['member_id'] = $this->username;
             $_SESSION['member_name'] = $this->member_name;
+            $this->getDbLoginCredentials($roleName);
             return true;
         }
-
+        $this->error = "Incorrect credentials";
         return false;
     }
 
@@ -100,5 +107,17 @@ class LoginModel extends CI_Model
             return true;
         }
         return false;
+    }
+
+    private function getDbLoginCredentials($roleName)
+    {
+        $sql = "Select database_user_password From database_user Where database_user_name = ?";
+        $query = $this->db->query($sql, array($roleName));
+        if($query->num_rows() == 1)
+        {
+            $row = $query->row();
+            $_SESSION['dbUserName'] = $roleName;
+            $_SESSION['dbPassword'] = $row->database_user_password;
+        }
     }
 }
