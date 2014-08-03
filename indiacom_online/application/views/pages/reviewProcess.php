@@ -6,7 +6,7 @@
     <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 ">
         <span class="h1 text-theme">Review Process, Publication and Indexing</span>
         <hr>
-        <div class="row h4 body-text">
+        <div class="row text-justify body-text">
             <div class="col-md-12">
                 <p>
                     <strong>

@@ -25,6 +25,22 @@
         <div class="col-md-6 col-md-offset-2 col-sm-12 col-sm-offset-0 col-xs-12 col-xs-offset-0">
             <form class="form-horizontal" enctype="multipart/form-data" method = "post">
                 <div class="form-group">
+                    <label for="salutation" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Salutation</label>
+                    <div class="col-sm-3">
+                        <select id="salutation" class="form-control">
+                            <option value="Mr">Mr</option>
+                            <option value="Ms">Ms</option>
+                            <option value="Mrs">Mrs</option>
+                            <option value="Dr">Dr</option>
+                            <option value="Prof">Prof</option>
+                            <option value="Sir">Sir</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('name'); ?>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label for="name" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Name</label>
                     <div class="col-sm-9">
                         <input type="text" name = "name" class="form-control" value="<?php echo set_value('name'); ?>" id="name" placeholder="Enter name">
@@ -63,7 +79,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phoneNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Phone Number</label>
+                    <label for="phoneNumber" class="col-sm-3 control-label">Phone Number</label>
                     <div class="col-sm-9">
                         <input type="tel" name = "phoneNumber" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
                     </div>
@@ -139,16 +155,23 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="department" class="col-sm-3 control-label">Department</label>
+                    <label for="department" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Department</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "department" class="form-control" id="department" value="<?php echo set_value('department'); ?>" placeholder="Enter your department">
+                        <input type="text" name = "department" class="form-control" id="department" value="<?php echo set_value('department'); ?>" placeholder="Enter your department">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="designation" class="col-sm-3 control-label">Designation</label>
+                    <div class="col-sm-9">
+                        <input type="text" name = "designation" class="form-control" id="designation" value="<?php echo set_value('designation'); ?>" placeholder="Enter Designation in the Organization">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="experience" class="col-sm-3 control-label">Experience</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "experience" class="form-control" id="experience" value="<?php echo set_value('experience'); ?>" placeholder="Enter Experience in the Organization">
+                        <input type="text" name = "experience" class="form-control" id="experience" value="<?php echo set_value('experience'); ?>" placeholder="Enter Experience in the Organization">
                     </div>
                 </div>
                 <!--div class="form-group">
