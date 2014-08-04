@@ -224,8 +224,10 @@
 
                 if(!$email_id && $member_id)
                 {
-                    $member_info = $this -> MemberModel -> getMemberInfo($member_id);
-                    $this -> data['email_id'] = $this -> hide_mail($member_info['member_email']);
+                    if($member_info = $this -> MemberModel -> getMemberInfo($member_id))
+						$this -> data['email_id'] = $this -> hide_mail($member_info['member_email']);
+					else
+						$this -> data['error'] = "Sorry, no such member ID exists in our database";
                 }
 
             }
