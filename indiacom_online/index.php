@@ -24,6 +24,8 @@
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
+    $_SESSION['dbUserName'] = 'Minimal';
+    $_SESSION['dbPassword'] = '1234';
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

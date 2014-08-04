@@ -55,7 +55,14 @@ function &DB($params = '', $active_record_override = NULL)
 			show_error('You have specified an invalid database connection group.');
 		}
 
+        $suppliedParams = $params;
 		$params = $db[$active_group];
+
+        if ($suppliedParams == '')
+        {
+            $params['username'] = $_SESSION['dbUserName'];
+            $params['password'] = $_SESSION['dbPassword'];
+        }
 	}
 	elseif (is_string($params))
 	{
