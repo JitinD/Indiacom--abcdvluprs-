@@ -7,8 +7,8 @@
  */
 ?>
 
-<div class="row border-bottom contentBlock-top bg-dark-blue text-light">
-    <div class="col-md-10 col-sm-10 col-xs-12 text-center">
+<div class="row bg-dark-blue text-light">
+    <div class="col-md-10 col-sm-10 col-xs-12 text-center contentBlock-top">
         <ul class="list-inline" style="font-size: 16px;">
             <span class="h4 text-muted">Quick Links &raquo;</span
             <li>
@@ -35,7 +35,7 @@
             ?>
         </ul>
     </div>
-    <div class="col-md-2 col-sm-2 col-xs-12">
+    <div class="col-md-2 col-sm-2 col-xs-12 contentBlock-top">
         <form role="search">
             <div class="input-group input-group-sm">
                 <input type="text" class="form-control input-sm" placeholder="Search" name="srch-term" id="srch-term">

@@ -25,8 +25,8 @@
     }
 </style>
 
-<div class="contentBlock-bottom container-fluid" style="padding-top: 80px;">
-    <div class="row contentBlock-top">
+<div class="container-fluid topBlock">
+    <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
             <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage"></center>
         </div>

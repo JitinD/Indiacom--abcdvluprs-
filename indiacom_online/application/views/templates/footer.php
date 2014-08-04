@@ -28,9 +28,9 @@
     </div>
 </div>
 </div>
-<script src="//cdn.virtuosoft.eu/virtuosoft.eu/resources/jquery.bootstrap-autohidingnavbar.min.js"></script>
+<!--<script src="//cdn.virtuosoft.eu/virtuosoft.eu/resources/jquery.bootstrap-autohidingnavbar.min.js"></script>
 
 <script>$("div.navbar-fixed-top").autoHidingNavbar();</script>
-
+-->
 </body>
 </html>
