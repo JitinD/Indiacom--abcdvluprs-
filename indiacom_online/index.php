@@ -24,8 +24,12 @@
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
-    $_SESSION['dbUserName'] = 'Minimal';
-    $_SESSION['dbPassword'] = '1234';
+    if(!isset($_SESSION['dbUserName']))
+    {
+        $_SESSION['dbUserName'] = 'Minimal';
+        $_SESSION['dbPassword'] = '1234';
+    }
+    require('application/config/paths.php');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

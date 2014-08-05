@@ -179,7 +179,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		$result = @mysql_query($sql, $this->conn_id);
         if(!$result)
         {
-            header('Location: /' . INDIACOM . 'ErrorController/errorPage/1');
+            header('Location: /' . INDIACOM . 'ErrorController/errorPage/1?mysql_error='.mysql_error());
         }
         return $result;
 	}

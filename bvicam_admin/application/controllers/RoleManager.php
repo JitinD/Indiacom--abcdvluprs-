@@ -16,6 +16,7 @@ class RoleManager extends CI_Controller
         "member_master",
         "news_master",
         "organization_master",
+        "paper_latest_version",
         "paper_master",
         "paper_version_master",
         "privilege_master",

@@ -24,8 +24,11 @@
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
-    $_SESSION['dbUserName'] = 'root';
-    $_SESSION['dbPassword'] = '';
+    if(!isset($_SESSION['dbUserName']))
+    {
+        $_SESSION['dbUserName'] = 'root';
+        $_SESSION['dbPassword'] = '';
+    }
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

@@ -13,10 +13,11 @@ class LoginModel extends CI_Model
     private $password;
     private $member_name;
     private $loginType;
+    private $dbCon;
 
     public function __construct()
     {
-        $this->load->database('default');
+        $this->dbCon = $this->load->database('default', TRUE);
     }
 
 
@@ -28,9 +29,9 @@ class LoginModel extends CI_Model
 
     public function fetch()
     {
-        $this -> db -> select('member_password,member_name');
-        $this -> db -> where('member_id', $this -> username);
-        $query = $this -> db -> get('member_master');
+        $this -> dbCon -> select('member_password,member_name');
+        $this -> dbCon -> where('member_id', $this -> username);
+        $query = $this -> dbCon -> get('member_master');
         $member_pass_array = $query -> row_array();
         $this->password=$member_pass_array['member_password'];
         $this->member_name=$member_pass_array['member_name'];
@@ -91,11 +92,11 @@ class LoginModel extends CI_Model
     private function adminAuthenticate()
     {
         $sql = "Select * From User_Master Where user_id=? AND user_password = ? AND user_dirty = 0";
-        $query = $this->db->query($sql, array($this->username, $this->password));
+        $query = $this->dbCon->query($sql, array($this->username, $this->password));
         if($query->num_rows() == 1)
         {
             $sql = "SELECT event_id, role_id FROM user_event_role_mapper WHERE user_id = ? ORDER BY event_id";
-            $query = $this->db->query($sql, array($this->username));
+            $query = $this->dbCon->query($sql, array($this->username));
             foreach($query->result() as $row)
             {
                 array_push($_SESSION['role_id'][$row->event_id], $row->role_id);
@@ -112,7 +113,7 @@ class LoginModel extends CI_Model
     private function getDbLoginCredentials($roleName)
     {
         $sql = "Select database_user_password From database_user Where database_user_name = ?";
-        $query = $this->db->query($sql, array($roleName));
+        $query = $this->dbCon->query($sql, array($roleName));
         if($query->num_rows() == 1)
         {
             $row = $query->row();
