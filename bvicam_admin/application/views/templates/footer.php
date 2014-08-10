@@ -20,7 +20,7 @@
 
 </style>
 <div class="container-fluid">
-    <div class="text-center text-muted footer row">
+    <div class=" text-center text-muted footer row">
         <div class="col-md-12">
             <hr>
             | Developed By <a href="#">Software Consultancy and Development Cell</a> &copy <?php date_default_timezone_set('Asia/Kolkata'); echo date('Y') ?> BVICAM | <a href="developers">Developers</a> |
