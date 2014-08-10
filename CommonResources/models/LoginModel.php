@@ -11,7 +11,6 @@ class LoginModel extends CI_Model
     public $error;
     private $username;
     private $password;
-    private $member_name;
     private $loginType;
     private $dbCon;
 
@@ -20,30 +19,15 @@ class LoginModel extends CI_Model
         $this->dbCon = $this->load->database('default', TRUE);
     }
 
-
     public function setUsername($username)
     {
         $this->username = $username;
     }
 
-
-    public function fetch()
+    public function setPassword($password)
     {
-        $this -> dbCon -> select('member_password,member_name');
-        $this -> dbCon -> where('member_id', $this -> username);
-        $query = $this -> dbCon -> get('member_master');
-        $member_pass_array = $query -> row_array();
-        $this->password=$member_pass_array['member_password'];
-        $this->member_name=$member_pass_array['member_name'];
+        $this->password = $password;
     }
-
-//    public function setPassword($password)
-//    {
-//        $this->password = $password;
-//    }
-
-
-
 
     public function setLoginType($loginType)
     {
@@ -51,11 +35,11 @@ class LoginModel extends CI_Model
     }
 
 
-    public function authenticate($password)
+    public function authenticate()
     {
         if($this->loginType == 'M')
         {
-              return $this->memberAuthenticate($password);
+            return $this->memberAuthenticate();
         }
         else if($this->loginType == 'A')
         {
@@ -64,15 +48,15 @@ class LoginModel extends CI_Model
         return false;
     }
 
-    private function memberAuthenticate($password)
+    private function memberAuthenticate()
     {
-        //$this->load->library('encrypt');
-        $encrypted_pass = md5($password);
         $this->load->model('RoleModel');
-        $roleName = "Author";
-        //$decrypted_pass = $this->encrypt->decode($encrypted_pass);
-        if($encrypted_pass == $this->password)
+        $this->load->model('MemberModel');
+        $encrypted_pass = md5($this->password);
+        $memberInfo = $this->MemberModel->getMemberInfo($this->username);
+        if($encrypted_pass == $memberInfo->member_password)
         {
+            $roleName = "Author";
             $_SESSION['authenticated'] = true;
             if(($_SESSION['role_id'] = $this->RoleModel->getRoleId($roleName)) == false)
             {
@@ -81,8 +65,8 @@ class LoginModel extends CI_Model
             }
             $_SESSION['current_role_id'] = $_SESSION['role_id'];
             $_SESSION['member_id'] = $this->username;
-            $_SESSION['member_name'] = $this->member_name;
-            $this->getDbLoginCredentials($roleName);
+            $_SESSION['member_name'] = $memberInfo->member_name;
+            $this->setDbLoginCredentials($roleName);
             return true;
         }
         $this->error = "Incorrect credentials";
@@ -91,26 +75,33 @@ class LoginModel extends CI_Model
 
     private function adminAuthenticate()
     {
-        $sql = "Select * From User_Master Where user_id=? AND user_password = ? AND user_dirty = 0";
-        $query = $this->dbCon->query($sql, array($this->username, $this->password));
-        if($query->num_rows() == 1)
+        $this->load->model('UserModel');
+        $userInfo = $this->UserModel->getUserInfoByEmail($this->username);
+        if($userInfo->user_password == $this->password)
         {
-            $sql = "SELECT event_id, role_id FROM user_event_role_mapper WHERE user_id = ? ORDER BY event_id";
-            $query = $this->dbCon->query($sql, array($this->username));
-            foreach($query->result() as $row)
+            $userRolesEvents = $this->UserModel->getUserEventAndRoles($userInfo->user_id);
+            foreach($userRolesEvents as $row)
             {
-                array_push($_SESSION['role_id'][$row->event_id], $row->role_id);
+                $_SESSION['role_id'][$row->event_id][] = $row->role_id;
             }
             $_SESSION['authenticated'] = true;
             $_SESSION['user_id'] = $this->username;
-            $row = $query->row();
-            $_SESSION['current_role_id'] = $row->role_id;
             return true;
         }
         return false;
     }
 
-    private function getDbLoginCredentials($roleName)
+    public function adminSetRoleEvent($roleId, $eventId)
+    {
+        $this->load-model('RoleModel');
+        $_SESSION['current_role_id'] = $roleId;
+        $_SESSION['current_event_id'] = $eventId;
+        $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $roleName = $roleInfo->role_name;
+        $this->setDbLoginCredentials($roleName);
+    }
+
+    private function setDbLoginCredentials($roleName)
     {
         $sql = "Select database_user_password From database_user Where database_user_name = ?";
         $query = $this->dbCon->query($sql, array($roleName));

@@ -29,7 +29,7 @@ class Page extends CI_Controller
 
         $data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $data);
-        $this->load->view('templates/sidebar');
+//        $this->load->view('templates/sidebar');
         $this->load->view('pages/'.$page, $data);
         $this->load->view('templates/footer');
     }

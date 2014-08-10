@@ -121,13 +121,65 @@ class RoleManager extends CI_Controller
             }
         }
 
-        $rolePrivs = $this->RoleModel->getRolePrivileges($roleId);
+        $rolePrivs = $this->RoleModel->getRolePrivilegesInclDirty($roleId);
+        $privStatus = array();
         $privIds = array();
-        foreach($rolePrivs as $rolePriv)
+        if($rolePrivs != null)
         {
-            $privIds[] = $rolePriv->privilege_id;
+            foreach($rolePrivs as $rolePriv)
+            {
+                $privIds[] = $rolePriv->privilege_id;
+                $privStatus[$rolePriv->privilege_id] = $rolePriv->privilege_role_mapper_dirty;
+            }
         }
-        $this->data['privilegeDetails'] = $this->PrivilegeModel->getPrivilegeDetails($privIds, "Order By privilege_entity");
+        $this->data['privilegeDetails'] = array();
+        $this->data['privilegeDirtyStatus'] = array();
+        if($rolePrivs != null)
+        {
+            $this->data['privilegeDetails'] = $this->PrivilegeModel->getPrivilegeDetails($privIds, "Order By privilege_entity");
+            $this->data['privilegeDirtyStatus'] = $privStatus;
+        }
         $this->index($page);
+    }
+
+    public function enableRolePrivilege($roleId, $privilegeId)
+    {
+        $this->load->helper('url');
+        $this->RoleModel->enablePrivilege($roleId, $privilegeId);
+        $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $this->RoleModel->grantPrivileges($roleInfo->role_name, array($privilegeId));
+        redirect('/RoleManager/ViewRole/'.$roleId);
+    }
+
+    public function disableRolePrivilege($roleId, $privilegeId)
+    {
+        $this->load->helper('url');
+        $this->RoleModel->disablePrivilege($roleId, $privilegeId);
+        $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $this->RoleModel->revokePrivileges($roleInfo->role_name, array($privilegeId));
+        redirect('/RoleManager/ViewRole/'.$roleId);
+    }
+
+    public function deleteRolePrivilege($roleId, $privilegeId)
+    {
+        $this->load->helper('url');
+        $this->RoleModel->deletePrivilege($roleId, $privilegeId);
+        $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $this->RoleModel->revokePrivileges($roleInfo->role_name, array($privilegeId));
+        redirect('/RoleManager/ViewRole/'.$roleId);
+    }
+
+    public function disableRole($roleId)
+    {
+        $this->load->helper('url');
+        $this->RoleModel->disableRole($roleId);
+        redirect('/RoleManager/load');
+    }
+
+    public function enableRole($roleId)
+    {
+        $this->load->helper('url');
+        $this->RoleModel->enableRole($roleId);
+        redirect('/RoleManager/load');
     }
 }

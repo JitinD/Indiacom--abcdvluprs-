@@ -145,7 +145,7 @@ class Dashboard extends CI_Controller
 
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
-        $config['upload_path'] = "C:/wamp/www/Indiacom2015/upload/".$eventId;
+        $config['upload_path'] = PAPER_UPLOAD_PATH.$eventId;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = $paperId . "v" . $versionNumber;
         $config['overwrite'] = true;

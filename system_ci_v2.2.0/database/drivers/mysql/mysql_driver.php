@@ -177,7 +177,7 @@ class CI_DB_mysql_driver extends CI_DB {
 	{
 		$sql = $this->_prep_query($sql);
 		$result = @mysql_query($sql, $this->conn_id);
-        if(!$result)
+        if(!$result && mysql_errno() == 1142)
         {
             header('Location: /' . INDIACOM . 'ErrorController/errorPage/1?mysql_error='.mysql_error());
         }

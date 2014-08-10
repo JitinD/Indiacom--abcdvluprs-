@@ -43,6 +43,29 @@ class RoleModel extends CI_Model
         return $this->dbCon->trans_status();
     }
 
+    public function disablePrivilege($roleId, $privilegeId)
+    {
+        $sql = "Update privilege_role_mapper Set privilege_role_mapper_dirty = 1
+                Where role_id = ? And privilege_id = ? And privilege_role_mapper_dirty = 0";
+        $query = $this->db->query($sql, array($roleId, $privilegeId));
+        return $this->db->trans_status();
+    }
+
+    public function enablePrivilege($roleId, $privilegeId)
+    {
+        $sql = "Update privilege_role_mapper Set privilege_role_mapper_dirty = 0
+                Where role_id = ? And privilege_id = ? And privilege_role_mapper_dirty = 1";
+        $query = $this->db->query($sql, array($roleId, $privilegeId));
+        return $this->db->trans_status();
+    }
+
+    public function deletePrivilege($roleId, $privilegeId)
+    {
+        $sql = "Delete From privilege_role_mapper Where role_id = ? And privilege_id = ?";
+        $query = $this->db->query($sql, array($roleId, $privilegeId));
+        return $this->db->trans_status();
+    }
+
     public function createDbUser($username, $privileges = array())
     {
         $this->load->model('PrivilegeModel');
@@ -71,16 +94,59 @@ class RoleModel extends CI_Model
         }
     }
 
+    public function revokePrivileges($username, $privileges = array())
+    {
+        $host = rtrim(HOST, '/');
+        $privDetails = $this->PrivilegeModel->getPrivilegeDetails($privileges);
+        $privTypes = array();
+        foreach($privDetails as $priv)
+        {
+            $privTypes[$priv->privilege_entity][] = $priv->privilege_operation;
+        }
+        foreach($privTypes as $entity=>$privType)
+        {
+            $sql = "Revoke " . implode(',', $privType) . " On $entity From '$username'@'$host'";
+            $this->dbCon->query($sql);
+        }
+    }
+
+    public function enableRole($roleId)
+    {
+        $sql = "Update role_master Set role_dirty = 0
+                Where role_id = ? And role_dirty = 1";
+        $query = $this->db->query($sql, array($roleId));
+        return $this->db->trans_status();
+    }
+
+    public function disableRole($roleId)
+    {
+        $sql = "Update role_master Set role_dirty = 1
+                Where role_id = ? And role_dirty = 0";
+        $query = $this->db->query($sql, array($roleId));
+        return $this->db->trans_status();
+    }
+
     public function getAllRoles()
     {
-        $sql = "Select * From role_master Where role_dirty = 0";
+        $sql = "Select * From role_master";
         $query = $this->dbCon->query($sql);
         return $query->result();
     }
 
+    //Gets only enabled privileges
     public function getRolePrivileges($roleId)
     {
-        $sql = "Select privilege_id From privilege_role_mapper Where role_id = ? And privilege_role_mapper_dirty = 0";
+        $sql = "Select * From privilege_role_mapper Where role_id = ? And privilege_role_mapper_dirty = 0";
+        $query = $this->dbCon->query($sql, array($roleId));
+        if($query->num_rows() == 0)
+            return null;
+        return $query->result();
+    }
+
+    //Gets disabled privileges also
+    public function getRolePrivilegesInclDirty($roleId)
+    {
+        $sql = "Select * From privilege_role_mapper Where role_id = ?";
         $query = $this->dbCon->query($sql, array($roleId));
         if($query->num_rows() == 0)
             return null;
@@ -89,7 +155,7 @@ class RoleModel extends CI_Model
 
     public function getRoleDetails($roleId)
     {
-        $sql = "Select * From role_master Where role_id = ?";
+        $sql = "Select * From role_master Where role_id = ? And role_dirty = 0";
         $query = $this->dbCon->query($sql, array($roleId));
         if($query->num_rows() == 1)
             return $query->row();
@@ -98,7 +164,7 @@ class RoleModel extends CI_Model
 
     public function getRoleId($roleName)
     {
-        $sql = "Select role_id From role_master Where role_name = ?";
+        $sql = "Select role_id From role_master Where role_name = ? And role_dirty = 0";
         $query = $this->dbCon->query($sql, array($roleName));
         if($query->num_rows() == 0)
             return false;

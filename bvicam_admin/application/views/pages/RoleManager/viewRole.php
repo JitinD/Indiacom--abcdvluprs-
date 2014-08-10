@@ -45,7 +45,23 @@
                         <td><?php echo $privilege->privilege_id; ?></td>
                         <td><?php echo $privilege->privilege_entity; ?></td>
                         <td><?php echo $privilege->privilege_operation; ?></td>
-                        <td><a href="#">Disable</a> / <a href="#">Delete</a></td>
+                        <td>
+                            <?php
+                            if($privilegeDirtyStatus[$privilege->privilege_id] == 0)
+                            {
+                            ?>
+                                <a href="../disableRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Disable</a>
+                            <?php
+                            }
+                            else
+                            {
+                            ?>
+                                <a href="../enableRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Enable</a>
+                            <?php
+                            }
+                            ?>
+                            / <a href="../deleteRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Delete</a>
+                        </td>
                     </tr>
                 <?php
                 }
