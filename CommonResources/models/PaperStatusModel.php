@@ -21,7 +21,9 @@ class PaperStatusModel extends CI_Model
                 From paper_latest_version join submission_master on paper_id = submission_paper_id
                 Where submission_member_id = ? And submission_dirty = 0";
         $query = $this->db->query($sql, array($member_id));
-        return $query->result();
+        if($query->num_rows() > 0)
+            return $query->result();
+        return array();
         /*$number = 0;
         $paper = "";
 

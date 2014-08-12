@@ -3,8 +3,8 @@
         <div class="col-md-4 col-md-offset-3">
             <form class="form-signin" role="form">
                 <h2 class="form-signin-heading">Please sign in</h2>
-                <input type="email" class="form-control" placeholder="Email address" required autofocus>
-                <input type="password" class="form-control" placeholder="Password" required>
+                <input type="email" name="emailId" class="form-control" placeholder="Email address" required autofocus>
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
                 <div class="row contentBlock-top">
                     <div class="col-md-6">
                         <button class="btn btn-success btn-block" type="submit">Sign in</button>

@@ -128,7 +128,7 @@ class RoleModel extends CI_Model
 
     public function getAllRoles()
     {
-        $sql = "Select * From role_master";
+        $sql = "Select * From role_master Where role_dirty = 0";
         $query = $this->dbCon->query($sql);
         return $query->result();
     }

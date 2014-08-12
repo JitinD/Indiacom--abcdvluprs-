@@ -8,6 +8,7 @@
 
 class Page extends CI_Controller
 {
+    private $data;
     public function __construct()
     {
         parent::__construct();
@@ -27,10 +28,36 @@ class Page extends CI_Controller
             return;
         }
 
-        $data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $data);
+        $this->data['navbarItem'] = pageNavbarItem($page);
+        $this->load->view('templates/header', $this->data);
 //        $this->load->view('templates/sidebar');
-        $this->load->view('pages/'.$page, $data);
+        $this->load->view('pages/'.$page, $this->data);
         $this->load->view('templates/footer');
+    }
+
+    public function login()
+    {
+        $page = "login";
+        $this->load->model('LoginModel');
+        $this->load->library('form_validation');
+        $this->load->helper('url');
+        $this->form_validation->set_rules('emailId', 'Email Id', 'required');
+        $this->form_validation->set_rules('password', 'Password', 'required');
+
+        if($this->form_validation->run())
+        {
+            $this->LoginModel->setLoginType('A');
+            $this->LoginModel->setUsername($this->input->post('emailId'));
+            $this->LoginModel->setPassword($this->input->post('password'));
+            if(!$this->LoginModel->authenticate())
+            {
+                $this->data['loginError'] = "Incorrect credentials";
+            }
+            else
+            {
+                redirect('home');
+            }
+        }
+        $this->index($page);
     }
 }

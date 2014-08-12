@@ -14,6 +14,12 @@ class UserModel extends CI_Model
         $this->load->database();
     }
 
+    public function addUser($userDetails)
+    {
+        $this->db->insert('user_master', $userDetails);
+
+    }
+
     public function getUserInfo($userId)
     {
         $sql = "Select * From user_master Where user_id = ? And user_dirty = 0";

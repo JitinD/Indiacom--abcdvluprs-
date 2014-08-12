@@ -14,9 +14,9 @@ class EventModel extends CI_Model
         $this->load->database();
     }
 
-    public function getAllEvents()
+    public function getAllEvents_deprc()
     {
-        $sql = "Select event_id, event_name From event_master";
+        $sql = "Select event_id, event_name From event_master Where event_dirty = 0";
         $query = $this->db->query($sql);
         $htmlStr = "";
         foreach($query->result() as $row)
@@ -24,6 +24,13 @@ class EventModel extends CI_Model
             $htmlStr .= "<option value='" . $row->event_id .  "'>" . $row->event_name . "</option>";
         }
         return $htmlStr;
+    }
+
+    public function getAllEvents()
+    {
+        $sql = "Select event_id, event_name From event_master Where event_dirty = 0";
+        $query = $this->db->query($sql);
+        return $query->result();
     }
 
     public function getEventDetails($eventId)

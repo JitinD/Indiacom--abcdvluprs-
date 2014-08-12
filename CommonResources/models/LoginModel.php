@@ -54,7 +54,7 @@ class LoginModel extends CI_Model
         $this->load->model('MemberModel');
         $encrypted_pass = md5($this->password);
         $memberInfo = $this->MemberModel->getMemberInfo($this->username);
-        if($encrypted_pass == $memberInfo->member_password)
+        if($encrypted_pass == $memberInfo['member_password'])
         {
             $roleName = "Author";
             $_SESSION['authenticated'] = true;
@@ -65,7 +65,7 @@ class LoginModel extends CI_Model
             }
             $_SESSION['current_role_id'] = $_SESSION['role_id'];
             $_SESSION['member_id'] = $this->username;
-            $_SESSION['member_name'] = $memberInfo->member_name;
+            $_SESSION['member_name'] = $memberInfo['member_name'];
             $this->setDbLoginCredentials($roleName);
             return true;
         }

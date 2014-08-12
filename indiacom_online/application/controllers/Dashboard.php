@@ -57,7 +57,6 @@ class Dashboard extends CI_Controller
         $page = "dashboardHome";
         $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
         $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
-
         $this->index($page);
     }
 
@@ -84,7 +83,7 @@ class Dashboard extends CI_Controller
     public function submitPaper()
     {
         $page = 'submitpaper';
-        $this->data['events'] = $this->EventModel->getAllEvents();
+        $this->data['events'] = $this->EventModel->getAllEvents_deprc();
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");

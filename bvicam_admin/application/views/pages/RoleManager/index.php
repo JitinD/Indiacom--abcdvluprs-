@@ -29,7 +29,6 @@
                         <td><?php echo $key+1; ?></td>
                         <td><?php echo $role->role_name; ?></td>
                         <td>
-                            <<<<<<< HEAD
                             <a href="viewRole/<?php echo $role->role_id; ?>">Edit Role</a>
                             /
                             <?php
@@ -46,11 +45,6 @@
                             <?php
                             }
                             ?>
-                            =======
-                            <a class="btn btn-primary" href="viewRole/<?php echo $role->role_id; ?>">Edit Role</a>
-                            <a class="btn btn-primary"  href="#">Disable Role</a>
-                            <a class="btn btn-danger"  href="#">Delete Role</a>
-                            >>>>>>> da804f7ce1fe2ff815fbb74b5e2d7b81ba468633
                         </td>
                     </tr>
                 <?php
