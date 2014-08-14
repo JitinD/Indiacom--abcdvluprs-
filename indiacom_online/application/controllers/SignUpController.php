@@ -88,7 +88,8 @@
 		//uploading member bio data
         public function uploadBiodata($fileElem,$eventId,$memberId)
         {
-            $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+            //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+            $config['upload_path'] = dirname(__FILE__)."/../../../uploads/".$eventId;
             $config['allowed_types'] = 'pdf|doc|docx';
             $config['file_name'] = $memberId . "biodata";
             $config['overwrite'] = true;

@@ -24,6 +24,7 @@
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
+    //define('ADMIN', 'Indiacom2015/bvicam_admin/');
     if(!isset($_SESSION['dbUserName']))
     {
         $_SESSION['dbUserName'] = 'root';
