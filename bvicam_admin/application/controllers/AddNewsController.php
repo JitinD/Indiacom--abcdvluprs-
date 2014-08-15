@@ -12,8 +12,8 @@ class AddNewsController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('AccessModel');
-        //$this->load('EventModel');
-        $this -> load -> model('AddNewsModel');
+        $this->load->model('EventModel');
+        $this->load->model('NewsModel');
         $this->load->helper(array('form', 'url'));
     }
     private function index($page)
@@ -62,21 +62,23 @@ class AddNewsController extends CI_Controller
     public function addNews()
     {
         $page="addNews";
-        $this->data['events']=$this->AddNewsModel->getEventNames();
+
+        $this->data['events']=$this->EventModel->getAllEvents();
          $this->load->library('form_validation');
         $this->form_validation->set_rules('newsTitle', 'News Title', 'required');
-        //$this->form_validation->set_rules('description', 'Description', 'required');
+       // $this->form_validation->set_rules('description', 'Description', 'required');
         $this->form_validation->set_rules('publisherID', 'Publisher ID', 'required');
         $this->form_validation->set_rules('publishDate', 'Publish Date', 'required');
         $this->form_validation->set_rules('publishTime', 'Publish Time', 'required');
         $this->form_validation->set_rules('event', 'Event', 'required');
 
-        $news_id = $this -> AddNewsModel -> assignNewsId();
+
+        $news_id = $this -> NewsModel -> assignNewsId();
 
         if(($doc_path =$this->uploadNewsDescription('description',1,$news_id)) == false)
         {
             $this->data['uploadError'] = $this->upload->display_errors();
-           // $this->dbCon->trans_rollback();
+            $this->db->trans_rollback();
         }
 
         $publish_date=$this->input->post('publishDate');
@@ -100,31 +102,19 @@ class AddNewsController extends CI_Controller
 
 
             $member_record = array(
-                    'news_id'             =>   $news_id,
-                    'news_title'            =>  $this -> input -> post('newsTitle'),
-                    'news_description_url'  =>   $doc_path,
-                    'news_publisher_id'     =>   $this -> input -> post('publisherID'),
-                    'news_publish_date'   =>   $publishing_date,
-                    'news_sticky_date'      => $sticky_news_date,
-                    'news_event_id'         => 1,
-                    'news_attachments_path'        => 1
-//                    'member_email'          =>   $this -> input -> post('email'),
-//                    'member_phone'          =>   $this -> input -> post('phoneNumber'),
-//                    'member_mobile'         =>   $this -> input -> post('mobileNumber'),
-//                    'member_fax'            =>   $this -> input -> post('fax'),
-//                    'member_designation'    =>   "",
-//                    'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
-//                    'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
-//                   // 'member_password'       =>   $activation_code ,
-//                    'member_organization_id'=>   $organization_id_array['organization_id'],
-//                    'member_biodata_path'   =>   $doc_path,
-//                    'member_category_id'    =>   $this -> input -> post('category'),
-//                    'member_department'     =>   $this -> input -> post('department'),
-//                    'member_experience'     =>   $this -> input -> post('experience'),
-//                    'member_is_activated'   =>   ""
+                    'news_id'               =>      $news_id,
+                    'news_title'            =>      $this -> input -> post('newsTitle'),
+                    'news_description_url'  =>      $doc_path,
+                    'news_publisher_id'     =>      $this -> input -> post('publisherID'),
+                    'news_publish_date'     =>      $publishing_date,
+                    'news_sticky_date'      =>      $sticky_news_date,
+                    'news_event_id'         =>      $this->input->post('event'),
+                    'news_attachments_path' =>      1
+
                 );
 
-            $this->AddNewsModel->insertNews($member_record);
+
+            $this->NewsModel->insertNews($member_record);
         }
 
         $this->index($page);
