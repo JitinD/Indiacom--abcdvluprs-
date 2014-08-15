@@ -23,7 +23,7 @@ class NewsController extends CI_Controller
         $config = array();
         $config["base_url"] = base_url() ."d/NewsController/AllNews";
         $config["total_rows"] = $this->NewsModel->record_count();
-        $config["per_page"] = 1;
+        $config["per_page"] = 5;
         $config["uri_segment"] = 4;
 
         $this->pagination->initialize($config);

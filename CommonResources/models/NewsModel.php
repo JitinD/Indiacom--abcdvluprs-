@@ -38,9 +38,10 @@ class NewsModel extends CI_Model
     {
         date_default_timezone_set('Asia/Calcutta');
         $date = date('Y/m/d h:i:s a', time());
+        $default_sticky_date='1970-01-01 00:00:00.000000';
         $this -> db -> select('news_title,news_description_url,news_publish_date');
-        $this-> db ->where('news_sticky_date IS NOT NULL');
         $this ->db->where('news_event_id',1);
+        $this-> db ->where('news_sticky_date !=',$default_sticky_date);
         $this -> db-> where('news_publish_date <=',$date);
         $this->db->where('news_sticky_date >=',$date);
         $this->db->order_by('news_publish_date', "desc");
@@ -53,8 +54,9 @@ class NewsModel extends CI_Model
     {
         date_default_timezone_set('Asia/Calcutta');
         $date = date('Y/m/d h:i:s a', time());
+        $default_sticky_date='1970-01-01 00:00:00.000000';
         $this -> db -> select('news_title,news_description_url,news_publish_date');
-        $this-> db ->where('news_sticky_date IS NULL');
+        $this-> db ->where('news_sticky_date',$default_sticky_date);
         $this ->db->where('news_event_id',1);
         $this -> db-> where('news_publish_date <=',$date);
         $this->db->order_by('news_publish_date', "desc");
