@@ -77,9 +77,9 @@ class LoginModel extends CI_Model
     {
         $this->load->model('UserModel');
         $userInfo = $this->UserModel->getUserInfoByEmail($this->username);
-        if($userInfo->user_password == $this->password)
+        if($userInfo != false && $userInfo->user_password == $this->password)
         {
-            $userRolesEvents = $this->UserModel->getUserEventAndRoles($userInfo->user_id);
+            $userRolesEvents = $this->UserModel->getUserEventsAndRoles($userInfo->user_id);
             foreach($userRolesEvents as $row)
             {
                 $_SESSION['role_id'][$row->event_id][] = $row->role_id;

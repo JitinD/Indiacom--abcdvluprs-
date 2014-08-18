@@ -67,9 +67,18 @@
     <div class="container-fluid">
 
         <div class="container">
-            <a class="navbar-brand" href="#">BVICAM Admin System</a>
+            <a class="navbar-brand" href="/<?php echo BASEURL; ?>index.php/Page/index">BVICAM Admin System</a>
             <ul class="nav navbar-nav navbar-right">
-                <li><button type="button" class="btn navbar-btn btn-danger"><span class="glyphicon glyphicon-contact"></span>Logout</button> </li>
+                <?php
+                if(isset($_SESSION) && isset($_SESSION['authenticated']))
+                {
+                ?>
+                    <li>
+                        <a href="/<?php echo BASEURL; ?>index.php/Page/logout" class="btn navbar-btn btn-danger"><span class="glyphicon glyphicon-contact"></span>Logout</a>
+                    </li>
+                <?php
+                }
+                ?>
             </ul>
         </div>
     </div>

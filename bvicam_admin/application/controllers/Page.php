@@ -14,7 +14,7 @@ class Page extends CI_Controller
         parent::__construct();
     }
 
-    public function index($page)
+    public function index($page = 'home')
     {
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
@@ -55,9 +55,17 @@ class Page extends CI_Controller
             }
             else
             {
-                redirect('home');
+                redirect('Page/index');
             }
         }
         $this->index($page);
+    }
+
+    public function logout()
+    {
+        $this->load->helper('url');
+        unset($_SESSION);
+        session_destroy();
+        redirect('Page/login');
     }
 }

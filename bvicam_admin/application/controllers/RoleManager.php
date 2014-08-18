@@ -61,7 +61,7 @@ class RoleManager extends CI_Controller
     public function load()
     {
         $page = "index";
-        $this->data['roles'] = $this->RoleModel->getAllRoles();
+        $this->data['roles'] = $this->RoleModel->getAllRolesInclDirty();
         $this->index($page);
     }
 

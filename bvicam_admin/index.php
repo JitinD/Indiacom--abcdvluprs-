@@ -20,7 +20,7 @@
  */
     session_start();
     define('HOST', 'localhost/');
-    define('INDIACOM', 'Indiacom2015/bvicam_admin/');
+    define('BASEURL', 'Indiacom2015/bvicam_admin/');
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
@@ -202,7 +202,7 @@ if (defined('ENVIRONMENT'))
 		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
 
-    define('PATH', INDIACOM.APPPATH);
+    define('PATH', BASEURL.APPPATH);
 
 /*
  * --------------------------------------------------------------------

@@ -44,37 +44,35 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="roles" class="col-sm-3 control-label">User Roles</label>
+                    <label for="" class="col-sm-3 control-label">User Event Roles</label>
                     <div class="col-sm-9">
-                        <select name="roles[]" id="roles" multiple="multiple">
-                            <?php
-                            foreach($roles as $role)
-                            {
-                            ?>
-                                <option value="<?php echo $role->role_id; ?>"><?php echo $role->role_name; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                        <?php  ?>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="events" class="col-sm-3 control-label">User Events</label>
-                    <div class="col-sm-9">
-                        <select name="events[]" id="events" multiple="multiple">
-                            <?php
-                            foreach($events as $event)
-                            {
-                            ?>
-                                <option value="<?php echo $event->event_id; ?>"><?php echo $event->event_name; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
+                        <div id="eventsRolesList">
+                            <div>
+                                <select name="events[]">
+                                    <option>Select Event</option>
+                                    <?php
+                                    foreach($events as $event)
+                                    {
+                                        ?>
+                                        <option value="<?php echo $event->event_id; ?>"><?php echo $event->event_name; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                                <select name="roles[]">
+                                    <option>Select Role</option>
+                                    <?php
+                                    foreach($roles as $role)
+                                    {
+                                        ?>
+                                        <option value="<?php echo $role->role_id; ?>"><?php echo $role->role_name; ?></option>
+                                    <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+                        <button id="addMore" class="btn btn-primary" type="button"><span class="glyphicon-plus"></span></button>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php  ?>
@@ -91,3 +89,36 @@
     </div>
 </div>
 </div>
+<script>
+    $(document).ready(function()
+    {
+        $("#addMore").click(function()
+        {
+            var html =  "<div>" +
+                            "<select name=\"events[]\">" +
+                                "<option>Select Event</option>" +
+                                <?php
+                                foreach($events as $event)
+                                {
+                                ?>
+                                    "<option value=\"<?php echo $event->event_id; ?>\"><?php echo $event->event_name; ?></option>" +
+                                <?php
+                                }
+                                ?>
+                            "</select> " +
+                            "<select name=\"roles[]\">" +
+                                "<option>Select Role</option>" +
+                                <?php
+                                foreach($roles as $role)
+                                {
+                                ?>
+                                    "<option value=\"<?php echo $role->role_id; ?>\"><?php echo $role->role_name; ?></option>" +
+                                <?php
+                                }
+                                ?>
+                            "</select>" +
+                        "</div>";
+            $("#eventsRolesList").append(html);
+        });
+    });
+</script>

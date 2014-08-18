@@ -11,6 +11,9 @@ class UserManager extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->model('UserModel');
+        $this->load->model('EventModel');
+        $this->load->model('RoleModel');
     }
 
     private function index($page)
@@ -34,11 +37,16 @@ class UserManager extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function load()
+    {
+        $page = "index";
+        $this->data['users'] = $this->UserModel->getAllUsersInclDirty();
+        $this->index($page);
+    }
+
     public function newUser()
     {
         $page = "newUser";
-        $this->load->model('EventModel');
-        $this->load->model('RoleModel');
         $this->data['events'] = $this->EventModel->getAllEvents();
         $this->data['roles'] = $this->RoleModel->getAllRoles();
         $this->load->library('form_validation');
@@ -53,7 +61,69 @@ class UserManager extends CI_Controller
                 'user_email' => $this->input->post('userEmail'),
                 'user_password' => $this->input->post('userPassword')
             );
+            $this->UserModel->addUser($userDetails);
+            $userInfo = $this->UserModel->getUserInfoByEmail($userDetails['user_email']);
+            $events = $this->input->post('events');
+            $roles = $this->input->post('roles');
+            foreach($events as $key=>$event)
+            {
+                $this->UserModel->assignEventRoleToUser($userInfo->user_id, $event, $roles[$key]);
+            }
         }
+        else
+            $this->index($page);
+    }
+
+    public function viewUser($userId)
+    {
+        $page = "viewUser";
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('event', "Event", 'required');
+        $this->form_validation->set_rules('role', "Role", 'required');
+
+        if($this->form_validation->run())
+        {
+            $this->UserModel->assignEventRoleToUser($userId, $this->input->post('event'), $this->input->post('role'));
+        }
+        $this->data['userInfo'] = $this->UserModel->getUserInfo($userId);
+        $this->data['userEventsAndRoles'] = $this->UserModel->getUserEventsAndRoles($userId);
+        $this->data['events'] = $this->EventModel->getAllEvents();
+        $this->data['roles'] = $this->RoleModel->getAllRoles();
         $this->index($page);
+    }
+
+    public function enableUser($userId)
+    {
+        $this->load->helper('url');
+        $this->UserModel->enableUser($userId);
+        redirect('UserManager/load');
+    }
+
+    public function disableUser($userId)
+    {
+        $this->load->helper('url');
+        $this->UserModel->disableUser($userId);
+        redirect('UserManager/load');
+    }
+
+    public function enableUserEventRole($userId, $eventId, $roleId)
+    {
+        $this->load->helper('url');
+        $this->UserModel->enableUserEventRole($userId, $eventId, $roleId);
+        redirect("UserManager/viewUser/$userId");
+    }
+
+    public function disableUserEventRole($userId, $eventId, $roleId)
+    {
+        $this->load->helper('url');
+        $this->UserModel->disableUserEventRole($userId, $eventId, $roleId);
+        redirect("UserManager/viewUser/$userId");
+    }
+
+    public function deleteUserEventRole($userId, $eventId, $roleId)
+    {
+        $this->load->helper('url');
+        $this->UserModel->deleteUserEventRole($userId, $eventId, $roleId);
+        redirect("UserManager/viewUser/$userId");
     }
 }

@@ -133,6 +133,13 @@ class RoleModel extends CI_Model
         return $query->result();
     }
 
+    public function getAllRolesInclDirty()
+    {
+        $sql = "Select * From role_master";
+        $query = $this->dbCon->query($sql);
+        return $query->result();
+    }
+
     //Gets only enabled privileges
     public function getRolePrivileges($roleId)
     {
