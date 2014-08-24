@@ -64,7 +64,12 @@
             {
                 if($this->form_validation->run())
                 {
-                    $update_data = array('paper_version_review'   =>  $this -> input -> post('comments'));
+                    date_default_timezone_set('Asia/Kolkata');
+
+                    $update_data = array(
+                                            'paper_version_review'      =>  $this -> input -> post('comments'),
+                                            'paper_version_review_date' =>  date("Y/m/d H:i:s")
+                                        );
 
                     if($this -> ConvenerModel -> sendConvenerReview($update_data, $paper_version_id))
                         $this -> data['message'] = "success";
@@ -85,10 +90,23 @@
                                                 );
                     }
 
-                    if($this -> ConvenerModel -> addPaperVersionReviewRecord($paper_version_review_record))
+                    $update_data = array('paper_version_is_reviewer_assigned'   =>  1);
+
+                    if($this -> ConvenerModel -> addPaperVersionReviewRecord($paper_version_review_record) && $this -> ConvenerModel -> setReviewerAssigned($update_data, $paper_version_id))
                         $this -> data['message'] = "success";
                     else
                         $this -> data['error1'] = "Sorry, there is some problem. Try again later";
+                }
+            }
+            else if(($this -> input -> post('Form3')))
+            {
+                if($this->form_validation->run())
+                {
+                    if($this -> ConvenerModel -> removePaperVersionReviewer($this -> input -> post('Form3')))
+                        $this -> data['message'] = "success";
+                    else
+                        $this -> data['error3'] = "Sorry, there is some problem. Try again later";
+
                 }
             }
 

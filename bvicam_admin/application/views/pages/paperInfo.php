@@ -75,7 +75,7 @@
                         ?>
                         <tr>
                             <td colspan="5">
-                                No reviews yet.
+                                No reviewer assigned yet.
                             </td>
                         </tr>
                     <?php
@@ -85,7 +85,7 @@
                     ?>
                         <?php
 
-                        static $paper_version_reviewers = array();
+                            $paper_version_reviewers = array();
 
                         foreach($reviews as $index=>$review)
                         {
@@ -95,6 +95,19 @@
                                 <td><?php echo $reviewer_id = $review -> paper_version_reviewer_id; ?></td>
                                 <td><?php echo $review -> paper_version_review_comments; ?></td>
                                 <td><?php echo $review -> paper_version_review_date_of_receipt; ?></td>
+                                <td>
+                                    <form class="form-horizontal"  method = "post">
+
+                                        <span class="body-text text-danger">
+                                        <?php
+                                        if(isset($error3))
+                                            echo $error3;
+                                        ?>
+                                    </span>
+
+                                        <button name = "Form3" value = "<?php echo $review -> paper_version_review_id ?>" class="btn btn-primary">Remove reviewer</button>
+                                    </form>
+                                </td>
                             </tr>
                         <?php
                             array_push($paper_version_reviewers, $reviewer_id);
@@ -107,7 +120,9 @@
                 <?php
 
                     $reviewers = array_map('current', $reviewers);
-                    $reviewers = array_diff($reviewers, $paper_version_reviewers);
+
+                    if(isset($paper_version_reviewers))
+                        $reviewers = array_diff($reviewers, $paper_version_reviewers);
 
                     if($reviewers)
                     {
@@ -137,7 +152,7 @@
                                             if(isset($error1))
                                                 echo $error1;
                                             ?>
-                                        </span>
+                                </span>
 
                                 <button name = "Form1" value = "Form1" class="btn btn-primary">Add</button>
                             </form>
@@ -147,18 +162,20 @@
                     else
                         echo "Reviewers not available.<br/><br/>";
                 ?>
+
+
                 <div>
                     <b>Your comments: </b><br/><br/>
                     <?php
 
                         foreach($comments as $index => $comment)
                         {
-                            if($comment -> paper_version_review)
+                            if(strcmp($comment -> paper_version_review, 'Not reviewed yet'))
                                 echo "<h4>".$comment -> paper_version_review."</h4>";
                             else
                             {
                     ?>
-                                <form class="form-horizontal"  method = "post">
+                                <form class="form-horizontal" enctype="multipart/form-data" method = "post">
                                     <textarea name = 'comments'></textarea><br/><br/>
 
                                     <span class="body-text text-danger">
@@ -170,11 +187,14 @@
 
 
                                     <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Author</button>
+
                                 </form>
                     <?php
                             }
                         }
                     ?>
+
+                    <a href = "http://localhost/Indiacom2015/bvicam_admin/ConvenerDashboard" > View papers assigned</a>
                 </div>
             </div>
         </div>
