@@ -22,7 +22,18 @@
                         <td><?php echo $paper->paper_title; ?></td>
                         <td><?php echo $paper->paper_code; ?></td>
                         <td><?php echo $paper->latest_paper_version_number; ?></td>
-                        <td><a href="<?php echo $methodName . "/" . $paper->paper_id; ?>">Upload</a></td>
+                        <td>
+                            <?php
+                            if($paperCanRevise[$paper->paper_id])
+                            {
+                            ?>
+                            <a href="<?php echo $methodName . "/" . $paper->paper_id; ?>">Upload</a>
+                            <?php
+                            }
+                            else
+                                echo "Under Review<br>(isko red ya kuch karna hai!!)";
+                            ?>
+                        </td>
                     </tr>
                 <?php
                 }

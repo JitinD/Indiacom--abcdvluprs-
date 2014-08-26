@@ -66,7 +66,7 @@
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php
-
+                                if(isset($uploadReportError)) echo $uploadReportError;
                                 ?>
                             </div>
                         </div>

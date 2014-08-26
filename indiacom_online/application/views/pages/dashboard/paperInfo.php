@@ -37,8 +37,9 @@
                             <table class="table table-striped table-responsive">
                                 <th>Version Number</th>
                                 <th>Date of submission</th>
-                                <th>Version review status</th>
+                                <th>Review Result</th>
                                 <th>Download version</th>
+                                <th>Compliance report</th>
                                 <?php
                                 foreach($allVersionDetails as $version)
                                 {
@@ -46,16 +47,29 @@
                                     <tr>
                                         <td>v<?php echo $version->paper_version_number; ?></td>
                                         <td><?php echo $version->paper_version_date_of_submission; ?></td>
-                                        <td><?php echo  $version->paper_version_review_result_id != null ?
-                                                        $reviewTypes[$version->paper_version_review_result_id] :
-                                                        "Not yet reviewed"; ?></td>
-                                        <td><a href="<?php echo $version->paper_version_document_path; ?>">Download</a></td>
+                                        <td>
+                                            <?php
+                                            if($version->paper_version_review_result_id != null)
+                                                echo $reviewTypes[$version->paper_version_review_result_id];
+                                            else
+                                            {
+                                                if(!$canSubmitRevision)
+                                                    echo "Under Review";
+                                                else
+                                                    echo "Yet to be reviewed";
+                                            }
+                                            ?>
+                                        </td>
+                                        <td><a href="/<?php echo $version->paper_version_document_path; ?>">Download</a></td>
+                                        <td><a href="/<?php echo $version->paper_version_compliance_report_path; ?>">Download</a></td>
                                     </tr>
                                 <?php
                                 }
                                 ?>
                                 <tr>
-                                    <td  colspan="4"><a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision/<?php echo $paperDetails->paper_id; ?>">Add new version</a></td>
+                                    <td  colspan="5">
+                                        <a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision/<?php echo $paperDetails->paper_id; ?>">Add new version</a>
+                                    </td>
                                 </tr>
                             </table>
                         </td>
