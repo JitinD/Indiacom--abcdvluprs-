@@ -4,7 +4,7 @@
             <span class="h2 text-theme">Paper Information</span>
             <div class="row body-text">
                 <div class="col-md-12 text-center contentBlock-bottom">
-                    <span class="h2" style="text-decoration: underline;">Paper: <?php echo $paperDetails->paper_title; ?></span>
+                    <span class="h2">Paper: <?php echo $paperDetails->paper_title; ?></span>
                 </div>
                     <table class="table table-striped table-hover table-responsive">
                         <tr>
@@ -55,11 +55,11 @@
 
                     </table>
 
-                    <div class="col-md-12 text-center contentBlock-bottom">
-                        <span class="h2" style="text-decoration: underline;">Reviews: </span>
+                    <div class="col-md-12 contentBlock-bottom">
+                        <span class="h2">Reviews </span>
                     </div>
 
-                <table class="table table-hover table-striped body-text">
+                <table class="table table-hover body-text">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -104,8 +104,7 @@
                                             echo $error3;
                                         ?>
                                     </span>
-
-                                        <button name = "Form3" value = "<?php echo $review -> paper_version_review_id ?>" class="btn btn-primary">Remove reviewer</button>
+                                        <button name = "Form3" value = "<?php echo $review -> paper_version_review_id ?>" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> Reviewer</button>
                                     </form>
                                 </td>
                             </tr>
@@ -131,7 +130,11 @@
                         <div>
                             <form method = "post">
 
-                                <span><b>Add reviewers : </b><br/>Hold Ctrl to select more than one reviewer</span>
+                                <div>
+                                    <b>Add reviewers : </b>
+                                    <br/>
+                                    <span class="text-muted">Hold Ctrl to select more than one reviewer</span>
+                                </div>
                                 <span>
                                     <select multiple id="selectReviewer" name="selectReviewer[]">
                                     <?php
@@ -139,7 +142,10 @@
                                         foreach($reviewers as $reviewer)
                                         {
                                     ?>
+                                            <div class="form-group">
                                                 <option value = <?php echo $reviewer?>><?php echo $reviewer  ?></option>
+                                            </div>
+
                                     <?php
 
                                         }
@@ -154,7 +160,7 @@
                                             ?>
                                 </span>
 
-                                <button name = "Form1" value = "Form1" class="btn btn-primary">Add</button>
+                                <button name = "Form1" value = "Form1" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span>Add</button>
                             </form>
                         </div>
                 <?php

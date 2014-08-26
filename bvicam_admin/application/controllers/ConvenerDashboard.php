@@ -88,11 +88,16 @@
                                                     'paper_version_id'          =>  $paper_version_id,
                                                     'paper_version_reviewer_id' =>  $reviewer_id
                                                 );
+
+                        if($this -> ConvenerModel -> addPaperVersionReviewRecord($paper_version_review_record))
+                            $this -> data['message'] = "success";
+                        else
+                            $this -> data['error1'] = "Sorry, there is some problem. Try again later";
                     }
 
                     $update_data = array('paper_version_is_reviewer_assigned'   =>  1);
 
-                    if($this -> ConvenerModel -> addPaperVersionReviewRecord($paper_version_review_record) && $this -> ConvenerModel -> setReviewerAssigned($update_data, $paper_version_id))
+                    if($this -> ConvenerModel -> setReviewerAssigned($update_data, $paper_version_id))
                         $this -> data['message'] = "success";
                     else
                         $this -> data['error1'] = "Sorry, there is some problem. Try again later";
