@@ -104,9 +104,13 @@
                                             echo $error3;
                                         ?>
                                     </span>
-                                        <button name = "Form3" value = "<?php echo $review -> paper_version_review_id ?>" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> Reviewer</button>
+                                        <button name = "Form3" value = "<?php echo $review -> paper_version_review_id ?>" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-minus"></span> Reviewer</button>
                                     </form>
                                 </td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-download"></span> Comments</button>
+                                </td>
+
                             </tr>
                         <?php
                             array_push($paper_version_reviewers, $reviewer_id);
@@ -128,50 +132,53 @@
                 ?>
 
                         <div>
-                            <form method = "post">
-
+                            <form method = "post" class="form-horizontal">
                                 <div>
-                                    <b>Add reviewers : </b>
-                                    <br/>
-                                    <span class="text-muted">Hold Ctrl to select more than one reviewer</span>
+                                    <span class="h3">Add reviewers</span>
+
                                 </div>
-                                <span>
-                                    <select multiple id="selectReviewer" name="selectReviewer[]">
-                                    <?php
-
-                                        foreach($reviewers as $reviewer)
-                                        {
-                                    ?>
-                                            <div class="form-group">
-                                                <option value = <?php echo $reviewer?>><?php echo $reviewer  ?></option>
-                                            </div>
-
-                                    <?php
-
-                                        }
-                                    ?>
-                                    </select>
-                                </span>
-
-                                <span class="body-text text-danger">
+                                <div class="form-group">
+                                    <div class="col-sm-8">
+                                        <select multiple id="selectReviewer" name="selectReviewer[]" class="form-control">
                                             <?php
-                                            if(isset($error1))
-                                                echo $error1;
-                                            ?>
-                                </span>
 
-                                <button name = "Form1" value = "Form1" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                                            foreach($reviewers as $reviewer)
+                                            {
+                                                ?>
+                                                <div class="form-group">
+                                                    <option value = <?php echo $reviewer?>><?php echo $reviewer  ?></option>
+                                                </div>
+
+                                            <?php
+
+                                            }
+                                            ?>
+                                        </select>
+                                        <span class="help-block">Hold Ctrl to select more than one reviewer</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <span class="body-text text-danger">
+                                                <?php
+                                                if(isset($error1))
+                                                    echo $error1;
+                                                ?>
+                                    </span>
+                                </div>
+                                <button name = "Form1" value = "Form1" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Add</button>
                             </form>
                         </div>
                 <?php
                     }
                     else
-                        echo "Reviewers not available.<br/><br/>";
+                        echo "Reviewers not available.<br/>";
                 ?>
 
 
                 <div>
-                    <b>Your comments: </b><br/><br/>
+                    <div class="h2">
+                        Your comments
+                    </div>
                     <?php
 
                         foreach($comments as $index => $comment)
@@ -182,7 +189,31 @@
                             {
                     ?>
                                 <form class="form-horizontal" enctype="multipart/form-data" method = "post">
-                                    <textarea name = 'comments'></textarea><br/><br/>
+                                    <div class="form-group">
+                                        <label for="comments" class="col-sm-2 control-label">Comments</label>
+                                        <div class="col-sm-8">
+                                            <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="reviewResult" class="col-sm-2 control-label">Review Result</label>
+                                        <div class="col-sm-8">
+                                            <select id="salutation" name="salutation" class="form-control">
+                                                <option value="Mr">Mr</option>
+                                                <option value="Ms">Ms</option>
+                                                <option value="Mrs">Mrs</option>
+                                                <option value="Dr">Dr</option>
+                                                <option value="Prof">Prof</option>
+                                                <option value="Sir">Sir</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="col-sm-offset-2 col-sm-10">
+                                            <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Author</button>
+                                        </div>
+                                    </div>
+
 
                                     <span class="body-text text-danger">
                                         <?php
@@ -192,7 +223,7 @@
                                     </span>
 
 
-                                    <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Author</button>
+
 
                                 </form>
                     <?php

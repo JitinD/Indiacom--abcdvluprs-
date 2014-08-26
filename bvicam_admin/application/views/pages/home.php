@@ -8,23 +8,19 @@
             <hr>
             <div class="row">
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
-                    <a href="/<?php echo BASEURL; ?>index.php/RoleManager/load">
+                    <a href="/<?php echo BASEURL; ?>index.php/RoleManager/load" class="thumbnail">
                         <div class="panel text-muted">
                             <h3>
-                                Role
-                                <br/>
-                                Manager
+                                Role Manager
                             </h3>
                         </div>
                     </a>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
-                    <a href="/<?php echo BASEURL; ?>index.php/UserManager/load">
+                    <a href="/<?php echo BASEURL; ?>index.php/UserManager/load" class="thumbnail">
                         <div class="panel text-muted">
                             <h3>
-                                User
-                                <br/>
-                                Manager
+                                User Manager
                             </h3>
                         </div>
                     </a>

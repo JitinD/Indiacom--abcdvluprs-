@@ -55,8 +55,8 @@
 
                 </table>
 
-                <div class="col-md-12 text-center contentBlock-bottom">
-                    <span class="h2" style="text-decoration: underline;">Review: </span>
+                <div class="col-md-12 contentBlock-bottom">
+                    <span class="h2">Review: </span>
                 </div>
 
                 <div>
@@ -70,18 +70,24 @@
                         else
                         {
                             ?>
-                            <form class="form-horizontal"  method = "post">
-                                <textarea name = 'comments'></textarea><br/><br/>
-
-                                    <span class="body-text text-danger">
-                                        <?php
-                                        if(isset($error2))
-                                            echo $error2;
-                                        ?>
-                                    </span>
-
-
-                                <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Convener</button>
+                            <form class="form-horizontal" enctype="multipart/form-data" method = "post">
+                                <div class="form-group">
+                                    <label for="comments" class="col-sm-2 control-label">Comments</label>
+                                    <div class="col-sm-8">
+                                        <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Convener</button>
+                                    </div>
+                                </div>
+                                <span class="body-text text-danger">
+                                    <?php
+                                    if(isset($error2))
+                                        echo $error2;
+                                    ?>
+                                </span>
                             </form>
                         <?php
                         }
