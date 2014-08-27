@@ -3,7 +3,7 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <hr>
                 <h2>
-                    Welcome, <span class="abcdvluprs">@abcdvluprs</span>
+                    Welcome, <span class="abcdvluprs"><?php echo $_SESSION['user_name']; ?></span>
                 </h2>
             <hr>
             <div class="row">

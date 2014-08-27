@@ -39,8 +39,10 @@ class Page extends CI_Controller
     {
         $page = "login";
         $this->load->model('LoginModel');
+        $this->load->model('EventModel');
+        $this->load->model('RoleModel');
         $this->load->library('form_validation');
-        $this->load->helper('url');
+
         $this->form_validation->set_rules('emailId', 'Email Id', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
 
@@ -55,10 +57,38 @@ class Page extends CI_Controller
             }
             else
             {
-                redirect('Page/index');
+                $roles = array();
+                foreach($_SESSION['role_id'] as $event=>$eventRoles)
+                {
+                    $eventDetails = $this->EventModel->getEventDetails($event);
+                    foreach($eventRoles as $role)
+                    {
+                        $roleDetails = $this->RoleModel->getRoleDetails($role);
+                        $roles[$event . "_" . $role] = $eventDetails->event_name . " " . $roleDetails->role_name;
+                    }
+                }
+                $this->data['roles'] = $roles;
+                $page = "selectRole";
+                //redirect('Page/index');
             }
         }
         $this->index($page);
+    }
+
+    public function setRole()
+    {
+        $this->load->model('LoginModel');
+        $this->load->library('form_validation');
+        $this->load->helper('url');
+        $this->form_validation->set_rules('event_role_id', 'Role', 'required');
+        if($this->form_validation->run())
+        {
+            $event_role = explode('_', $this->input->post('event_role_id'));
+            $event = $event_role[0];
+            $role = $event_role[1];
+            $this->LoginModel->adminSetRoleEvent($role, $event);
+            redirect('Page/index');
+        }
     }
 
     public function logout()

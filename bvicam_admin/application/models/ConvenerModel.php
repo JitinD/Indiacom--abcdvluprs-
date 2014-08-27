@@ -36,7 +36,8 @@
 
         public function getPaperVersionReviews($paper_version_id)
         {
-            $this -> db -> select('paper_version_review_id, paper_version_id, paper_version_reviewer_id, paper_version_review_comments, date(paper_version_review_date_of_receipt) as paper_version_review_date_of_receipt');
+            //$this -> db -> select('paper_version_review_id, paper_version_id, paper_version_reviewer_id, paper_version_review_comments, date(paper_version_review_date_of_receipt) as paper_version_review_date_of_receipt');
+            $this -> db -> select('*');
             $this -> db -> from('paper_version_review');
             $this -> db -> where('paper_version_id', $paper_version_id);
 
@@ -109,6 +110,18 @@
         {
             $this -> db -> select('review_result_id, review_result_type_name');
             $query = $this -> db -> get('review_result_master');
+
+            if($query -> num_rows() > 0)
+                return $query -> result();
+        }
+
+        public function getAllReviewers()
+        {
+            $this -> db -> select('reviewer_id, user_name');
+            $this -> db -> from('reviewer_master');
+            $this -> db -> join('user_master', 'reviewer_id = user_id');
+
+            $query = $this -> db -> get();
 
             if($query -> num_rows() > 0)
                 return $query -> result();

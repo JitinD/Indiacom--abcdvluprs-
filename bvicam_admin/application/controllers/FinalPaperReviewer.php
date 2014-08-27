@@ -1,6 +1,6 @@
 <?php
 
-    class ConvenerDashboard extends CI_Controller
+    class FinalPaperReviewer extends CI_Controller
     {
         private $data = array();
         public function __construct()
@@ -21,7 +21,7 @@
         {
             require(dirname(__FILE__).'/../config/privileges.php');
             require(dirname(__FILE__).'/../utils/ViewUtils.php');
-            /*if ( ! file_exists(APPPATH.'views/pages/RoleManager/'.$page.'.php'))
+            if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
             {
                 show_404();
             }
@@ -32,9 +32,8 @@
                 $this->load->view('pages/unauthorizedAccess');
                 return;
             }
-            */
 
-            $_SESSION['user_id'] = 1;
+            //$_SESSION['user_id'] = 1;
             $this -> data['user_id'] = $_SESSION['user_id'];
 
             $this -> data['papers'] = $this -> ConvenerModel -> getAssignedPapers($this -> data['user_id']);
@@ -43,6 +42,16 @@
             $this->load->view('templates/sidebar');
             $this->load->view('pages/'.$page, $this->data);
             $this->load->view('templates/footer');
+        }
+
+        public function setReviewerAssigned($paper_version_id, $value)
+        {
+            $update_data = array('paper_version_is_reviewer_assigned'   =>  $value);
+
+            if($this -> ConvenerModel -> setReviewerAssigned($update_data, $paper_version_id))
+                $this -> data['message'] = "success";
+            else
+                $this -> data['error1'] = "Sorry, there is some problem. Try again later";
         }
 
         public function paperInfo($paper_id, $paper_version_id)
@@ -101,12 +110,7 @@
                             $this -> data['error1'] = "Sorry, there is some problem. Try again later";
                     }
 
-                    $update_data = array('paper_version_is_reviewer_assigned'   =>  1);
-
-                    if($this -> ConvenerModel -> setReviewerAssigned($update_data, $paper_version_id))
-                        $this -> data['message'] = "success";
-                    else
-                        $this -> data['error1'] = "Sorry, there is some problem. Try again later";
+                    $this -> setReviewerAssigned($paper_version_id, 1);
                 }
             }
             else if(($this -> input -> post('Form3')))
@@ -123,8 +127,25 @@
 
             $this -> data['review_results'] = $this -> ConvenerModel -> getAllReviewResults();
             $this -> data['comments'] = $this -> ConvenerModel -> getPaperVersionComments($paper_version_id);
-            $this -> data['reviewers'] = $this -> ConvenerModel -> getReviewerIDs();
+            //$this -> data['reviewers'] = $this -> ConvenerModel -> getReviewerIDs();
+            $this -> data['Allreviewers'] = $this -> ConvenerModel -> getAllReviewers();
+
+            $reviewers = array();
+
+            if($this -> data['Allreviewers'])
+            {
+                foreach($this -> data['Allreviewers'] as $index=>$reviewer)
+                {
+                    $reviewers[$reviewer -> reviewer_id] = $reviewer -> user_name;
+                }
+            }
+
+            $this -> data['reviewers'] = $reviewers;
+
             $this -> data['reviews'] = $this -> ConvenerModel -> getPaperVersionReviews($paper_version_id);
+
+            if(empty($this -> data['reviews']))
+                $this -> setReviewerAssigned($paper_version_id, 0);
 
             $this->index($page);
         }

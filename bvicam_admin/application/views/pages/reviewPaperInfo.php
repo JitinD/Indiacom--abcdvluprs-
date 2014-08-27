@@ -94,7 +94,7 @@
                     }
                     ?>
 
-                    <a href = "http://localhost/Indiacom2015/bvicam_admin/ReviewerDashboard" > View papers assigned</a>
+                    <a href = "/<?php echo BASEURL; ?>index.php/InitialPaperReviewer" > View papers assigned</a>
                 </div>
             </div>
         </div>

@@ -84,8 +84,9 @@ class LoginModel extends CI_Model
             {
                 $_SESSION['role_id'][$row->event_id][] = $row->role_id;
             }
-            $_SESSION['authenticated'] = true;
-            $_SESSION['user_id'] = $this->username;
+//            $_SESSION['authenticated'] = true;
+            $_SESSION['user_id'] = $userInfo->user_id;
+            $_SESSION['user_name'] = $userInfo->user_name;
             return true;
         }
         return false;
@@ -93,9 +94,10 @@ class LoginModel extends CI_Model
 
     public function adminSetRoleEvent($roleId, $eventId)
     {
-        $this->load-model('RoleModel');
+        $this->load->model('RoleModel');
         $_SESSION['current_role_id'] = $roleId;
         $_SESSION['current_event_id'] = $eventId;
+        $_SESSION['authenticated'] = true;
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
         $roleName = $roleInfo->role_name;
         $this->setDbLoginCredentials($roleName);

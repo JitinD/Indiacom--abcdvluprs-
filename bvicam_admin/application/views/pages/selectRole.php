@@ -9,19 +9,21 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4 col-md-offset-3">
-            <form class="form-signin" role="form" action="#" method="post">
+        <div class="col-md-6 col-md-offset-2">
+            <form role="form" action="setRole" method="post">
                 <h2 class="form-signin-heading">Please select the role you want to login as:</h2>
-                <input type="email" name="emailId" class="form-control" placeholder="Email address" required autofocus>
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
-                <div class="row contentBlock-top">
-                    <div class="col-md-6">
-                        <button class="btn btn-success btn-block" type="submit">Sign in</button>
-                    </div>
-                    <div class="col-md-6">
-                        <button class="btn btn-danger btn-block" type="submit">Forgot Password</button>
-                    </div>
-                </div>
+                <select name="event_role_id" class="form-control">
+                    <option value>Select Role</option>
+                    <?php
+                    foreach($roles as $id=>$role)
+                    {
+                    ?>
+                        <option value="<?php echo $id; ?>"><?php echo $role; ?></option>
+                    <?php
+                    }
+                    ?>
+                </select>
+                <input type="submit">
             </form>
         </div>
     </div>

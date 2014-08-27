@@ -63,8 +63,13 @@ class UserManager extends CI_Controller
             );
             $this->UserModel->addUser($userDetails);
             $userInfo = $this->UserModel->getUserInfoByEmail($userDetails['user_email']);
+            $reviewerRoleId = $this->RoleModel->getRoleId("Reviewer");
             $events = $this->input->post('events');
             $roles = $this->input->post('roles');
+            if(in_array($reviewerRoleId, $roles))
+            {
+
+            }
             foreach($events as $key=>$event)
             {
                 $this->UserModel->assignEventRoleToUser($userInfo->user_id, $event, $roles[$key]);

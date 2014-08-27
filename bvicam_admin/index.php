@@ -21,6 +21,7 @@
     session_start();
     define('HOST', 'localhost/');
     define('BASEURL', 'Indiacom2015/bvicam_admin/');
+    define('INDIACOM', 'Indiacom2015/bvicam_admin/');
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');

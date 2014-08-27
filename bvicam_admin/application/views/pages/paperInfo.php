@@ -64,6 +64,8 @@
                     <tr>
                         <th>#</th>
                         <th>Reviewer ID</th>
+                        <th>Reviewer Name</th>
+                        <th>Review Status</th>
                         <th>Reviewer Comments</th>
                         <th>Review Date</th>
                     </tr>
@@ -93,6 +95,20 @@
                             <tr>
                                 <td><?php echo $index+1; ?></td>
                                 <td><?php echo $reviewer_id = $review -> paper_version_reviewer_id; ?></td>
+                                <td>
+                                    <?php
+                                        if($reviewers)
+                                            echo $reviewers[$reviewer_id];
+                                    ?>
+                                </td>
+                                <td>
+                                    <?php
+                                        if($review -> paper_version_review_date_of_receipt)
+                                           echo "Reviewed";
+                                        else
+                                            echo "Not reviewed";
+                                    ?>
+                                </td>
                                 <td><?php echo $review -> paper_version_review_comments; ?></td>
                                 <td><?php echo $review -> paper_version_review_date_of_receipt; ?></td>
                                 <td>
@@ -104,11 +120,11 @@
                                             echo $error3;
                                         ?>
                                     </span>
-                                        <button name = "Form3" value = "<?php echo $review -> paper_version_review_id ?>" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-minus"></span> Reviewer</button>
+                                        <button name = "Form3" value = "<?php echo $review -> paper_version_review_id ?>" class="btn btn-sm btn-danger"><span class="glyphicon glyphicon-minus"></span> Remove</button>
                                     </form>
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-download"></span> Comments</button>
+                                    <button class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-cloud-download"></span> Download Comments</button>
                                 </td>
 
                             </tr>
@@ -122,10 +138,10 @@
 
                 <?php
 
-                    $reviewers = array_map('current', $reviewers);
+                    /*$reviewers = array_map('current', $reviewers);
 
                     if(isset($paper_version_reviewers))
-                        $reviewers = array_diff($reviewers, $paper_version_reviewers);
+                        $reviewers = array_diff($reviewers, $paper_version_reviewers);*/
 
                     if($reviewers)
                     {
@@ -142,11 +158,18 @@
                                         <select multiple id="selectReviewer" name="selectReviewer[]" class="form-control">
                                             <?php
 
-                                            foreach($reviewers as $reviewer)
+                                            foreach($reviewers as $reviewer_id=>$reviewer_name)
                                             {
                                                 ?>
                                                 <div class="form-group">
-                                                    <option value = <?php echo $reviewer?>><?php echo $reviewer  ?></option>
+                                                    <?php
+                                                        if(!in_array($reviewer_id, $paper_version_reviewers))
+                                                        {
+                                                    ?>
+                                                    <option value = <?php echo $reviewer_id ;?>><?php echo $reviewer_id." - ".$reviewer_name;  ?></option>
+                                                    <?php
+                                                        }
+                                                    ?>
                                                 </div>
 
                                             <?php
@@ -227,17 +250,13 @@
                                             echo $error2;
                                         ?>
                                     </span>
-
-
-
-
                                 </form>
                     <?php
                             }
                         }
                     ?>
 
-                    <a href = "http://localhost/Indiacom2015/bvicam_admin/ConvenerDashboard" > View papers assigned</a>
+                    <a href = "/<?php echo BASEURL; ?>index.php/FinalPaperReviewer" > View papers assigned</a>
                 </div>
             </div>
         </div>

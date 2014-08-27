@@ -31,7 +31,7 @@
                     <tr>
                         <td><?php echo $index+1; ?></td>
                         <td><?php echo $paper->paper_code; ?></td>
-                        <td><a href="/<?php echo BASEURL; ?>ConvenerDashboard/paperInfo/<?php echo $paper->paper_id."/".$paper->paper_version_id; ?>"><?php echo $paper->paper_title; ?></a></td>
+                        <td><a href="/<?php echo BASEURL; ?>FinalPaperReviewer/paperInfo/<?php echo $paper->paper_id."/".$paper->paper_version_id; ?>"><?php echo $paper->paper_title; ?></a></td>
                         <td ><?php echo $paper->paper_version_number; ?></td>
                     </tr>
             <?php

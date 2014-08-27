@@ -1,6 +1,6 @@
 <?php
 
-class ReviewerDashboard extends CI_Controller
+class InitialPaperReviewer extends CI_Controller
 {
     private $data = array();
     public function __construct()
@@ -21,7 +21,7 @@ class ReviewerDashboard extends CI_Controller
     {
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        /*if ( ! file_exists(APPPATH.'views/pages/RoleManager/'.$page.'.php'))
+        if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {
             show_404();
         }
@@ -32,9 +32,8 @@ class ReviewerDashboard extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-        */
 
-        $_SESSION['user_id'] = 2;
+        //$_SESSION['user_id'] = 2;
         $this -> data['user_id'] = $_SESSION['user_id'];
 
         $this -> data['papers'] = $this -> ConvenerModel -> getReviewerAssignedPapers($this -> data['user_id']);
