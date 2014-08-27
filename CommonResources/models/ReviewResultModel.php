@@ -25,4 +25,15 @@ class ReviewResultModel extends CI_Model
         }
         return $types;
     }
+
+    public function getAllReviewResults()
+    {
+        $this -> db -> select('review_result_id, review_result_type_name');
+        $query = $this -> db -> get('review_result_master');
+
+        if($query -> num_rows() > 0)
+            return $query -> result();
+    }
+
+
 }

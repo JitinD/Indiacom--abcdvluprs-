@@ -6,7 +6,7 @@ class InitialPaperReviewer extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this -> load -> model('ConvenerModel');
+        //$this -> load -> model('ConvenerModel');
         $this -> load -> model('PaperModel');//paper
         $this -> load -> model('SubjectModel');//subject
         $this -> load -> model('TrackModel');//track
@@ -14,6 +14,8 @@ class InitialPaperReviewer extends CI_Controller
         $this -> load -> model('PaperModel');//paper_version
         $this -> load -> model('PaperVersionModel');
         $this -> load -> model('SubmissionModel');
+        $this -> load -> model('ReviewerModel');
+        $this -> load -> model('PaperVersionReviewModel');
 
     }
 
@@ -36,7 +38,7 @@ class InitialPaperReviewer extends CI_Controller
         //$_SESSION['user_id'] = 2;
         $this -> data['user_id'] = $_SESSION['user_id'];
 
-        $this -> data['papers'] = $this -> ConvenerModel -> getReviewerAssignedPapers($this -> data['user_id']);
+        $this -> data['papers'] = $this -> PaperVersionReviewModel -> getReviewerAssignedPapers($this -> data['user_id']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/sidebar');
@@ -72,7 +74,7 @@ class InitialPaperReviewer extends CI_Controller
                                             'paper_version_review_date_of_receipt'  =>  date("Y/m/d H:i:s")
                                         );
 
-                    if($this -> ConvenerModel -> sendReviewerComments($update_data, $paper_version_review_id))
+                    if($this -> PaperVersionReviewModel -> sendReviewerComments($update_data, $paper_version_review_id))
                         $this -> data['message'] = "success";
                     else
                         $this -> data['error2'] = "Sorry, there is some problem. Try again later";
@@ -81,7 +83,7 @@ class InitialPaperReviewer extends CI_Controller
 
             }
         }
-        $this -> data['reviews'] = $this -> ConvenerModel -> getPaperVersionReview($paper_version_review_id);
+        $this -> data['reviews'] = $this -> PaperVersionReviewModel -> getPaperVersionReview($paper_version_review_id);
 
         $this->index($page);
     }

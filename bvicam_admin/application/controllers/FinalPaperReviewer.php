@@ -6,7 +6,7 @@
         public function __construct()
         {
             parent::__construct();
-            $this -> load -> model('ConvenerModel');
+            //$this -> load -> model('ConvenerModel');
             $this -> load -> model('PaperModel');//paper
             $this -> load -> model('SubjectModel');//subject
             $this -> load -> model('TrackModel');//track
@@ -14,7 +14,9 @@
             $this -> load -> model('PaperModel');//paper_version
             $this -> load -> model('PaperVersionModel');
             $this -> load -> model('SubmissionModel');
-
+            $this -> load -> model('PaperVersionReviewModel');
+            $this -> load -> model('ReviewerModel');
+            $this -> load -> model('ReviewResultModel');
         }
 
         public function index($page = "ConvenerDashboardHome")
@@ -36,7 +38,7 @@
             //$_SESSION['user_id'] = 1;
             $this -> data['user_id'] = $_SESSION['user_id'];
 
-            $this -> data['papers'] = $this -> ConvenerModel -> getAssignedPapers($this -> data['user_id']);
+            $this -> data['papers'] = $this -> PaperVersionModel -> getAssignedPapers($this -> data['user_id']);
             $this->data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this->data);
             $this->load->view('templates/sidebar');
@@ -48,7 +50,7 @@
         {
             $update_data = array('paper_version_is_reviewer_assigned'   =>  $value);
 
-            if($this -> ConvenerModel -> setReviewerAssigned($update_data, $paper_version_id))
+            if($this -> PaperVersionModel -> setReviewerAssigned($update_data, $paper_version_id))
                 $this -> data['message'] = "success";
             else
                 $this -> data['error1'] = "Sorry, there is some problem. Try again later";
@@ -83,7 +85,7 @@
                                                 'paper_version_review_date' =>  date("Y/m/d H:i:s")
                                             );
 
-                        if($this -> ConvenerModel -> sendConvenerReview($update_data, $paper_version_id))
+                        if($this -> PaperVersionModel -> sendConvenerReview($update_data, $paper_version_id))
                             $this -> data['message'] = "success";
                         else
                             $this -> data['error2'] = "Sorry, there is some problem. Try again later";
@@ -104,7 +106,7 @@
                                                     'paper_version_reviewer_id' =>  $reviewer_id
                                                 );
 
-                        if($this -> ConvenerModel -> addPaperVersionReviewRecord($paper_version_review_record))
+                        if($this -> PaperVersionReviewModel -> addPaperVersionReviewRecord($paper_version_review_record))
                             $this -> data['message'] = "success";
                         else
                             $this -> data['error1'] = "Sorry, there is some problem. Try again later";
@@ -117,7 +119,7 @@
             {
                 if($this->form_validation->run())
                 {
-                    if($this -> ConvenerModel -> removePaperVersionReviewer($this -> input -> post('Form3')))
+                    if($this -> PaperVersionReviewModel -> removePaperVersionReviewer($this -> input -> post('Form3')))
                         $this -> data['message'] = "success";
                     else
                         $this -> data['error3'] = "Sorry, there is some problem. Try again later";
@@ -125,10 +127,10 @@
                 }
             }
 
-            $this -> data['review_results'] = $this -> ConvenerModel -> getAllReviewResults();
-            $this -> data['comments'] = $this -> ConvenerModel -> getPaperVersionComments($paper_version_id);
+            $this -> data['review_results'] = $this -> ReviewResultModel -> getAllReviewResults();
+            $this -> data['comments'] = $this -> PaperVersionModel -> getPaperVersionComments($paper_version_id);
             //$this -> data['reviewers'] = $this -> ConvenerModel -> getReviewerIDs();
-            $this -> data['Allreviewers'] = $this -> ConvenerModel -> getAllReviewers();
+            $this -> data['Allreviewers'] = $this -> ReviewerModel -> getAllReviewers();
 
             $reviewers = array();
 
@@ -142,7 +144,7 @@
 
             $this -> data['reviewers'] = $reviewers;
 
-            $this -> data['reviews'] = $this -> ConvenerModel -> getPaperVersionReviews($paper_version_id);
+            $this -> data['reviews'] = $this -> PaperVersionReviewModel -> getPaperVersionReviews($paper_version_id);
 
             if(empty($this -> data['reviews']))
                 $this -> setReviewerAssigned($paper_version_id, 0);

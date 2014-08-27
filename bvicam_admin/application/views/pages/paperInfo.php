@@ -142,11 +142,10 @@
 
                     if(isset($paper_version_reviewers))
                         $reviewers = array_diff($reviewers, $paper_version_reviewers);*/
-
                     if($reviewers)
                     {
-                ?>
 
+                ?>
                         <div>
                             <form method = "post" class="form-horizontal">
                                 <div>
@@ -166,7 +165,7 @@
                                                         if(!in_array($reviewer_id, $paper_version_reviewers))
                                                         {
                                                     ?>
-                                                    <option value = <?php echo $reviewer_id ;?>><?php echo $reviewer_id." - ".$reviewer_name;  ?></option>
+                                                            <option value = <?php echo $reviewer_id ;?>><?php echo $reviewer_id." - ".$reviewer_name;  ?></option>
                                                     <?php
                                                         }
                                                     ?>
@@ -194,7 +193,7 @@
                 <?php
                     }
                     else
-                        echo "Reviewers not available.<br/>";
+                        echo "Reviewers not available";
                 ?>
 
 

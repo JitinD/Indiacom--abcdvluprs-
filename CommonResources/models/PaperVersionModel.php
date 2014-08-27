@@ -67,4 +67,41 @@ class PaperVersionModel extends CI_Model
         $row = $query->row();
         return $row->paper_version_id + 1;
     }
+
+    public function getAssignedPapers($user_id)
+    {
+        $this -> db -> select('paper_master.paper_id as paper_id, paper_version_id, paper_code, paper_version_number, paper_title');
+        $this -> db -> from('paper_master');
+        $this -> db -> join('paper_version_master', 'paper_master.paper_id = paper_version_master.paper_id');
+        $this -> db -> where('paper_version_convener_id', $user_id);
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() > 0)
+            return $query -> result();
+    }
+
+    public function sendConvenerReview($update_data, $paper_version_id)
+    {
+        return $this -> db -> update('paper_version_master', $update_data, array("paper_version_id" => $paper_version_id));
+    }
+
+    public function getPaperVersionComments($paper_version_id)
+    {
+        $this -> db -> select('paper_version_review');
+        $this -> db -> from('paper_version_master');
+        $this -> db -> where('paper_version_id', $paper_version_id);
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() > 0)
+            return $query -> result();
+    }
+
+    public function setReviewerAssigned($update_data, $paper_version_id)
+    {
+        return $this -> db -> update('paper_version_master', $update_data, array("paper_version_id" => $paper_version_id));
+    }
 }
+
+?>
