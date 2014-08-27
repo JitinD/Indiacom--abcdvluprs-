@@ -9,7 +9,7 @@
 	require_once(dirname(__FILE__).'/../config/privileges.php');
     require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
 
-    class SignUpController extends CI_Controller
+    class Registration extends CI_Controller
     {
         private $data;
 
@@ -163,7 +163,10 @@
                     $message = $this -> load -> view('pages/ListOfServices', $this -> data, true);
 
                     if($this -> sendMail($member_info['member_email'], $message))
+                    {
+                        $this -> data['is_verified'] = 1;
                         $this -> data['message'] = "An email has been sent to your registered email id. This mail will let you know about the services that would be provided to you.";
+                    }
                     else
                         $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
 
@@ -314,7 +317,10 @@
                         $message = $this -> load -> view('pages/EmailActiveCode', $this -> data, true);
 
                         if($page = $this -> sendMail($this -> input -> post('email'), $message))
+                        {
+                            $this -> data['is_verified'] = 0;
                             $this -> data['message'] = "An email has been sent to your registered mail id. Click on the activation link provided in the mail to complete your registration process";
+                        }
                         else
                             $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
 

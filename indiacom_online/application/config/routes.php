@@ -39,7 +39,7 @@
 */
 /*$route['home']='MainController/viewPage';
 $route['aboutIndiacom']='MainController/viewPage/aboutIndiacom';
-$route['signup'] = 'SignupController';*/
+$route['signup'] = 'Registration';*/
 $route['default_controller'] = 'MainController/viewPage/index';
 $route['404_override'] = '';
 $route['d/(:any)'] = '$1';

@@ -13,7 +13,11 @@
             <span class="h1 text-theme">Member Registration</span>
             <hr>
             <p class="body-text contentBlock-top">
-                <?php   echo $message;  ?>
+                <?php
+                if($is_verified)
+                    echo "Your memeber id is $member_id <br/>";
+                echo $message;
+                ?>
             </p>
 
         </div>

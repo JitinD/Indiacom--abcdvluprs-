@@ -24,7 +24,7 @@
 
         Click on the link below to finish your registration process.
         <br/>
-        <a href = "http://localhost/Indiacom2015/indiacom_online/d/SignUpController/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://localhost/Indiacom2015/indiacom_online/d/SignUpController/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
+        <a href = "http://localhost/Indiacom2015/indiacom_online/d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://localhost/Indiacom2015/indiacom_online/d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
 
         Thank you!
 

@@ -1,1 +1,0 @@
-Captcha image storage here.

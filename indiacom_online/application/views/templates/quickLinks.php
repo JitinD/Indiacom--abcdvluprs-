@@ -28,7 +28,7 @@
             {
             ?>
             <li>
-                <a href="/<?php echo INDIACOM; ?>d/SignUpController/signUp" class="text-light">Register</a>
+                <a href="/<?php echo INDIACOM; ?>d/Registration/signUp" class="text-light">Register</a>
             </li>
             <?php
             }
