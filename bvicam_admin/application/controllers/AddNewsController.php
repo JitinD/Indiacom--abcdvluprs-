@@ -43,7 +43,7 @@ class AddNewsController extends CI_Controller
     public function uploadNewsDescription($fileElem,$eventId,$newsId)
     {
         //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
-        $config['upload_path'] = dirname(__FILE__)."/../../../uploads/".$eventId;
+        $config['upload_path'] = 'C:/xampp/htdocs/Indiacom2015/indiacom_online/application/views/news';
         $config['allowed_types'] = 'html';
         $config['file_name'] = $newsId . "News";
         $config['overwrite'] = true;
@@ -56,7 +56,7 @@ class AddNewsController extends CI_Controller
         }
         $uploadData = $this->upload->data();
 
-        return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
+        return "news" . "/" . $config['file_name'] . $uploadData['file_ext'];
     }
 
     public function addNews()
@@ -66,8 +66,8 @@ class AddNewsController extends CI_Controller
         $this->data['events']=$this->EventModel->getAllEvents();
          $this->load->library('form_validation');
         $this->form_validation->set_rules('newsTitle', 'News Title', 'required');
-       // $this->form_validation->set_rules('description', 'Description', 'required');
-        $this->form_validation->set_rules('publisherID', 'Publisher ID', 'required');
+
+       // $this->form_validation->set_rules('publisherID', 'Publisher ID', 'required');
         $this->form_validation->set_rules('publishDate', 'Publish Date', 'required');
         $this->form_validation->set_rules('publishTime', 'Publish Time', 'required');
         $this->form_validation->set_rules('event', 'Event', 'required');
@@ -105,7 +105,7 @@ class AddNewsController extends CI_Controller
                     'news_id'               =>      $news_id,
                     'news_title'            =>      $this -> input -> post('newsTitle'),
                     'news_description_url'  =>      $doc_path,
-                    'news_publisher_id'     =>      $this -> input -> post('publisherID'),
+                    'news_publisher_id'     =>      $_SESSION['user_id'],
                     'news_publish_date'     =>      $publishing_date,
                     'news_sticky_date'      =>      $sticky_news_date,
                     'news_event_id'         =>      $this->input->post('event'),

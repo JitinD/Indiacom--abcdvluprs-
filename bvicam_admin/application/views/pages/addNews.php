@@ -39,15 +39,15 @@
         </div>
     </div>
 
-    <div class="form-group">
-        <label for="publisherID" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Publisher Member ID</label>
-        <div class="col-sm-9">
-            <input type="text" name = "publisherID" class="form-control" id="publisherID" value="" placeholder="Enter publisher ID">
-        </div>
-        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-            <?php echo form_error('publisherID'); ?>
-        </div>
-    </div>
+<!--    <div class="form-group">-->
+<!--        <label for="publisherID" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Publisher Member ID</label>-->
+<!--        <div class="col-sm-9">-->
+<!--            <input type="text" name = "publisherID" class="form-control" id="publisherID" value="--><?php //echo $_SESSION['user_id']?><!--" placeholder="Enter publisher ID">-->
+<!--        </div>-->
+<!--        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">-->
+<!--            --><?php //echo form_error('publisherID'); ?>
+<!--        </div>-->
+<!--    </div>-->
 
     <div class="form-group">
         <label for="publishDate" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Publishing Date</label>
@@ -109,15 +109,15 @@
     </div>
 
 
-    <div class="form-group">
-        <label for="attachment" class="col-sm-3 control-label">Attachment</label>
-        <div class="col-sm-9">
-            <input type="file" name = "attachment" class="form-control" id="attachment" placeholder="Choose File">
-        </div>
-        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-
-        </div>
-    </div>
+<!--    <div class="form-group">-->
+<!--        <label for="attachment" class="col-sm-3 control-label">Attachment</label>-->
+<!--        <div class="col-sm-9">-->
+<!--            <input type="file" name = "attachment" class="form-control" id="attachment" placeholder="Choose File">-->
+<!--        </div>-->
+<!--        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">-->
+<!---->
+<!--        </div>-->
+<!--    </div>-->
 
 
     <div class="form-group">
