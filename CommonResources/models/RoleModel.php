@@ -47,23 +47,23 @@ class RoleModel extends CI_Model
     {
         $sql = "Update privilege_role_mapper Set privilege_role_mapper_dirty = 1
                 Where role_id = ? And privilege_id = ? And privilege_role_mapper_dirty = 0";
-        $query = $this->db->query($sql, array($roleId, $privilegeId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($roleId, $privilegeId));
+        return $this->dbCon->trans_status();
     }
 
     public function enablePrivilege($roleId, $privilegeId)
     {
         $sql = "Update privilege_role_mapper Set privilege_role_mapper_dirty = 0
                 Where role_id = ? And privilege_id = ? And privilege_role_mapper_dirty = 1";
-        $query = $this->db->query($sql, array($roleId, $privilegeId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($roleId, $privilegeId));
+        return $this->dbCon->trans_status();
     }
 
     public function deletePrivilege($roleId, $privilegeId)
     {
         $sql = "Delete From privilege_role_mapper Where role_id = ? And privilege_id = ?";
-        $query = $this->db->query($sql, array($roleId, $privilegeId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($roleId, $privilegeId));
+        return $this->dbCon->trans_status();
     }
 
     public function createDbUser($username, $privileges = array())
@@ -80,6 +80,7 @@ class RoleModel extends CI_Model
 
     public function grantPrivileges($username, $privileges = array())
     {
+        $this->load->model('PrivilegeModel');
         $host = rtrim(HOST, '/');
         $privDetails = $this->PrivilegeModel->getPrivilegeDetails($privileges);
         $privTypes = array();
@@ -96,6 +97,7 @@ class RoleModel extends CI_Model
 
     public function revokePrivileges($username, $privileges = array())
     {
+        $this->load->model('PrivilegeModel');
         $host = rtrim(HOST, '/');
         $privDetails = $this->PrivilegeModel->getPrivilegeDetails($privileges);
         $privTypes = array();
@@ -114,16 +116,16 @@ class RoleModel extends CI_Model
     {
         $sql = "Update role_master Set role_dirty = 0
                 Where role_id = ? And role_dirty = 1";
-        $query = $this->db->query($sql, array($roleId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($roleId));
+        return $this->dbCon->trans_status();
     }
 
     public function disableRole($roleId)
     {
         $sql = "Update role_master Set role_dirty = 1
                 Where role_id = ? And role_dirty = 0";
-        $query = $this->db->query($sql, array($roleId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($roleId));
+        return $this->dbCon->trans_status();
     }
 
     public function getAllRoles()

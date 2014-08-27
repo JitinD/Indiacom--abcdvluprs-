@@ -16,9 +16,10 @@ class AccessModel extends CI_Model
 
     public function hasPrivileges($privileges = array())
     {
-        if(!isset($_SESSION) || !isset($_SESSION['current_role_id']))
+        if(!isset($_SESSION['current_role_id']))
         {
-            return false;
+            $this->load->model('RoleModel');
+            $_SESSION['current_role_id'] = $this->RoleModel->getRoleId($_SESSION['dbUserName']);
         }
         $roleId = $_SESSION['current_role_id'];
         $sql = "Select privilege_id From privilege_role_mapper Where role_id = ? AND privilege_role_mapper_dirty = 0";
@@ -34,4 +35,36 @@ class AccessModel extends CI_Model
         }
         return false;
     }
+
+    public function getLoadableComponents($componentPrivs = array())
+    {
+        $loadableComponents = array();
+        foreach($componentPrivs as $component=>$privs)
+        {
+            if($this->hasPrivileges($privs))
+            {
+                $loadableComponents[] = $component;
+            }
+        }
+        return $loadableComponents;
+    }
+
+        /*$this->load->model('RoleModel');
+        if(!isset($_SESSION['current_role_id']))
+        {
+        $_SESSION['current_role_id'] = $this->RoleModel->getRoleId($_SESSION['dbUserName']);
+        }
+        $roleId = $_SESSION['current_role_id'];
+        $rolePrivileges = $this->RoleModel->getRolePrivileges($roleId);
+        $rolePrivs = array();
+        $loadableComponents = array();
+        foreach($rolePrivileges as $privilege)
+        {
+            $rolePrivs[] = $privilege->privilege_id;
+        }
+        foreach($componentPrivs as $component=>$privs)
+        {
+            $diffPrivs = array_diff($privs, $rolePrivs);
+            if(count($diffPrivs) == 0)
+        }*/
 }

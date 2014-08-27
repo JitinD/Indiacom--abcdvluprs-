@@ -34,13 +34,11 @@ class RoleManager extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('AccessModel');
-        $this->load->model('RoleModel');
-        $this->load->model('PrivilegeModel');
     }
 
     private function index($page)
     {
+        $this->load->model('AccessModel');
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
         if ( ! file_exists(APPPATH.'views/pages/RoleManager/'.$page.'.php'))
@@ -62,6 +60,7 @@ class RoleManager extends CI_Controller
 
     public function load()
     {
+        $this->load->model('RoleModel');
         $page = "index";
         $this->data['roles'] = $this->RoleModel->getAllRolesInclDirty();
         $this->index($page);
@@ -70,6 +69,8 @@ class RoleManager extends CI_Controller
     public function newRole()
     {
         $page = "newRole";
+        $this->load->model('RoleModel');
+        $this->load->model('PrivilegeModel');
         $this->data['editRole'] = false;
         $this->data['entities'] = $this->entities;
         $this->load->library('form_validation');
@@ -77,6 +78,7 @@ class RoleManager extends CI_Controller
 
         if($this->form_validation->run())
         {
+            $this->load->helper('url');
             $posts = $this->input->post();
             $pids = array();
             foreach($posts as $postName=>$post)
@@ -94,7 +96,8 @@ class RoleManager extends CI_Controller
             }
             $this->RoleModel->assignPrivileges($roleDetails['role_id'], $pids);
             $this->RoleModel->createDbUser($roleDetails['role_name'], $pids);
-            print_r($pids);
+            //print_r($pids);
+            redirect('/RoleManager/load/');
         }
         else
         {
@@ -105,6 +108,8 @@ class RoleManager extends CI_Controller
     public function viewRole($roleId)
     {
         $page = "viewRole";
+        $this->load->model('RoleModel');
+        $this->load->model('PrivilegeModel');
         $this->data['roleInfo'] = $this->RoleModel->getRoleDetails($roleId);
         $this->data['entities'] = $this->entities;
         $this->load->library('form_validation');
@@ -146,6 +151,7 @@ class RoleManager extends CI_Controller
 
     public function enableRolePrivilege($roleId, $privilegeId)
     {
+        $this->load->model('RoleModel');
         $this->load->helper('url');
         $this->RoleModel->enablePrivilege($roleId, $privilegeId);
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
@@ -155,6 +161,7 @@ class RoleManager extends CI_Controller
 
     public function disableRolePrivilege($roleId, $privilegeId)
     {
+        $this->load->model('RoleModel');
         $this->load->helper('url');
         $this->RoleModel->disablePrivilege($roleId, $privilegeId);
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
@@ -164,6 +171,7 @@ class RoleManager extends CI_Controller
 
     public function deleteRolePrivilege($roleId, $privilegeId)
     {
+        $this->load->model('RoleModel');
         $this->load->helper('url');
         $this->RoleModel->deletePrivilege($roleId, $privilegeId);
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
@@ -173,6 +181,7 @@ class RoleManager extends CI_Controller
 
     public function disableRole($roleId)
     {
+        $this->load->model('RoleModel');
         $this->load->helper('url');
         $this->RoleModel->disableRole($roleId);
         redirect('/RoleManager/load');
@@ -180,6 +189,7 @@ class RoleManager extends CI_Controller
 
     public function enableRole($roleId)
     {
+        $this->load->model('RoleModel');
         $this->load->helper('url');
         $this->RoleModel->enableRole($roleId);
         redirect('/RoleManager/load');
