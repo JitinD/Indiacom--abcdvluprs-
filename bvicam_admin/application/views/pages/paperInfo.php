@@ -206,7 +206,7 @@
 
                         foreach($comments as $index => $comment)
                         {
-                            if(strcmp($comment -> paper_version_review, 'Not reviewed yet'))
+                            if($comment -> paper_version_review)
                                 echo "<h4>".$comment -> paper_version_review."</h4>";
                             else
                             {
