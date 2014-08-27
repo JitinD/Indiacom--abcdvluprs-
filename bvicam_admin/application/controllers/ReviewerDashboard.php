@@ -64,20 +64,24 @@ class ReviewerDashboard extends CI_Controller
         {
             if($this->form_validation->run())
             {
-                date_default_timezone_set('Asia/Kolkata');
+                if($this -> input -> post('comments'))
+                {
+                    date_default_timezone_set('Asia/Kolkata');
 
-                $update_data = array(
-                                        'paper_version_review_comments'         =>  $this -> input -> post('comments'),
-                                        'paper_version_review_date_of_receipt'  =>  date("Y/m/d H:i:s")
-                                    );
+                    $update_data = array(
+                                            'paper_version_review_comments'         =>  $this -> input -> post('comments'),
+                                            'paper_version_review_date_of_receipt'  =>  date("Y/m/d H:i:s")
+                                        );
 
-                if($this -> ConvenerModel -> sendReviewerComments($update_data, $paper_version_review_id))
-                    $this -> data['message'] = "success";
-                else
-                    $this -> data['error2'] = "Sorry, there is some problem. Try again later";
+                    if($this -> ConvenerModel -> sendReviewerComments($update_data, $paper_version_review_id))
+                        $this -> data['message'] = "success";
+                    else
+                        $this -> data['error2'] = "Sorry, there is some problem. Try again later";
+
+                }
+
             }
         }
-
         $this -> data['reviews'] = $this -> ConvenerModel -> getPaperVersionReview($paper_version_review_id);
 
         $this->index($page);

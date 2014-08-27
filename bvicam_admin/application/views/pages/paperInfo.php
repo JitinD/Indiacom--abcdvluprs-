@@ -198,13 +198,19 @@
                                     <div class="form-group">
                                         <label for="reviewResult" class="col-sm-2 control-label">Review Result</label>
                                         <div class="col-sm-8">
-                                            <select id="salutation" name="salutation" class="form-control">
-                                                <option value="Mr">Mr</option>
-                                                <option value="Ms">Ms</option>
-                                                <option value="Mrs">Mrs</option>
-                                                <option value="Dr">Dr</option>
-                                                <option value="Prof">Prof</option>
-                                                <option value="Sir">Sir</option>
+                                            <select id="salutation" name="review_result" class="form-control">
+                                            <?php
+                                                foreach($review_results as $review_result)
+                                                {
+                                            ?>
+
+                                            <option value = "<?php echo $review_result -> review_result_id ?>"><?php echo $review_result -> review_result_type_name ?></option>
+
+                                            <?php
+                                                }
+                                            ?>
+
+
                                             </select>
                                         </div>
                                     </div>

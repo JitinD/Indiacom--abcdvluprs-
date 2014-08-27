@@ -104,5 +104,14 @@
         {
             return $this -> db -> update('paper_version_master', $update_data, array("paper_version_id" => $paper_version_id));
         }
+
+        public function getAllReviewResults()
+        {
+            $this -> db -> select('review_result_id, review_result_type_name');
+            $query = $this -> db -> get('review_result_master');
+
+            if($query -> num_rows() > 0)
+                return $query -> result();
+        }
     }
 ?>

@@ -64,17 +64,23 @@
             {
                 if($this->form_validation->run())
                 {
-                    date_default_timezone_set('Asia/Kolkata');
+                    if($this -> input -> post('comments'))
+                    {
+                        date_default_timezone_set('Asia/Kolkata');
 
-                    $update_data = array(
-                                            'paper_version_review'      =>  $this -> input -> post('comments'),
-                                            'paper_version_review_date' =>  date("Y/m/d H:i:s")
-                                        );
+                        $update_data = array(
+                                                'paper_version_review_result_id' => $this -> input -> post('review_result'),
+                                                'paper_version_review'      =>  $this -> input -> post('comments'),
+                                                'paper_version_review_date' =>  date("Y/m/d H:i:s")
+                                            );
 
-                    if($this -> ConvenerModel -> sendConvenerReview($update_data, $paper_version_id))
-                        $this -> data['message'] = "success";
-                    else
-                        $this -> data['error2'] = "Sorry, there is some problem. Try again later";
+                        if($this -> ConvenerModel -> sendConvenerReview($update_data, $paper_version_id))
+                            $this -> data['message'] = "success";
+                        else
+                            $this -> data['error2'] = "Sorry, there is some problem. Try again later";
+
+                    }
+
                 }
             }
             else if(($this -> input -> post('Form1')))
@@ -115,6 +121,7 @@
                 }
             }
 
+            $this -> data['review_results'] = $this -> ConvenerModel -> getAllReviewResults();
             $this -> data['comments'] = $this -> ConvenerModel -> getPaperVersionComments($paper_version_id);
             $this -> data['reviewers'] = $this -> ConvenerModel -> getReviewerIDs();
             $this -> data['reviews'] = $this -> ConvenerModel -> getPaperVersionReviews($paper_version_id);
