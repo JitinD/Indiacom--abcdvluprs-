@@ -42,7 +42,6 @@
                         <?php echo form_error('userPassword'); ?>
                     </div>
                 </div>
-
                 <div class="form-group">
                     <label for="" class="col-sm-3 control-label">User Event Roles</label>
                     <div class="col-sm-9">

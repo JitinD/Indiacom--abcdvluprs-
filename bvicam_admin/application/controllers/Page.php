@@ -18,6 +18,7 @@ class Page extends CI_Controller
     {
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        $this->load->model('AccessModel');
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {
             show_404();
@@ -27,10 +28,12 @@ class Page extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-
+        if($page == "home")
+        {
+            $this->data['loadableComponents'] = $this->AccessModel->getLoadableComponents($privilege['Component']);
+        }
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-//        $this->load->view('templates/sidebar');
         $this->load->view('pages/'.$page, $this->data);
         $this->load->view('templates/footer');
     }

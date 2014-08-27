@@ -5,9 +5,6 @@
  * Date: 15/7/14
  * Time: 1:56 PM
  */
- 
-	require_once(dirname(__FILE__).'/../config/privileges.php');
-    require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
 
     class Registration extends CI_Controller
     {
@@ -107,6 +104,9 @@
 		
         private function index($page)
         {
+            require_once(dirname(__FILE__).'/../config/privileges.php');
+            require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
+            $this->load->model('AccessModel');
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
             {
                 show_404();

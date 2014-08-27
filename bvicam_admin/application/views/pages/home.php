@@ -7,6 +7,10 @@
                 </h2>
             <hr>
             <div class="row">
+                <?php
+                if(in_array("Role Manager", $loadableComponents))
+                {
+                ?>
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
                     <a href="/<?php echo BASEURL; ?>index.php/RoleManager/load" class="thumbnail">
                         <div class="panel text-muted">
@@ -16,6 +20,13 @@
                         </div>
                     </a>
                 </div>
+                <?php
+                }
+                ?>
+                <?php
+                if(in_array("User Manager", $loadableComponents))
+                {
+                ?>
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
                     <a href="/<?php echo BASEURL; ?>index.php/UserManager/load" class="thumbnail">
                         <div class="panel text-muted">
@@ -25,6 +36,9 @@
                         </div>
                     </a>
                 </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>

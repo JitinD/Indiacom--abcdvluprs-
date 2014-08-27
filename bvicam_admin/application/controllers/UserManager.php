@@ -11,13 +11,11 @@ class UserManager extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('UserModel');
-        $this->load->model('EventModel');
-        $this->load->model('RoleModel');
     }
 
     private function index($page)
     {
+        $this->load->model('AccessModel');
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
         if ( ! file_exists(APPPATH.'views/pages/UserManager/'.$page.'.php'))
@@ -39,6 +37,7 @@ class UserManager extends CI_Controller
 
     public function load()
     {
+        $this->load->model('UserModel');
         $page = "index";
         $this->data['users'] = $this->UserModel->getAllUsersInclDirty();
         $this->index($page);
@@ -47,6 +46,9 @@ class UserManager extends CI_Controller
     public function newUser()
     {
         $page = "newUser";
+        $this->load->model('RoleModel');
+        $this->load->model('UserModel');
+        $this->load->model('EventModel');
         $this->data['events'] = $this->EventModel->getAllEvents();
         $this->data['roles'] = $this->RoleModel->getAllRoles();
         $this->load->library('form_validation');
@@ -56,6 +58,7 @@ class UserManager extends CI_Controller
 
         if($this->form_validation->run())
         {
+            $this->load->helper('url');
             $userDetails = array(
                 'user_name' => $this->input->post('userName'),
                 'user_email' => $this->input->post('userEmail'),
@@ -74,14 +77,20 @@ class UserManager extends CI_Controller
             {
                 $this->UserModel->assignEventRoleToUser($userInfo->user_id, $event, $roles[$key]);
             }
+            redirect('/UserManager/load/');
         }
         else
+        {
             $this->index($page);
+        }
     }
 
     public function viewUser($userId)
     {
         $page = "viewUser";
+        $this->load->model('RoleModel');
+        $this->load->model('UserModel');
+        $this->load->model('EventModel');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('event', "Event", 'required');
         $this->form_validation->set_rules('role', "Role", 'required');
@@ -93,12 +102,13 @@ class UserManager extends CI_Controller
         $this->data['userInfo'] = $this->UserModel->getUserInfo($userId);
         $this->data['userEventsAndRoles'] = $this->UserModel->getUserEventsAndRoles($userId);
         $this->data['events'] = $this->EventModel->getAllEvents();
-        $this->data['roles'] = $this->RoleModel->getAllRoles();
+        //$this->data['roles'] = $this->RoleModel->getAllRoles();
         $this->index($page);
     }
 
     public function enableUser($userId)
     {
+        $this->load->model('UserModel');
         $this->load->helper('url');
         $this->UserModel->enableUser($userId);
         redirect('UserManager/load');
@@ -106,6 +116,7 @@ class UserManager extends CI_Controller
 
     public function disableUser($userId)
     {
+        $this->load->model('UserModel');
         $this->load->helper('url');
         $this->UserModel->disableUser($userId);
         redirect('UserManager/load');
@@ -113,6 +124,7 @@ class UserManager extends CI_Controller
 
     public function enableUserEventRole($userId, $eventId, $roleId)
     {
+        $this->load->model('UserModel');
         $this->load->helper('url');
         $this->UserModel->enableUserEventRole($userId, $eventId, $roleId);
         redirect("UserManager/viewUser/$userId");
@@ -120,6 +132,7 @@ class UserManager extends CI_Controller
 
     public function disableUserEventRole($userId, $eventId, $roleId)
     {
+        $this->load->model('UserModel');
         $this->load->helper('url');
         $this->UserModel->disableUserEventRole($userId, $eventId, $roleId);
         redirect("UserManager/viewUser/$userId");
@@ -127,6 +140,7 @@ class UserManager extends CI_Controller
 
     public function deleteUserEventRole($userId, $eventId, $roleId)
     {
+        $this->load->model('UserModel');
         $this->load->helper('url');
         $this->UserModel->deleteUserEventRole($userId, $eventId, $roleId);
         redirect("UserManager/viewUser/$userId");
