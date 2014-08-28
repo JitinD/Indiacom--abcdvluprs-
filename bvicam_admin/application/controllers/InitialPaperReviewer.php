@@ -16,9 +16,27 @@ class InitialPaperReviewer extends CI_Controller
         $this -> load -> model('SubmissionModel');
         $this -> load -> model('ReviewerModel');
         $this -> load -> model('PaperVersionReviewModel');
-
+        $this->load->helper(array('form', 'url'));
     }
 
+    public function uploadComments($fileElem,$eventId,$paper_id)
+    {
+        //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+        $config['upload_path'] = dirname(__FILE__)."/../../../uploads/".$eventId.'/reviewer_reviews';
+        $config['allowed_types'] = 'pdf|doc|docx';
+        $config['file_name'] = $paper_id . "reviews";
+        $config['overwrite'] = true;
+
+        $this->load->library('upload', $config);
+
+        if ( ! $this->upload->do_upload($fileElem))
+        {
+            return false;
+        }
+        $uploadData = $this->upload->data();
+
+        return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
+    }
     public function index($page = "ReviewerDashboardHome")
     {
         require(dirname(__FILE__).'/../config/privileges.php');
@@ -60,6 +78,11 @@ class InitialPaperReviewer extends CI_Controller
 
         $this->form_validation->set_rules('event', 'Event','');
 
+        if(($doc_path = $comments_url=$this->uploadComments('comments',1,$paper_id)) == false)
+        {
+            $this->data['uploadError'] = $this->upload->display_errors();
+            $this->db->trans_rollback();
+        }
 
         if($this -> input -> post('Form2'))
         {
