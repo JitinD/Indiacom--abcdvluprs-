@@ -212,11 +212,23 @@
                     ?>
                                 <form class="form-horizontal" enctype="multipart/form-data" method = "post">
                                     <div class="form-group">
-                                        <label for="comments" class="col-sm-2 control-label">Comments</label>
-                                        <div class="col-sm-8">
-                                            <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>
+                                        <label for="comments" class="col-sm-2 control-label">Upload Comments file(.doc,.docx,pdf)</label>
+                                        <div class="col-sm-9">
+                                            <input type="file" name = "comments" class="form-control" id="comments" placeholder="Choose File">
+                                        </div>
+                                        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                            <?php
+                                            echo form_error('comments');
+                                            if(isset($uploadError)) echo $uploadError;
+                                            ?>
                                         </div>
                                     </div>
+<!--                                    <div class="form-group">-->
+<!--                                        <label for="comments" class="col-sm-2 control-label">Comments</label>-->
+<!--                                        <div class="col-sm-8">-->
+<!--                                            <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
                                     <div class="form-group">
                                         <label for="reviewResult" class="col-sm-2 control-label">Review Result</label>
                                         <div class="col-sm-8">
