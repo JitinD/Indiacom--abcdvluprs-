@@ -37,7 +37,8 @@
                             <table class="table table-striped table-responsive">
                                 <th>Version Number</th>
                                 <th>Date of submission</th>
-                                <th>Review Result</th>
+                                <th>Review Status</th>
+                                <th>Download Reviewer Comments</th>
                                 <th>Download version</th>
                                 <th>Compliance report</th>
                                 <?php
@@ -60,14 +61,61 @@
                                             }
                                             ?>
                                         </td>
-                                        <td><a href="/<?php echo $version->paper_version_document_path; ?>">Download</a></td>
-                                        <td><a href="/<?php echo $version->paper_version_compliance_report_path; ?>">Download</a></td>
+                                        <td>
+                                            <?php
+                                            if($version->paper_version_review_date != null)
+                                            {
+                                            ?>
+                                                <a class="btn btn-primary" href="/<?php echo $version->paper_version_comments_path; ?>">
+                                                    <span class="glyphicon glyphicon-cloud-download"></span>
+                                                </a>
+                                            <?php
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" href="/<?php echo $version->paper_version_document_path; ?>">
+                                                <span class="glyphicon glyphicon-cloud-download"></span>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if($version->paper_version_compliance_report_path != null)
+                                            {
+                                            ?>
+                                                <a class="btn btn-primary" href="/<?php echo $version->paper_version_compliance_report_path; ?>">
+                                                    <span class="glyphicon glyphicon-cloud-download"></span>
+                                                </a>
+                                            <?php
+                                            }
+                                            ?>
+                                        </td>
                                     </tr>
+                                    <?php
+                                    if($version->paper_version_review_date != null)
+                                    {
+                                    ?>
+                                    <tr>
+                                        <td></td>
+                                        <td>
+                                            Comments
+                                        </td>
+                                        <td colspan="10">
+                                            <select multiple class="form-control">
+                                                <option disabled>
+                                                    <?php echo $version->paper_version_review; ?>
+                                                </option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <?php
+                                    }
+                                    ?>
                                 <?php
                                 }
                                 ?>
                                 <tr>
-                                    <td  colspan="5">
+                                    <td  colspan="10">
                                         <a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision/<?php echo $paperDetails->paper_id; ?>">Add new version</a>
                                     </td>
                                 </tr>

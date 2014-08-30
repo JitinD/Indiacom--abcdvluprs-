@@ -52,6 +52,16 @@
                                 </table>
                             </td>
                         </tr>
+                        <tr>
+                            <td>
+                                Paper
+                            </td>
+                            <td>
+                                <a class="btn btn-sm btn-primary" href="/<?php echo $paperVersionDetails->paper_version_document_path; ?>">
+                                    <span class="glyphicon glyphicon-cloud-download"></span> Download
+                                </a>
+                            </td>
+                        </tr>
 
                     </table>
 
@@ -124,7 +134,17 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <button class="btn btn-sm btn-primary"><span class="glyphicon glyphicon-cloud-download"></span> Download Comments</button>
+                                    <?php
+                                    if($review->paper_version_review_comments_file_path != null)
+                                    {
+                                    ?>
+                                    <a href="/<?php echo $review->paper_version_review_comments_file_path; ?>" class="btn btn-sm btn-primary">
+                                        <span class="glyphicon glyphicon-cloud-download"></span>
+                                        Download Comments
+                                    </a>
+                                    <?php
+                                    }
+                                    ?>
                                 </td>
 
                             </tr>
@@ -150,29 +170,33 @@
                             <form method = "post" class="form-horizontal">
                                 <div>
                                     <span class="h3">Add reviewers</span>
-
                                 </div>
                                 <div class="form-group">
                                     <div class="col-sm-8">
                                         <select multiple id="selectReviewer" name="selectReviewer[]" class="form-control">
                                             <?php
-
+                                            $noReviewer = true;
                                             foreach($reviewers as $reviewer_id=>$reviewer_name)
                                             {
+                                            ?>
+                                                <?php
+                                                if(!in_array($reviewer_id, $paper_version_reviewers))
+                                                {
+                                                    $noReviewer = false;
                                                 ?>
-                                                <div class="form-group">
-                                                    <?php
-                                                        if(!in_array($reviewer_id, $paper_version_reviewers))
-                                                        {
-                                                    ?>
-                                                            <option value = <?php echo $reviewer_id ;?>><?php echo $reviewer_id." - ".$reviewer_name;  ?></option>
-                                                    <?php
-                                                        }
-                                                    ?>
-                                                </div>
-
+                                                    <div class="form-group">
+                                                        <option value = <?php echo $reviewer_id ;?>><?php echo $reviewer_id." - ".$reviewer_name;  ?></option>
+                                                    </div>
+                                                <?php
+                                                }
+                                                ?>
                                             <?php
-
+                                            }
+                                            if($noReviewer)
+                                            {
+                                            ?>
+                                                <option disabled>No reviewers available</option>
+                                            <?php
                                             }
                                             ?>
                                         </select>
@@ -223,12 +247,12 @@
                                             ?>
                                         </div>
                                     </div>
-<!--                                    <div class="form-group">-->
-<!--                                        <label for="comments" class="col-sm-2 control-label">Comments</label>-->
-<!--                                        <div class="col-sm-8">-->
-<!--                                            <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
+                                    <div class="form-group">
+                                        <label for="comments" class="col-sm-2 control-label">Comments</label>
+                                        <div class="col-sm-8">
+                                            <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>
+                                        </div>
+                                    </div>
                                     <div class="form-group">
                                         <label for="reviewResult" class="col-sm-2 control-label">Review Result</label>
                                         <div class="col-sm-8">

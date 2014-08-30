@@ -23,7 +23,8 @@
         public function uploadComments($fileElem,$eventId,$paper_version_id)
         {
             //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
-            $config['upload_path'] = dirname(__FILE__)."/../../../uploads/".$eventId.'/convener_reviews';
+            //$config['upload_path'] = dirname(__FILE__)."/../../../uploads/".$eventId.'/convener_reviews';
+            $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . CONVENER_REVIEW_FOLDER;
             $config['allowed_types'] = 'pdf|doc|docx';
             $config['file_name'] = $paper_version_id . "reviews";
             $config['overwrite'] = true;
@@ -36,18 +37,19 @@
             }
             $uploadData = $this->upload->data();
 
-            return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
+            return UPLOAD_PATH . $eventId . "/" . CONVENER_REVIEW_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+            //return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
         }
 
         public function index($page = "ConvenerDashboardHome")
         {
             require(dirname(__FILE__).'/../config/privileges.php');
             require(dirname(__FILE__).'/../utils/ViewUtils.php');
+            $this->load->model('AccessModel');
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
             {
                 show_404();
             }
-
 
             if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
             {
@@ -57,7 +59,6 @@
 
             //$_SESSION['user_id'] = 1;
             $this -> data['user_id'] = $_SESSION['user_id'];
-
             $this -> data['papers'] = $this -> PaperVersionModel -> getAssignedPapers($this -> data['user_id']);
             $this->data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this->data);
@@ -79,24 +80,27 @@
         public function paperInfo($paper_id, $paper_version_id)
         {
             $page = 'paperInfo';
-
             $this->data['paperDetails'] = $this->PaperModel->getPaperDetails($paper_id);
             $this->data['subjectDetails'] = $this->SubjectModel->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
             $this->data['trackDetails'] = $this->TrackModel->getTrackDetails($this->data['subjectDetails']->subject_track_id);
             $this->data['eventDetails'] = $this->EventModel->getEventDetails($this->data['trackDetails']->track_event_id);
             $this->data['submissions'] = $this->SubmissionModel->getSubmissionsByAttribute('submission_paper_id', $paper_id);
-
+            $this->data['paperVersionDetails'] = $this->PaperVersionModel->getPaperVersionDetails($paper_version_id);
             $this->load->library('form_validation');
 
             $this->form_validation->set_rules('event', 'Event','');
 
-            if(($doc_path = $comments_url=$this->uploadComments('comments',1,$paper_version_id)) == false)
+            if(($doc_path = $comments_url=$this->uploadComments('comments',$this->data['eventDetails']->event_id,$paper_version_id)) == false)
             {
                 $this->data['uploadError'] = $this->upload->display_errors();
-                $this->db->trans_rollback();
             }
-
-
+            else
+            {
+                $versionDetails = array(
+                    "paper_version_comments_path" => $doc_path
+                );
+                $this->PaperVersionModel->sendConvenerReview($versionDetails, $paper_version_id);
+            }
 
             if($this -> input -> post('Form2'))
             {

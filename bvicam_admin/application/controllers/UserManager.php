@@ -102,7 +102,7 @@ class UserManager extends CI_Controller
         $this->data['userInfo'] = $this->UserModel->getUserInfo($userId);
         $this->data['userEventsAndRoles'] = $this->UserModel->getUserEventsAndRoles($userId);
         $this->data['events'] = $this->EventModel->getAllEvents();
-        //$this->data['roles'] = $this->RoleModel->getAllRoles();
+        $this->data['roles'] = $this->RoleModel->getAllRoles();
         $this->index($page);
     }
 

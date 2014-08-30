@@ -102,6 +102,15 @@ class PaperVersionModel extends CI_Model
     {
         return $this -> db -> update('paper_version_master', $update_data, array("paper_version_id" => $paper_version_id));
     }
+
+    public function getPaperVersionDetails($paper_version_id)
+    {
+        $sql = "Select * From paper_version_master Where paper_version_id = ?";
+        $query = $this->db->query($sql, array($paper_version_id));
+        if($query->num_rows() == 0)
+            return false;
+        return $query->row();
+    }
 }
 
 ?>

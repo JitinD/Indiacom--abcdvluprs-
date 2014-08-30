@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-4">
-                                    <a href="forgotPassword" class="btn btn-danger btn-block">Forgot Password</a>
+                                    <a href="forgotPassword" class="btn btn-danger btn-block">Forgot Member Id / Password</a>
 
                                 </div>
                             </div>

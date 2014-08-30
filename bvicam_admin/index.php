@@ -31,6 +31,7 @@
         $_SESSION['dbUserName'] = 'root';
         $_SESSION['dbPassword'] = '';
     }
+    require('application/config/paths.php');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

@@ -15,7 +15,7 @@
             <p class="body-text contentBlock-top">
                 <?php
                 if($is_verified)
-                    echo "Your memeber id is $member_id <br/>";
+                    echo "Your Member Id is $member_id <br/>";
                 echo $message;
                 ?>
             </p>

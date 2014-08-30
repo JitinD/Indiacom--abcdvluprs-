@@ -39,6 +39,54 @@
                 <?php
                 }
                 ?>
+                <?php
+                if(in_array("Initial Paper Reviewer", $loadableComponents))
+                {
+                    ?>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
+                        <a href="/<?php echo BASEURL; ?>index.php/InitialPaperReviewer" class="thumbnail">
+                            <div class="panel text-muted">
+                                <h3>
+                                    Intitial Paper Reviewer
+                                </h3>
+                            </div>
+                        </a>
+                    </div>
+                <?php
+                }
+                ?>
+                <?php
+                if(in_array("Final Paper Reviewer", $loadableComponents))
+                {
+                    ?>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
+                        <a href="/<?php echo BASEURL; ?>index.php/FinalPaperReviewer" class="thumbnail">
+                            <div class="panel text-muted">
+                                <h3>
+                                    Final Paper Reviewer
+                                </h3>
+                            </div>
+                        </a>
+                    </div>
+                <?php
+                }
+                ?>
+                <?php
+                if(in_array("News Maker", $loadableComponents))
+                {
+                    ?>
+                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
+                        <a href="/<?php echo BASEURL; ?>index.php/" class="thumbnail">
+                            <div class="panel text-muted">
+                                <h3>
+                                    News Manager
+                                </h3>
+                            </div>
+                        </a>
+                    </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
     </div>

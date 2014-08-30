@@ -31,7 +31,11 @@
                             <?php
                             }
                             else
-                                echo "Under Review<br>(isko red ya kuch karna hai!!)";
+                            {
+                            ?>
+                                <span class="text-danger">Under Review</span>
+                            <?php
+                            }
                             ?>
                         </td>
                     </tr>

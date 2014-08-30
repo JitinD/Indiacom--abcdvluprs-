@@ -42,7 +42,8 @@ class PaperVersionReviewModel extends CI_Model
 
     public function  getPaperVersionReview($paper_version_review_id)
     {
-        $this -> db -> select('paper_version_review_comments');
+        //$this -> db -> select('paper_version_review_comments');
+        $this -> db -> select('*');
         $this -> db -> from('paper_version_review');
         $this -> db -> where('paper_version_review_id', $paper_version_review_id);
 

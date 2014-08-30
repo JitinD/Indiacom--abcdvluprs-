@@ -14,6 +14,7 @@ class ReviewResultModel extends CI_Model
         $this->load->database();
     }
 
+    //TODO:Redundant
     public function getAllReviewResultTypeNames()
     {
         $sql = "Select review_result_id, review_result_type_name From review_result_master Where review_result_dirty = 0";
@@ -26,6 +27,7 @@ class ReviewResultModel extends CI_Model
         return $types;
     }
 
+    //TODO:Redundant;
     public function getAllReviewResults()
     {
         $this -> db -> select('review_result_id, review_result_type_name');

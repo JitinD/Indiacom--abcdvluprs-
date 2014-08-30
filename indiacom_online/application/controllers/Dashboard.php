@@ -63,7 +63,7 @@ class Dashboard extends CI_Controller
 
     public function uploadBiodata($fileElem,$eventId,$memberId)
     {
-        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId . "/";
+        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = $memberId . "biodata";
         $config['overwrite'] = true;
@@ -98,7 +98,7 @@ class Dashboard extends CI_Controller
 
     private function uploadComplianceReport($fileElem, $eventId, $paperId, $versionNumber=1)
     {
-        $config['upload_path'] = UPLOAD_PATH . $eventId . "/" . COMPLIANCE_REPORT_FOLDER;
+        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . COMPLIANCE_REPORT_FOLDER;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = "Report_" . $paperId . "v" . $versionNumber;
         $config['overwrite'] = true;
