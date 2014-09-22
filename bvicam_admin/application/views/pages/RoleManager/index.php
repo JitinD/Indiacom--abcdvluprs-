@@ -25,23 +25,22 @@
                 foreach($roles as $key=>$role)
                 {
                     ?>
-                    <tr>
+                    <tr <?php if($role->role_dirty) { ?> class="danger" <?php } ?>>
                         <td><?php echo $key+1; ?></td>
                         <td><?php echo $role->role_name; ?></td>
                         <td>
-                            <a href="viewRole/<?php echo $role->role_id; ?>">Edit Role</a>
-                            /
+                            <a class="btn btn-sm btn-default" href="viewRole/<?php echo $role->role_id; ?>">Edit Role</a>
                             <?php
                             if($role->role_dirty == 0)
                             {
                                 ?>
-                                <a href="disableRole/<?php echo $role->role_id; ?>">Disable Role</a>
+                                <a class="btn btn-sm btn-default" href="disableRole/<?php echo $role->role_id; ?>">Disable Role</a>
                             <?php
                             }
                             else
                             {
                                 ?>
-                                <a href="enableRole/<?php echo $role->role_id; ?>">Enable Role</a>
+                                <a class="btn btn-sm btn-default" href="enableRole/<?php echo $role->role_id; ?>">Enable Role</a>
                             <?php
                             }
                             ?>

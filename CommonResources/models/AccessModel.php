@@ -36,14 +36,18 @@ class AccessModel extends CI_Model
         return false;
     }
 
-    public function getLoadableComponents($componentPrivs = array())
+    public function getLoadableDashboardComponents($components = array())
     {
         $loadableComponents = array();
-        foreach($componentPrivs as $component=>$privs)
+        foreach($components as $dashComponent=>$subComponents)
         {
-            if($this->hasPrivileges($privs))
+            foreach($subComponents as $subComponentPriv)
             {
-                $loadableComponents[] = $component;
+                if($this->hasPrivileges($subComponentPriv))
+                {
+                    $loadableComponents[] = $dashComponent;
+                    break;
+                }
             }
         }
         return $loadableComponents;

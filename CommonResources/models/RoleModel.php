@@ -68,7 +68,7 @@ class RoleModel extends CI_Model
 
     public function createDbUser($username, $privileges = array())
     {
-        $this->load->model('PrivilegeModel');
+        //$this->load->model('PrivilegeModel');
         $this->load->model('DatabaseUserModel');
         $host = rtrim(HOST, '/');
         $pwd = 1234;

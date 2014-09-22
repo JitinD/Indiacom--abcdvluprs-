@@ -30,7 +30,7 @@ class Page extends CI_Controller
         }
         if($page == "home")
         {
-            $this->data['loadableComponents'] = $this->AccessModel->getLoadableComponents($privilege['Component']);
+            $this->data['loadableComponents'] = $this->AccessModel->getLoadableDashboardComponents($privilege['Component']);
         }
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
@@ -41,9 +41,9 @@ class Page extends CI_Controller
     public function login()
     {
         $page = "login";
+        $this->load->model('RoleModel');
         $this->load->model('LoginModel');
         $this->load->model('EventModel');
-        $this->load->model('RoleModel');
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('emailId', 'Email Id', 'required');

@@ -60,7 +60,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="compliance_report_doc" class="col-sm-3 control-label">Compliance Report Path(.docx, .doc)</label>
+                            <label for="compliance_report_doc" class="col-sm-3 control-label">Compliance Report Path(.pdf)</label>
                             <div class="col-sm-9">
                                 <input type="file" class="form-control" name="compliance_report_doc" id="compliance_report_doc" placeholder="Choose File">
                             </div>

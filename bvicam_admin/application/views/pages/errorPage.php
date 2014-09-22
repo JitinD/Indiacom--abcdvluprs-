@@ -33,7 +33,11 @@
             </div>
             <div class="row h2">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    <?php echo $page_error . "<br>" . $_GET['mysql_error']; ?>
+                    <?php echo $page_error; ?> <br>
+                    <?php
+                    if(isset($_GET['mysql_error']))
+                        echo $_GET['mysql_error'];
+                    ?>
                 </div>
             </div>
             <div>

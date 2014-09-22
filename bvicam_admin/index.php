@@ -28,8 +28,10 @@
     //define('ADMIN', 'Indiacom2015/bvicam_admin/');
     if(!isset($_SESSION['dbUserName']))
     {
-        $_SESSION['dbUserName'] = 'root';
-        $_SESSION['dbPassword'] = '';
+        /*$_SESSION['dbUserName'] = 'root';
+        $_SESSION['dbPassword'] = '';*/
+        $_SESSION['dbUserName'] = 'Minimal_Admin';
+        $_SESSION['dbPassword'] = '1234';
     }
     require('application/config/paths.php');
 /*

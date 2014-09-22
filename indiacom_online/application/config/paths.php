@@ -6,7 +6,11 @@
  * Time: 12:21 AM
  */
 
-define('SERVER_ROOT', 'C:/xampp/htdocs/');
+/*
+ * End all paths with /
+ */
+
+define('SERVER_ROOT', 'D:/wamp/www/');
 
 //Upload Paths
 define('UPLOAD_FOLDER', 'uploads/');

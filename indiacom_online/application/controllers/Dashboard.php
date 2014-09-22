@@ -12,7 +12,7 @@ class Dashboard extends CI_Controller
     {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
-        $this->load->model('EventModel');
+        /*$this->load->model('EventModel');
         $this->load->model('TrackModel');
         $this->load->model('SubjectModel');
         $this->load->model('PaperModel');
@@ -22,16 +22,17 @@ class Dashboard extends CI_Controller
         $this->load->model('PaperStatusModel');
         $this->load->model('AuthorPaperDetailedModel');
         $this->load->model('ReviewResultModel');
-        $this -> load -> model('OrganizationModel');
-        $this -> load -> model('MemberCategoriesModel');
-        $this -> load -> model('MemberModel');
-        $this->load->model('RegistrationModel');
+        $this->load->model('OrganizationModel');
+        $this->load->model('MemberCategoriesModel');
+        $this->load->model('MemberModel');
+        $this->load->model('RegistrationModel');*/
     }
 
     private function index($page = "dashboardHome")
     {
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        $this->load->model('AccessModel');
         if ( ! file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
         {
             show_404();
@@ -54,6 +55,8 @@ class Dashboard extends CI_Controller
 
     public function home()
     {
+        $this->load->model('PaperStatusModel');
+        $this->load->model('MemberModel');
         $page = "dashboardHome";
         $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
         $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
@@ -68,7 +71,8 @@ class Dashboard extends CI_Controller
         $config['file_name'] = $memberId . "biodata";
         $config['overwrite'] = true;
 
-        $this->load->library('upload', $config);
+        $this->load->library('upload');
+        $this->upload->initialize($config);
 
         if ( ! $this->upload->do_upload($fileElem))
         {
@@ -86,7 +90,8 @@ class Dashboard extends CI_Controller
         $config['file_name'] = "Paper_" . $paperId . "v" . $versionNumber;
         $config['overwrite'] = true;
 
-        $this->load->library('upload', $config);
+        $this->load->library('upload');
+        $this->upload->initialize($config);
 
         if ( ! $this->upload->do_upload($fileElem))
         {
@@ -99,11 +104,12 @@ class Dashboard extends CI_Controller
     private function uploadComplianceReport($fileElem, $eventId, $paperId, $versionNumber=1)
     {
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . COMPLIANCE_REPORT_FOLDER;
-        $config['allowed_types'] = 'doc|docx';
+        $config['allowed_types'] = 'pdf';
         $config['file_name'] = "Report_" . $paperId . "v" . $versionNumber;
         $config['overwrite'] = true;
 
-        $this->load->library('upload', $config);
+        $this->load->library('upload');
+        $this->upload->initialize($config);
 
         if ( ! $this->upload->do_upload($fileElem))
         {
@@ -115,6 +121,10 @@ class Dashboard extends CI_Controller
 
     public function submitPaper()
     {
+        $this->load->model('EventModel');
+        $this->load->model('PaperModel');
+        $this->load->model('SubmissionModel');
+        $this->load->model('PaperVersionModel');
         $page = 'submitpaper';
         $this->data['events'] = $this->EventModel->getAllEvents_deprc();
 
@@ -196,6 +206,7 @@ class Dashboard extends CI_Controller
 
     public function paperTitleCheck($paperTitle)
     {
+        $this->load->model('PaperModel');
         //First get all paper details of selected event
         $this->PaperModel->getAllPaperDetails($this->input->post('event'));
 
@@ -207,6 +218,9 @@ class Dashboard extends CI_Controller
 
     public function submitPaperRevision($paperId = null)
     {
+        $this->load->model('PaperModel');
+        $this->load->model('PaperVersionModel');
+        $this->load->model('SubmissionModel');
         if(isset($paperId))
             $page = "submitPaperRevision";
         else
@@ -288,6 +302,13 @@ class Dashboard extends CI_Controller
 
     public function paperInfo($paperId)
     {
+        $this->load->model('SubmissionModel');
+        $this->load->model('PaperModel');
+        $this->load->model('SubjectModel');
+        $this->load->model('TrackModel');
+        $this->load->model('EventModel');
+        $this->load->model('PaperVersionModel');
+        $this->load->model('ReviewResultModel');
         $page = 'paperInfo';
         if($this->SubmissionModel->isMemberValidAuthorOfPaper($_SESSION['member_id'], $paperId))
         {
@@ -309,6 +330,7 @@ class Dashboard extends CI_Controller
 
     private function paperVersionList()
     {
+        $this->load->model('PaperStatusModel');
         $page = "submitPaperRevisionList";
         $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
         $this->data['paperCanRevise'][] = array();
@@ -323,6 +345,7 @@ class Dashboard extends CI_Controller
     //Checks if paper is currently under review
     private function canSubmitRevision($paperId)
     {
+        $this->load->model('PaperVersionModel');
         $versionDetails = $this->PaperVersionModel->getLatestPaperVersionDetails($paperId);
         if($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
         {
@@ -334,6 +357,7 @@ class Dashboard extends CI_Controller
     //Checks if the paper is a valid submission by currently logged in member
     private function isValidPaper($paperId)
     {
+        $this->load->model('SubmissionModel');
         $allSubmissions = $this->SubmissionModel->getSubmissionsByAttribute('submission_member_id', $_SESSION['member_id']);
         foreach($allSubmissions as $submission)
         {
@@ -346,6 +370,7 @@ class Dashboard extends CI_Controller
     //Allows user to change current password
     public function changePassword()
     {
+        $this->load->model('RegistrationModel');
         $page= 'changePassword';
         $this->load->library('form_validation');
         $user = $_SESSION['member_id'];
@@ -364,6 +389,7 @@ class Dashboard extends CI_Controller
 
     public function validateCurrentPassword()
     {
+        $this->load->model('RegistrationModel');
         $user = $_SESSION['member_id'];
         if($this->RegistrationModel->checkCurrentPassword($user,$this -> input -> post('currentPassword'))==0)
         {
@@ -386,6 +412,8 @@ class Dashboard extends CI_Controller
 
     public function editProfile()
     {
+        $this->load->model('MemberModel');
+        $this->load->model('RegistrationModel');
         $page="editProfile";
         $this->data['editProfile'] =$this->MemberModel->getMemberInfo($_SESSION['member_id']);
         $this -> data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();

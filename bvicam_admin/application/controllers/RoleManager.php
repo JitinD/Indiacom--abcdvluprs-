@@ -45,7 +45,7 @@ class RoleManager extends CI_Controller
         {
             show_404();
         }
-        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
+        if(isset($privilege['Page']['RoleManager'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page']['RoleManager'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;
@@ -193,5 +193,10 @@ class RoleManager extends CI_Controller
         $this->load->helper('url');
         $this->RoleModel->enableRole($roleId);
         redirect('/RoleManager/load');
+    }
+
+    public function refreshRoleDbUser($roleId)
+    {
+
     }
 }

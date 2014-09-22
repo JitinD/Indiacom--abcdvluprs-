@@ -118,7 +118,7 @@ class CI_DB_driver {
 		if ( ! $this->conn_id)
 		{
 			log_message('error', 'Unable to connect to the database');
-            header('Location: ErrorController/errorPage/2');
+            header('Location: /' . INDIACOM . 'ErrorController/errorPage/2');
 			if ($this->db_debug)
 			{
 				$this->display_error('db_unable_to_connect');
