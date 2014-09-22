@@ -1,1 +1,1 @@
-This folder consists of captcha images used during registration process.
+This folder contains captcha images used during registration process.
