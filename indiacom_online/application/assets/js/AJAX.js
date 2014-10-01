@@ -1,6 +1,6 @@
-
 $(document).ready(function(){
-	$(document).click(function(){
+
+    $(document).click(function(){
 		$("#ajax_response").fadeOut('slow');
 	});
 	var width = $(".col-sm-9").width();
@@ -91,4 +91,17 @@ $(document).ready(function(){
 			  $("#ajax_response").fadeOut("slow");
 		});
 	});
+
+    var categoryValue = function()
+    {
+        if($("#category").val() == 5 || $("#category").val() == 6)
+            $(".category-based").show();
+        else
+            $(".category-based").hide();
+    };
+
+    categoryValue();
+
+    $("#category").on('change', categoryValue);
+
 });

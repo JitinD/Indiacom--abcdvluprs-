@@ -266,6 +266,12 @@
             $this->form_validation->set_rules('category', 'Category', 'required');
             $this->form_validation->set_rules('department', 'Department', 'required');
             $this->form_validation->set_rules('captcha', 'Captcha', 'required|callback_validate_captcha');
+            $this->form_validation->set_rules('fax', 'Fax Number');
+            $this->form_validation->set_rules('csimembershipno', 'CSI Membership Number');
+            $this->form_validation->set_rules('ietemembershipno', 'IETE Membership Number');
+            $this->form_validation->set_rules('designation', 'Designation');
+            $this->form_validation->set_rules('experience', 'Experience');
+
 
             if($this->form_validation->run())
             {

@@ -102,6 +102,7 @@
                         <input type="tel" name = "fax" class="form-control" id="fax" value="<?php echo set_value('fax'); ?>" placeholder="Enter Fax Number">
                     </div>
 
+
                 </div>
                 <div class="form-group">
                     <label for="biodata" class="col-sm-3 control-label">Biodata</label>
@@ -120,6 +121,7 @@
                     <div class="col-sm-9">
                         <input type="text" name = "csimembershipno" class="form-control" id="csimembershipno" value="<?php echo set_value('csimembershipno'); ?>" placeholder="Enter CSI Membership Number">
                     </div>
+
 
                 </div>
                 <div class="form-group">
@@ -169,14 +171,14 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group category-based">
                     <label for="designation" class="col-sm-3 control-label">Designation</label>
                     <div class="col-sm-9">
                         <input type="text" name = "designation" class="form-control" id="designation" value="<?php echo set_value('designation'); ?>" placeholder="Enter Designation in the Organization">
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group category-based">
                     <label for="experience" class="col-sm-3 control-label">Experience</label>
                     <div class="col-sm-9">
                         <input type="text" name = "experience" class="form-control" id="experience" value="<?php echo set_value('experience'); ?>" placeholder="Enter Experience in the Organization">
