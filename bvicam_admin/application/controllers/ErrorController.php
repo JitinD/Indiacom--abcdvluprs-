@@ -17,6 +17,11 @@ class ErrorController extends CI_Controller
         parent::__construct();
     }
 
+    public function index($errorMsg)
+    {
+        $this->load->view('Pages/errorPage', array('page_error' => $errorMsg));
+    }
+
     public function errorPage($errorId)
     {
         if(!isset($this->errorMsgs[$errorId]))

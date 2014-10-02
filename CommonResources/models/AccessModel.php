@@ -11,17 +11,27 @@ class AccessModel extends CI_Model
     private $dbCon;
     public function __construct()
     {
-        $this->dbCon = $this->load->database('default', TRUE);
+        $_SESSION['sudo'] = true;
+        if(isset($_SESSION['sudo']))
+        {
+            $this->dbCon = $this->load->database('default', TRUE);
+            unset($_SESSION['sudo']);
+        }
+        else
+        {
+            $this->load->database();
+            $this->dbCon = $this->db;
+        }
     }
 
     public function hasPrivileges($privileges = array())
     {
-        if(!isset($_SESSION['current_role_id']))
+        if(!isset($_SESSION[APPID]['current_role_id']))
         {
             $this->load->model('RoleModel');
-            $_SESSION['current_role_id'] = $this->RoleModel->getRoleId($_SESSION['dbUserName']);
+            $_SESSION[APPID]['current_role_id'] = $this->RoleModel->getRoleId($_SESSION[APPID]['dbUserName']);
         }
-        $roleId = $_SESSION['current_role_id'];
+        $roleId = $_SESSION[APPID]['current_role_id'];
         $sql = "Select privilege_id From privilege_role_mapper Where role_id = ? AND privilege_role_mapper_dirty = 0";
         $query = $this->dbCon->query($sql, array($roleId));
 
@@ -54,11 +64,11 @@ class AccessModel extends CI_Model
     }
 
         /*$this->load->model('RoleModel');
-        if(!isset($_SESSION['current_role_id']))
+        if(!isset($_SESSION[APPID]['current_role_id']))
         {
-        $_SESSION['current_role_id'] = $this->RoleModel->getRoleId($_SESSION['dbUserName']);
+        $_SESSION[APPID]['current_role_id'] = $this->RoleModel->getRoleId($_SESSION[APPID]['dbUserName']);
         }
-        $roleId = $_SESSION['current_role_id'];
+        $roleId = $_SESSION[APPID]['current_role_id'];
         $rolePrivileges = $this->RoleModel->getRolePrivileges($roleId);
         $rolePrivs = array();
         $loadableComponents = array();

@@ -24,6 +24,26 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="application" class="col-sm-3 control-label">Application</label>
+                    <div class="col-sm-9">
+                        <select class="form-control" name="application" id="application">
+                            <option value>Select Application</option>
+                            <?php
+                            foreach($applications as $application)
+                            {
+                                ?>
+                                <option value="<?php echo $application->application_id; ?>"><?php echo $application->application_name; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('role_name'); ?>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label for="add_entity" class="col-sm-3 control-label">Add Entity</label>
                     <div class="col-sm-9">
                         <select class="form-control" id="add_entity">

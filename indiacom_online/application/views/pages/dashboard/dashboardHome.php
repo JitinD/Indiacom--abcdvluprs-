@@ -52,7 +52,7 @@
         </tr>
         <tr>
             <td>Member ID</td>
-            <td><?php echo $_SESSION['member_id'] ?></td>
+            <td><?php echo $_SESSION[APPID]['member_id'] ?></td>
         </tr>
         <tr>
             <td>Organisation</td>

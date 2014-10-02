@@ -12,15 +12,23 @@ class RoleModel extends CI_Model
     public $error;
     public function __construct()
     {
-        parent::__construct();
-        $this->dbCon = $this->load->database('default', TRUE);
+        if(isset($_SESSION['sudo']))
+        {
+            $this->dbCon = $this->load->database('default', TRUE);
+            unset($_SESSION['sudo']);
+        }
+        else
+        {
+            $this->load->database();
+            $this->dbCon = $this->db;
+        }
     }
 
-    public function addRole(&$roleDetails = array())
+    public function addRole(&$roleDetails)
     {
         $this->dbCon->insert('role_master', $roleDetails);
         if($this->dbCon->trans_status() == false)
-            return false;
+            throw new Exception("Error inserting into role_master." . mysql_error());
         $sql = "Select role_id From role_master Where role_name = ?";
         $query = $this->dbCon->query($sql, array($roleDetails['role_name']));
         $row = $query->row();
@@ -38,6 +46,7 @@ class RoleModel extends CI_Model
         }
         if(!$this->dbCon->trans_status())
         {
+            throw new Exception("Error inserting into privilege_role_mapper." . mysql_error());
             $this->error = "One or more privileges already assigned to role";
         }
         return $this->dbCon->trans_status();
@@ -66,20 +75,66 @@ class RoleModel extends CI_Model
         return $this->dbCon->trans_status();
     }
 
+    public function deleteAllRolePrivileges($roleId)
+    {
+        $sql = "Delete From privilege_role_mapper Where role_id = ?";
+        $query = $this->dbCon->query($sql, array($roleId));
+        return $this->dbCon->trans_status();
+    }
+
     public function createDbUser($username, $privileges = array())
     {
-        //$this->load->model('PrivilegeModel');
+        if(isset($_SESSION['sudo']))
+        {
+            $dbCon = $this->load->database('default', TRUE);
+            unset($_SESSION['sudo']);
+        }
+        else
+        {
+            $dbCon = $this->dbCon;
+        }
+
         $this->load->model('DatabaseUserModel');
         $host = rtrim(HOST, '/');
         $pwd = 1234;
         $sql = "Create User '$username'@'$host' Identified By '$pwd'";
-        $this->dbCon->query($sql);
+        $dbCon->query($sql);
+        $_SESSION['sudo'] = true;
         $this->grantPrivileges($username, $privileges);
         $this->DatabaseUserModel->addUser(array('database_user_name'=>$username, 'database_user_password'=>$pwd));
     }
 
+    public function dropDbUser($username)
+    {
+        if(isset($_SESSION['sudo']))
+        {
+            $dbCon = $this->load->database('default', TRUE);
+            unset($_SESSION['sudo']);
+        }
+        else
+        {
+            $dbCon = $this->dbCon;
+        }
+
+        $this->load->model('DatabaseUserModel');
+        $host = rtrim(HOST, '/');
+        $sql = "Drop User '$username'@'$host'";
+        $dbCon->query($sql);
+        $this->DatabaseUserModel->deleteUser($username);
+    }
+
     public function grantPrivileges($username, $privileges = array())
     {
+        if(isset($_SESSION['sudo']))
+        {
+            $dbCon = $this->load->database('default', TRUE);
+            unset($_SESSION['sudo']);
+        }
+        else
+        {
+            $dbCon = $this->dbCon;
+        }
+
         $this->load->model('PrivilegeModel');
         $host = rtrim(HOST, '/');
         $privDetails = $this->PrivilegeModel->getPrivilegeDetails($privileges);
@@ -91,12 +146,22 @@ class RoleModel extends CI_Model
         foreach($privTypes as $entity=>$privType)
         {
             $sql = "Grant " . implode(',', $privType) . " On $entity To '$username'@'$host'";
-            $this->dbCon->query($sql);
+            $dbCon->query($sql);
         }
     }
 
     public function revokePrivileges($username, $privileges = array())
     {
+        if(isset($_SESSION['sudo']))
+        {
+            $dbCon = $this->load->database('default', TRUE);
+            unset($_SESSION['sudo']);
+        }
+        else
+        {
+            $dbCon = $this->dbCon;
+        }
+
         $this->load->model('PrivilegeModel');
         $host = rtrim(HOST, '/');
         $privDetails = $this->PrivilegeModel->getPrivilegeDetails($privileges);
@@ -108,7 +173,7 @@ class RoleModel extends CI_Model
         foreach($privTypes as $entity=>$privType)
         {
             $sql = "Revoke " . implode(',', $privType) . " On $entity From '$username'@'$host'";
-            $this->dbCon->query($sql);
+            $dbCon->query($sql);
         }
     }
 
@@ -124,6 +189,13 @@ class RoleModel extends CI_Model
     {
         $sql = "Update role_master Set role_dirty = 1
                 Where role_id = ? And role_dirty = 0";
+        $query = $this->dbCon->query($sql, array($roleId));
+        return $this->dbCon->trans_status();
+    }
+
+    public function deleteRole($roleId)
+    {
+        $sql = "Delete From role_master Where role_id = ?";
         $query = $this->dbCon->query($sql, array($roleId));
         return $this->dbCon->trans_status();
     }

@@ -12,13 +12,11 @@ class Login extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('LoginModel');
     }
 
     public function index()
     {
         $this->load->library('form_validation');
-        $this->LoginModel->setLoginType('M');
         $this->form_validation->set_rules('username', 'Member Id' ,'required|callback_usernameCheck');
         $this->form_validation->set_rules('password', 'Password', 'required|callback_passwordCheck');
         if($this->form_validation->run())
@@ -40,6 +38,8 @@ class Login extends CI_Controller
 
     public function usernameCheck($username)
     {
+        $_SESSION['sudo'] = true;
+        $this->load->model('LoginModel');
         $this->LoginModel->setUsername($username);
         return true;
     }
@@ -48,6 +48,7 @@ class Login extends CI_Controller
     {
         $this->LoginModel->setPassword($password);
         //$this -> LoginModel -> fetch();
+        $this->LoginModel->setLoginType('M');
         if($this->LoginModel->authenticate())
         {
             return true;
@@ -58,9 +59,10 @@ class Login extends CI_Controller
 
     public function logout()
     {
-        session_destroy();
-        $_SESSION['dbUserName'] = 'Minimal';
-        $_SESSION['dbPassword'] = '1234';
+        //session_destroy();
+        /*$_SESSION[APPID]['dbUserName'] = 'Minimal';
+        $_SESSION[APPID]['dbPassword'] = '1234';*/
+        unset($_SESSION[APPID]);
         header('location: /' . INDIACOM . 'index');
     }
 

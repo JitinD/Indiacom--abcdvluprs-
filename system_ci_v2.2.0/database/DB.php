@@ -60,8 +60,8 @@ function &DB($params = '', $active_record_override = NULL)
 
         if ($suppliedParams == '')
         {
-            $params['username'] = $_SESSION['dbUserName'];
-            $params['password'] = $_SESSION['dbPassword'];
+            $params['username'] = $_SESSION[APPID]['dbUserName'];
+            $params['password'] = $_SESSION[APPID]['dbPassword'];
         }
 	}
 	elseif (is_string($params))

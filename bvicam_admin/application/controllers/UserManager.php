@@ -40,6 +40,7 @@ class UserManager extends CI_Controller
         $this->load->model('UserModel');
         $page = "index";
         $this->data['users'] = $this->UserModel->getAllUsersInclDirty();
+        $this->data['registrars'] = $this->UserModel->getRegistrarUsers();
         $this->index($page);
     }
 
@@ -48,8 +49,12 @@ class UserManager extends CI_Controller
         $page = "newUser";
         $this->load->model('RoleModel');
         $this->load->model('UserModel');
-        $this->load->model('EventModel');
-        $this->data['events'] = $this->EventModel->getAllEvents();
+        $this->load->model('ApplicationModel');
+        $applications = $this->ApplicationModel->getAllApplications();
+        foreach($applications as $app)
+        {
+            $this->data['applications'][$app->application_id] = $app->application_name;
+        }
         $this->data['roles'] = $this->RoleModel->getAllRoles();
         $this->load->library('form_validation');
         $this->form_validation->set_rules('userEmail', 'Email Id', 'required');
@@ -62,22 +67,29 @@ class UserManager extends CI_Controller
             $userDetails = array(
                 'user_name' => $this->input->post('userName'),
                 'user_email' => $this->input->post('userEmail'),
-                'user_password' => $this->input->post('userPassword')
+                'user_password' => $this->input->post('userPassword'),
+                'user_registrar' => $_SESSION[APPID]['user_id']
             );
-            $this->UserModel->addUser($userDetails);
-            $userInfo = $this->UserModel->getUserInfoByEmail($userDetails['user_email']);
-            $reviewerRoleId = $this->RoleModel->getRoleId("Reviewer");
-            $events = $this->input->post('events');
-            $roles = $this->input->post('roles');
-            if(in_array($reviewerRoleId, $roles))
+            try
             {
+                $this->UserModel->addUser($userDetails);
+                $userInfo = $this->UserModel->getUserInfoByEmail($userDetails['user_email']);
+                $reviewerRoleId = $this->RoleModel->getRoleId("Reviewer");
+                $roles = $this->input->post('roles');
+                if(in_array($reviewerRoleId, $roles))
+                {
 
+                }
+                foreach($roles as $role)
+                {
+                    $this->UserModel->assignRoleToUser($userInfo->user_id, $role);
+                }
+                redirect('/UserManager/load/');
             }
-            foreach($events as $key=>$event)
+            catch (InsertException $ex)
             {
-                $this->UserModel->assignEventRoleToUser($userInfo->user_id, $event, $roles[$key]);
+                redirect('/ErrorController/index/' . $ex->getCode());
             }
-            redirect('/UserManager/load/');
         }
         else
         {
@@ -90,18 +102,21 @@ class UserManager extends CI_Controller
         $page = "viewUser";
         $this->load->model('RoleModel');
         $this->load->model('UserModel');
-        $this->load->model('EventModel');
+        $this->load->model('ApplicationModel');
+        $applications = $this->ApplicationModel->getAllApplications();
+        foreach($applications as $app)
+        {
+            $this->data['applications'][$app->application_id] = $app->application_name;
+        }
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('event', "Event", 'required');
         $this->form_validation->set_rules('role', "Role", 'required');
 
         if($this->form_validation->run())
         {
-            $this->UserModel->assignEventRoleToUser($userId, $this->input->post('event'), $this->input->post('role'));
+            $this->UserModel->assignRoleToUser($userId, $this->input->post('role'));
         }
         $this->data['userInfo'] = $this->UserModel->getUserInfo($userId);
-        $this->data['userEventsAndRoles'] = $this->UserModel->getUserEventsAndRoles($userId);
-        $this->data['events'] = $this->EventModel->getAllEvents();
+        $this->data['userRoles'] = $this->UserModel->getUserRoles($userId);
         $this->data['roles'] = $this->RoleModel->getAllRoles();
         $this->index($page);
     }
@@ -122,27 +137,43 @@ class UserManager extends CI_Controller
         redirect('UserManager/load');
     }
 
-    public function enableUserEventRole($userId, $eventId, $roleId)
+    public function deleteUser($userId)
     {
         $this->load->model('UserModel');
         $this->load->helper('url');
-        $this->UserModel->enableUserEventRole($userId, $eventId, $roleId);
+        try
+        {
+            $this->UserModel->deleteUserMappings($userId);
+            $this->UserModel->deleteUser($userId);
+            redirect('UserManager/load');
+        }
+        catch(DeleteException $ex)
+        {
+            redirect('/ErrorController/index/' . $ex->getCode());
+        }
+    }
+
+    public function enableUserRole($userId, $roleId)
+    {
+        $this->load->model('UserModel');
+        $this->load->helper('url');
+        $this->UserModel->enableUserRole($userId, $roleId);
         redirect("UserManager/viewUser/$userId");
     }
 
-    public function disableUserEventRole($userId, $eventId, $roleId)
+    public function disableUserRole($userId, $roleId)
     {
         $this->load->model('UserModel');
         $this->load->helper('url');
-        $this->UserModel->disableUserEventRole($userId, $eventId, $roleId);
+        $this->UserModel->disableUserRole($userId, $roleId);
         redirect("UserManager/viewUser/$userId");
     }
 
-    public function deleteUserEventRole($userId, $eventId, $roleId)
+    public function deleteUserRole($userId, $roleId)
     {
         $this->load->model('UserModel');
         $this->load->helper('url');
-        $this->UserModel->deleteUserEventRole($userId, $eventId, $roleId);
+        $this->UserModel->deleteUserRole($userId, $roleId);
         redirect("UserManager/viewUser/$userId");
     }
 }

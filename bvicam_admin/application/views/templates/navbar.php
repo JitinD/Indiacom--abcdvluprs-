@@ -65,42 +65,32 @@
 </style>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
-            <a class="navbar-brand" href="/<?php echo BASEURL; ?>index.php/Page/index">BVICAM Admin System</a>
-            <div class="col-xs-1 col-sm-1 navbar-right nav navbar-nav">
-                <ul class="nav navbar-nav">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle btn btn-primary navbar-btn" data-toggle="dropdown">Change Role<span class="caret"></span></a>
-                        <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Current Role: Convener</a></li>
-
-                            <li class="divider"></li>
-                            <li>
-                                <a href="#">Change to: Reviewer</a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-            <div class="col-sm-1 col-xs-1 nav navbar-nav navbar-right">
-                <ul class="nav navbar-nav">
-                    <?php
-                    if(isset($_SESSION) && isset($_SESSION['authenticated']))
-                    {
-                    ?>
-                    <li>
-                        <a href="/<?php echo BASEURL; ?>index.php/Page/logout" class="btn navbar-btn btn-danger"><span class="glyphicon glyphicon-contact"></span>Logout</a>
-                    </li>
-                    <?php
-                    }
-                    ?>
-                </ul>
-            </div>
+        <a class="navbar-brand" href="/<?php echo BASEURL; ?>index.php/Page/index">BVICAM Admin System</a>
+        <div class="col-sm-1 col-xs-1 nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav">
+                <?php
+                if(isset($_SESSION) && isset($_SESSION[APPID]['authenticated']))
+                {
+                ?>
+                <li>
+                    <a href="/<?php echo BASEURL; ?>index.php/Page/logout" class="btn navbar-btn btn-danger">Logout</a>
+                </li>
+                <?php
+                }
+                ?>
+            </ul>
+        </div>
+        <div class="col-xs-1 col-sm-1 navbar-right nav navbar-nav">
+            <ul class="nav navbar-nav">
+                <a href="/<?php echo BASEURL; ?>index.php/Page/login" class="btn btn-primary navbar-btn">Change Role</a>
+            </ul>
+        </div>
         <div class="col-sm-1 col-xs-1 nav navbar-nav">
             <ul class="nav navbar-nav">
                 <li>
                     <a>
                         <?php
-                        echo $_SESSION['dbUserName'];
+                        echo $_SESSION[APPID]['dbUserName'];
                         ?>
                     </a>
                 </li>

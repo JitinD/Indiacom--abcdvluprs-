@@ -24,10 +24,11 @@
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
-    if(!isset($_SESSION['dbUserName']))
+    define('APPID', '1a');
+    if(!isset($_SESSION[APPID]['dbUserName']))
     {
-        $_SESSION['dbUserName'] = 'Minimal';
-        $_SESSION['dbPassword'] = '1234';
+        $_SESSION[APPID]['dbUserName'] = 'Minimal';
+        $_SESSION[APPID]['dbPassword'] = '1234';
     }
     require('application/config/paths.php');
 /*
@@ -46,7 +47,7 @@ if (defined('ENVIRONMENT'))
 		case 'development':
 			error_reporting(E_ALL);
 		break;
-	
+
 		case 'testing':
 		case 'production':
 			error_reporting(0);

@@ -25,15 +25,17 @@
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
+    define('APPID', '2a');
     //define('ADMIN', 'Indiacom2015/bvicam_admin/');
-    if(!isset($_SESSION['dbUserName']))
+    if(!isset($_SESSION[APPID]['dbUserName']))
     {
-        /*$_SESSION['dbUserName'] = 'root';
-        $_SESSION['dbPassword'] = '';*/
-        $_SESSION['dbUserName'] = 'Minimal_Admin';
-        $_SESSION['dbPassword'] = '1234';
+        /*$_SESSION[APPID]['dbUserName'] = 'root';
+        $_SESSION[APPID]['dbPassword'] = '';*/
+        $_SESSION[APPID]['dbUserName'] = 'Minimal_Admin';
+        $_SESSION[APPID]['dbPassword'] = '1234';
     }
     require('application/config/paths.php');
+    require('application/config/exceptions.php');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

@@ -41,38 +41,47 @@ class Page extends CI_Controller
     public function login()
     {
         $page = "login";
-        $this->load->model('RoleModel');
-        $this->load->model('LoginModel');
+        /*$this->load->model('RoleModel');
+        $this->load->model('LoginModel');*/
         $this->load->model('EventModel');
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('emailId', 'Email Id', 'required');
         $this->form_validation->set_rules('password', 'Password', 'required');
 
-        if($this->form_validation->run())
+        if($this->form_validation->run() || (isset($_SESSION[APPID]['authenticated']) && $_SESSION[APPID]['authenticated']))
         {
+            $_SESSION['sudo'] = true;
+            $this->load->model('LoginModel');
             $this->LoginModel->setLoginType('A');
             $this->LoginModel->setUsername($this->input->post('emailId'));
             $this->LoginModel->setPassword($this->input->post('password'));
-            if(!$this->LoginModel->authenticate())
+            if(!$this->LoginModel->authenticate() && !(isset($_SESSION[APPID]['authenticated']) && $_SESSION[APPID]['authenticated']))
             {
-                $this->data['loginError'] = "Incorrect credentials";
+                $this->data['loginError'] = $this->LoginModel->error;;
             }
             else
             {
-                $roles = array();
-                foreach($_SESSION['role_id'] as $event=>$eventRoles)
+                $_SESSION['sudo'] = true;
+                $this->load->model('RoleModel');
+                $_SESSION['sudo'] = true;
+                $this->load->model('ApplicationModel');
+                $applications = $this->ApplicationModel->getAllApplications();
+                foreach($applications as $app)
                 {
-                    $eventDetails = $this->EventModel->getEventDetails($event);
-                    foreach($eventRoles as $role)
+                    $this->data['applications'][$app->application_id] = $app->application_name;
+                }
+                $roles = array();
+                foreach($_SESSION[APPID]['role_id'] as $roleId)
+                {
                     {
-                        $roleDetails = $this->RoleModel->getRoleDetails($role);
-                        $roles[$event . "_" . $role] = $eventDetails->event_name . " " . $roleDetails->role_name;
+                        $roleDetails = $this->RoleModel->getRoleDetails($roleId);
+                        if($roleDetails != null)
+                            $roles[] = $roleDetails;
                     }
                 }
                 $this->data['roles'] = $roles;
                 $page = "selectRole";
-                //redirect('Page/index');
             }
         }
         $this->index($page);
@@ -80,16 +89,19 @@ class Page extends CI_Controller
 
     public function setRole()
     {
+        $this->load->model('EventModel');
+        if(isset($_SESSION[APPID]['authenticated']) && $_SESSION[APPID]['authenticated'])
+        {
+            $_SESSION['sudo'] = true;
+        }
         $this->load->model('LoginModel');
         $this->load->library('form_validation');
         $this->load->helper('url');
-        $this->form_validation->set_rules('event_role_id', 'Role', 'required');
+        $this->form_validation->set_rules('role_id', 'Role', 'required');
         if($this->form_validation->run())
         {
-            $event_role = explode('_', $this->input->post('event_role_id'));
-            $event = $event_role[0];
-            $role = $event_role[1];
-            $this->LoginModel->adminSetRoleEvent($role, $event);
+            $role = $this->input->post('role_id');
+            $this->LoginModel->adminSetRole($role);
             redirect('Page/index');
         }
     }
@@ -97,8 +109,8 @@ class Page extends CI_Controller
     public function logout()
     {
         $this->load->helper('url');
-        unset($_SESSION);
-        session_destroy();
+        unset($_SESSION[APPID]);
+        //session_destroy();
         redirect('Page/login');
     }
 }

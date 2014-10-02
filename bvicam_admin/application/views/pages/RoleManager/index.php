@@ -44,6 +44,8 @@
                             <?php
                             }
                             ?>
+                            <a class="btn btn-sm btn-default" href="deleteRole/<?php echo $role->role_id; ?>">Delete Role</a>
+                            <a class="btn btn-sm btn-default" href="refreshRoleDbUser/<?php echo $role->role_id; ?>">Refresh DB User</a>
                         </td>
                     </tr>
                 <?php

@@ -19,19 +19,6 @@
                 </div>
                 <table class="table">
                     <tr>
-                        <td id="selectEntityPlaceHolder">
-                            <select name="event" class="form-control">
-                                <option value>Select Event</option>
-                                <?php
-                                foreach($events as $event)
-                                {
-                                ?>
-                                    <option value="<?php echo $event->event_id; ?>"><?php echo $event->event_name; ?></option>
-                                <?php
-                                }
-                                ?>
-                            </select>
-                        </td>
                         <td id="selectOperationPlaceHolder">
                             <select name="role" class="form-control">
                                 <option value>Select Role</option>
@@ -39,13 +26,13 @@
                                 foreach($roles as $role)
                                 {
                                 ?>
-                                    <option value="<?php echo $role->role_id; ?>"><?php echo $role->role_name; ?></option>
+                                    <option value="<?php echo $role->role_id; ?>"><?php echo $applications[$role->role_application_id] . " : " . $role->role_name; ?></option>
                                 <?php
                                 }
                                 ?>
                             </select>
                         </td>
-                        <td><button type="submit" id="submitButton" class="btn btn-primary">Submit</button></td>
+                        <td><button type="submit" id="submitButton" class="btn btn-primary">Add Role</button></td>
                     </tr>
                 </table>
             </form>
@@ -53,35 +40,35 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Event Name</th>
+                    <th>Application Name</th>
                     <th>Role Name</th>
                 </tr>
                 </thead>
                 <tbody>
                 <?php
-                foreach($userEventsAndRoles as $key=>$userEventAndRole)
+                foreach($userRoles as $key=>$userRole)
                 {
-                    ?>
-                    <tr>
+                ?>
+                    <tr <?php if($userRole->user_event_role_mapper_dirty) { ?> class="danger" <?php } ?>>
                         <td><?php echo $key; ?></td>
-                        <td><?php echo $userEventAndRole->event_name; ?></td>
-                        <td><a href="../../RoleManager/viewRole/<?php echo $userEventAndRole->role_id; ?>"><?php echo $userEventAndRole->role_name; ?></a></td>
+                        <td><?php echo $applications[$userRole->role_application_id]; ?></td>
+                        <td><a href="../../RoleManager/viewRole/<?php echo $userRole->role_id; ?>"><?php echo $userRole->role_name; ?></a></td>
                         <td>
                             <?php
-                            if($userEventAndRole->user_event_role_mapper_dirty == 0)
+                            if($userRole->user_event_role_mapper_dirty == 0)
                             {
                                 ?>
-                                <a href="../disableUserEventRole/<?php echo $userInfo->user_id; ?>/<?php echo $userEventAndRole->event_id; ?>/<?php echo $userEventAndRole->role_id; ?>">Disable</a>
+                                <a class="btn btn-sm btn-default" href="../disableUserRole/<?php echo $userInfo->user_id; ?>/<?php echo $userRole->role_id; ?>">Disable</a>
                             <?php
                             }
                             else
                             {
-                                ?>
-                                <a href="../enableUserEventRole/<?php echo $userInfo->user_id; ?>/<?php echo $userEventAndRole->event_id; ?>/<?php echo $userEventAndRole->role_id; ?>">Enable</a>
+                            ?>
+                                <a class="btn btn-sm btn-default" href="../enableUserRole/<?php echo $userInfo->user_id; ?>/<?php echo $userRole->role_id; ?>">Enable</a>
                             <?php
                             }
                             ?>
-                            / <a href="../deleteUserEventRole/<?php echo $userInfo->user_id; ?>/<?php echo $userEventAndRole->event_id; ?>/<?php echo $userEventAndRole->role_id; ?>">Delete</a>
+                            <a class="btn btn-sm btn-default" href="../deleteUserRole/<?php echo $userInfo->user_id; ?>/<?php echo $userRole->role_id; ?>">Delete</a>
                         </td>
                     </tr>
                 <?php

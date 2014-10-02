@@ -7,7 +7,7 @@
             <h1 class="text-theme">Member Registration</h1>
             <hr>
             <?php
-            if(isset($_SESSION) && !isset($_SESSION['member_id']))
+            if(isset($_SESSION) && !isset($_SESSION[APPID]['member_id']))
             {
             ?>
             <p class="body-text">

@@ -19,4 +19,11 @@ class DatabaseUserModel extends CI_Model
         $this->db->insert('database_user', $userDetails);
         return $this->db->trans_status();
     }
+
+    public function deleteUser($userId)
+    {
+        $sql = "Delete From database_user Where database_user_name = ?";
+        $query = $this->db->query($sql, array($userId));
+        return $this->db->trans_status();
+    }
 }

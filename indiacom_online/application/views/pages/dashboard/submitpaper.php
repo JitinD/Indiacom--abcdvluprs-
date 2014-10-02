@@ -74,8 +74,8 @@
                                 <p class="help-block">Use Radio button to select one author as Contact Author</p>
                                 <div id="authorList">
                                     <div>
-                                        <input type="radio" checked name="main_author" class="main_author" value="<?php echo $_SESSION['member_id']; ?>">
-                                        <input type="text" name="authors[]" placeholder="Author Id" class="authors" value="<?php echo $_SESSION['member_id']; ?>">
+                                        <input type="radio" checked name="main_author" class="main_author" value="<?php echo $_SESSION[APPID]['member_id']; ?>">
+                                        <input type="text" name="authors[]" placeholder="Author Id" class="authors" value="<?php echo $_SESSION[APPID]['member_id']; ?>">
                                     </div>
 
                                 </div>

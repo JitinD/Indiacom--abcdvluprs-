@@ -43,28 +43,17 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="" class="col-sm-3 control-label">User Event Roles</label>
+                    <label for="" class="col-sm-3 control-label">User Roles</label>
                     <div class="col-sm-9">
                         <div id="eventsRolesList">
                             <div>
-                                <select name="events[]">
-                                    <option>Select Event</option>
-                                    <?php
-                                    foreach($events as $event)
-                                    {
-                                        ?>
-                                        <option value="<?php echo $event->event_id; ?>"><?php echo $event->event_name; ?></option>
-                                    <?php
-                                    }
-                                    ?>
-                                </select>
                                 <select name="roles[]">
                                     <option>Select Role</option>
                                     <?php
                                     foreach($roles as $role)
                                     {
                                         ?>
-                                        <option value="<?php echo $role->role_id; ?>"><?php echo $role->role_name; ?></option>
+                                        <option value="<?php echo $role->role_id; ?>"><?php echo $applications[$role->role_application_id] . " : " . $role->role_name; ?></option>
                                     <?php
                                     }
                                     ?>
@@ -94,24 +83,13 @@
         $("#addMore").click(function()
         {
             var html =  "<div>" +
-                            "<select name=\"events[]\">" +
-                                "<option>Select Event</option>" +
-                                <?php
-                                foreach($events as $event)
-                                {
-                                ?>
-                                    "<option value=\"<?php echo $event->event_id; ?>\"><?php echo $event->event_name; ?></option>" +
-                                <?php
-                                }
-                                ?>
-                            "</select> " +
                             "<select name=\"roles[]\">" +
                                 "<option>Select Role</option>" +
                                 <?php
                                 foreach($roles as $role)
                                 {
                                 ?>
-                                    "<option value=\"<?php echo $role->role_id; ?>\"><?php echo $role->role_name; ?></option>" +
+                                    "<option value=\"<?php echo $role->role_id; ?>\"><?php echo $applications[$role->role_application_id] . " : " . $role->role_name; ?></option>" +
                                 <?php
                                 }
                                 ?>

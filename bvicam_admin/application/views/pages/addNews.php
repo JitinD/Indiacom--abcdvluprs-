@@ -42,7 +42,7 @@
 <!--    <div class="form-group">-->
 <!--        <label for="publisherID" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Publisher Member ID</label>-->
 <!--        <div class="col-sm-9">-->
-<!--            <input type="text" name = "publisherID" class="form-control" id="publisherID" value="--><?php //echo $_SESSION['user_id']?><!--" placeholder="Enter publisher ID">-->
+<!--            <input type="text" name = "publisherID" class="form-control" id="publisherID" value="--><?php //echo $_SESSION[APPID]['user_id']?><!--" placeholder="Enter publisher ID">-->
 <!--        </div>-->
 <!--        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">-->
 <!--            --><?php //echo form_error('publisherID'); ?>

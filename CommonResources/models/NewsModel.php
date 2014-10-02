@@ -31,7 +31,8 @@ class NewsModel extends CI_Model
             }
             return $data;
         }
-        return false;
+        return array();
+        //return false;
     }
 
     public function getStickyNews()

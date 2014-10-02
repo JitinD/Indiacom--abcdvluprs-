@@ -42,7 +42,7 @@
             </div>
             <div>
                 <?php
-                echo $_SESSION['dbUserName'];
+                echo $_SESSION[APPID]['dbUserName'];
                 ?>
             </div>
         </div>

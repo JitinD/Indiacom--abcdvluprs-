@@ -58,8 +58,8 @@ class Dashboard extends CI_Controller
         $this->load->model('PaperStatusModel');
         $this->load->model('MemberModel');
         $page = "dashboardHome";
-        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
-        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
+        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION[APPID]['member_id']);
+        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         $this->index($page);
     }
 
@@ -197,7 +197,7 @@ class Dashboard extends CI_Controller
                 $retVal = false;
                 break;
             }
-            if($author == $_SESSION['member_id'])
+            if($author == $_SESSION[APPID]['member_id'])
                 $retVal = true;
         }
 
@@ -310,7 +310,7 @@ class Dashboard extends CI_Controller
         $this->load->model('PaperVersionModel');
         $this->load->model('ReviewResultModel');
         $page = 'paperInfo';
-        if($this->SubmissionModel->isMemberValidAuthorOfPaper($_SESSION['member_id'], $paperId))
+        if($this->SubmissionModel->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $paperId))
         {
             $this->data['paperDetails'] = $this->PaperModel->getPaperDetails($paperId);
             $this->data['subjectDetails'] = $this->SubjectModel->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
@@ -332,7 +332,7 @@ class Dashboard extends CI_Controller
     {
         $this->load->model('PaperStatusModel');
         $page = "submitPaperRevisionList";
-        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION['member_id']);
+        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION[APPID]['member_id']);
         $this->data['paperCanRevise'][] = array();
         foreach($this->data['papers'] as $paper)
         {
@@ -358,7 +358,7 @@ class Dashboard extends CI_Controller
     private function isValidPaper($paperId)
     {
         $this->load->model('SubmissionModel');
-        $allSubmissions = $this->SubmissionModel->getSubmissionsByAttribute('submission_member_id', $_SESSION['member_id']);
+        $allSubmissions = $this->SubmissionModel->getSubmissionsByAttribute('submission_member_id', $_SESSION[APPID]['member_id']);
         foreach($allSubmissions as $submission)
         {
             if($submission->submission_paper_id == $paperId)
@@ -373,7 +373,7 @@ class Dashboard extends CI_Controller
         $this->load->model('RegistrationModel');
         $page= 'changePassword';
         $this->load->library('form_validation');
-        $user = $_SESSION['member_id'];
+        $user = $_SESSION[APPID]['member_id'];
         $this->form_validation->set_rules('currentPassword', 'Current Password', 'required|callback_validateCurrentPassword');
         $this->form_validation->set_rules('newPassword', 'New Password', 'required');
         $this->form_validation->set_rules('confirmPassword', 'Confirm Password', 'required|callback_validateConfirmPassword');
@@ -390,7 +390,7 @@ class Dashboard extends CI_Controller
     public function validateCurrentPassword()
     {
         $this->load->model('RegistrationModel');
-        $user = $_SESSION['member_id'];
+        $user = $_SESSION[APPID]['member_id'];
         if($this->RegistrationModel->checkCurrentPassword($user,$this -> input -> post('currentPassword'))==0)
         {
             $this->form_validation->set_message('validateCurrentPassword', "Incorrect Password");
@@ -415,9 +415,9 @@ class Dashboard extends CI_Controller
         $this->load->model('MemberModel');
         $this->load->model('RegistrationModel');
         $page="editProfile";
-        $this->data['editProfile'] =$this->MemberModel->getMemberInfo($_SESSION['member_id']);
+        $this->data['editProfile'] =$this->MemberModel->getMemberInfo($_SESSION[APPID]['member_id']);
         $this -> data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();
-        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION['member_id']);
+        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('salutation', 'Salutation', 'required');
@@ -436,7 +436,7 @@ class Dashboard extends CI_Controller
 
             $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
 
-            if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$_SESSION['member_id'])) == false)
+            if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$_SESSION[APPID]['member_id'])) == false)
             {
                 $this->data['uploadError'] = $this->upload->display_errors();
                 $this->db->trans_rollback();
@@ -444,7 +444,7 @@ class Dashboard extends CI_Controller
             if($organization_id_array)
             {
                 $member_record = array(
-                    'member_id'             =>  $_SESSION['member_id'],
+                    'member_id'             =>  $_SESSION[APPID]['member_id'],
                     'member_salutation'     =>  $this -> input -> post('salutation'),
                     'member_name'           =>   $this -> input -> post('name'),
                     'member_address'        =>   $this -> input -> post('address'),
@@ -464,7 +464,7 @@ class Dashboard extends CI_Controller
                     'member_is_activated'   =>   ""
                 );
 
-                if($this->MemberModel->updateMemberInfo($member_record, $_SESSION['member_id']))
+                if($this->MemberModel->updateMemberInfo($member_record, $_SESSION[APPID]['member_id']))
                     $page .= "Success";
 
             }

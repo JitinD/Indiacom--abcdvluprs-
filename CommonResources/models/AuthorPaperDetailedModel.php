@@ -17,7 +17,7 @@ class AuthorPaperDetailedModel extends CI_Model
     public function getCurrentAuthorPaperDetailsByAttribute($attrName, $attrVal)
     {
         $sql = "Select * From author_paper_details Where $attrName = ? And submission_member_id = ?";
-        $query = $this->db->query($sql, array($attrVal, $_SESSION['member_id']));
+        $query = $this->db->query($sql, array($attrVal, $_SESSION[APPID]['member_id']));
         if($query->num_rows() == 1)
             return $query->row();
         return $query->result();

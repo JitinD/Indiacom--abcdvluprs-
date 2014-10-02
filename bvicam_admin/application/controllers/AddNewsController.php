@@ -105,7 +105,7 @@ class AddNewsController extends CI_Controller
                     'news_id'               =>      $news_id,
                     'news_title'            =>      $this -> input -> post('newsTitle'),
                     'news_description_url'  =>      $doc_path,
-                    'news_publisher_id'     =>      $_SESSION['user_id'],
+                    'news_publisher_id'     =>      $_SESSION[APPID]['user_id'],
                     'news_publish_date'     =>      $publishing_date,
                     'news_sticky_date'      =>      $sticky_news_date,
                     'news_event_id'         =>      $this->input->post('event'),

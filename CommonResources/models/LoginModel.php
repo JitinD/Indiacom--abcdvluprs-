@@ -16,7 +16,16 @@ class LoginModel extends CI_Model
 
     public function __construct()
     {
-        $this->dbCon = $this->load->database('default', TRUE);
+        if(isset($_SESSION['sudo']))
+        {
+            $this->dbCon = $this->load->database('default', TRUE);
+            unset($_SESSION['sudo']);
+        }
+        else
+        {
+            $this->load->database();
+            $this->dbCon = $this->db;
+        }
     }
 
     public function setUsername($username)
@@ -50,6 +59,7 @@ class LoginModel extends CI_Model
 
     private function memberAuthenticate()
     {
+        $_SESSION['sudo'] = true;
         $this->load->model('RoleModel');
         $this->load->model('MemberModel');
         $encrypted_pass = md5($this->password);
@@ -57,16 +67,17 @@ class LoginModel extends CI_Model
         if($encrypted_pass == $memberInfo['member_password'])
         {
             $roleName = "Author";
-            $_SESSION['authenticated'] = true;
-            if(($_SESSION['role_id'] = $this->RoleModel->getRoleId($roleName)) == false)
+            $_SESSION[APPID]['authenticated'] = true;
+            if(($_SESSION[APPID]['role_id'] = $this->RoleModel->getRoleId($roleName)) == false)
             {
                 $this->error = $roleName . " role not defined. Contact admin";
                 return false;
             }
-            $_SESSION['current_role_id'] = $_SESSION['role_id'];
-            $_SESSION['member_id'] = $this->username;
-            $_SESSION['member_name'] = $memberInfo['member_name'];
-            $this->setDbLoginCredentials($roleName);
+            $_SESSION[APPID]['current_role_id'] = $_SESSION[APPID]['role_id'];
+            $_SESSION[APPID]['member_id'] = $this->username;
+            $_SESSION[APPID]['member_name'] = $memberInfo['member_name'];
+            $roleInfo = $this->RoleModel->getRoleDetails($_SESSION[APPID]['role_id']);
+            $this->setDbLoginCredentials($roleName, $roleInfo->role_application_id);
             return true;
         }
         $this->error = "Incorrect credentials";
@@ -75,43 +86,61 @@ class LoginModel extends CI_Model
 
     private function adminAuthenticate()
     {
+        $_SESSION['sudo'] = true;
         $this->load->model('UserModel');
         $userInfo = $this->UserModel->getUserInfoByEmail($this->username);
         if($userInfo != false && $userInfo->user_password == $this->password)
         {
-            $userRolesEvents = $this->UserModel->getUserEventsAndRoles($userInfo->user_id);
-            foreach($userRolesEvents as $row)
+
+            $userRoles = $this->UserModel->getUserRoles($userInfo->user_id);
+            $_SESSION[APPID]['role_id'] = array();
+            if(!empty($userRoles))
             {
-                $_SESSION['role_id'][$row->event_id][] = $row->role_id;
+                foreach($userRoles as $row)
+                {
+                    $_SESSION[APPID]['role_id'][] = $row->role_id;
+                }
+                $_SESSION[APPID]['authenticated'] = true;
+                $_SESSION[APPID]['user_id'] = $userInfo->user_id;
+                $_SESSION[APPID]['user_name'] = $userInfo->user_name;
+                return true;
             }
-//            $_SESSION['authenticated'] = true;
-            $_SESSION['user_id'] = $userInfo->user_id;
-            $_SESSION['user_name'] = $userInfo->user_name;
-            return true;
+            $this->error = "No active role assigned to user";
+            return false;
         }
+        $this->error = "Incorrect Credentials";
         return false;
     }
 
-    public function adminSetRoleEvent($roleId, $eventId)
+    public function adminSetRole($roleId)
     {
+        if(isset($_SESSION[APPID]['authenticated']) && $_SESSION[APPID]['authenticated'])
+            $_SESSION['sudo'] = true;
         $this->load->model('RoleModel');
-        $_SESSION['current_role_id'] = $roleId;
-        $_SESSION['current_event_id'] = $eventId;
-        $_SESSION['authenticated'] = true;
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
         $roleName = $roleInfo->role_name;
-        $this->setDbLoginCredentials($roleName);
+        $appId = $roleInfo->role_application_id;
+        if($this->setDbLoginCredentials($roleName, $appId))
+        {
+            $_SESSION[APPID]['current_role_id'] = $roleId;
+            $_SESSION[APPID]['authenticated'] = true;
+        }
     }
 
-    private function setDbLoginCredentials($roleName)
+    private function setDbLoginCredentials($roleName, $appId)
     {
         $sql = "Select database_user_password From database_user Where database_user_name = ?";
         $query = $this->dbCon->query($sql, array($roleName));
-        if($query->num_rows() == 1)
+        if($query->num_rows() == 1 && APPID == $appId."a")
         {
             $row = $query->row();
-            $_SESSION['dbUserName'] = $roleName;
-            $_SESSION['dbPassword'] = $row->database_user_password;
+            $_SESSION[$appId."a"]['dbUserName'] = $roleName;
+            $_SESSION[$appId."a"]['dbPassword'] = $row->database_user_password;
         }
+        else
+        {
+            return false;
+        }
+        return true;
     }
 }

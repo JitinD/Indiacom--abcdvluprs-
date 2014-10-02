@@ -41,7 +41,7 @@
                 foreach($privilegeDetails as $privilege)
                 {
                     ?>
-                    <tr>
+                    <tr <?php if($privilegeDirtyStatus[$privilege->privilege_id]) { ?> class="danger" <?php } ?>>
                         <td><?php echo $privilege->privilege_id; ?></td>
                         <td><?php echo $privilege->privilege_entity; ?></td>
                         <td><?php echo $privilege->privilege_operation; ?></td>
@@ -50,17 +50,17 @@
                             if($privilegeDirtyStatus[$privilege->privilege_id] == 0)
                             {
                             ?>
-                                <a href="../disableRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Disable</a>
+                                <a class="btn btn-sm btn-default" href="../disableRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Disable</a>
                             <?php
                             }
                             else
                             {
                             ?>
-                                <a href="../enableRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Enable</a>
+                                <a class="btn btn-sm btn-default" href="../enableRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Enable</a>
                             <?php
                             }
                             ?>
-                            / <a href="../deleteRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Delete</a>
+                            <a class="btn btn-sm btn-default" href="../deleteRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Delete</a>
                         </td>
                     </tr>
                 <?php

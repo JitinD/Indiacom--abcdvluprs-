@@ -8,83 +8,122 @@
 
 class UserModel extends CI_Model
 {
+    private $dbCon;
     public function __construct()
     {
-        parent::__construct();
-        $this->load->database();
+        if(isset($_SESSION['sudo']))
+        {
+            $this->dbCon = $this->load->database('default', TRUE);
+            unset($_SESSION['sudo']);
+        }
+        else
+        {
+            $this->load->database();
+            $this->dbCon = $this->db;
+        }
     }
 
     public function addUser($userDetails)
     {
-        $this->db->insert('user_master', $userDetails);
-        return $this->db->trans_status();
+        $this->dbCon->insert('user_master', $userDetails);
+        if(!$this->dbCon->trans_status())
+        {
+            throw new InsertException("Error inserting into user_master", mysql_error(), mysql_errno());
+        }
     }
 
-    public function assignEventRoleToUser($userId, $eventId, $roleId)
+    public function assignRoleToUser($userId, $roleId)
     {
         $details = array(
             "user_id" => $userId,
-            "event_id" => $eventId,
+            //"event_id" => $eventId,
             "role_id" => $roleId
         );
-        $this->db->insert('user_event_role_mapper', $details);
+        $this->dbCon->insert('user_event_role_mapper', $details);
     }
 
     public function enableUser($userId)
     {
         $sql = "Update user_master Set user_dirty = 0
                 Where user_id = ? And user_dirty = 1";
-        $query = $this->db->query($sql, array($userId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($userId));
+        return $this->dbCon->trans_status();
     }
 
     public function disableUser($userId)
     {
         $sql = "Update user_master Set user_dirty = 1
                 Where user_id = ? And user_dirty = 0";
-        $query = $this->db->query($sql, array($userId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($userId));
+        return $this->dbCon->trans_status();
     }
 
-    public function enableUserEventRole($userId, $eventId, $roleId)
+    public function deleteUser($userId)
+    {
+        $sql = "Delete From user_master
+                Where user_id = ?";
+        $query = $this->dbCon->query($sql, array($userId));
+        if(!$this->db->trans_status())
+        {
+            throw new DeleteException("Error deleting user", mysql_error(), mysql_errno());
+        }
+    }
+
+    public function enableUserRole($userId, $roleId)
     {
         $sql = "Update user_event_role_mapper
                 Set user_event_role_mapper_dirty = 0
-                Where user_id = ? And event_id = ? And role_id = ?
+                Where user_id = ? And role_id = ?
                       And user_event_role_mapper_dirty = 1";
-        $query = $this->db->query($sql, array($userId, $eventId, $roleId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($userId, $roleId));
+        return $this->dbCon->trans_status();
     }
 
-    public function disableUserEventRole($userId, $eventId, $roleId)
+    public function disableUserRole($userId, $roleId)
     {
         $sql = "Update user_event_role_mapper
                 Set user_event_role_mapper_dirty = 1
-                Where user_id = ? And event_id = ? And role_id = ?
+                Where user_id = ? And role_id = ?
                       And user_event_role_mapper_dirty = 0";
-        $query = $this->db->query($sql, array($userId, $eventId, $roleId));
-        return $this->db->trans_status();
+        $query = $this->dbCon->query($sql, array($userId, $roleId));
+        return $this->dbCon->trans_status();
     }
 
-    public function deleteUserEventRole($userId, $eventId, $roleId)
+    public function deleteUserRole($userId, $roleId)
     {
         $sql = "Delete From user_event_role_mapper
-                Where user_id = ? And event_id = ? And role_id = ?";
-        $query = $this->db->query($sql, array($userId, $eventId, $roleId));
-        return $this->db->trans_status();
+                Where user_id = ? And role_id = ?";
+        $query = $this->dbCon->query($sql, array($userId, $roleId));
+        return $this->dbCon->trans_status();
+    }
+
+    public function deleteRoleMappings($roleId)
+    {
+        $sql = "Delete From user_event_role_mapper
+                Where role_id = ?";
+        $query = $this->dbCon->query($sql, array($roleId));
+        return $this->dbCon->trans_status();
+    }
+
+    public function deleteUserMappings($userId)
+    {
+        $sql = "Delete From user_event_role_mapper
+                Where user_id = ?";
+        $query = $this->dbCon->query($sql, array($userId));
+        return $this->dbCon->trans_status();
     }
 
     public function getAllUsersInclDirty()
     {
         $sql = "Select * From user_master";
-        $query = $this->db->query($sql);
+        $query = $this->dbCon->query($sql);
         return $query->result();
     }
 
     public function getUserInfo($userId)
     {
         $sql = "Select * From user_master Where user_id = ? And user_dirty = 0";
-        $query = $this->db->query($sql, array($userId));
+        $query = $this->dbCon->query($sql, array($userId));
         if($query->num_rows() == 1)
         {
             return $query->row();
@@ -95,7 +134,7 @@ class UserModel extends CI_Model
     public function getUserInfoByEmail($userEmail)
     {
         $sql = "Select * From user_master Where user_email = ? And user_dirty = 0";
-        $query = $this->db->query($sql, array($userEmail));
+        $query = $this->dbCon->query($sql, array($userEmail));
         if($query->num_rows() == 1)
         {
             return $query->row();
@@ -103,19 +142,30 @@ class UserModel extends CI_Model
         return false;
     }
 
-    public function getUserEventsAndRoles($userId)
+    public function getUserRoles($userId)
     {
-        $sql = "Select event_master.event_id, event_name, role_master.role_id, role_name, user_event_role_mapper_dirty
+        $sql = "Select role_master.role_id, role_name, role_application_id, user_event_role_mapper_dirty
                 From user_event_role_mapper
-                      Join event_master On user_event_role_mapper.event_id = event_master.event_id
                       Join role_master On user_event_role_mapper.role_id = role_master.role_id
-                Where user_id = ?
-                Order By event_id";
-        $query = $this->db->query($sql, array($userId));
+                Where user_id = ? And user_event_role_mapper_dirty = 0";
+        $query = $this->dbCon->query($sql, array($userId));
         if($query->num_rows() > 0)
         {
             return $query->result();
         }
         return array();
+    }
+
+    public function getRegistrarUsers()
+    {
+        $sql = "Select * From user_master
+                Where user_id IN
+                        (Select user_registrar From user_master)";
+        $query = $this->dbCon->query($sql);
+        if($query->num_rows() == 0)
+        {
+            return array();
+        }
+        return $query->result();
     }
 }

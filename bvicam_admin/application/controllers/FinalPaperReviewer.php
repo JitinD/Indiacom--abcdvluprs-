@@ -57,8 +57,8 @@
                 return;
             }
 
-            //$_SESSION['user_id'] = 1;
-            $this -> data['user_id'] = $_SESSION['user_id'];
+            //$_SESSION[APPID]['user_id'] = 1;
+            $this -> data['user_id'] = $_SESSION[APPID]['user_id'];
             $this -> data['papers'] = $this -> PaperVersionModel -> getAssignedPapers($this -> data['user_id']);
             $this->data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this->data);

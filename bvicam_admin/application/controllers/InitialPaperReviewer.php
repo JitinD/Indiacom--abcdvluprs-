@@ -55,8 +55,8 @@ class InitialPaperReviewer extends CI_Controller
             return;
         }
 
-        //$_SESSION['user_id'] = 2;
-        $this -> data['user_id'] = $_SESSION['user_id'];
+        //$_SESSION[APPID]['user_id'] = 2;
+        $this -> data['user_id'] = $_SESSION[APPID]['user_id'];
 
         $this -> data['papers'] = $this -> PaperVersionReviewModel -> getReviewerAssignedPapers($this -> data['user_id']);
         $this->data['navbarItem'] = pageNavbarItem($page);

@@ -24,7 +24,7 @@
                 <a href="/<?php echo INDIACOM; ?>accomodation" class="text-light">Accomodation</a>
             </li>
             <?php
-            if ( !isset($_SESSION['member_id']) )
+            if ( !isset($_SESSION[APPID]['member_id']) )
             {
             ?>
             <li>

@@ -10,6 +10,7 @@ class RoleManager extends CI_Controller
 {
     private $data = array();
     private $entities = array(
+        "application_master",
         "database_user",
         "event_master",
         "member_category_master",
@@ -71,10 +72,13 @@ class RoleManager extends CI_Controller
         $page = "newRole";
         $this->load->model('RoleModel');
         $this->load->model('PrivilegeModel');
+        $this->load->model('ApplicationModel');
         $this->data['editRole'] = false;
         $this->data['entities'] = $this->entities;
+        $this->data['applications'] = $this->ApplicationModel->getAllApplications();
         $this->load->library('form_validation');
         $this->form_validation->set_rules('role_name', "Role Name", "required");
+        $this->form_validation->set_rules('application', "Application", "required");
 
         if($this->form_validation->run())
         {
@@ -85,16 +89,20 @@ class RoleManager extends CI_Controller
             {
                 if($postName == 'role_name')
                 {
-                    $roleDetails = array('role_name' => $post);
+                    $roleDetails = array(
+                        'role_name' => $post,
+                        'role_application_id' => $this->input->post('application')
+                    );
                     $this->RoleModel->addRole($roleDetails);
                 }
-                else if($postName != "submit")
+                else if($postName != "submit" && $postName != "application")
                 {
                     list($entityName, $operation) = explode(":", $postName);
                     $pids[] = $this->PrivilegeModel->newPrivilege(array('privilege_entity' => $entityName, 'privilege_operation' => $operation));
                 }
             }
             $this->RoleModel->assignPrivileges($roleDetails['role_id'], $pids);
+            $_SESSION['sudo'] = true;
             $this->RoleModel->createDbUser($roleDetails['role_name'], $pids);
             //print_r($pids);
             redirect('/RoleManager/load/');
@@ -124,6 +132,7 @@ class RoleManager extends CI_Controller
             }
             else
             {
+                $_SESSION['sudo'] = true;
                 $this->RoleModel->grantPrivileges($this->data['roleInfo']->role_name, array($privilegeId));
             }
         }
@@ -155,6 +164,7 @@ class RoleManager extends CI_Controller
         $this->load->helper('url');
         $this->RoleModel->enablePrivilege($roleId, $privilegeId);
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $_SESSION['sudo'] = true;
         $this->RoleModel->grantPrivileges($roleInfo->role_name, array($privilegeId));
         redirect('/RoleManager/ViewRole/'.$roleId);
     }
@@ -165,6 +175,7 @@ class RoleManager extends CI_Controller
         $this->load->helper('url');
         $this->RoleModel->disablePrivilege($roleId, $privilegeId);
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $_SESSION['sudo'] = true;
         $this->RoleModel->revokePrivileges($roleInfo->role_name, array($privilegeId));
         redirect('/RoleManager/ViewRole/'.$roleId);
     }
@@ -175,6 +186,7 @@ class RoleManager extends CI_Controller
         $this->load->helper('url');
         $this->RoleModel->deletePrivilege($roleId, $privilegeId);
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $_SESSION['sudo'] = true;
         $this->RoleModel->revokePrivileges($roleInfo->role_name, array($privilegeId));
         redirect('/RoleManager/ViewRole/'.$roleId);
     }
@@ -195,8 +207,37 @@ class RoleManager extends CI_Controller
         redirect('/RoleManager/load');
     }
 
+    public function deleteRole($roleId)
+    {
+        $this->load->model('RoleModel');
+        $this->load->model('DatabaseUserModel');
+        $this->load->model('UserModel');
+        $this->RoleModel->deleteAllRolePrivileges($roleId);
+        $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $this->DatabaseUserModel->deleteUser($roleInfo->role_name);
+        $this->UserModel->deleteRoleMappings($roleId);
+        $this->RoleModel->deleteRole($roleId);
+        $_SESSION['sudo'] = true;
+        $this->RoleModel->dropDbuser($roleInfo->role_name);
+    }
+
     public function refreshRoleDbUser($roleId)
     {
+        $this->load->model('RoleModel');
+        $this->load->helper('url');
 
+        $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $_SESSION['sudo'] = true;
+        $this->RoleModel->dropDbUser($roleInfo->role_name);
+
+        $privs = $this->RoleModel->getRolePrivileges($roleId);
+        $privileges = array();
+        foreach($privs as $priv)
+        {
+            $privileges[] = $priv->privilege_id;
+        }
+        $_SESSION['sudo'] = true;
+        $this->RoleModel->createDbUser($roleInfo->role_name, $privileges);
+        redirect('/RoleManager/load');
     }
 }
