@@ -37,6 +37,12 @@
                         <input type="date" name = "content" class="form-control" id="stickyDate">
                     </div>
                 </div>
+                <div class="form-group">
+                    <div class="col-sm-6 col-sm-offset-3">
+                        <button type="submit" class="btn btn-success">Submit</button>
+                        <button type="reset" class="btn btn-danger">Clear</button>
+                    </div>
+                </div>
             </form>
 
         </div>
