@@ -66,7 +66,8 @@ class Dashboard extends CI_Controller
 
     public function uploadBiodata($fileElem,$eventId,$memberId)
     {
-        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
+        $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+        //$config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = $memberId . "biodata";
         $config['overwrite'] = true;
@@ -85,6 +86,7 @@ class Dashboard extends CI_Controller
 
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
+
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . PAPER_FOLDER;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = "Paper_" . $paperId . "v" . $versionNumber;

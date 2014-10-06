@@ -85,13 +85,14 @@
 		//uploading member bio data
         public function uploadBiodata($fileElem,$eventId,$memberId)
         {
-            //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
-            $config['upload_path'] = dirname(__FILE__)."/../../../uploads/biodata".$eventId;
-            $config['allowed_types'] = 'pdf|doc|docx';
+            $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+            //$config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
+            $config['allowed_types'] = 'doc|docx';
             $config['file_name'] = $memberId . "biodata";
             $config['overwrite'] = true;
 
-            $this->load->library('upload', $config);
+            $this->load->library('upload');
+            $this->upload->initialize($config);
 
             if ( ! $this->upload->do_upload($fileElem))
             {
@@ -99,7 +100,7 @@
             }
             $uploadData = $this->upload->data();
 
-            return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
+            return UPLOAD_PATH . BIODATA_FOLDER . $eventId . "/" . $config['file_name'] . $uploadData['file_ext'];
         }
 		
         private function index($page)

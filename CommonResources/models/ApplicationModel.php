@@ -32,4 +32,13 @@ class ApplicationModel extends CI_Model
             return array();
         return $query->result();
     }
+
+    public function getApplicationName($applicationID)
+    {
+        $this->dbCon->select('application_name');
+        $this->dbCon->where('application_id', $applicationID);
+        $query = $this->dbCon->get('application_master');
+        return $query->result();
+
+    }
 }

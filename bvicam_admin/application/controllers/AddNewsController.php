@@ -8,6 +8,9 @@
 class AddNewsController extends CI_Controller
 {
     private  $data;
+    private $applicationName;
+
+
     public function __construct()
     {
         parent::__construct();
@@ -32,6 +35,8 @@ class AddNewsController extends CI_Controller
         }
 
         $this->data['navbarItem'] = pageNavbarItem($page);
+        $this->load->model('ApplicationModel');
+        $this->data['allApplications']=$this->ApplicationModel->getAllApplications();
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/sidebar');
         $this->load->view('pages/'.$page, $this->data);
@@ -42,7 +47,7 @@ class AddNewsController extends CI_Controller
     // Upload news description
     public function uploadNewsDescription($fileElem,$eventId,$newsId)
     {
-        //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+
         $config['upload_path'] = 'C:/xampp/htdocs/Indiacom2015/indiacom_online/application/views/news';
         $config['allowed_types'] = 'html';
         $config['file_name'] = $newsId . "News";
@@ -59,9 +64,36 @@ class AddNewsController extends CI_Controller
         return "news" . "/" . $config['file_name'] . $uploadData['file_ext'];
     }
 
+    public function allNews()
+    {
+        $page="allNews";
+
+
+        $this->index($page);
+    }
+
+
+    public  function  loadViews()
+    {
+        $this->load->view('templates/header', $this->data);
+        $this->load->view('templates/sidebar');
+        $this->load->view('pages/addNews');
+        $applicationID=$_POST['application'];
+        $applicationNames=$this->ApplicationModel->getApplicationName($applicationID);
+        foreach($applicationNames as $applicationName)
+            $this->applicationName=$applicationName->application_name;
+        $this->load->view('pages/addNews'.$this->applicationName);
+        $this->load->view('templates/footer');
+
+
+    }
+
+
+
     public function addNews()
     {
-        $page="addNews";
+        //$page="addNewsIndiacom";
+        $this->loadViews();
 
         $this->data['events']=$this->EventModel->getAllEvents();
          $this->load->library('form_validation');
@@ -117,7 +149,7 @@ class AddNewsController extends CI_Controller
             $this->NewsModel->insertNews($member_record);
         }
 
-        $this->index($page);
+       // $this->index($page);
     }
 
 }
