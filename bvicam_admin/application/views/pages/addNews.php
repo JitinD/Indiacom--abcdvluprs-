@@ -14,21 +14,33 @@
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <form class="form-horizontal" enctype="multipart/form-data" method = "post">
                 <div class="form-group">
-                    <label for="title" class="col-sm-3 control-label">Title</label>
+                    <label for="title" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Title</label>
                     <div class="col-sm-6">
                         <input type="text" name = "title" id="title" class="form-control" value="" placeholder="Enter Title">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="content" class="col-sm-3 control-label">Content</label>
+                    <label for="content" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Content</label>
                     <div class="col-sm-6">
                         <textarea name = "content" class="form-control" id="content" rows="5" placeholder="Enter Content"></textarea>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="publishDate" class="col-sm-3 control-label">Publish Date</label>
+                    <label for="publishDate" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Publish Date</label>
                     <div class="col-sm-6">
                         <input type="date" name = "content" class="form-control" id="publishDate">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="attachmentName" class="col-sm-3 control-label">Attachment Name</label>
+                    <div class="col-sm-6">
+                        <input type="text" name = "attachmentName" class="form-control" id="attachmentName">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="attachmentUrl" class="col-sm-3 control-label">Attachment URL</label>
+                    <div class="col-sm-6">
+                        <input type="file" name = "attachmentUrl" class="form-control" id="attachmentUrl">
                     </div>
                 </div>
                 <div class="form-group">
