@@ -16,19 +16,37 @@
                 <div class="form-group">
                     <label for="title" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Title</label>
                     <div class="col-sm-6">
-                        <input type="text" name = "title" id="title" class="form-control" value="" placeholder="Enter Title">
+                        <input type="text" name = "title" id="title" class="form-control" value="<?php echo set_value('title'); ?>" placeholder="Enter Title">
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('title'); ?>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="content" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Content</label>
                     <div class="col-sm-6">
-                        <textarea name = "content" class="form-control" id="content" rows="5" placeholder="Enter Content"></textarea>
+                        <textarea name = "content" class="form-control" value="<?php echo set_value('content'); ?>" id="content" rows="5" placeholder="Enter Content"></textarea>
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('content'); ?>
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="publishDate" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Publish Date</label>
                     <div class="col-sm-6">
-                        <input type="date" name = "content" class="form-control" id="publishDate">
+                        <input type="date" name = "content" class="form-control" value="<?php echo set_value('publishDate'); ?>"id="publishDate">
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('publishDate'); ?>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="publishTime" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Publish Time</label>
+                    <div class="col-sm-6">
+                        <input type="time" name = "content" class="form-control" value="<?php echo set_value('publishTime'); ?>" id="publishTime">
+                    </div>
+                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('publishTime'); ?>
                     </div>
                 </div>
                 <div class="form-group">

@@ -8,7 +8,8 @@
 class AddNewsController extends CI_Controller
 {
     private  $data;
-    private $applicationName;
+    private $app;
+
 
 
     public function __construct()
@@ -78,11 +79,14 @@ class AddNewsController extends CI_Controller
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/sidebar');
         $this->load->view('pages/addNews');
-        $applicationID=$_POST['application'];
-        $applicationNames=$this->ApplicationModel->getApplicationName($applicationID);
+        $this->load->model('ApplicationModel');
+        $applicationNames=$this->ApplicationModel->getApplicationName($_POST['application']);
         foreach($applicationNames as $applicationName)
-            $this->applicationName=$applicationName->application_name;
-        $this->load->view('pages/addNews'.$this->applicationName);
+        {
+            $name= $applicationName->application_name;
+            $this->app = str_replace(' ', '', $name);
+        }
+        $this->load->view('pages/addNews'.$this->app);
         $this->load->view('templates/footer');
 
 
@@ -105,13 +109,9 @@ class AddNewsController extends CI_Controller
         $this->form_validation->set_rules('event', 'Event', 'required');
 
 
-        $news_id = $this -> NewsModel -> assignNewsId();
 
-        if(($doc_path =$this->uploadNewsDescription('description',1,$news_id)) == false)
-        {
-            $this->data['uploadError'] = $this->upload->display_errors();
-            $this->db->trans_rollback();
-        }
+
+
 
         $publish_date=$this->input->post('publishDate');
         $publish_time=$this->input->post('publishTime');
