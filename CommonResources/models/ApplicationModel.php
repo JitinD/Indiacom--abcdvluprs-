@@ -38,7 +38,7 @@ class ApplicationModel extends CI_Model
         $this->dbCon->select('application_name');
         $this->dbCon->where('application_id', $applicationID);
         $query = $this->dbCon->get('application_master');
-        return $query->result();
+        return $query->row();
 
     }
 }

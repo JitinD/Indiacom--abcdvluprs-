@@ -76,7 +76,7 @@
                 {
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
-                        <a href="/<?php echo BASEURL; ?>index.php/" class="thumbnail">
+                        <a href="/<?php echo BASEURL; ?>index.php/NewsManager/load" class="thumbnail">
                             <div class="panel text-muted">
                                 <h3>
                                     News Manager

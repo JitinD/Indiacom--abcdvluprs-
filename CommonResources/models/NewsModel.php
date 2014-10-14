@@ -111,5 +111,39 @@ class NewsModel extends CI_Model
 //        $news_id = $news_id_array['news_id'] + 1;
 //        return $news_id;
 //    }
+    public function getAllNewsDirty()
+    {
+        $sql = "Select * From news_master Where news_dirty=0";
+        $query = $this->db->query($sql);
+        if(!$this->db->trans_status())
+            throw new SelectException("Error retrieving news", mysql_error(), mysql_errno());
+        return $query->result();
+    }
 
+    public function getAllNewsInclDirty()
+    {
+        $sql = "Select * From news_master";
+        $query = $this->db->query($sql);
+        if(!$this->db->trans_status())
+            throw new SelectException("Error retrieving news", mysql_error(), mysql_errno());
+        return $query->result();
+    }
+
+    public function getAllNewsByAppId($appId)
+    {
+        $sql = "Select * From news_master Where news_application_id=? And news_dirty=0";
+        $query = $this->db->query($sql, array($appId));
+        if(!$this->db->trans_status())
+            throw new SelectException("Error retrieving news", mysql_error(), mysql_errno());
+        return $query->result();
+    }
+
+    public function getAllNewsInclDirtyByAppId($appId)
+    {
+        $sql = "Select * From news_master Where news_application_id=?";
+        $query = $this->db->query($sql, array($appId));
+        if(!$this->db->trans_status())
+            throw new SelectException("Error retrieving news", mysql_error(), mysql_errno());
+        return $query->result();
+    }
 }
