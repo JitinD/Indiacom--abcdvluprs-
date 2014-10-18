@@ -71,7 +71,12 @@
                         <div class="form-group">
                             <label for="mobileNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Mobile Number</label>
                             <div class="col-sm-9">
-                                <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo $editProfile['member_mobile']; ?>" placeholder="Enter Mobile Number">
+                                <div class="col-sm-4">
+                                    <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo $editProfile['member_mobile']; ?>" placeholder="Enter Country Code">
+                                </div>
+                                <div class="col-sm-8">
+                                    <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo $editProfile['member_mobile']; ?>" placeholder="Enter Mobile Number">
+                                </div>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('mobileNumber'); ?>
