@@ -22,10 +22,10 @@
         <br/>
         <br/>
 
-        Click on the link below to finish your registration process.
+        Registration Link
         <br/>
-        <a href = "http://localhost/Indiacom2015/indiacom_online/d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://localhost/Indiacom2015/indiacom_online/d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
-
+        <a href = "<?php echo HOST.INDIACOM ?>/d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://<?php echo HOST.INDIACOM ?>/d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
+        <br/>
         Thank you!
 
     </body>

@@ -28,6 +28,7 @@ class RoleManager extends CI_Controller
         "role_master",
         "subject_master",
         "submission_master",
+        "temp_member_master",
         "track_master",
         "user_event_role_mapper",
         "user_master"

@@ -89,7 +89,7 @@
                 <div class="form-group">
                     <label for="phoneNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Phone Number</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "phoneNumber" maxlength="20" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
+                        <input type="tel" name = "phoneNumber" maxlength = "20" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('phoneNumber'); ?>
@@ -99,13 +99,14 @@
                     <label for="mobileNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Mobile Number</label>
                     <div class="col-sm-9">
                         <div class="col-sm-4">
-                            <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo set_value('mobileNumber'); ?>" placeholder="Country Code">
+                            <input type="tel" name = "countryCode"  maxlength="5" class="form-control" id="countryCode" value="<?php echo set_value('countryCode'); ?>" placeholder="Country Code">
                         </div>
                         <div class="col-sm-8">
                             <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
                         </div>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <?php echo form_error('countryCode'); ?>
                         <?php echo form_error('mobileNumber'); ?>
                     </div>
                 </div>

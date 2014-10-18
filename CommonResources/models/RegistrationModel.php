@@ -14,9 +14,42 @@ class RegistrationModel extends CI_Model
         $this->load->database();
     }
 
+    private function addMemberRecord($entity, $memberRecord)
+    {
+        return $this -> db -> insert($entity, $memberRecord);
+    }
+
     public function addMember($memberRecord = array())
     {
-        return $this -> db -> insert('member_master', $memberRecord);
+        return $this -> addMemberRecord('member_master', $memberRecord);
+    }
+
+    public function addTempMember($memberRecord = array())
+    {
+        return $this -> addMemberRecord('temp_member_master', $memberRecord);
+    }
+
+    private function assignId($entity)
+    {
+        $sql = "SELECT max(cast(`member_id` as UNSIGNED))as `member_id` from $entity";
+
+        //$this -> db -> select('max(cast(member_id as UNSIGNED)');
+        //$this->db->order_by("member_id", "desc");
+
+        $query = $this -> db -> query($sql);
+
+        if($query -> num_rows() == 0)
+            return 1;
+
+        $member_id_array = $query ->  row_array();
+        $member_id = $member_id_array['member_id'] + 1;
+
+        return $member_id;
+    }
+
+    public function deleteTempMember($member_id)
+    {
+        return $this->db->delete('temp_member_master', array('member_id' => $member_id));
     }
 
     public function getOrganizationId($organization)
@@ -29,20 +62,14 @@ class RegistrationModel extends CI_Model
             return $query ->  row_array();
     }
 
+    public function assignTempMemberId()
+    {
+        return $this -> assignId('temp_member_master');
+    }
+
     public function assignMemberId()
     {
-        $sql = "SELECT max(cast(`member_id` as UNSIGNED))as `member_id` from `member_master`";
-
-        //$this -> db -> select('max(cast(member_id as UNSIGNED)');
-        //$this->db->order_by("member_id", "desc");
-
-        $query = $this -> db -> query($sql);
-
-        if($query -> num_rows() == 0)
-            return 1;
-        $member_id_array = $query ->  row_array();
-        $member_id = $member_id_array['member_id'] + 1;
-        return $member_id;
+        return $this -> assignId('member_master');
     }
 
     public function getMemberCategories()

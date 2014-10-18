@@ -135,7 +135,7 @@
             $this->load->library('encrypt');
             $this->load->library('form_validation');
 
-            $member_info = $this -> MemberModel -> getMemberInfo($member_id);
+            $member_info = $this -> MemberModel -> getTempMemberInfo($member_id);
 
             if(strcmp($activation_code, $member_info['member_password']))// || $member_info['member_is_activated'])
             {
@@ -151,28 +151,30 @@
             {
                 $pass = $this -> input -> post('password');
                 $encrypted_password = md5($pass);
+                $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
+                $this -> data['is_verified'] = 0;
 
-                $update_data = array(
-                                        'member_password'   =>  $encrypted_password,
-                                        'member_is_activated'  =>  1
-                                    );
-
-                $this -> data['member_id'] = $member_id;
-
-                if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
+                if($this -> RegistrationModel -> deleteTempMember($member_id))
                 {
-                    $message = $this -> load -> view('pages/ListOfServices', $this -> data, true);
+                    $member_info["member_id"] = $this -> RegistrationModel -> assignMemberId();
+                    $member_info["member_password"] = $encrypted_password;
+                    $member_info["member_is_activated"] = 1;
 
-                    if($this -> sendMail($member_info['member_email'], $message))
+                    $this -> data['member_id'] = $member_info["member_id"];
+
+                    if($this -> RegistrationModel -> addMember($member_info))
                     {
-                        $this -> data['is_verified'] = 1;
-                        $this -> data['message'] = "An email has been sent to your registered email id. This mail will let you know about the services that would be provided to you.";
-                    }
-                    else
-                        $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
+                        $message = $this -> load -> view('pages/ListOfServices', $this -> data, true);
 
-                    $page = "signupSuccess";
+                        if($this -> sendMail($member_info['member_email'], $message))
+                        {
+                            $this -> data['is_verified'] = 1;
+                            $this -> data['message'] = "An email has been sent to your registered email id. This mail will let you know about the services that would be provided to you.";
+                        }
+                    }
                 }
+
+                $page = "signupSuccess";
             }
 
             $this->index($page);
@@ -262,6 +264,7 @@
             $this->form_validation->set_rules('pincode', 'Pincode', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('phoneNumber', 'Phone number', 'required');
+            $this->form_validation->set_rules('countryCode', 'Country Code', 'required');
             $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
             $this->form_validation->set_rules('organization', 'Organization', 'required');
             $this->form_validation->set_rules('category', 'Category', 'required');
@@ -278,7 +281,7 @@
             {
 
                 $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
-                $member_id = $this -> RegistrationModel -> assignMemberId();
+                $member_id = $this -> RegistrationModel -> assignTempMemberId();
 				
 				if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$member_id)) == false)
                 {
@@ -295,15 +298,16 @@
                 {
                     $member_record = array(
                                             'member_id'             =>   $member_id,
-                                             'member_salutation'     =>  $this -> input -> post('salutation'),
+                                            'member_salutation'     =>   $this -> input -> post('salutation'),
                                             'member_name'           =>   $this -> input -> post('name'),
                                             'member_address'        =>   $this -> input -> post('address'),
                                             'member_pincode'        =>   $this -> input -> post('pincode'),
                                             'member_email'          =>   $this -> input -> post('email'),
                                             'member_phone'          =>   $this -> input -> post('phoneNumber'),
+                                            'member_country_code'   =>   $this -> input -> post('countryCode'),
                                             'member_mobile'         =>   $this -> input -> post('mobileNumber'),
                                             'member_fax'            =>   $this -> input -> post('fax'),
-                                            'member_designation'    =>   "",
+                                            'member_designation'    =>   $this -> input -> post('designation'),
                                             'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
                                             'member_password'       =>   $activation_code ,
@@ -316,7 +320,7 @@
                                          );
 
 
-                    if($this -> RegistrationModel -> addMember($member_record))
+                    if($this -> RegistrationModel -> addTempMember($member_record))
                     {
                         $this -> data['member_id'] = $member_id;
                         $this -> data['activation_code'] = $activation_code;

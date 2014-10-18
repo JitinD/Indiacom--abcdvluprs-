@@ -1,3 +1,4 @@
+<script src="/<?php echo PATH ?>assets/js/AJAX.js"></script>
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-9 col-sm-9 col-xs-12">
@@ -24,7 +25,7 @@
                         <div class="form-group">
                             <label for="name" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name = "name" class="form-control" value="<?php echo $editProfile['member_name']; ?>" id="name" placeholder="Enter name">
+                                <input type="text" name = "name" maxlength = "50" class = "form-control" value="<?php echo $editProfile['member_name']; ?>" id="name" placeholder="Enter name">
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('name'); ?>
@@ -44,7 +45,7 @@
                         <div class="form-group">
                             <label for="address" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Address</label>
                             <div class="col-sm-9">
-                                <textarea name = "address" class="form-control" id="address" placeholder="Enter full address"><?php echo $editProfile['member_address']; ?></textarea>
+                                <textarea name = "address" maxlength = "100" class = "form-control" id="address" placeholder="Enter full address"><?php echo $editProfile['member_address']; ?></textarea>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('address'); ?>
@@ -53,7 +54,7 @@
                         <div class="form-group">
                             <label for="pincode" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Pincode</label>
                             <div class="col-sm-9">
-                                <input type="text" name = "pincode" class="form-control" id="pincode" value="<?php echo $editProfile['member_pincode']; ?>" placeholder="Enter Pincode or Zipcode">
+                                <input type="tel" name = "pincode" maxlength = "10" class="form-control" id="pincode" value="<?php echo $editProfile['member_pincode']; ?>" placeholder="Enter Pincode or Zipcode">
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('pincode'); ?>
@@ -62,7 +63,7 @@
                         <div class="form-group">
                             <label for="phoneNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Phone Number</label>
                             <div class="col-sm-9">
-                                <input type="tel" name = "phoneNumber" class="form-control" id="phoneNumber" value="<?php echo $editProfile['member_phone']; ?>" placeholder="Enter Phone Number">
+                                <input type="tel" name = "phoneNumber" maxlength = "20" class="form-control" id="phoneNumber" value="<?php echo $editProfile['member_phone']; ?>" placeholder="Enter Phone Number">
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('phoneNumber'); ?>
@@ -72,20 +73,21 @@
                             <label for="mobileNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Mobile Number</label>
                             <div class="col-sm-9">
                                 <div class="col-sm-4">
-                                    <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo $editProfile['member_mobile']; ?>" placeholder="Enter Country Code">
+                                    <input type="tel" name = "countryCode"  maxlength="5" class="form-control" id="countryCode" value="<?php echo $editProfile['countryCode']; ?>" placeholder="Enter Country Code">
                                 </div>
                                 <div class="col-sm-8">
                                     <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo $editProfile['member_mobile']; ?>" placeholder="Enter Mobile Number">
                                 </div>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                <?php echo form_error('countryCode'); ?>
                                 <?php echo form_error('mobileNumber'); ?>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="fax" class="col-sm-3 control-label">Fax Number</label>
                             <div class="col-sm-9">
-                                <input type="tel" name = "fax" class="form-control" id="fax" value="<?php echo $editProfile['member_fax']; ?>" placeholder="Enter Fax Number">
+                                <input type="tel" name = "fax" maxlength = "20" class="form-control" id="fax" value="<?php echo $editProfile['member_fax']; ?>" placeholder="Enter Fax Number">
                             </div>
 
                         </div>
@@ -104,14 +106,14 @@
                         <div class="form-group">
                             <label for="csimembershipno" class="col-sm-3 control-label">CSI Membership Number</label>
                             <div class="col-sm-9">
-                                <input type="text" name = "csimembershipno" class="form-control" id="csimembershipno" value="<?php echo $editProfile['member_csi_mem_no']; ?>" placeholder="Enter CSI Membership Number">
+                                <input type="tel" name = "csimembershipno" maxlength = "30" class="form-control" id="csimembershipno" value="<?php echo $editProfile['member_csi_mem_no']; ?>" placeholder="Enter CSI Membership Number">
                             </div>
 
                         </div>
                         <div class="form-group">
                             <label for="ietemembershipno" class="col-sm-3 control-label">IETE Membership Number</label>
                             <div class="col-sm-9">
-                                <input type="text" name = "ietemembershipno" class="form-control" id="ietemembershipno" value="<?php echo $editProfile['member_iete_mem_no']; ?>" placeholder="Enter IETE Membership Number">
+                                <input type="tel" name = "ietemembershipno" maxlength = "30" class="form-control" id="ietemembershipno" value="<?php echo $editProfile['member_iete_mem_no']; ?>" placeholder="Enter IETE Membership Number">
                             </div>
                         </div>
                         <div class="form-group">
@@ -164,7 +166,7 @@
                         <div class="form-group">
                             <label for="experience" class="col-sm-3 control-label">Experience</label>
                             <div class="col-sm-9">
-                                <input type="tel" name = "experience" class="form-control" id="experience" value="<?php echo $editProfile['member_experience']; ?>" placeholder="Enter Experience in the Organization">
+                                <input type="tel" name = "experience" maxlength = "2" class="form-control" id="experience" value="<?php echo $editProfile['member_experience']; ?>" placeholder="Enter Experience in the Organization">
                             </div>
                         </div>
 

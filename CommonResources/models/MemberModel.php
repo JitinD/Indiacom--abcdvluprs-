@@ -13,14 +13,24 @@
             $this->load->database();
         }
 
-        public function getMemberInfo($member_id)
+        private function getMemberInfo_Id($entity, $member_id)
         {
-            $query = $this -> db -> get_where('member_master', array('member_id' => $member_id));
+            $query = $this -> db -> get_where($entity, array('member_id' => $member_id));
 
             if($query -> num_rows() > 0)
                 return $query -> row_array();
             else
                 return null;
+        }
+
+        public function getMemberInfo($member_id)
+        {
+            return $this -> getMemberInfo_Id('member_master', $member_id);
+        }
+
+        public function getTempMemberInfo($member_id)
+        {
+            return $this -> getMemberInfo_Id('temp_member_master', $member_id);
         }
 
         public function getMemberInfo_Email($email_id)
