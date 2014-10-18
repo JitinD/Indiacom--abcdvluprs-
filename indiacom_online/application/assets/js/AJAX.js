@@ -104,4 +104,30 @@ $(document).ready(function(){
 
     $("#category").on('change', categoryValue);
 
+    var onlyNumericValue = function(e)
+    {
+        if ((e.keyCode < 48) || (e.keyCode > 57))
+            return false;
+
+    }
+
+    $('#pincode, #phoneNumber, #mobileNumber, #fax, #csimembershipno, #ietemembershipno, #experience').on('keypress', onlyNumericValue);
+
+    $('#pincode, #phoneNumber, #mobileNumber, #fax, #csimembershipno, #ietemembershipno, #experience').bind("paste", function(e)
+    {
+        e.preventDefault();
+    });
+
+
+    $('#name').on('keypress', function(e){
+
+        var regex = /^[a-zA-Z.\s]*$/;
+
+        if(!(regex.test(String.fromCharCode((e.keyCode)))))
+            return false;
+
+        return true;
+
+    });
+
 });

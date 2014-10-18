@@ -27,13 +27,21 @@
                 <div class="form-group">
                     <label for="salutation" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Salutation</label>
                     <div class="col-sm-3">
+
+                        <?php
+                            $salutation = array("Mr", "Ms", "Mrs", "Dr", "Prof", "Sir");
+                        ?>
+
                         <select id="salutation" name="salutation" class="form-control">
-                            <option value="Mr">Mr</option>
-                            <option value="Ms">Ms</option>
-                            <option value="Mrs">Mrs</option>
-                            <option value="Dr">Dr</option>
-                            <option value="Prof">Prof</option>
-                            <option value="Sir">Sir</option>
+                            <?php
+                                foreach($salutation as $value)
+                                {
+                            ?>
+                            <option value = <?php echo $value ?> <?php if(set_value('salutation') == $value) echo "selected" ;?>><?php echo $value ?></option>
+                            <?php
+                                }
+                            ?>
+
                         </select>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -43,7 +51,7 @@
                 <div class="form-group">
                     <label for="name" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Name</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "name" class="form-control" value="<?php echo set_value('name'); ?>" id="name" placeholder="Enter name">
+                        <input type="text" name = "name" maxlength="50" class="form-control" value="<?php echo set_value('name'); ?>" id="name" placeholder="Enter name">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('name'); ?>
@@ -63,16 +71,16 @@
                 <div class="form-group">
                     <label for="address" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Address</label>
                     <div class="col-sm-9">
-                        <textarea name = "address" class="form-control" id="address" placeholder="Enter full address"><?php echo set_value('address'); ?></textarea>
+                        <textarea name = "address" maxlength="100" class="form-control" id="address" placeholder="Enter full address"><?php echo set_value('address'); ?></textarea>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('address'); ?>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="pincode" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Pincode</label>
+                    <label for="pincode"  class = "col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Pincode</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "pincode" class="form-control" id="pincode" value="<?php echo set_value('pincode'); ?>" placeholder="Enter Pincode or Zipcode">
+                        <input type="tel" name = "pincode" maxlength="10" class="form-control" id="pincode" value="<?php echo set_value('pincode'); ?>" placeholder="Enter Pincode or Zipcode">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('pincode'); ?>
@@ -81,7 +89,7 @@
                 <div class="form-group">
                     <label for="phoneNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Phone Number</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "phoneNumber" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
+                        <input type="tel" name = "phoneNumber" maxlength="20" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('phoneNumber'); ?>
@@ -90,7 +98,7 @@
                 <div class="form-group">
                     <label for="mobileNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Mobile Number</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
+                            <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('mobileNumber'); ?>
@@ -99,7 +107,7 @@
                 <div class="form-group">
                     <label for="fax" class="col-sm-3 control-label">Fax Number</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "fax" class="form-control" id="fax" value="<?php echo set_value('fax'); ?>" placeholder="Enter Fax Number">
+                        <input type="tel" name = "fax" maxlength="20" class="form-control" id="fax" value="<?php echo set_value('fax'); ?>" placeholder="Enter Fax Number">
                     </div>
 
 
@@ -119,7 +127,7 @@
                 <div class="form-group">
                     <label for="csimembershipno" class="col-sm-3 control-label">CSI Membership Number</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "csimembershipno" class="form-control" id="csimembershipno" value="<?php echo set_value('csimembershipno'); ?>" placeholder="Enter CSI Membership Number">
+                        <input type="tel" name = "csimembershipno" maxlength="30" class="form-control" id="csimembershipno" value="<?php echo set_value('csimembershipno'); ?>" placeholder="Enter CSI Membership Number">
                     </div>
 
 
@@ -127,7 +135,7 @@
                 <div class="form-group">
                     <label for="ietemembershipno" class="col-sm-3 control-label">IETE Membership Number</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "ietemembershipno" class="form-control" id="ietemembershipno" value="<?php echo set_value('ietemembershipno'); ?>" placeholder="Enter IETE Membership Number">
+                        <input type="tel" name = "ietemembershipno" maxlength="30" class="form-control" id="ietemembershipno" value="<?php echo set_value('ietemembershipno'); ?>" placeholder="Enter IETE Membership Number">
                     </div>
                 </div>
                 <div class="form-group">
@@ -181,7 +189,7 @@
                 <div class="form-group category-based">
                     <label for="experience" class="col-sm-3 control-label">Experience</label>
                     <div class="col-sm-9">
-                        <input type="text" name = "experience" class="form-control" id="experience" value="<?php echo set_value('experience'); ?>" placeholder="Enter Experience in the Organization">
+                        <input type="text" name = "experience"  maxlength="2" class = "form-control" id="experience" value="<?php echo set_value('experience'); ?>" placeholder="Enter Experience in the Organization">
                     </div>
                 </div>
                 <!--div class="form-group">
