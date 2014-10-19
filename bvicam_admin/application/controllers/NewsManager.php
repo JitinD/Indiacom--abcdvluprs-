@@ -13,10 +13,6 @@ class NewsManager extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('AccessModel');
-        $this->load->model('EventModel');
-        $this->load->model('NewsModel');
-        $this->load->helper(array('form', 'url'));
     }
 
     private function index($page)
@@ -32,9 +28,7 @@ class NewsManager extends CI_Controller
             return;
         }
 
-        //$this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-        //$this->load->view('templates/sidebar');
         $this->load->view("pages/{$folder}$page", $this->data);
         $this->load->view('templates/footer');
     }
@@ -42,6 +36,7 @@ class NewsManager extends CI_Controller
     public function load($appId = -1)
     {
         $page = "allNews";
+        $this->load->library('form_validation');
         $this->load->model('ApplicationModel');
         $this->load->model('NewsModel');
         $this->data['currentAppId'] = $appId;
@@ -49,10 +44,13 @@ class NewsManager extends CI_Controller
         if($appId != -1)
         {
             $this->data['allNews'] = $this->NewsModel->getAllNewsInclDirtyByAppId($appId);
+            $appName = str_replace(' ', '', $this->ApplicationModel->getApplicationName($appId));
+            $this->data['addNewsController'] = "NewsManager_$appName";
         }
         else
         {
             $this->data['allNews'] = $this->NewsModel->getAllNewsInclDirty();
+            $this->data['addNewsController'] = "NewsManager";
         }
 
         $this->index($page);
@@ -67,50 +65,14 @@ class NewsManager extends CI_Controller
         redirect("/NewsManager/load/");
     }
 
-    public function addNews($appId)
+    /*public function addNews($appId)
     {
         $this->loadViews($appId);
-        //$page="addNewsIndiacom";
+    }*/
 
-        /*$this->data['events'] = $this->EventModel->getAllEvents();
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('newsTitle', 'News Title', 'required');
-
-        // $this->form_validation->set_rules('publisherID', 'Publisher ID', 'required');
-        $this->form_validation->set_rules('publishDate', 'Publish Date', 'required');
-        $this->form_validation->set_rules('publishTime', 'Publish Time', 'required');
-        $this->form_validation->set_rules('event', 'Event', 'required');
-
-        $publish_date = $this->input->post('publishDate');
-        $publish_time = $this->input->post('publishTime');
-        $final_pub_date = $publish_date . '' . $publish_time;
-        $publishing_date = date('Y-m-d H:i:s', strtotime($final_pub_date));
-
-        $sticky_news_date = '';
-        $sticky_date = $this->input->post('stickyDate');
-        $sticky_time = $this->input->post('stickyTime');
-        $final_sticky = $sticky_date . '' . $sticky_time;
-        $sticky_news_date = date('Y-m-d H:i:s', strtotime($final_sticky));
-
-        if ($this->form_validation->run()) {
-            $member_record = array(
-                'news_id' => $news_id,
-                'news_title' => $this->input->post('newsTitle'),
-                'news_description_url' => $doc_path,
-                'news_publisher_id' => $_SESSION[APPID]['user_id'],
-                'news_publish_date' => $publishing_date,
-                'news_sticky_date' => $sticky_news_date,
-                'news_event_id' => $this->input->post('event'),
-                'news_attachments_path' => 1
-            );
-            $this->NewsModel->insertNews($member_record);
-        }*/
-
-        // $this->index($page);
-    }
-
-    protected function addNewsSubmitHandle()
+    protected function addNewsSubmitHandle($appId)
     {
+        $this->load->model('NewsModel');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('title', "News Title", 'required');
         $this->form_validation->set_rules('content', "News Content", 'required');
@@ -118,13 +80,16 @@ class NewsManager extends CI_Controller
 
         if($this->form_validation->run())
         {
-            echo "Hello";
-            //TODO: Insert news entry into news_master
+            $newsDetails = array(
+                "news_title" => $this->input->post('title'),
+                "news_content" => $this->input->post('content'),
+                "news_publish_date" => $this->input->post('publishDate'),
+                "news_application_id" => $appId
+            );
+            $this->NewsModel->addNews($newsDetails);
+            return $newsDetails['news_id'];
         }
-        else
-        {
-            echo "World";
-        }
+        return null;
     }
 
     // Upload news description
@@ -147,7 +112,7 @@ class NewsManager extends CI_Controller
     }*/
 
 
-    private function loadViews($appId)
+    /*private function loadViews($appId)
     {
         $folder = "NewsManager/";
         $this->load->model('ApplicationModel');
@@ -155,11 +120,10 @@ class NewsManager extends CI_Controller
         $appName = str_replace(' ', '', $applicationDetails->application_name);
 
         $this->load->view('templates/header', $this->data);
-        //$this->load->view('templates/sidebar');
         $this->load->view("pages/{$folder}addNews", array("appName"=>$appName));
         $this->load->view("pages/{$folder}addNews" . $appName);
         $this->load->view('templates/footer');
-    }
+    }*/
 }
 
 

@@ -35,10 +35,29 @@ class ApplicationModel extends CI_Model
 
     public function getApplicationName($applicationID)
     {
-        $this->dbCon->select('application_name');
-        $this->dbCon->where('application_id', $applicationID);
-        $query = $this->dbCon->get('application_master');
-        return $query->row();
+        $sql = "Select application_name From application_master Where application_id = ?";
+        $query = $this->dbCon->query($sql, array($applicationID));
+        if($query && $query->num_rows() == 1)
+        {
+            $row = $query->row();
+            return $row->application_name;
+        }
+        if(!$query)
+            throw new SelectException("Error fetching application id", mysql_error(), mysql_errno());
+        return null;
+    }
 
+    public function getApplicationId($applicationName)
+    {
+        $sql = "Select application_id From application_master Where application_name = ?";
+        $query = $this->dbCon->query($sql, array($applicationName));
+        if($query && $query->num_rows() == 1)
+        {
+            $row = $query->row();
+            return $row->application_id;
+        }
+        if(!$query)
+            throw new SelectException("Error fetching application id", mysql_error(), mysql_errno());
+        return null;
     }
 }

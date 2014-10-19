@@ -28,6 +28,7 @@ class AccessModel extends CI_Model
     {
         if(!isset($_SESSION[APPID]['current_role_id']))
         {
+            $_SESSION['sudo'] = true;
             $this->load->model('RoleModel');
             $_SESSION[APPID]['current_role_id'] = $this->RoleModel->getRoleId($_SESSION[APPID]['dbUserName']);
         }

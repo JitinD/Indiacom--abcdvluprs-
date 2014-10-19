@@ -74,13 +74,22 @@
         <br>
         <ul class="list-group text-left h5">
         <?php
-            foreach($news as $new)
-             { ?>
-                 <li class="list-group-item"><a href="<?php echo $new->news_description_url?>"><?php echo $new->news_title."<br>";?></a></li>
-       <?php }
+        foreach($stickyNews as $news)
+        {
         ?>
-
-       <a class="btn btn-default btn-block" href="/<?php echo INDIACOM; ?>d/NewsController/AllNews">All News &raquo;</a>
+            <li class="list-group-item"><a href="<?php echo $news->news_content; ?>"><?php echo $news->news_title."<br>";?></a></li>
+        <?php
+        }
+        ?>
+        <?php
+        foreach($nonStickyNews as $news)
+        {
+        ?>
+            <li class="list-group-item"><a href="<?php echo $news->news_content; ?>"><?php echo $news->news_title."<br>";?></a></li>
+        <?php
+        }
+        ?>
+        <a class="btn btn-default btn-block" href="/<?php echo INDIACOM; ?>d/NewsController/AllNews">All News &raquo;</a>
         </ul>
     </div>
 

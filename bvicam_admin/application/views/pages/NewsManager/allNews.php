@@ -68,7 +68,7 @@
                     ?>
                 </tbody>
             </table>
-            <a href="/<?php echo BASEURL; ?>index.php/NewsManager/addNews/<?php echo $currentAppId; ?>" class="btn btn-success <?php
+            <a href="/<?php echo BASEURL; ?>index.php/<?php echo $addNewsController; ?>/addNews" class="btn btn-success <?php
                 if($currentAppId == -1)
                     echo "disabled";
                 ?>">

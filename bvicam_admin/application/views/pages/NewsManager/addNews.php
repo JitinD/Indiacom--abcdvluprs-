@@ -15,7 +15,7 @@
             <form class="form-horizontal"
                   enctype="multipart/form-data"
                   method = "post"
-                  action="/<?php echo BASEURL; ?>index.php/NewsManager_<?php echo $appName; ?>/addNewsSubmitHandle">
+                  action = "#">
                 <div class="form-group">
                     <label for="title" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span> Title</label>
                     <div class="col-sm-6">

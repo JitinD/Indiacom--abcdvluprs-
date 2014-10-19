@@ -13,6 +13,8 @@ class RoleManager extends CI_Controller
         "application_master",
         "database_user",
         "event_master",
+        "indiacom_news_attachments",
+        "indiacom_news_master",
         "member_category_master",
         "member_master",
         "news_master",
