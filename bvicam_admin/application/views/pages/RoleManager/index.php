@@ -45,7 +45,14 @@
                             }
                             ?>
                             <a class="btn btn-sm btn-default" href="deleteRole/<?php echo $role->role_id; ?>">Delete Role</a>
-                            <a class="btn btn-sm btn-default" href="refreshRoleDbUser/<?php echo $role->role_id; ?>">Refresh DB User</a>
+                            <?php
+                            if($_SESSION[APPID]['current_role_id'] != $role->role_id)
+                            {
+                            ?>
+                                <a class="btn btn-sm btn-default" href="refreshRoleDbUser/<?php echo $role->role_id; ?>">Refresh DB User</a>
+                            <?php
+                            }
+                            ?>
                         </td>
                     </tr>
                 <?php
