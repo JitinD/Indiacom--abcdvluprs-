@@ -29,7 +29,7 @@
     //define('ADMIN', 'Indiacom2015/bvicam_admin/');
     if(!isset($_SESSION[APPID]['dbUserName']))
     {
-        /*$_SESSION[APPID]['dbUserName'] = 'root';
+       /* $_SESSION[APPID]['dbUserName'] = 'root';
         $_SESSION[APPID]['dbPassword'] = '';*/
         $_SESSION[APPID]['dbUserName'] = 'Minimal_Admin';
         $_SESSION[APPID]['dbPassword'] = '1234';

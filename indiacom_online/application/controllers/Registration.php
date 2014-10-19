@@ -9,6 +9,7 @@
     class Registration extends CI_Controller
     {
         private $data;
+        private $doc_path;
 
         public function __construct()
         {
@@ -82,12 +83,12 @@
             return false;
         }
 		
-		//uploading member bio data
-        public function uploadBiodata($fileElem,$eventId,$memberId)
+		//uploading member bio data in temporary folder
+        public function uploadTempBiodata($fileElem,$eventId,$memberId)
         {
-            $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
-            //$config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
-            $config['allowed_types'] = 'doc|docx';
+           // $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata_temp/".$eventId;
+            $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER . $eventId ;
+            $config['allowed_types'] = 'pdf';
             $config['file_name'] = $memberId . "biodata";
             $config['overwrite'] = true;
 
@@ -100,9 +101,10 @@
             }
             $uploadData = $this->upload->data();
 
-            return UPLOAD_PATH . BIODATA_FOLDER . $eventId . "/" . $config['file_name'] . $uploadData['file_ext'];
+            return SERVER_ROOT.UPLOAD_PATH . TEMP_BIODATA_FOLDER . $eventId . "/" . $config['file_name'] . $uploadData['file_ext'];
         }
-		
+
+
         private function index($page)
         {
             require_once(dirname(__FILE__).'/../config/privileges.php');
@@ -127,58 +129,6 @@
 
         }
 
-        public function EnterPassword($member_id, $activation_code)
-        {
-            $page = "EnterPassword";
-
-            $this -> load -> model('MemberModel');
-            $this->load->library('encrypt');
-            $this->load->library('form_validation');
-
-            $member_info = $this -> MemberModel -> getTempMemberInfo($member_id);
-
-            if(strcmp($activation_code, $member_info['member_password']))// || $member_info['member_is_activated'])
-            {
-                $this->load->view('pages/unauthorizedAccess');
-                return;
-            }
-
-            $this->form_validation->set_rules('password', 'Password', 'required');
-            $this->form_validation->set_rules('password2', 'Confirm Password', 'required|callback_validate_confirm_password');
-
-
-            if($this->form_validation->run())
-            {
-                $pass = $this -> input -> post('password');
-                $encrypted_password = md5($pass);
-                $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
-                $this -> data['is_verified'] = 0;
-
-                if($this -> RegistrationModel -> deleteTempMember($member_id))
-                {
-                    $member_info["member_id"] = $this -> RegistrationModel -> assignMemberId();
-                    $member_info["member_password"] = $encrypted_password;
-                    $member_info["member_is_activated"] = 1;
-
-                    $this -> data['member_id'] = $member_info["member_id"];
-
-                    if($this -> RegistrationModel -> addMember($member_info))
-                    {
-                        $message = $this -> load -> view('pages/ListOfServices', $this -> data, true);
-
-                        if($this -> sendMail($member_info['member_email'], $message))
-                        {
-                            $this -> data['is_verified'] = 1;
-                            $this -> data['message'] = "An email has been sent to your registered email id. This mail will let you know about the services that would be provided to you.";
-                        }
-                    }
-                }
-
-                $page = "signupSuccess";
-            }
-
-            $this->index($page);
-        }
 
         public function forgotPassword()
         {
@@ -283,7 +233,7 @@
                 $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
                 $member_id = $this -> RegistrationModel -> assignTempMemberId();
 				
-				if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$member_id)) == false)
+				if(($this->doc_path = $this->uploadTempBiodata('biodata',1,$member_id)) == false)
                 {
                     $this->data['uploadError'] = $this->upload->display_errors();
                     $this->db->trans_rollback();
@@ -312,7 +262,7 @@
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
                                             'member_password'       =>   $activation_code ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
-                                            'member_biodata_path'   =>   $doc_path,
+                                            'member_biodata_path'   =>   $this->doc_path,
                                             'member_category_id'    =>   $this -> input -> post('category'),
                                             'member_department'     =>   $this -> input -> post('department'),
                                             'member_experience'     =>   $this -> input -> post('experience'),
@@ -376,6 +326,67 @@
             }
             $this->index($page);
         }
+
+        public function EnterPassword($member_id, $activation_code)
+        {
+            $page = "EnterPassword";
+
+            $this -> load -> model('MemberModel');
+            $this->load->library('encrypt');
+            $this->load->library('form_validation');
+            $this->load->library('ftp');
+
+            $member_info = $this -> MemberModel -> getTempMemberInfo($member_id);
+
+            if(strcmp($activation_code, $member_info['member_password']))// || $member_info['member_is_activated'])
+            {
+                $this->load->view('pages/unauthorizedAccess');
+                return;
+            }
+
+            $this->form_validation->set_rules('password', 'Password', 'required');
+            $this->form_validation->set_rules('password2', 'Confirm Password', 'required|callback_validate_confirm_password');
+
+
+            if($this->form_validation->run())
+            {
+                $event_id=1;
+                $pass = $this -> input -> post('password');
+                $encrypted_password = md5($pass);
+                $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
+                $this -> data['is_verified'] = 0;
+
+                $biodata_url=SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER .$event_id;
+                copy($this->doc_path,$biodata_url."/".basename($this->doc_path));
+
+                if($this -> RegistrationModel -> deleteTempMember($member_id))
+                {
+
+                    $member_info["member_id"] = $this -> RegistrationModel -> assignMemberId();
+                    //$member_info["member_biodata_path"]=rename($biodata_url/"biodata.pdf",$biodata_url/$member_info["member_id"]."biodata.pdf");
+                    $member_info["member_password"] = $encrypted_password;
+                    $member_info["member_is_activated"] = 1;
+
+                    $this -> data['member_id'] = $member_info["member_id"];
+
+                    if($this -> RegistrationModel -> addMember($member_info))
+                    {
+                        $message = $this -> load -> view('pages/ListOfServices', $this -> data, true);
+
+                        if($this -> sendMail($member_info['member_email'], $message))
+                        {
+                            $this -> data['is_verified'] = 1;
+                            $this -> data['message'] = "An email has been sent to your registered email id. This mail will let you know about the services that would be provided to you.";
+                        }
+                    }
+                }
+
+                $page = "signupSuccess";
+            }
+
+            $this->index($page);
+        }
+
 
     }
 

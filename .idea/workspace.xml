@@ -23,20 +23,40 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="signupSuccess.php" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signupSuccess.php">
+      <file leaf-file-name="Login.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="16" column="30" selection-start="460" selection-end="460" vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="425">
+            <state line="35" column="0" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.0" vertical-offset="595" max-vertical-offset="1258">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EmailActiveCode.php" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/EmailActiveCode.php">
+      <file leaf-file-name="Registration.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Registration.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="28" column="18" selection-start="588" selection-end="588" vertical-scroll-proportion="0.65604025" vertical-offset="0" max-vertical-offset="596">
+            <state line="329" column="8" selection-start="14158" selection-end="14158" vertical-scroll-proportion="-0.422807" vertical-offset="5749" max-vertical-offset="6681">
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="paths.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/paths.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="21" column="43" selection-start="504" selection-end="504" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="391">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RegistrationModel.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/CommonResources/models/RegistrationModel.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="32" column="0" selection-start="677" selection-end="677" vertical-scroll-proportion="-6.8461537" vertical-offset="281" max-vertical-offset="1972">
+              <folding>
+                <marker date="1413688459100" expanded="true" signature="699:767" placeholder="SELECT max(c..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -80,36 +100,34 @@
         <option value="$PROJECT_DIR$/application/views/pages/newsitem.php" />
         <option value="$PROJECT_DIR$/application/views/pages/news.php" />
         <option value="$PROJECT_DIR$/indiacom_online/index.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js" />
+        <option value="$PROJECT_DIR$/CommonResources/models/RegistrationModel.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/config/email.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/config/routes.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/EnterPassword.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/ListOfServices.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/EmailActiveCode.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/signupSuccess.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/MemberModel.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/SignUpController.php" />
         <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/allNews.php" />
-        <option value="$PROJECT_DIR$/CommonResources/models/ApplicationModel.php" />
-        <option value="$PROJECT_DIR$/bvicam_admin/application/controllers/AddNewsController.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/Dashboard.php" />
         <option value="$PROJECT_DIR$/CommonResources/models/NewsModel.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/MainController.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/NewsController.php" />
-        <option value="$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js" />
-        <option value="$PROJECT_DIR$/bvicam_admin/application/controllers/RoleManager.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/ApplicationModel.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/addNews.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/controllers/AddNewsController.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/config/paths.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/Registration.php" />
-        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php" />
-        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/editProfile.php" />
-        <option value="$PROJECT_DIR$/CommonResources/models/RegistrationModel.php" />
-        <option value="$PROJECT_DIR$/CommonResources/models/MemberModel.php" />
-        <option value="$PROJECT_DIR$/bvicam_admin/index.php" />
-        <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/EmailActiveCode.php" />
       </list>
     </option>
   </component>
   <component name="PhpWorkspaceProjectConfiguration" backward_compatibility_performed="true" />
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
-    <option name="y" value="-8" />
-    <option name="width" value="1382" />
+    <option name="width" value="1378" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -138,7 +156,6 @@
       <sortByType />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -207,7 +224,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="views" />
+              <option name="myItemId" value="controllers" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -222,6 +239,114 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="indiacom_online" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="config" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CommonResources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CommonResources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -247,7 +372,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemId" value="bvicam_admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -255,7 +380,15 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="controllers" />
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="UserManager" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -272,9 +405,48 @@
               <option name="myItemId" value="bvicam_admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RoleManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="controllers" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -319,7 +491,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="0" width="1378" height="744" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -327,19 +499,19 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22401172" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.22687225" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32829046" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -359,56 +531,38 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php">
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="103" column="0" selection-start="6059" selection-end="6059" vertical-scroll-proportion="0.0" vertical-offset="1751" max-vertical-offset="4216">
+        <state line="35" column="0" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1258">
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommonResources/models/NewsModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="106" column="2" selection-start="3326" selection-end="3326" vertical-scroll-proportion="0.0" vertical-offset="1802" max-vertical-offset="2023" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/MainController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="10" selection-start="836" selection-end="836" vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="799">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/NewsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="40" column="0" selection-start="141" selection-end="1290" vertical-scroll-proportion="0.0" vertical-offset="220" max-vertical-offset="850" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommonResources/models/RegistrationModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="0" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0" vertical-offset="935" max-vertical-offset="1598">
-          <folding>
-            <marker date="1413660348088" expanded="true" signature="-1:-1" placeholder="SELECT max(c..." />
-          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Registration.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="102" column="9" selection-start="3166" selection-end="3166" vertical-scroll-proportion="0.0" vertical-offset="1734" max-vertical-offset="6494">
+        <state line="210" column="40" selection-start="7487" selection-end="7487" vertical-scroll-proportion="0.0" vertical-offset="3570" max-vertical-offset="6494">
           <folding />
         </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Dashboard.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="83" column="5" selection-start="2407" selection-end="3059" vertical-scroll-proportion="0.0" vertical-offset="1411" max-vertical-offset="8245" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="82" column="0" selection-start="4757" selection-end="4757" vertical-scroll-proportion="0.0" vertical-offset="331" max-vertical-offset="4080">
-          <folding />
-        </state>
+        <state line="11" column="0" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="4080" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/ApplicationModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="9" selection-start="461" selection-end="461" vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="833" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="0" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="4080" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/ApplicationModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="23" column="9" selection-start="461" selection-end="461" vertical-scroll-proportion="0.0" vertical-offset="391" max-vertical-offset="833" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CommonResources/models/MemberModel.php">
@@ -418,11 +572,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CommonResources/models/RegistrationModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="0" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0" vertical-offset="935" max-vertical-offset="1513">
-          <folding>
-            <marker date="1413660348088" expanded="true" signature="-1:-1" placeholder="SELECT max(c..." />
-          </folding>
-        </state>
+        <state line="55" column="0" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0" vertical-offset="935" max-vertical-offset="1513" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/system_ci_v2.2.0/helpers/captcha_helper.php">
@@ -445,6 +595,18 @@
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="635" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="49" selection-start="640" selection-end="640" vertical-scroll-proportion="0.5637584" vertical-offset="38" max-vertical-offset="3689">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="55" selection-start="496" selection-end="496" vertical-scroll-proportion="0.42834646" vertical-offset="0" max-vertical-offset="1683" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/CommonResources/models/PaperStatusModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="23" column="20" selection-start="739" selection-end="739" vertical-scroll-proportion="0.51342285" vertical-offset="0" max-vertical-offset="612" />
@@ -458,6 +620,16 @@
     <entry file="file://$PROJECT_DIR$/CommonResources/models/LoginModel.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.5123153" vertical-offset="921" max-vertical-offset="1768" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signupSuccess.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="30" selection-start="435" selection-end="435" vertical-scroll-proportion="0.3180272" vertical-offset="0" max-vertical-offset="588" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/EmailActiveCode.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="11" selection-start="342" selection-end="342" vertical-scroll-proportion="0.6862416" vertical-offset="33" max-vertical-offset="629" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/routes.php">
@@ -480,6 +652,11 @@
         <state line="17" column="0" selection-start="187" selection-end="187" vertical-scroll-proportion="0.47454843" vertical-offset="0" max-vertical-offset="609" />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/MemberModel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="51" selection-start="1336" selection-end="1336" vertical-scroll-proportion="0.0" vertical-offset="799" max-vertical-offset="1156" />
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/RoleManager/viewRole.php">
       <provider selected="true" editor-type-id="text-editor">
         <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.8789474" vertical-offset="501" max-vertical-offset="2057" />
@@ -487,138 +664,70 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/CommonResources/models/NewsModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="142" column="2" selection-start="4806" selection-end="4806" vertical-scroll-proportion="0.66502464" vertical-offset="2009" max-vertical-offset="2618" />
+        <state line="106" column="2" selection-start="3543" selection-end="3543" vertical-scroll-proportion="-15.884615" vertical-offset="1389" max-vertical-offset="2040" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/MainController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="10" selection-start="838" selection-end="838" vertical-scroll-proportion="-15.769231" vertical-offset="49" max-vertical-offset="714" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/NewsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="0" selection-start="1339" selection-end="1352" vertical-scroll-proportion="0.75533664" vertical-offset="237" max-vertical-offset="850" />
+        <state line="17" column="17" selection-start="407" selection-end="407" vertical-scroll-proportion="0.118353345" vertical-offset="220" max-vertical-offset="850" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Dashboard.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="85" column="0" selection-start="3066" selection-end="3066" vertical-scroll-proportion="0.0" vertical-offset="1445" max-vertical-offset="8279" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="115" column="45" selection-start="2954" selection-end="2954" vertical-scroll-proportion="0.39228296" vertical-offset="1711" max-vertical-offset="2346">
-          <folding>
-            <marker date="1413632653397" expanded="false" signature="-1:-1" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="22" column="49" selection-start="640" selection-end="640" vertical-scroll-proportion="0.5889262" vertical-offset="23" max-vertical-offset="3808">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommonResources/models/OrganizationModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="635">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/forgotPassword.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="10" column="46" selection-start="726" selection-end="726" vertical-scroll-proportion="5.3846154" vertical-offset="310" max-vertical-offset="1326">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/resetPassword.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="612">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/paymentModes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1564">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/RoleManager.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="30" column="29" selection-start="732" selection-end="732" vertical-scroll-proportion="-16.346153" vertical-offset="0" max-vertical-offset="4148">
-          <folding />
-        </state>
+        <state line="263" column="13" selection-start="10429" selection-end="10429" vertical-scroll-proportion="0.39449543" vertical-offset="4256" max-vertical-offset="8279" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="91" column="75" selection-start="5137" selection-end="5137" vertical-scroll-proportion="-3.0369127" vertical-offset="3357" max-vertical-offset="4318">
-          <folding />
-        </state>
+        <state line="11" column="0" selection-start="487" selection-end="487" vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="4080" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/editProfile.php">
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/ApplicationModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="168" column="86" selection-start="12690" selection-end="12690" vertical-scroll-proportion="0.0704698" vertical-offset="2814" max-vertical-offset="3451">
-          <folding />
-        </state>
+        <state line="23" column="9" selection-start="461" selection-end="461" vertical-scroll-proportion="0.24185249" vertical-offset="165" max-vertical-offset="748" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/bvicam_admin/index.php">
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/NewsManager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3893">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.7427101" vertical-offset="433" max-vertical-offset="2924" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/NewsManager_IndiacomOnlineSystem.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="609" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="0" selection-start="1053" selection-end="1053" vertical-scroll-proportion="0.0" vertical-offset="595" max-vertical-offset="1258">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CommonResources/models/RegistrationModel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1972">
+        <state line="32" column="0" selection-start="677" selection-end="677" vertical-scroll-proportion="-6.8461537" vertical-offset="281" max-vertical-offset="1972">
           <folding>
-            <marker date="1413660348088" expanded="true" signature="-1:-1" placeholder="SELECT max(c..." />
+            <marker date="1413688459100" expanded="true" signature="699:767" placeholder="SELECT max(c..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/paths.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="21" column="43" selection-start="504" selection-end="504" vertical-scroll-proportion="-10.461538" vertical-offset="0" max-vertical-offset="391">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Registration.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="182" column="17" selection-start="6424" selection-end="6424" vertical-scroll-proportion="0.02852349" vertical-offset="2992" max-vertical-offset="6494">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="1" selection-start="226" selection-end="226" vertical-scroll-proportion="0.027914613" vertical-offset="170" max-vertical-offset="1173">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/MainController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="32" column="10" selection-start="838" selection-end="838" vertical-scroll-proportion="0.6239737" vertical-offset="79" max-vertical-offset="714">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommonResources/models/MemberModel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.0" vertical-offset="0" max-vertical-offset="1241">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signupSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="16" column="30" selection-start="460" selection-end="460" vertical-scroll-proportion="-7.1923075" vertical-offset="0" max-vertical-offset="425">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/EmailActiveCode.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="28" column="18" selection-start="588" selection-end="588" vertical-scroll-proportion="0.65604025" vertical-offset="0" max-vertical-offset="596">
+        <state line="329" column="8" selection-start="14158" selection-end="14158" vertical-scroll-proportion="-0.422807" vertical-offset="5749" max-vertical-offset="6681">
           <folding />
         </state>
       </provider>
