@@ -73,7 +73,7 @@
                             <label for="mobileNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Mobile Number</label>
                             <div class="col-sm-9">
                                 <div class="col-sm-4">
-                                    <input type="tel" name = "countryCode"  maxlength="5" class="form-control" id="countryCode" value="<?php echo $editProfile['countryCode']; ?>" placeholder="Enter Country Code">
+                                    <input type="tel" name = "countryCode"  maxlength="5" class="form-control" id="countryCode" value="<?php echo $editProfile['member_country_code']; ?>" placeholder="Enter Country Code">
                                 </div>
                                 <div class="col-sm-8">
                                     <input type="tel" name = "mobileNumber"  maxlength="10" class="form-control" id="mobileNumber" value="<?php echo $editProfile['member_mobile']; ?>" placeholder="Enter Mobile Number">
