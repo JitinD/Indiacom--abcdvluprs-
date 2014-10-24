@@ -55,12 +55,39 @@
                     foreach($allNews as $key=>$news)
                     {
                     ?>
-                        <tr>
+                        <tr class="<?php if($news->news_dirty == 1) echo "danger"; ?>">
                             <td><?php echo $key+1; ?></td>
                             <td><?php echo $news->news_title; ?></td>
                             <td>
-                                <a class="btn btn-sm btn-warning"  href="#"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
-                                <a class="btn btn-sm btn-danger"  href="#"><span class="glyphicon glyphicon-minus"></span> Delete</a>
+                                <?php
+                                if($currentAppId != -1)
+                                {
+                                ?>
+                                    <a class="btn btn-sm btn-warning"  href="#"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                    <?php
+                                    if($news->news_dirty == 0)
+                                    {
+                                    ?>
+                                        <a class="btn btn-sm btn-warning"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/disableNews/<?php echo $news->news_id; ?>">
+                                            <span class="glyphicon glyphicon-pencil"></span> Disable
+                                        </a>
+                                    <?php
+                                    }
+                                    else
+                                    {
+                                    ?>
+                                        <a class="btn btn-sm btn-warning"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/enableNews/<?php echo $news->news_id; ?>">
+                                            <span class="glyphicon glyphicon-pencil"></span> Enable
+                                        </a>
+                                    <?php
+                                    }
+                                    ?>
+                                    <a class="btn btn-sm btn-danger"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/deleteNews/<?php echo $news->news_id; ?>">
+                                        <span class="glyphicon glyphicon-minus"></span> Delete
+                                    </a>
+                                <?php
+                                }
+                                ?>
                             </td>
                         </tr>
                     <?php
@@ -68,7 +95,7 @@
                     ?>
                 </tbody>
             </table>
-            <a href="/<?php echo BASEURL; ?>index.php/<?php echo $addNewsController; ?>/addNews" class="btn btn-success <?php
+            <a href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/addNews" class="btn btn-success <?php
                 if($currentAppId == -1)
                     echo "disabled";
                 ?>">

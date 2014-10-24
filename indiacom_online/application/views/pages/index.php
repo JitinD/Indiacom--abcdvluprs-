@@ -77,7 +77,7 @@
         foreach($stickyNews as $news)
         {
         ?>
-            <li class="list-group-item"><a href="<?php echo $news->news_content; ?>"><?php echo $news->news_title."<br>";?></a></li>
+            <li class="list-group-item"><a href="/<?php echo BASEURL; ?>News/viewNews/<?php echo $news->news_id; ?>"><?php echo $news->news_title."<br>";?></a></li>
         <?php
         }
         ?>
@@ -85,11 +85,11 @@
         foreach($nonStickyNews as $news)
         {
         ?>
-            <li class="list-group-item"><a href="<?php echo $news->news_content; ?>"><?php echo $news->news_title."<br>";?></a></li>
+            <li class="list-group-item"><a href="/<?php echo BASEURL; ?>News/viewNews/<?php echo $news->news_id; ?>"><?php echo $news->news_title."<br>";?></a></li>
         <?php
         }
         ?>
-        <a class="btn btn-default btn-block" href="/<?php echo INDIACOM; ?>d/NewsController/AllNews">All News &raquo;</a>
+        <a class="btn btn-default btn-block" href="/<?php echo INDIACOM; ?>News/load">All News &raquo;</a>
         </ul>
     </div>
 

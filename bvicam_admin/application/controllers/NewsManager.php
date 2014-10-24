@@ -65,11 +65,6 @@ class NewsManager extends CI_Controller
         redirect("/NewsManager/load/");
     }
 
-    /*public function addNews($appId)
-    {
-        $this->loadViews($appId);
-    }*/
-
     protected function addNewsSubmitHandle($appId)
     {
         $this->load->model('NewsModel');
@@ -92,38 +87,23 @@ class NewsManager extends CI_Controller
         return null;
     }
 
-    // Upload news description
-    //THIS FUNCTION NOT REQUIRED ANYMORE.
-    /*public function uploadNewsDescription($fileElem, $eventId, $newsId)
+    protected function disableNews($newsId)
     {
-        $config['upload_path'] = 'C:/xampp/htdocs/Indiacom2015/indiacom_online/application/views/news';
-        $config['allowed_types'] = 'html';
-        $config['file_name'] = $newsId . "News";
-        $config['overwrite'] = true;
+        $this->load->model('NewsModel');
+        $this->NewsModel->disableNews($newsId);
+    }
 
-        $this->load->library('upload', $config);
-
-        if (!$this->upload->do_upload($fileElem)) {
-            return false;
-        }
-        $uploadData = $this->upload->data();
-
-        return "news" . "/" . $config['file_name'] . $uploadData['file_ext'];
-    }*/
-
-
-    /*private function loadViews($appId)
+    protected function enableNews($newsId)
     {
-        $folder = "NewsManager/";
-        $this->load->model('ApplicationModel');
-        $applicationDetails = $this->ApplicationModel->getApplicationName($appId);
-        $appName = str_replace(' ', '', $applicationDetails->application_name);
+        $this->load->model('NewsModel');
+        $this->NewsModel->enableNews($newsId);
+    }
 
-        $this->load->view('templates/header', $this->data);
-        $this->load->view("pages/{$folder}addNews", array("appName"=>$appName));
-        $this->load->view("pages/{$folder}addNews" . $appName);
-        $this->load->view('templates/footer');
-    }*/
+    protected function deleteNews($newsId)
+    {
+        $this->load->model('NewsModel');
+        $this->NewsModel->deleteNews($newsId);
+    }
 }
 
 

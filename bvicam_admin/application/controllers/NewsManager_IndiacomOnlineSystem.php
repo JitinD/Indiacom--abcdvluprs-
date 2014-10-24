@@ -27,6 +27,39 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
         $this->load->view('templates/footer');
     }
 
+    public function disableNews($newsId)
+    {
+        $this->load->model('IndiacomNewsModel');
+        $this->load->helper('url');
+        parent::disableNews($newsId);
+        $this->IndiacomNewsModel->disableNews($newsId);
+        redirect("NewsManager/load");
+    }
+
+    public function enableNews($newsId)
+    {
+        $this->load->model('IndiacomNewsModel');
+        $this->load->helper('url');
+        parent::enableNews($newsId);
+        $this->IndiacomNewsModel->enableNews($newsId);
+        redirect("NewsManager/load");
+    }
+
+    public function deleteNews($newsId)
+    {
+        $this->load->model('IndiacomNewsModel');
+        $this->load->helper('url');
+        try{
+            $this->IndiacomNewsModel->deleteNews($newsId);
+        }
+        catch(DeleteException $ex)
+        {
+            echo $ex->sqlError();
+        }
+        parent::deleteNews($newsId);
+        redirect("NewsManager/load");
+    }
+
     public function addNewsSubmitHandle()
     {
         $this->load->model('ApplicationModel');
@@ -94,7 +127,7 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
                 return false;
             }
             $uploadData = $this->upload->data();
-            $paths[] = $config['upload_path'] . $config['file_name'] . $uploadData['file_ext'];
+            $paths[] = UPLOAD_PATH . NEWS_FOLDER . NEWS_ATTACHMENT_FOLDER . $config['file_name'] . $uploadData['file_ext'];
         }
         return $paths;
     }

@@ -20,6 +20,7 @@
  */
     session_start();
     define('HOST', 'localhost/');
+    define('BASEURL', 'Indiacom2015/indiacom_online/');
     define('INDIACOM', 'Indiacom2015/indiacom_online/');
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');

@@ -5,8 +5,8 @@
  * Date: 10/19/14
  * Time: 10:42 AM
  */
-
-class IndiacomNewsModel extends CI_Model
+require("NewsModel.php");
+class IndiacomNewsModel extends NewsModel
 {
     public function __construct()
     {
@@ -50,17 +50,41 @@ class IndiacomNewsModel extends CI_Model
 
     public function deleteNews($newsId)
     {
+        $attachments = $this->getNewsAttachments($newsId);
+        $attSet = array();
+        foreach($attachments as $attachment)
+        {
+            $attSet[] = $attachment->attachment_id;
+        }
+        $this->deleteAttachments($attSet);
         $sql = "Delete From indiacom_news_master Where news_id = ?";
         $query = $this->db->query($sql, array($newsId));
-        if(!$query)
+        if(!$this->db->trans_status())
             throw new DeleteException("Error deleting indiacom news", mysql_error(), mysql_errno());
+    }
+
+    public function deleteAttachments($attachmentIds = array())
+    {
+        if(empty($attachmentIds))
+            return false;
+        $attSet = "";
+        foreach($attachmentIds as $id)
+        {
+            $attSet .= "{$id},";
+        }
+        $attSet = preg_replace('/,$/', '', $attSet);
+        $sql = "Delete From indiacom_news_attachments Where attachment_id IN ({$attSet})";
+        $query = $this->db->query($sql);
+        if(!$this->db->trans_status())
+            throw new DeleteException("Error deleting indiacom news", mysql_error(), mysql_errno());
+        return true;
     }
 
     public function getAllNews()
     {
         $sql = "Select * From indiacom_news_master Where news_master_dirty = 0";
         $query = $this->db->query($sql);
-        if(!$query)
+        if(!$this->db->trans_status())
             throw new SelectException("Error fetching indiacom news", mysql_error(), mysql_errno());
         return $query->result();
     }
@@ -69,7 +93,7 @@ class IndiacomNewsModel extends CI_Model
     {
         $sql = "Select * From indiacom_news_master";
         $query = $this->db->query($sql);
-        if(!$query)
+        if(!$this->db->trans_status())
             throw new SelectException("Error fetching indiacom news(incl dirty)", mysql_error(), mysql_errno());
         return $query->result();
     }
@@ -78,8 +102,17 @@ class IndiacomNewsModel extends CI_Model
     {
         $sql = "Select * From indiacom_news_master Where news_id = ?";
         $query = $this->db->query($sql, array($newsId));
-        if(!$query)
+        if(!$this->db->trans_status())
             throw new SelectException("Error fetching news detail", mysql_error(), mysql_errno());
+        return $query->row();
+    }
+
+    public function getNewsAttachments($newsId)
+    {
+        $sql = "Select * From indiacom_news_attachments Where news_id=? And news_attachments_dirty = 0";
+        $query = $this->db->query($sql, array($newsId));
+        if(!$this->db->trans_status())
+            throw new SelectException("Error fetching news attachments", mysql_error(), mysql_errno());
         return $query->result();
     }
 
@@ -88,11 +121,11 @@ class IndiacomNewsModel extends CI_Model
         $sql = "SELECT news_master.*, indiacom_news_master.*
                 FROM news_master
                     JOIN indiacom_news_master ON news_master.news_id = indiacom_news_master.news_id
-                Where news_publish_date <= CURDATE() AND (news_sticky_date >= CURDATE())
+                Where news_publish_date <= CURDATE() AND (news_sticky_date >= CURDATE()) And news_master_dirty=0 And news_dirty=0
                 Order By news_publish_date DESC
                 Limit $offset, $limit";
         $query = $this->db->query($sql);
-        if(!$query)
+        if(!$this->db->trans_status())
             throw new SelectException("Error fetching published sticky news", mysql_error(), mysql_errno());
         return $query->result();
     }
@@ -102,11 +135,11 @@ class IndiacomNewsModel extends CI_Model
         $sql = "SELECT news_master.*, indiacom_news_master.*
                 FROM news_master
                     JOIN indiacom_news_master ON news_master.news_id = indiacom_news_master.news_id
-                Where news_publish_date <= CURDATE() AND (news_sticky_date Is NULL OR news_sticky_date < CURDATE())
+                Where news_publish_date <= CURDATE() AND (news_sticky_date Is NULL OR news_sticky_date < CURDATE()) And news_master_dirty=0 And news_dirty=0
                 Order By news_publish_date DESC
                 Limit $offset, $limit";
         $query = $this->db->query($sql);
-        if(!$query)
+        if(!$this->db->trans_status())
             throw new SelectException("Error fetching published non sticky news", mysql_error(), mysql_errno());
         return $query->result();
     }
