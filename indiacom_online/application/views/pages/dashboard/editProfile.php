@@ -1,4 +1,5 @@
 <script src="/<?php echo PATH ?>assets/js/AJAX.js"></script>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-9 col-sm-9 col-xs-12">
@@ -94,7 +95,20 @@
                         <div class="form-group">
                             <label for="biodata" class="col-sm-3 control-label">Biodata</label>
                             <div class="col-sm-9">
-                                <input type="file" name = "biodata" class="form-control" id="biodata" placeholder="Choose File">
+
+                                    <?php
+                                    if(file_exists(SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER."1/".$_SESSION[APPID]['member_id']."biodata.pdf"))
+                                    {
+                                    ?>
+                                     <div class="col-sm-4">
+                                    <a title="Click to download" class="btn btn-primary btn-block" href="<?php echo base_url() ?>DashBoard/downloadBiodata" target="_blank" >Download <span class="glyphicon glyphicon-cloud-download"></span> </a>
+                                     </div>
+                                    <?php
+                                    }
+                                    ?>
+                            <div class="col-sm-8">
+                                    <input type="file" name = "biodata" class="form-control" id="biodata" placeholder="Choose File">
+                                </div>
                             </div>
                             <!--<div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php

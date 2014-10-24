@@ -12,6 +12,7 @@ class Dashboard extends CI_Controller
     {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
+
         /*$this->load->model('EventModel');
         $this->load->model('TrackModel');
         $this->load->model('SubjectModel');
@@ -46,6 +47,7 @@ class Dashboard extends CI_Controller
         loginModalInit($this->data);
 
         $this->data['navbarItem'] = pageNavbarItem($page);
+
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/dashboard/dashboardPanel');
         $this->load->view('pages/dashboard/'.$page, $this->data);
@@ -412,6 +414,14 @@ class Dashboard extends CI_Controller
         return true;
     }
 
+    public function downloadBiodata()
+    {
+        $this->load-> helper ('download');
+        $data=file_get_contents(SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER."1/".$_SESSION[APPID]['member_id']."biodata.pdf");
+        $name = $_SESSION[APPID]['member_id']."biodata.pdf";
+        force_download ($name, $data);
+    }
+
     public function editProfile()
     {
         $this->load->model('MemberModel');
@@ -421,6 +431,8 @@ class Dashboard extends CI_Controller
         $this -> data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();
         $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         $this->load->library('form_validation');
+
+
 
         $this->form_validation->set_rules('salutation', 'Salutation', 'required');
         $this->form_validation->set_rules('name', 'Name', 'required');
