@@ -50,6 +50,10 @@ class LoginModel extends CI_Model
         {
             return $this->memberAuthenticate();
         }
+        else if($this->loginType == 'LM')
+        {
+            return $this->memberAuthenticateWithHashedPassword();
+        }
         else if($this->loginType == 'A')
         {
             return $this->adminAuthenticate();
@@ -77,10 +81,43 @@ class LoginModel extends CI_Model
             $_SESSION[APPID]['member_id'] = $this->username;
             $_SESSION[APPID]['member_name'] = $memberInfo['member_name'];
             $roleInfo = $this->RoleModel->getRoleDetails($_SESSION[APPID]['role_id']);
-            $this->setDbLoginCredentials($roleName, $roleInfo->role_application_id);
+            if(!$this->setDbLoginCredentials($roleName, $roleInfo->role_application_id))
+            {
+                $this->error = "Application id for role does not match with current application";
+                return false;
+            }
             return true;
         }
         $this->error = "Incorrect credentials";
+        return false;
+    }
+
+    private function memberAuthenticateWithHashedPassword()
+    {
+        $_SESSION['sudo'] = true;
+        $this->load->model('RoleModel');
+        $this->load->model('MemberModel');
+        $memberInfo = $this->MemberModel->getMemberInfo($this->username);
+        if($this->password == $memberInfo['member_password'])
+        {
+            $roleName = "LimitedAuthor";
+            $_SESSION[APPID]['authenticated'] = true;
+            if(($_SESSION[APPID]['role_id'] = $this->RoleModel->getRoleId($roleName)) == false)
+            {
+                $this->error = $roleName . " role not defined. Contact admin";
+                return false;
+            }
+            $_SESSION[APPID]['current_role_id'] = $_SESSION[APPID]['role_id'];
+            $_SESSION[APPID]['member_id'] = $this->username;
+            $_SESSION[APPID]['member_name'] = $memberInfo['member_name'];
+            $roleInfo = $this->RoleModel->getRoleDetails($_SESSION[APPID]['role_id']);
+            if(!$this->setDbLoginCredentials($roleName, $roleInfo->role_application_id))
+            {
+                $this->error = "Application id for role does not match with current application";
+                return false;
+            }
+            return true;
+        }
         return false;
     }
 
