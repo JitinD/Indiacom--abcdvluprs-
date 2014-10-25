@@ -11,6 +11,8 @@
         private $dbCon;
         public function __construct()
         {
+            $_SESSION['sudo'] = true;
+
             if(isset($_SESSION['sudo']))
             {
                 $this->dbCon = $this->load->database('default', TRUE);

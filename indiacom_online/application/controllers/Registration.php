@@ -155,19 +155,20 @@
                     if($member_info = $this -> MemberModel -> getMemberInfo_Email($email_id))
                     {
                         $member_id = $member_info['member_id'];
+                        $encrypted_password = $member_info['member_password'];
 
                         if(!strcmp($email_id, $member_info['member_email']))
                         {
-                            $activation_code = $this -> assignActivationCode();
+                            $activation_code = $encrypted_password; //$this -> assignActivationCode();
 
-                            $update_data = array('member_password'   =>  $activation_code);
+                            //$update_data = array('member_password'   =>  $activation_code);
 
-                            if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
+                            //if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
                             {
                                 $this -> data['member_id'] = $member_id;
                                 $this -> data['activation_code'] = $activation_code;
 
-                                $message = $this -> load -> view('pages/EmailActiveCode', $this -> data, true);
+                                $message = $this -> load -> view('pages/EmailResetPasswordLink', $this -> data, true);
 
                                 if($page = $this -> sendMail($this -> input -> post('email'), $message))
                                     $this -> data['message'] = "An email has been sent to your registered mail id. Click on the activation link provided in the mail to reset your password";
@@ -243,7 +244,7 @@
                     $this->db->trans_rollback();
                 }
 
-                $activation_code  = $this -> assignActivationCode();
+                $activation_code  = md5($this -> assignActivationCode());
 
                 $this->session->unset_userdata('captcha');
                 $this->session->unset_userdata('image');

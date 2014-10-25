@@ -32,7 +32,7 @@ class Dashboard extends CI_Controller
     private function index($page = "dashboardHome")
     {
         require(dirname(__FILE__).'/../config/privileges.php');
-        require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
         $this->load->model('AccessModel');
         if ( ! file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
         {
@@ -372,30 +372,79 @@ class Dashboard extends CI_Controller
     }
 
     //Allows user to change current password
-    public function changePassword()
+    public function changePassword($toResetPassword = false)
     {
+        $page = "changePassword";
+
+        $this -> data['toResetPassword'] = $toResetPassword;
+
         $this->load->model('RegistrationModel');
-        $page= 'changePassword';
         $this->load->library('form_validation');
-        $user = $_SESSION[APPID]['member_id'];
-        $this->form_validation->set_rules('currentPassword', 'Current Password', 'required|callback_validateCurrentPassword');
+
+        $member_id = $_SESSION[APPID]['member_id'];
+
+        if(!$toResetPassword)
+            $this->form_validation->set_rules('currentPassword', 'Current Password', 'required|callback_validateCurrentPassword');
+
         $this->form_validation->set_rules('newPassword', 'New Password', 'required');
         $this->form_validation->set_rules('confirmPassword', 'Confirm Password', 'required|callback_validateConfirmPassword');
+
         if($this->form_validation->run())
         {
-           if($this->RegistrationModel->resetPassword($user,$this->input->post('newPassword'),$this->input->post('confirmPassword')))
-           {
-               $page .= "Success";
-           }
+            $encrypted_password = md5($this -> input -> post('newPassword'));
+
+            $update_data = array(
+                                    'member_password'       =>  $encrypted_password,
+                                    'member_is_activated'   =>  1
+                                );
+
+            if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
+            {
+                $page .= "Success";
+               // return true;
+            }
+
+            //return false;
         }
+
         $this->index($page);
+
+        //return false;
+    }
+
+    public function resetPassword($member_id, $activation_code)
+    {
+        $page = "resetPassword";
+
+        $_SESSION['sudo'] = true;
+        $this -> load -> model('LoginModel');
+        $this -> load -> model('MemberModel');
+
+        $this -> LoginModel -> setUsername($member_id);
+        $this -> LoginModel -> setPassword($activation_code);
+        $this -> LoginModel -> setLoginType('LM');
+        $this -> LoginModel -> authenticate();
+
+        $update_data = array('member_is_activated'   =>  0);
+
+        if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
+        {
+            if($this -> changePassword(true))
+                redirect('Login/Logout');
+        }
+
     }
 
     public function validateCurrentPassword()
     {
-        $this->load->model('RegistrationModel');
-        $user = $_SESSION[APPID]['member_id'];
-        if($this->RegistrationModel->checkCurrentPassword($user,$this -> input -> post('currentPassword'))==0)
+        $this->load->model('MemberModel');
+
+        $member_id  = $_SESSION[APPID]['member_id'];
+
+        $member_record = $this -> MemberModel -> getMemberInfo($member_id);
+        $encrypted_password = md5($this -> input -> post('currentPassword'));
+
+        if(strcmp($encrypted_password, $member_record['member_password']))
         {
             $this->form_validation->set_message('validateCurrentPassword', "Incorrect Password");
             return false;

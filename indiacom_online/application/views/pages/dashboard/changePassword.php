@@ -3,6 +3,12 @@
         <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
             <h3>Change Password</h3>
             <form class="form-horizontal" role="form" method="post">
+                <?php
+                    if(!$toResetPassword)
+                    {
+
+                 ?>
+
                 <div class="form-group">
                     <label for="currentPassword" class="col-sm-4 control-label">Current Password</label>
                     <div class="col-sm-8">
@@ -10,6 +16,11 @@
                         <?php echo form_error('currentPassword'); ?>
                     </div>
                 </div>
+
+                <?php
+                    }
+                ?>
+
                 <div class="form-group">
                     <label for="newPassword" class="col-sm-4 control-label">New Password</label>
                     <div class="col-sm-8">

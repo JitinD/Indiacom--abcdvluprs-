@@ -81,7 +81,7 @@ class RegistrationModel extends CI_Model
 
     }
 
-    public function checkCurrentPassword($user_id,$password)
+    /*public function checkCurrentPassword($user_id,$password)
     {
         $this->db->select('member_password');
         $this->db->where('member_id',$user_id);
@@ -111,6 +111,6 @@ class RegistrationModel extends CI_Model
 
         }
       return false;
-    }
+    }*/
 }
 ?>

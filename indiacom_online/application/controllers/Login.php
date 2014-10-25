@@ -19,6 +19,7 @@ class Login extends CI_Controller
         $this->load->library('form_validation');
         $this->form_validation->set_rules('username', 'Member Id' ,'required|callback_usernameCheck');
         $this->form_validation->set_rules('password', 'Password', 'required|callback_passwordCheck');
+
         if($this->form_validation->run())
         {
             unset($_SESSION['isFormError']);

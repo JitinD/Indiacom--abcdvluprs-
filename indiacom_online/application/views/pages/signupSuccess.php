@@ -14,7 +14,7 @@
             <hr>
             <p class="body-text contentBlock-top">
                 <?php
-                if($is_verified)
+                if(isset($is_verified))
                     echo "Your Member Id is $member_id <br/>";
                 echo $message;
                 ?>
