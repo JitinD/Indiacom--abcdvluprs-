@@ -44,6 +44,18 @@
             return true;
         }
 
+        public function validate_mobileNumber()
+        {
+            $mobileNumberRegex = "/(\d{10})$/";
+
+            if(!preg_match($mobileNumberRegex, $this -> input -> post('mobileNumber')))
+            {
+                $this->form_validation->set_message('validate_mobileNumber', "Mobile number must have 10 digits!");
+                return false;
+            }
+            return true;
+        }
+
         public function validate_confirm_password()
         {
             if(strcmp($this -> input -> post('password'), $this -> input -> post('password2')))
@@ -215,7 +227,7 @@
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('phoneNumber', 'Phone number', 'required');
             $this->form_validation->set_rules('countryCode', 'Country Code', 'required');
-            $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
+            $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required|callback_validate_mobileNumber');
             $this->form_validation->set_rules('organization', 'Organization', 'required');
             $this->form_validation->set_rules('category', 'Category', 'required');
             $this->form_validation->set_rules('department', 'Department', 'required');

@@ -130,4 +130,12 @@ $(document).ready(function(){
 
     });
 
+    jQuery("#mobileNumber").blur(function()
+    {
+        if($("#mobileNumber").val().length)
+        {
+            if(!$("#mobileNumber").val().match(/^(\d{10})$/))
+                alert("Mobile number must have 10 digits!");
+        }
+    });
 });
