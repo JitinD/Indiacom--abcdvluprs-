@@ -9,7 +9,6 @@
     class Registration extends CI_Controller
     {
         private $data;
-        private $doc_path;
 
         public function __construct()
         {
@@ -96,12 +95,11 @@
         }
 		
 		//uploading member bio data in temporary folder
-        public function uploadTempBiodata($fileElem,$eventId,$memberId)
+        public function uploadTempBiodata($fileElem, $memberId)
         {
-           // $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata_temp/".$eventId;
-            $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER . $eventId ;
+            $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER;
             $config['allowed_types'] = 'pdf';
-            $config['file_name'] = $memberId . "biodata";
+            $config['file_name'] = $memberId . "_biodata";
             $config['overwrite'] = true;
 
             $this->load->library('upload');
@@ -113,9 +111,8 @@
             }
             $uploadData = $this->upload->data();
 
-            return SERVER_ROOT.UPLOAD_PATH . TEMP_BIODATA_FOLDER . $eventId . "/" . $config['file_name'] . $uploadData['file_ext'];
+            return UPLOAD_PATH . TEMP_BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext'];
         }
-
 
         private function index($page)
         {
@@ -141,15 +138,12 @@
 
         }
 
-
         public function forgotPassword()
         {
             $page = "forgotPassword";
 
             $this->load->library('form_validation');
             $this -> load -> model('MemberModel');
-
-
 
             if(isset($_POST['Reset']) && $this->formFilledCheck())
             {
@@ -215,7 +209,6 @@
 
         public function signUp()
         {
-
             $page = "signup";
 
             $this->load->library('session');
@@ -241,11 +234,10 @@
 
             if($this->form_validation->run())
             {
-
                 $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
                 $member_id = $this -> RegistrationModel -> assignTempMemberId();
 				
-				if(($this->doc_path = $this->uploadTempBiodata('biodata',1,$member_id)) == false)
+				if(($doc_path = $this->uploadTempBiodata('biodata', $member_id)) == false)
                 {
                     $this->data['uploadError'] = $this->upload->display_errors();
                     $this->db->trans_rollback();
@@ -274,7 +266,7 @@
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
                                             'member_password'       =>   $activation_code ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
-                                            'member_biodata_path'   =>   $this->doc_path,
+                                            'member_biodata_path'   =>   $doc_path,
                                             'member_category_id'    =>   $this -> input -> post('category'),
                                             'member_department'     =>   $this -> input -> post('department'),
                                             'member_experience'     =>   $this -> input -> post('experience'),
@@ -299,14 +291,12 @@
 
                         $page = "signupSuccess";
                     }
-
                 }
             }
             else
             {
                 $this -> load -> helper('captcha');
                 $this -> load -> helper('url');
-
 
                 $captcha_path = dirname(__FILE__)."/../../../CommonResources/assets/captcha/";
 
@@ -316,11 +306,11 @@
 
                 $captcha = array
                 (
-                    'word'	=> $word,
-                    'img_path'	=> $captcha_path,
-                    'img_url'	=> base_url().'../CommonResources/assets/captcha/',
-                    'font_path'	=> base_url().'../CommonResources/assets/fonts/impact.ttf',
-                    'img_width'	=> '200',
+                    'word' => $word,
+                    'img_path' => $captcha_path,
+                    'img_url' => base_url() . '../CommonResources/assets/captcha/',
+                    'font_path' => base_url() . '../CommonResources/assets/fonts/impact.ttf',
+                    'img_width' => '200',
                     'img_height' => 40,
                     'expiration' => 3600
                 );
@@ -343,7 +333,7 @@
         {
             $page = "EnterPassword";
 
-            $this -> load -> model('MemberModel');
+            $this->load->model('MemberModel');
             $this->load->library('encrypt');
             $this->load->library('form_validation');
             $this->load->library('ftp');
@@ -359,21 +349,19 @@
             $this->form_validation->set_rules('password', 'Password', 'required');
             $this->form_validation->set_rules('password2', 'Confirm Password', 'required|callback_validate_confirm_password');
 
-
             if($this->form_validation->run())
             {
-                $event_id=1;
                 $pass = $this -> input -> post('password');
                 $encrypted_password = md5($pass);
                 $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
                 $this -> data['is_verified'] = 0;
 
-                $biodata_url=SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER .$event_id;
-                copy($this->doc_path,$biodata_url."/".basename($this->doc_path));
+                $biodata_url = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
+                $assignedMemberId = $this->RegistrationModel->assignMemberId();
+                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url."/{$assignedMemberId}_biodata");
 
                 if($this -> RegistrationModel -> deleteTempMember($member_id))
                 {
-
                     $member_info["member_id"] = $this -> RegistrationModel -> assignMemberId();
                     //$member_info["member_biodata_path"]=rename($biodata_url/"biodata.pdf",$biodata_url/$member_info["member_id"]."biodata.pdf");
                     $member_info["member_password"] = $encrypted_password;
