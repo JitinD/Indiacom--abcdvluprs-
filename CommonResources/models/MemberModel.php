@@ -8,14 +8,24 @@
 
     class MemberModel extends CI_Model
     {
+        private $dbCon;
         public function __construct()
         {
-            $this->load->database();
+            if(isset($_SESSION['sudo']))
+            {
+                $this->dbCon = $this->load->database('default', TRUE);
+                unset($_SESSION['sudo']);
+            }
+            else
+            {
+                $this->load->database();
+                $this->dbCon = $this->dbCon;
+            }
         }
 
         private function getMemberInfo_Id($entity, $member_id)
         {
-            $query = $this -> db -> get_where($entity, array('member_id' => $member_id));
+            $query = $this -> dbCon -> get_where($entity, array('member_id' => $member_id));
 
             if($query -> num_rows() > 0)
                 return $query -> row_array();
@@ -35,7 +45,7 @@
 
         public function getMemberInfo_Email($email_id)
         {
-            $query = $this -> db -> get_where('member_master', array('member_email' => $email_id));
+            $query = $this -> dbCon -> get_where('member_master', array('member_email' => $email_id));
 
             if($query -> num_rows() > 0)
                 return $query -> row_array();
@@ -45,7 +55,7 @@
 
         public function getMembers()
         {
-            $query = $this -> db -> get('member_master');
+            $query = $this -> dbCon -> get('member_master');
 
             if($query -> num_rows() > 0)
                 return $query -> result_array();
@@ -53,13 +63,13 @@
 
         public function getMemberMiniProfile($member_id)
         {
-            $this -> db -> select('member_id,member_salutation,member_name,organization_name, member_category_name');
-            $this -> db -> from('member_master');
-            $this -> db -> join('organization_master', 'member_master.member_organization_id = organization_master.organization_id');
-            $this -> db -> join('member_category_master', 'member_category_master.member_category_id = member_master.member_category_id');
-            $this -> db -> where('member_master.member_id', $member_id);
+            $this -> dbCon -> select('member_id,member_salutation,member_name,organization_name, member_category_name');
+            $this -> dbCon -> from('member_master');
+            $this -> dbCon -> join('organization_master', 'member_master.member_organization_id = organization_master.organization_id');
+            $this -> dbCon -> join('member_category_master', 'member_category_master.member_category_id = member_master.member_category_id');
+            $this -> dbCon -> where('member_master.member_id', $member_id);
 
-            $query = $this -> db -> get();
+            $query = $this -> dbCon -> get();
 
             if($query -> num_rows() > 0)
                 return $query -> row_array();
@@ -67,7 +77,7 @@
 
         public function updateMemberInfo($update_data, $member_id)
         {
-            return $this -> db -> update('member_master', $update_data, array("member_id" => $member_id));
+            return $this -> dbCon -> update('member_master', $update_data, array("member_id" => $member_id));
         }
     }
 ?>

@@ -43,16 +43,15 @@ class LoginModel extends CI_Model
         $this->loginType = $loginType;
     }
 
-
     public function authenticate()
     {
         if($this->loginType == 'M')
         {
-            return $this->memberAuthenticate();
+            return $this->memberAuthenticate("Author");
         }
         else if($this->loginType == 'LM')
         {
-            return $this->memberAuthenticateWithHashedPassword();
+            return $this->memberAuthenticate("LimitedAuthor", false);
         }
         else if($this->loginType == 'A')
         {
@@ -61,16 +60,19 @@ class LoginModel extends CI_Model
         return false;
     }
 
-    private function memberAuthenticate()
+    private function memberAuthenticate($roleName, $encryption=true)
     {
         $_SESSION['sudo'] = true;
         $this->load->model('RoleModel');
+        $_SESSION['sudo'] = true;
         $this->load->model('MemberModel');
-        $encrypted_pass = md5($this->password);
+        if($encryption)
+            $encrypted_pass = md5($this->password);
+        else
+            $encrypted_pass = $this->password;
         $memberInfo = $this->MemberModel->getMemberInfo($this->username);
-        if($encrypted_pass == $memberInfo['member_password'])
+        if($encrypted_pass == $memberInfo['member_password'] && $memberInfo['member_is_activated']==1)
         {
-            $roleName = "Author";
             $_SESSION[APPID]['authenticated'] = true;
             if(($_SESSION[APPID]['role_id'] = $this->RoleModel->getRoleId($roleName)) == false)
             {
@@ -92,35 +94,6 @@ class LoginModel extends CI_Model
         return false;
     }
 
-    private function memberAuthenticateWithHashedPassword()
-    {
-        $_SESSION['sudo'] = true;
-        $this->load->model('RoleModel');
-        $this->load->model('MemberModel');
-        $memberInfo = $this->MemberModel->getMemberInfo($this->username);
-        if($this->password == $memberInfo['member_password'])
-        {
-            $roleName = "LimitedAuthor";
-            $_SESSION[APPID]['authenticated'] = true;
-            if(($_SESSION[APPID]['role_id'] = $this->RoleModel->getRoleId($roleName)) == false)
-            {
-                $this->error = $roleName . " role not defined. Contact admin";
-                return false;
-            }
-            $_SESSION[APPID]['current_role_id'] = $_SESSION[APPID]['role_id'];
-            $_SESSION[APPID]['member_id'] = $this->username;
-            $_SESSION[APPID]['member_name'] = $memberInfo['member_name'];
-            $roleInfo = $this->RoleModel->getRoleDetails($_SESSION[APPID]['role_id']);
-            if(!$this->setDbLoginCredentials($roleName, $roleInfo->role_application_id))
-            {
-                $this->error = "Application id for role does not match with current application";
-                return false;
-            }
-            return true;
-        }
-        return false;
-    }
-
     private function adminAuthenticate()
     {
         $_SESSION['sudo'] = true;
@@ -128,7 +101,6 @@ class LoginModel extends CI_Model
         $userInfo = $this->UserModel->getUserInfoByEmail($this->username);
         if($userInfo != false && $userInfo->user_password == $this->password)
         {
-
             $userRoles = $this->UserModel->getUserRoles($userInfo->user_id);
             $_SESSION[APPID]['role_id'] = array();
             if(!empty($userRoles))
