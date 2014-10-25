@@ -19,7 +19,7 @@
             else
             {
                 $this->load->database();
-                $this->dbCon = $this->dbCon;
+                $this->dbCon = $this->db;
             }
         }
 
