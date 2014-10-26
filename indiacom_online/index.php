@@ -32,6 +32,7 @@
         $_SESSION[APPID]['dbPassword'] = '1234';
     }
     require('application/config/paths.php');
+    require('application/config/exceptions.php');
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING

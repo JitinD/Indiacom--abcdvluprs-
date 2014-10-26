@@ -62,14 +62,15 @@ class LoginModel extends CI_Model
 
     private function memberAuthenticate($roleName, $encryption=true)
     {
+        $this->load->model('MemberModel');
+        $this->MemberModel->sudo();
         $_SESSION['sudo'] = true;
         $this->load->model('RoleModel');
-        $_SESSION['sudo'] = true;
-        $this->load->model('MemberModel');
         if($encryption)
             $encrypted_pass = md5($this->password);
         else
             $encrypted_pass = $this->password;
+
         $memberInfo = $this->MemberModel->getMemberInfo($this->username);
         if($encrypted_pass == $memberInfo['member_password'] && (($memberInfo['member_is_activated']==1) || !$encryption))
         {
