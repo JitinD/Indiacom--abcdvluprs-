@@ -10,7 +10,7 @@
  * End all paths with /
  */
 
-define('SERVER_ROOT', 'D:/wamp/www/');
+define('SERVER_ROOT', 'C:/xampp/htdocs/');
 
 //Upload Paths
 define('UPLOAD_FOLDER', 'uploads/');

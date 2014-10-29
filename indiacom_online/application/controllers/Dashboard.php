@@ -70,7 +70,7 @@ class Dashboard extends CI_Controller
     {
         $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
         //$config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
-        $config['allowed_types'] = 'doc|docx';
+        $config['allowed_types'] = 'pdf';
         $config['file_name'] = $memberId . "biodata";
         $config['overwrite'] = true;
 
