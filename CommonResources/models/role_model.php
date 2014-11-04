@@ -6,7 +6,7 @@
  * Time: 5:42 PM
  */
 
-class RoleModel extends CI_Model
+class Role_model extends CI_Model
 {
     private $dbCon;
     public $error;
@@ -94,14 +94,14 @@ class RoleModel extends CI_Model
             $dbCon = $this->dbCon;
         }
 
-        $this->load->model('DatabaseUserModel');
+        $this->load->model('database_user_model');
         $host = rtrim(HOST, '/');
         $pwd = 1234;
         $sql = "Create User '$username'@'$host' Identified By '$pwd'";
         $dbCon->query($sql);
         $_SESSION['sudo'] = true;
         $this->grantPrivileges($username, $privileges);
-        $this->DatabaseUserModel->addUser(array('database_user_name'=>$username, 'database_user_password'=>$pwd));
+        $this->database_user_model->addUser(array('database_user_name'=>$username, 'database_user_password'=>$pwd));
     }
 
     public function dropDbUser($username)
@@ -116,11 +116,11 @@ class RoleModel extends CI_Model
             $dbCon = $this->dbCon;
         }
 
-        $this->load->model('DatabaseUserModel');
+        $this->load->model('database_user_model');
         $host = rtrim(HOST, '/');
         $sql = "Drop User '$username'@'$host'";
         $dbCon->query($sql);
-        $this->DatabaseUserModel->deleteUser($username);
+        $this->database_user_model->deleteUser($username);
     }
 
     public function grantPrivileges($username, $privileges = array())
@@ -135,9 +135,9 @@ class RoleModel extends CI_Model
             $dbCon = $this->dbCon;
         }
 
-        $this->load->model('PrivilegeModel');
+        $this->load->model('privilege_model');
         $host = rtrim(HOST, '/');
-        $privDetails = $this->PrivilegeModel->getPrivilegeDetails($privileges);
+        $privDetails = $this->privilege_model->getPrivilegeDetails($privileges);
         $privTypes = array();
         foreach($privDetails as $priv)
         {
@@ -162,9 +162,9 @@ class RoleModel extends CI_Model
             $dbCon = $this->dbCon;
         }
 
-        $this->load->model('PrivilegeModel');
+        $this->load->model('privilege_model');
         $host = rtrim(HOST, '/');
-        $privDetails = $this->PrivilegeModel->getPrivilegeDetails($privileges);
+        $privDetails = $this->privilege_model->getPrivilegeDetails($privileges);
         $privTypes = array();
         foreach($privDetails as $priv)
         {

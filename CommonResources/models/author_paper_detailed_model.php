@@ -6,7 +6,7 @@
  * Time: 8:09 PM
  */
 
-class AuthorPaperDetailedModel extends CI_Model
+class Author_paper_detailed_model extends CI_Model
 {
     public function __construct()
     {

@@ -180,7 +180,7 @@
                                             {
                                             ?>
                                                 <?php
-                                                if(!in_array($reviewer_id, $paper_version_reviewers))
+                                                //if(!in_array($reviewer_id, $paper_version_reviewers))
                                                 {
                                                     $noReviewer = false;
                                                 ?>

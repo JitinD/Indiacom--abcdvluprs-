@@ -40,21 +40,21 @@ class Login extends CI_Controller
     public function usernameCheck($username)
     {
         $_SESSION['sudo'] = true;
-        $this->load->model('LoginModel');
-        $this->LoginModel->setUsername($username);
+        $this->load->model('login_model');
+        $this->login_model->setUsername($username);
         return true;
     }
 
     public function passwordCheck($password)
     {
-        $this->LoginModel->setPassword($password);
-        //$this -> LoginModel -> fetch();
-        $this->LoginModel->setLoginType('M');
-        if($this->LoginModel->authenticate())
+        $this->login_model->setPassword($password);
+        //$this -> login_model -> fetch();
+        $this->login_model->setLoginType('M');
+        if($this->login_model->authenticate())
         {
             return true;
         }
-        $this->form_validation->set_message('passwordCheck', $this->LoginModel->error);
+        $this->form_validation->set_message('passwordCheck', $this->login_model->error);
         return false;
     }
 

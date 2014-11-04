@@ -6,7 +6,7 @@
  * Time: 12:57 PM
  */
 
-class AjaxModel extends CI_Model
+class Ajax_model extends CI_Model
 {
     public function __construct()
     {
@@ -42,8 +42,8 @@ class AjaxModel extends CI_Model
 
     public function getAllTracks($eventId)
     {
-        $this->load->model('TrackModel');
-        $rows = $this->TrackModel->getAllTracks($eventId);
+        $this->load->model('track_model');
+        $rows = $this->track_model->getAllTracks($eventId);
         $htmlStr = "";
         foreach($rows as $row)
         {
@@ -54,8 +54,8 @@ class AjaxModel extends CI_Model
 
     public function getAllSubjects($trackId)
     {
-        $this->load->model('SubjectModel');
-        $rows = $this->SubjectModel->getAllSubjects($trackId);
+        $this->load->model('subject_model');
+        $rows = $this->subject_model->getAllSubjects($trackId);
         $htmlStr = "";
         foreach($rows as $row)
         {

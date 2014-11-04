@@ -6,7 +6,7 @@
  * Time: 11:28 PM
  */
 
-    class ReviewerModel extends CI_Model
+    class Reviewer_model extends CI_Model
     {
         public function __construct()
         {

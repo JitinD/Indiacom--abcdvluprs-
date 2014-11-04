@@ -19,9 +19,11 @@
  *
  */
     session_start();
-    define('HOST', 'localhost/');
-    define('BASEURL', 'Indiacom2015/indiacom_online/');
-    define('INDIACOM', 'Indiacom2015/indiacom_online/');
+    define('TESTHOST', 'localhost/');
+    define('DEPLOYHOST', 'bvicam.in');
+    define('HOST', TESTHOST);
+    define('BASEURL', 'indiacom/indiacom_online/');
+    define('INDIACOM', 'indiacom/indiacom_online/');
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');

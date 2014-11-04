@@ -6,7 +6,7 @@
  * Time: 4:36 PM
  */
 
-class UserModel extends CI_Model
+class User_model extends CI_Model
 {
     private $dbCon;
     public function __construct()
@@ -140,6 +140,19 @@ class UserModel extends CI_Model
             return $query->row();
         }
         return false;
+    }
+
+    public function getUsersByRoleId($roleId)
+    {
+        $sql = "Select user_master.*
+                From user_master
+                    Join user_event_role_mapper
+                        On user_master.user_id = user_event_role_mapper.user_id
+                Where role_id = ?";
+        $query = $this->dbCon->query($sql, array($roleId));
+        if(!$this->dbCon->trans_status())
+            throw new SelectException("Error selecting users by role", mysql_error(), mysql_errno());
+        return $query->result();
     }
 
     public function getUserRoles($userId)

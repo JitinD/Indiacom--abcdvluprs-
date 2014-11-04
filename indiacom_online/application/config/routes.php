@@ -40,11 +40,17 @@
 /*$route['home']='MainController/viewPage';
 $route['aboutIndiacom']='MainController/viewPage/aboutIndiacom';
 $route['signup'] = 'Registration';*/
+
 $route['default_controller'] = 'MainController/viewPage/index';
-$route['404_override'] = '';
+$route['404_override'] = 'errors/page_missing';
 $route['d/(:any)'] = '$1';
 $route['(:any)/(:any)'] = '$1/$2';
 $route['(:any)'] = 'MainController/viewPage/$1';
 
+/*$route['default_controller'] = 'MainController/viewPage';
+$route['404_override'] = 'errors/page_missing';
+$route['d/(:any)'] = '$1';
+$route['(:any)/(:any)'] = '$1/$2';
+$route['(:any)'] = 'MainController/viewPage/$1';*/
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

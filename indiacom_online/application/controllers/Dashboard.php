@@ -13,32 +13,32 @@ class Dashboard extends CI_Controller
         parent::__construct();
         $this->load->helper(array('form', 'url'));
 
-        /*$this->load->model('EventModel');
-        $this->load->model('TrackModel');
-        $this->load->model('SubjectModel');
-        $this->load->model('PaperModel');
-        $this->load->model('SubmissionModel');
-        $this->load->model('PaperVersionModel');
-        $this->load->model('AccessModel');
-        $this->load->model('PaperStatusModel');
-        $this->load->model('AuthorPaperDetailedModel');
-        $this->load->model('ReviewResultModel');
-        $this->load->model('OrganizationModel');
-        $this->load->model('MemberCategoriesModel');
-        $this->load->model('MemberModel');
-        $this->load->model('RegistrationModel');*/
+        /*$this->load->model('event_model');
+        $this->load->model('track_model');
+        $this->load->model('subject_model');
+        $this->load->model('paper_model');
+        $this->load->model('submission_model');
+        $this->load->model('paper_version_model');
+        $this->load->model('access_model');
+        $this->load->model('paper_status_model');
+        $this->load->model('author_paper_detailed_model');
+        $this->load->model('review_result_model');
+        $this->load->model('organization_model');
+        $this->load->model('member_categories_model');
+        $this->load->model('member_model');
+        $this->load->model('registration_model');*/
     }
 
     private function index($page = "dashboardHome")
     {
         require(dirname(__FILE__).'/../config/privileges.php');
         require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $this->load->model('AccessModel');
+        $this->load->model('access_model');
         if ( ! file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
+        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;
@@ -57,11 +57,11 @@ class Dashboard extends CI_Controller
 
     public function home()
     {
-        $this->load->model('PaperStatusModel');
-        $this->load->model('MemberModel');
+        $this->load->model('paper_status_model');
+        $this->load->model('member_model');
         $page = "dashboardHome";
-        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION[APPID]['member_id']);
-        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
+        $this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
+        $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         $this->index($page);
     }
 
@@ -125,12 +125,12 @@ class Dashboard extends CI_Controller
 
     public function submitPaper()
     {
-        $this->load->model('EventModel');
-        $this->load->model('PaperModel');
-        $this->load->model('SubmissionModel');
-        $this->load->model('PaperVersionModel');
+        $this->load->model('event_model');
+        $this->load->model('paper_model');
+        $this->load->model('submission_model');
+        $this->load->model('paper_version_model');
         $page = 'submitpaper';
-        $this->data['events'] = $this->EventModel->getAllEvents_deprc();
+        $this->data['events'] = $this->event_model->getAllEvents_deprc();
 
         $this->load->library('form_validation');
         $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");
@@ -151,15 +151,15 @@ class Dashboard extends CI_Controller
             $authors = $this->input->post('authors');
             $this->load->database();
             $this->db->trans_begin();
-            $paperId = $this->PaperModel->addPaper($paperDetails, $this->input->post('event'));
+            $paperId = $this->paper_model->addPaper($paperDetails, $this->input->post('event'));
             if($paperId == false)
             {
-                $this->data['submitPaperError'] = $this->PaperModel->error;
+                $this->data['submitPaperError'] = $this->paper_model->error;
                 $this->db->trans_rollback();
             }
-            else if($this->SubmissionModel->addSubmission($paperId, $authors) == false)
+            else if($this->submission_model->addSubmission($paperId, $authors) == false)
             {
-                $this->data['submitPaperError'] = $this->SubmissionModel->error;
+                $this->data['submitPaperError'] = $this->submission_model->error;
                 $this->db->trans_rollback();
             }
             else if(($doc_path = $this->uploadPaperVersion('paper_doc', $this->input->post('event'), $paperId)) == false)
@@ -173,9 +173,9 @@ class Dashboard extends CI_Controller
                     'paper_id' => $paperId,
                     'paper_version_document_path' => $doc_path
                 );
-                if($this->PaperVersionModel->addPaperVersion($versionDetails) == false)
+                if($this->paper_version_model->addPaperVersion($versionDetails) == false)
                 {
-                    $this->data['submitPaperError'] = $this->PaperVersionModel->error;
+                    $this->data['submitPaperError'] = $this->paper_version_model->error;
                     $this->db->trans_rollback();
                 }
                 else
@@ -210,11 +210,11 @@ class Dashboard extends CI_Controller
 
     public function paperTitleCheck($paperTitle)
     {
-        $this->load->model('PaperModel');
+        $this->load->model('paper_model');
         //First get all paper details of selected event
-        $this->PaperModel->getAllPaperDetails($this->input->post('event'));
+        $this->paper_model->getAllPaperDetails($this->input->post('event'));
 
-        if($this->PaperModel->isUniquePaperTitle($paperTitle))
+        if($this->paper_model->isUniquePaperTitle($paperTitle))
             return true;
         $this->form_validation->set_message('paperTitleCheck', 'Paper title is already used');
         return false;
@@ -222,9 +222,9 @@ class Dashboard extends CI_Controller
 
     public function submitPaperRevision($paperId = null)
     {
-        $this->load->model('PaperModel');
-        $this->load->model('PaperVersionModel');
-        $this->load->model('SubmissionModel');
+        $this->load->model('paper_model');
+        $this->load->model('paper_version_model');
+        $this->load->model('submission_model');
         if(isset($paperId))
             $page = "submitPaperRevision";
         else
@@ -238,12 +238,12 @@ class Dashboard extends CI_Controller
             $this->load->view('pages/errorPage', array('page_error' => "Ooops! Where'd you get that link???"));
             return;
         }
-        $paperDetails = $this->PaperModel->getPaperDetails($paperId);
+        $paperDetails = $this->paper_model->getPaperDetails($paperId);
         $this->data['paper_title'] = $paperDetails->paper_title;
         $this->data['paper_code'] = $paperDetails->paper_code;
         $this->data['paper_main_author'] = $paperDetails->paper_contact_author_id;
-        $this->data['paper_version'] = $this->PaperVersionModel->getLatestPaperVersionNumber($paperId) + 1;
-        $submissions = $this->SubmissionModel->getSubmissionsByAttribute('submission_paper_id', $paperId);
+        $this->data['paper_version'] = $this->paper_version_model->getLatestPaperVersionNumber($paperId) + 1;
+        $submissions = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paperId);
         $authors = array();
         foreach($submissions as $key=>$submission)
         {
@@ -258,17 +258,17 @@ class Dashboard extends CI_Controller
         {
             $removed_authors = $this->input->post('removed_authors');
             $added_authors = $this->input->post('added_authors');
-            $eventDetails = $this->PaperModel->getPaperEventDetails($paperId);
+            $eventDetails = $this->paper_model->getPaperEventDetails($paperId);
             $eventId = $eventDetails->event_id;
             $this->load->database();
             $this->db->trans_begin();
-            if(!empty($removed_authors) && $this->SubmissionModel->deleteSubmission($paperId, $removed_authors) == false)
+            if(!empty($removed_authors) && $this->submission_model->deleteSubmission($paperId, $removed_authors) == false)
             {
                 $this->db->trans_rollback();
             }
-            if(!empty($added_authors) && $this->SubmissionModel->addSubmission($paperId, $added_authors) == false)
+            if(!empty($added_authors) && $this->submission_model->addSubmission($paperId, $added_authors) == false)
             {
-                $this->data['submitPaperRevisionError'] = $this->SubmissionModel->error;
+                $this->data['submitPaperRevisionError'] = $this->submission_model->error;
                 $this->db->trans_rollback();
             }
             else if(($doc_path = $this->uploadPaperVersion('paper_revision_doc', $eventId, $paperId, $this->data['paper_version'])) == false)
@@ -296,7 +296,7 @@ class Dashboard extends CI_Controller
                     'paper_version_compliance_report_path' => $report_path
                 );
                 $this->db->trans_start();
-                $this->PaperVersionModel->addPaperVersion($versionDetails);
+                $this->paper_version_model->addPaperVersion($versionDetails);
                 $page .= "Success";
                 $this->db->trans_complete();
             }
@@ -306,23 +306,23 @@ class Dashboard extends CI_Controller
 
     public function paperInfo($paperId)
     {
-        $this->load->model('SubmissionModel');
-        $this->load->model('PaperModel');
-        $this->load->model('SubjectModel');
-        $this->load->model('TrackModel');
-        $this->load->model('EventModel');
-        $this->load->model('PaperVersionModel');
-        $this->load->model('ReviewResultModel');
+        $this->load->model('submission_model');
+        $this->load->model('paper_model');
+        $this->load->model('subject_model');
+        $this->load->model('track_model');
+        $this->load->model('event_model');
+        $this->load->model('paper_version_model');
+        $this->load->model('review_result_model');
         $page = 'paperInfo';
-        if($this->SubmissionModel->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $paperId))
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $paperId))
         {
-            $this->data['paperDetails'] = $this->PaperModel->getPaperDetails($paperId);
-            $this->data['subjectDetails'] = $this->SubjectModel->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
-            $this->data['trackDetails'] = $this->TrackModel->getTrackDetails($this->data['subjectDetails']->subject_track_id);
-            $this->data['eventDetails'] = $this->EventModel->getEventDetails($this->data['trackDetails']->track_event_id);
-            $this->data['allVersionDetails'] = $this->PaperVersionModel->getPaperAllVersionDetails($paperId);
-            $this->data['reviewTypes'] = $this->ReviewResultModel->getAllReviewResultTypeNames();
-            $this->data['submissions'] = $this->SubmissionModel->getSubmissionsByAttribute('submission_paper_id', $paperId);
+            $this->data['paperDetails'] = $this->paper_model->getPaperDetails($paperId);
+            $this->data['subjectDetails'] = $this->subject_model->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
+            $this->data['trackDetails'] = $this->track_model->getTrackDetails($this->data['subjectDetails']->subject_track_id);
+            $this->data['eventDetails'] = $this->event_model->getEventDetails($this->data['trackDetails']->track_event_id);
+            $this->data['allVersionDetails'] = $this->paper_version_model->getPaperAllVersionDetails($paperId);
+            $this->data['reviewTypes'] = $this->review_result_model->getAllReviewResultTypeNames();
+            $this->data['submissions'] = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paperId);
             $this->data['canSubmitRevision'] = $this->canSubmitRevision($this->data['paperDetails']->paper_id);
         }
         else
@@ -334,9 +334,9 @@ class Dashboard extends CI_Controller
 
     private function paperVersionList()
     {
-        $this->load->model('PaperStatusModel');
+        $this->load->model('paper_status_model');
         $page = "submitPaperRevisionList";
-        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION[APPID]['member_id']);
+        $this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
         $this->data['paperCanRevise'][] = array();
         foreach($this->data['papers'] as $paper)
         {
@@ -349,8 +349,8 @@ class Dashboard extends CI_Controller
     //Checks if paper is currently under review
     private function canSubmitRevision($paperId)
     {
-        $this->load->model('PaperVersionModel');
-        $versionDetails = $this->PaperVersionModel->getLatestPaperVersionDetails($paperId);
+        $this->load->model('paper_version_model');
+        $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
         if($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
         {
             return true;
@@ -361,8 +361,8 @@ class Dashboard extends CI_Controller
     //Checks if the paper is a valid submission by currently logged in member
     private function isValidPaper($paperId)
     {
-        $this->load->model('SubmissionModel');
-        $allSubmissions = $this->SubmissionModel->getSubmissionsByAttribute('submission_member_id', $_SESSION[APPID]['member_id']);
+        $this->load->model('submission_model');
+        $allSubmissions = $this->submission_model->getSubmissionsByAttribute('submission_member_id', $_SESSION[APPID]['member_id']);
         foreach($allSubmissions as $submission)
         {
             if($submission->submission_paper_id == $paperId)
@@ -378,7 +378,7 @@ class Dashboard extends CI_Controller
 
         $this -> data['toResetPassword'] = $toResetPassword;
 
-        $this->load->model('RegistrationModel');
+        $this->load->model('registration_model');
         $this->load->library('form_validation');
 
         $member_id = $_SESSION[APPID]['member_id'];
@@ -398,7 +398,7 @@ class Dashboard extends CI_Controller
                                     'member_is_activated'   =>  1
                                 );
 
-            if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
+            if($this -> member_model -> updateMemberInfo($update_data, $member_id))
             {
                 $page .= "Success";
                // return true;
@@ -417,17 +417,17 @@ class Dashboard extends CI_Controller
         $page = "resetPassword";
 
         $_SESSION['sudo'] = true;
-        $this -> load -> model('LoginModel');
-        $this -> load -> model('MemberModel');
+        $this -> load -> model('login_model');
+        $this -> load -> model('member_model');
 
-        $this -> LoginModel -> setUsername($member_id);
-        $this -> LoginModel -> setPassword($activation_code);
-        $this -> LoginModel -> setLoginType('LM');
-        $this -> LoginModel -> authenticate();
+        $this -> login_model -> setUsername($member_id);
+        $this -> login_model -> setPassword($activation_code);
+        $this -> login_model -> setLoginType('LM');
+        $this -> login_model -> authenticate();
 
         $update_data = array('member_is_activated'   =>  0);
 
-        if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
+        if($this -> member_model -> updateMemberInfo($update_data, $member_id))
         {
             if($this -> changePassword(true))
                 redirect('Login/Logout');
@@ -437,11 +437,11 @@ class Dashboard extends CI_Controller
 
     public function validateCurrentPassword()
     {
-        $this->load->model('MemberModel');
+        $this->load->model('member_model');
 
         $member_id  = $_SESSION[APPID]['member_id'];
 
-        $member_record = $this -> MemberModel -> getMemberInfo($member_id);
+        $member_record = $this -> member_model -> getMemberInfo($member_id);
         $encrypted_password = md5($this -> input -> post('currentPassword'));
 
         if(strcmp($encrypted_password, $member_record['member_password']))
@@ -473,12 +473,12 @@ class Dashboard extends CI_Controller
 
     public function editProfile()
     {
-        $this->load->model('MemberModel');
-        $this->load->model('RegistrationModel');
+        $this->load->model('member_model');
+        $this->load->model('registration_model');
         $page="editProfile";
-        $this->data['editProfile'] =$this->MemberModel->getMemberInfo($_SESSION[APPID]['member_id']);
-        $this -> data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();
-        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
+        $this->data['editProfile'] =$this->member_model->getMemberInfo($_SESSION[APPID]['member_id']);
+        $this -> data['member_categories'] = $this -> registration_model -> getMemberCategories();
+        $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         $this->load->library('form_validation');
 
 
@@ -497,7 +497,7 @@ class Dashboard extends CI_Controller
         if($this->form_validation->run())
         {
 
-            $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
+            $organization_id_array = $this -> registration_model -> getOrganizationId($this -> input -> post('organization'));
 
             if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$_SESSION[APPID]['member_id'])) == false)
             {
@@ -527,7 +527,7 @@ class Dashboard extends CI_Controller
                     'member_is_activated'   =>   ""
                 );
 
-                if($this->MemberModel->updateMemberInfo($member_record, $_SESSION[APPID]['member_id']))
+                if($this->member_model->updateMemberInfo($member_record, $_SESSION[APPID]['member_id']))
                     $page .= "Success";
 
             }

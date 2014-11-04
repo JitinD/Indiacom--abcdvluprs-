@@ -6,7 +6,7 @@
  * Time: 3:27 PM
  */
 
-class SubjectModel extends CI_Model
+class Subject_model extends CI_Model
 {
     public function __construct()
     {

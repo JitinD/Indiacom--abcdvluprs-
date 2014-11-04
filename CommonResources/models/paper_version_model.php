@@ -6,7 +6,7 @@
  * Time: 10:21 AM
  */
 
-class PaperVersionModel extends CI_Model
+class Paper_version_model extends CI_Model
 {
     public $error;
 
@@ -68,7 +68,7 @@ class PaperVersionModel extends CI_Model
         return $row->paper_version_id + 1;
     }
 
-    public function getAssignedPapers($user_id)
+    /*public function getAssignedPapers($user_id)
     {
         $this -> db -> select('paper_master.paper_id as paper_id, paper_version_id, paper_code, paper_version_number, paper_title');
         $this -> db -> from('paper_master');
@@ -79,6 +79,32 @@ class PaperVersionModel extends CI_Model
 
         if($query -> num_rows() > 0)
             return $query -> result();
+    }*/
+
+    //Latest paper versions with no reviewer assigned
+    public function getPaperVersionsWithoutReviewer()
+    {
+        //Retrieve the latest versions of all papers
+        //Filter out papers with reviewer assigned
+        $sql = "Select paper_latest_version.*, paper_version_master.*
+                From paper_latest_version
+	              Join paper_version_master
+	                On (paper_latest_version.paper_id, latest_paper_version_number) = (paper_version_master.paper_id, paper_version_number)
+                Where paper_version_is_reviewer_assigned = 0
+	            ";
+        $query = $this->db->query($sql);
+        if(!$this->db->trans_status())
+            throw new SelectException("Error selecting latest paper version without reviewer", mysql_error(), mysql_errno());
+        return $query->result();
+    }
+
+    //Versions whose reviewer review is completed but convener review is due
+    public function getPaperVersionsWithConvenerReviewDue()
+    {
+        //Retrieve the latest versions of papers
+        //Get the reviewers assigned to the versions
+        //Filter in papers that are reviewed by assigned reviewer
+
     }
 
     public function sendConvenerReview($update_data, $paper_version_id)

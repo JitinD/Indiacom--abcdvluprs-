@@ -6,7 +6,7 @@
  * Time: 7:15 PM
  */
 
-class ApplicationModel extends CI_Model
+class Application_model extends CI_Model
 {
     private $dbCon;
 

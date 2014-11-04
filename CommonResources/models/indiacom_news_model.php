@@ -5,8 +5,8 @@
  * Date: 10/19/14
  * Time: 10:42 AM
  */
-require("NewsModel.php");
-class IndiacomNewsModel extends NewsModel
+require("news_model.php");
+class Indiacom_news_model extends News_model
 {
     public function __construct()
     {

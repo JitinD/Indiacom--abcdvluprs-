@@ -76,7 +76,11 @@ function SetActiveNavItem($navItem, $page)
 </style>
 
 <div class="navbar-default navbar-fixed-top" role="navigation">
-
+    <div class="row" style="background-color: white;">
+        <div class="col-md-12 text-center" style="font-size: 2em; color: red;">
+            <strong><u>Under Test</u></strong>
+        </div>
+    </div>
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
             <span class="sr-only">Toggle navigation</span>

@@ -6,7 +6,7 @@
  * Time: 11:58 AM
  */
 
-class MemberModel extends CI_Model
+class Member_model extends CI_Model
 {
     private $dbCon;
     public function __construct()
