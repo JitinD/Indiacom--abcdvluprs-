@@ -28,8 +28,8 @@
     define('APPID', '1a');
     if(!isset($_SESSION[APPID]['dbUserName']))
     {
-        $_SESSION[APPID]['dbUserName'] = 'Minimal';
-        $_SESSION[APPID]['dbPassword'] = '1234';
+        $_SESSION[APPID]['dbUserName'] = 'root';
+        $_SESSION[APPID]['dbPassword'] = '';
     }
     require('application/config/paths.php');
     require('application/config/exceptions.php');

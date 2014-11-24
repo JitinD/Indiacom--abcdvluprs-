@@ -84,11 +84,11 @@ class LoginModel extends CI_Model
             $_SESSION[APPID]['member_id'] = $this->username;
             $_SESSION[APPID]['member_name'] = $memberInfo['member_name'];
             $roleInfo = $this->RoleModel->getRoleDetails($_SESSION[APPID]['role_id']);
-            if(!$this->setDbLoginCredentials($roleName, $roleInfo->role_application_id))
+            /*if(!$this->setDbLoginCredentials($roleName, $roleInfo->role_application_id))
             {
                 $this->error = "Application id for role does not match with current application";
                 return false;
-            }
+            }*/
             return true;
         }
         $this->error = "Incorrect credentials";
@@ -130,11 +130,11 @@ class LoginModel extends CI_Model
         $roleInfo = $this->RoleModel->getRoleDetails($roleId);
         $roleName = $roleInfo->role_name;
         $appId = $roleInfo->role_application_id;
-        if($this->setDbLoginCredentials($roleName, $appId))
+        /*if($this->setDbLoginCredentials($roleName, $appId))
         {
             $_SESSION[APPID]['current_role_id'] = $roleId;
             $_SESSION[APPID]['authenticated'] = true;
-        }
+        }*/
     }
 
     private function setDbLoginCredentials($roleName, $appId)
