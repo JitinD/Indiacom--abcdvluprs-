@@ -6,7 +6,7 @@
  * Time: 3:37 PM
  */
 
-class Login_model extends CI_Model
+class LoginModel extends CI_Model
 {
     public $error;
     private $username;
@@ -62,8 +62,8 @@ class Login_model extends CI_Model
 
     private function memberAuthenticate($roleName, $encryption=true)
     {
-        $this->load->model('member_model');
-        $this->member_model->sudo();
+        $this->load->model('MemberModel');
+        $this->MemberModel->sudo();
         $_SESSION['sudo'] = true;
         $this->load->model('RoleModel');
         if($encryption)
@@ -71,7 +71,7 @@ class Login_model extends CI_Model
         else
             $encrypted_pass = $this->password;
 
-        $memberInfo = $this->member_model->getMemberInfo($this->username);
+        $memberInfo = $this->MemberModel->getMemberInfo($this->username);
         if($encrypted_pass == $memberInfo['member_password'] && (($memberInfo['member_is_activated']==1) || !$encryption))
         {
             $_SESSION[APPID]['authenticated'] = true;
@@ -98,11 +98,11 @@ class Login_model extends CI_Model
     private function adminAuthenticate()
     {
         $_SESSION['sudo'] = true;
-        $this->load->model('user_model');
-        $userInfo = $this->user_model->getUserInfoByEmail($this->username);
+        $this->load->model('UserModel');
+        $userInfo = $this->UserModel->getUserInfoByEmail($this->username);
         if($userInfo != false && $userInfo->user_password == $this->password)
         {
-            $userRoles = $this->user_model->getUserRoles($userInfo->user_id);
+            $userRoles = $this->UserModel->getUserRoles($userInfo->user_id);
             $_SESSION[APPID]['role_id'] = array();
             if(!empty($userRoles))
             {

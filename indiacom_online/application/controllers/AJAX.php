@@ -11,24 +11,24 @@ class AJAX extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model('ajax_model');
+        $this->load->model('AjaxModel');
     }
 
     public function fetchOrganisationNames()
     {
         $keyword = $this->input->post('data');
-        echo $this->ajax_model->fetchOrganisationNames($keyword);
+        echo $this->AjaxModel->fetchOrganisationNames($keyword);
     }
 
     public function tracks()
     {
         $eventId = $this->input->post('eventId');
-        echo $this->ajax_model->getAllTracks($eventId);
+        echo $this->AjaxModel->getAllTracks($eventId);
     }
 
     public function subjects()
     {
         $trackId = $this->input->post('trackId');
-        echo $this->ajax_model->getAllSubjects($trackId);
+        echo $this->AjaxModel->getAllSubjects($trackId);
     }
 }

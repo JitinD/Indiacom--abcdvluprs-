@@ -6,7 +6,7 @@
  * Time: 5:55 PM
  */
 
-class Privilege_model extends CI_Model
+class PrivilegeModel extends CI_Model
 {
     public function __construct()
     {

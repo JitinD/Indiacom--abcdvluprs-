@@ -18,13 +18,10 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-//try{
     session_start();
-    define('TESTHOST', 'localhost/');
-    define('DEPLOYHOST', 'bvicam.in');
-    define('HOST', TESTHOST);
-    define('BASEURL', 'indiacom/bvicam_admin/');
-    define('INDIACOM', 'indiacom/bvicam_admin/');
+    define('HOST', 'localhost/');
+    define('BASEURL', 'Indiacom2015/bvicam_admin/');
+    define('INDIACOM', 'Indiacom2015/bvicam_admin/');
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
@@ -225,8 +222,3 @@ require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
-/*}
-catch(Exception $ex)
-{
-    echo $ex;
-}*/

@@ -14,7 +14,7 @@
         {
             parent::__construct();
 
-            $this -> load -> model('registration_model');
+            $this -> load -> model('RegistrationModel');
 			$this->load->helper(array('form', 'url'));
         }
 
@@ -118,13 +118,13 @@
         {
             require_once(dirname(__FILE__).'/../config/privileges.php');
             require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
-            $this->load->model('access_model');
+            $this->load->model('AccessModel');
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
             {
                 show_404();
             }
 
-            if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
+            if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
             {
                 $this->load->view('pages/unauthorizedAccess');
                 return;
@@ -143,7 +143,7 @@
             $page = "forgotPassword";
 
             $this->load->library('form_validation');
-            $this -> load -> model('member_model');
+            $this -> load -> model('MemberModel');
 
             if(isset($_POST['Reset']) && $this->formFilledCheck())
             {
@@ -152,7 +152,7 @@
 
                 if($email_id)
                 {
-                    if($member_info = $this -> member_model -> getMemberInfo_Email($email_id))
+                    if($member_info = $this -> MemberModel -> getMemberInfo_Email($email_id))
                     {
                         $member_id = $member_info['member_id'];
                         $encrypted_password = $member_info['member_password'];
@@ -163,7 +163,7 @@
 
                             //$update_data = array('member_password'   =>  $activation_code);
 
-                            //if($this -> member_model -> updateMemberInfo($update_data, $member_id))
+                            //if($this -> MemberModel -> updateMemberInfo($update_data, $member_id))
                             {
                                 $this -> data['member_id'] = $member_id;
                                 $this -> data['activation_code'] = $activation_code;
@@ -188,7 +188,7 @@
 
                 if(!$email_id && $member_id)
                 {
-                    if($member_info = $this -> member_model -> getMemberInfo($member_id))
+                    if($member_info = $this -> MemberModel -> getMemberInfo($member_id))
 						$this -> data['email_id'] = $this -> hide_mail($member_info['member_email']);
 					else
 						$this -> data['error'] = "Sorry, no such member ID exists in our database";
@@ -235,8 +235,8 @@
 
             if($this->form_validation->run())
             {
-                $organization_id_array = $this -> registration_model -> getOrganizationId($this -> input -> post('organization'));
-                $member_id = $this -> registration_model -> assignTempMemberId();
+                $organization_id_array = $this -> RegistrationModel -> getOrganizationId($this -> input -> post('organization'));
+                $member_id = $this -> RegistrationModel -> assignTempMemberId();
 				
 				if(($doc_path = $this->uploadTempBiodata('biodata', $member_id)) == false)
                 {
@@ -275,7 +275,7 @@
                                          );
 
 
-                    if($this -> registration_model -> addTempMember($member_record))
+                    if($this -> RegistrationModel -> addTempMember($member_record))
                     {
                         $this -> data['member_id'] = $member_id;
                         $this -> data['activation_code'] = $activation_code;
@@ -319,7 +319,7 @@
               $img = create_captcha($captcha);
 
                 $this -> data['image'] = $img['image'];
-                $this -> data['member_categories'] = $this -> registration_model -> getMemberCategories();
+                $this -> data['member_categories'] = $this -> RegistrationModel -> getMemberCategories();
 
                 if(isset($this->session->userdata['image']) && file_exists($captcha_path.$this->session->userdata['image']))
                     unlink($captcha_path.$this->session->userdata['image']);
@@ -334,12 +334,12 @@
         {
             $page = "EnterPassword";
 
-            $this->load->model('member_model');
+            $this->load->model('MemberModel');
             $this->load->library('encrypt');
             $this->load->library('form_validation');
             $this->load->library('ftp');
 
-            $member_info = $this -> member_model -> getTempMemberInfo($member_id);
+            $member_info = $this -> MemberModel -> getTempMemberInfo($member_id);
 
             if(strcmp($activation_code, $member_info['member_password']))// || $member_info['member_is_activated'])
             {
@@ -358,19 +358,19 @@
                 $this -> data['is_verified'] = 0;
 
                 $biodata_url = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
-                $assignedMemberId = $this->registration_model->assignMemberId();
+                $assignedMemberId = $this->RegistrationModel->assignMemberId();
                 rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url."/{$assignedMemberId}_biodata");
 
-                if($this -> registration_model -> deleteTempMember($member_id))
+                if($this -> RegistrationModel -> deleteTempMember($member_id))
                 {
-                    $member_info["member_id"] = $this -> registration_model -> assignMemberId();
+                    $member_info["member_id"] = $this -> RegistrationModel -> assignMemberId();
                     //$member_info["member_biodata_path"]=rename($biodata_url/"biodata.pdf",$biodata_url/$member_info["member_id"]."biodata.pdf");
                     $member_info["member_password"] = $encrypted_password;
                     $member_info["member_is_activated"] = 1;
 
                     $this -> data['member_id'] = $member_info["member_id"];
 
-                    if($this -> registration_model -> addMember($member_info))
+                    if($this -> RegistrationModel -> addMember($member_info))
                     {
                         $message = $this -> load -> view('pages/ListOfServices', $this -> data, true);
 

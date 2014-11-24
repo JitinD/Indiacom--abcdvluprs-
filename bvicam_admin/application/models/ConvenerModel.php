@@ -1,6 +1,6 @@
 <?php
 
-    class Convener_model extends CI_Model
+    class ConvenerModel extends CI_Model
     {
         public function __construct()
         {

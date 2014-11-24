@@ -16,23 +16,23 @@ class MainController extends CI_Controller
     public function viewPage($page = "index")
     {
         $_SESSION['sudo'] = true;
-        $this->load->model('access_model');
-        $this->load->model('indiacom_news_model');
+        $this->load->model('AccessModel');
+        $this->load->model('IndiacomNewsModel');
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
+        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
 
         $data = loginModalInit();
-        $data['stickyNews']=$this->indiacom_news_model->getPublishedStickyNews();
-        $data['nonStickyNews'] = $this->indiacom_news_model->getPublishedNonStickyNews();
+        $data['stickyNews']=$this->IndiacomNewsModel->getPublishedStickyNews();
+        $data['nonStickyNews'] = $this->IndiacomNewsModel->getPublishedNonStickyNews();
         $data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $data);
         $this->load->view('pages/'.$page, $data);

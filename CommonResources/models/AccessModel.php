@@ -6,7 +6,7 @@
  * Time: 4:02 PM
  */
 
-class Access_model extends CI_Model
+class AccessModel extends CI_Model
 {
     private $dbCon;
     public function __construct()
@@ -29,8 +29,8 @@ class Access_model extends CI_Model
         if(!isset($_SESSION[APPID]['current_role_id']))
         {
             $_SESSION['sudo'] = true;
-            $this->load->model('role_model');
-            $_SESSION[APPID]['current_role_id'] = $this->role_model->getRoleId($_SESSION[APPID]['dbUserName']);
+            $this->load->model('RoleModel');
+            $_SESSION[APPID]['current_role_id'] = $this->RoleModel->getRoleId($_SESSION[APPID]['dbUserName']);
         }
         $roleId = $_SESSION[APPID]['current_role_id'];
         $sql = "Select privilege_id From privilege_role_mapper Where role_id = ? AND privilege_role_mapper_dirty = 0";
@@ -64,13 +64,13 @@ class Access_model extends CI_Model
         return $loadableComponents;
     }
 
-        /*$this->load->model('role_model');
+        /*$this->load->model('RoleModel');
         if(!isset($_SESSION[APPID]['current_role_id']))
         {
-        $_SESSION[APPID]['current_role_id'] = $this->role_model->getRoleId($_SESSION[APPID]['dbUserName']);
+        $_SESSION[APPID]['current_role_id'] = $this->RoleModel->getRoleId($_SESSION[APPID]['dbUserName']);
         }
         $roleId = $_SESSION[APPID]['current_role_id'];
-        $rolePrivileges = $this->role_model->getRolePrivileges($roleId);
+        $rolePrivileges = $this->RoleModel->getRolePrivileges($roleId);
         $rolePrivs = array();
         $loadableComponents = array();
         foreach($rolePrivileges as $privilege)

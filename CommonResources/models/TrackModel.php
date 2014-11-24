@@ -6,7 +6,7 @@
  * Time: 1:18 PM
  */
 
-class Track_model extends CI_Model
+class TrackModel extends CI_Model
 {
     public function __construct()
     {

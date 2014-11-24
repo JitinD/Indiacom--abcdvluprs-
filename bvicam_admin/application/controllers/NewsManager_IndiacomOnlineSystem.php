@@ -19,8 +19,8 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
             $this->load->helper('url');
             redirect('/NewsManager/load');
         }
-        $this->load->model('event_model');
-        $this->data['events'] = $this->event_model->getAllActiveEvents();
+        $this->load->model('EventModel');
+        $this->data['events'] = $this->EventModel->getAllActiveEvents();
         $this->load->view('templates/header', $this->data);
         $this->load->view("pages/{$folder}addNews");
         $this->load->view("pages/{$folder}addNewsIndiacomOnlineSystem", $this->data);
@@ -29,28 +29,28 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
 
     public function disableNews($newsId)
     {
-        $this->load->model('indiacom_news_model');
+        $this->load->model('IndiacomNewsModel');
         $this->load->helper('url');
         parent::disableNews($newsId);
-        $this->indiacom_news_model->disableNews($newsId);
+        $this->IndiacomNewsModel->disableNews($newsId);
         redirect("NewsManager/load");
     }
 
     public function enableNews($newsId)
     {
-        $this->load->model('indiacom_news_model');
+        $this->load->model('IndiacomNewsModel');
         $this->load->helper('url');
         parent::enableNews($newsId);
-        $this->indiacom_news_model->enableNews($newsId);
+        $this->IndiacomNewsModel->enableNews($newsId);
         redirect("NewsManager/load");
     }
 
     public function deleteNews($newsId)
     {
-        $this->load->model('indiacom_news_model');
+        $this->load->model('IndiacomNewsModel');
         $this->load->helper('url');
         try{
-            $this->indiacom_news_model->deleteNews($newsId);
+            $this->IndiacomNewsModel->deleteNews($newsId);
         }
         catch(DeleteException $ex)
         {
@@ -62,11 +62,11 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
 
     public function addNewsSubmitHandle()
     {
-        $this->load->model('application_model');
-        $this->load->model('indiacom_news_model');
+        $this->load->model('ApplicationModel');
+        $this->load->model('IndiacomNewsModel');
         $this->load->database();
         $this->db->trans_begin();
-        $appId = $this->application_model->getApplicationId("Indiacom Online System");
+        $appId = $this->ApplicationModel->getApplicationId("Indiacom Online System");
         $newsId = parent::addNewsSubmitHandle($appId);
 
         if(!isset($this->form_validation))
@@ -82,7 +82,7 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
             if($this->input->post('stickyDate') != '')
                 $newsDetails['news_sticky_date'] = $this->input->post('stickyDate');
 
-            $this->indiacom_news_model->addNews($newsDetails);
+            $this->IndiacomNewsModel->addNews($newsDetails);
             $attachments =  $_FILES['attachments'];
             $attachmentNames = $this->input->post('attachmentNames');
             if(!empty($attachmentNames) && ($paths = $this->uploadAttachments($newsId, $attachments)) == false)
@@ -96,7 +96,7 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
                     "attachment_name" => $attachmentNames[$key],
                     "attachment_url" => $path
                 );
-                $this->indiacom_news_model->addAttachment($newsId, $attachmentDetails);
+                $this->IndiacomNewsModel->addAttachment($newsId, $attachmentDetails);
             }
             $this->db->trans_commit();
             return true;

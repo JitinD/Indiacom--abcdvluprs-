@@ -6,7 +6,7 @@
  * Time: 10:47 PM
  */
 
-class Paper_version_review_model extends CI_Model
+class PaperVersionReviewModel extends CI_Model
 {
     public function __construct()
     {

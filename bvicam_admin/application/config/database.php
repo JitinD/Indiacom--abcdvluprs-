@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'deploy';
+$active_group = 'default';
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -63,22 +63,6 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
-
-$db['deploy']['hostname'] = 'indiacom.db.10608030.hostedresource.com';
-$db['deploy']['username'] = 'indiacom';
-$db['deploy']['password'] = 'DBUsr@ICOM2014';
-$db['deploy']['database'] = 'indiacom';
-$db['deploy']['dbdriver'] = 'mysql';
-$db['deploy']['dbprefix'] = '';
-$db['deploy']['pconnect'] = TRUE;
-$db['deploy']['db_debug'] = FALSE;
-$db['deploy']['cache_on'] = FALSE;
-$db['deploy']['cachedir'] = '';
-$db['deploy']['char_set'] = 'utf8';
-$db['deploy']['dbcollat'] = 'utf8_general_ci';
-$db['deploy']['swap_pre'] = '';
-$db['deploy']['autoinit'] = TRUE;
-$db['deploy']['stricton'] = FALSE;
 
 $dbconfig['hostname'] = $db[$active_group]['hostname'];
 $dbconfig['username'] = $db[$active_group]['username'];

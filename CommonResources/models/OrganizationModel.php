@@ -6,7 +6,7 @@
  * Time: 11:58 AM
  */
 
-    class Organization_model extends CI_Model
+    class OrganizationModel extends CI_Model
     {
         public function __construct()
         {

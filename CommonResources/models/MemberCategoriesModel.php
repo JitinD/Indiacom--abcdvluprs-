@@ -6,7 +6,7 @@
  * Time: 11:49 AM
  */
 
-    class Member_categories_model extends CI_Model
+    class MemberCategoriesModel extends CI_Model
     {
         public function __construct()
         {

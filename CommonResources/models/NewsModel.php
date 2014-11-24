@@ -5,7 +5,7 @@
  * Date: 7/27/14
  * Time: 9:45 AM
  */
-class News_model extends CI_Model
+class NewsModel extends CI_Model
 {
     public function __construct() {
         parent::__construct();

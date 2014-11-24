@@ -27,6 +27,6 @@ class ErrorController extends CI_Controller
         {
             $errorMsg = $this->errorMsgs[$errorId];
         }
-        $this->load->view('pages/errorPage', array('page_error' => $errorMsg));
+        $this->load->view('Pages/errorPage', array('page_error' => $errorMsg));
     }
 }
