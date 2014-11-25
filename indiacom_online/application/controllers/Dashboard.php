@@ -60,8 +60,11 @@ class Dashboard extends CI_Controller
         $this->load->model('PaperStatusModel');
         $this->load->model('MemberModel');
         $page = "dashboardHome";
-        $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION[APPID]['member_id']);
-        $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
+        if(isset($_SESSION[APPID]['member_id']))
+        {
+            $this->data['papers'] = $this -> PaperStatusModel -> getMemberPapers($_SESSION[APPID]['member_id']);
+            $this->data['miniProfile'] = $this -> MemberModel -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
+        }
         $this->index($page);
     }
 

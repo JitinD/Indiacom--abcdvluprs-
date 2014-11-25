@@ -26,10 +26,14 @@
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
     define('APPID', '1a');
+    require_once('application/config/database.php');
     if(!isset($_SESSION[APPID]['dbUserName']))
     {
-        $_SESSION[APPID]['dbUserName'] = 'root';
-        $_SESSION[APPID]['dbPassword'] = '';
+        /*$_SESSION[APPID]['dbUserName'] = 'root';
+        $_SESSION[APPID]['dbPassword'] = '';*/
+        $_SESSION[APPID]['dbUserName'] = $db[$active_group]['username'];
+        $_SESSION[APPID]['dbPassword'] = $db[$active_group]['password'];
+        $_SESSION[APPID]['current_role_id'] = 31;
     }
     require('application/config/paths.php');
     require('application/config/exceptions.php');
