@@ -13,7 +13,7 @@ class Member_model extends CI_Model
     {
         if(isset($_SESSION['sudo']))
         {
-            $this->dbCon = $this->load->database('default', TRUE);
+            $this->dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
@@ -27,7 +27,7 @@ class Member_model extends CI_Model
     public function sudo()
     {
         $this->dbCon->close();
-        $this->dbCon = $this->load->database('default', TRUE);
+        $this->dbCon = $this->load->database(DBGROUP, TRUE);
     }
 
     private function getMemberInfo_Id($entity, $member_id)

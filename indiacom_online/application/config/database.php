@@ -64,7 +64,7 @@ $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
 
-$db['OnlineTest']['hostname'] = 'localhost';
+$db['OnlineTest']['hostname'] = '160.153.55.227';
 $db['OnlineTest']['username'] = 'rootWebsite';
 $db['OnlineTest']['password'] = 'CPAcc#4012';
 $db['OnlineTest']['database'] = 'indiacom';

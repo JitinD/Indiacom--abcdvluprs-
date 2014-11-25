@@ -18,7 +18,7 @@ class Login_model extends CI_Model
     {
         if(isset($_SESSION['sudo']))
         {
-            $this->dbCon = $this->load->database('default', TRUE);
+            $this->dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
@@ -65,7 +65,7 @@ class Login_model extends CI_Model
         $this->load->model('member_model');
         $this->member_model->sudo();
         $_SESSION['sudo'] = true;
-        $this->load->model('RoleModel');
+        $this->load->model('role_model');
         if($encryption)
             $encrypted_pass = md5($this->password);
         else
@@ -75,7 +75,7 @@ class Login_model extends CI_Model
         if($encrypted_pass == $memberInfo['member_password'] && (($memberInfo['member_is_activated']==1) || !$encryption))
         {
             $_SESSION[APPID]['authenticated'] = true;
-            if(($_SESSION[APPID]['role_id'] = $this->RoleModel->getRoleId($roleName)) == false)
+            if(($_SESSION[APPID]['role_id'] = $this->role_model->getRoleId($roleName)) == false)
             {
                 $this->error = $roleName . " role not defined. Contact admin";
                 return false;
@@ -83,7 +83,7 @@ class Login_model extends CI_Model
             $_SESSION[APPID]['current_role_id'] = $_SESSION[APPID]['role_id'];
             $_SESSION[APPID]['member_id'] = $this->username;
             $_SESSION[APPID]['member_name'] = $memberInfo['member_name'];
-            $roleInfo = $this->RoleModel->getRoleDetails($_SESSION[APPID]['role_id']);
+            $roleInfo = $this->role_model->getRoleDetails($_SESSION[APPID]['role_id']);
             /*if(!$this->setDbLoginCredentials($roleName, $roleInfo->role_application_id))
             {
                 $this->error = "Application id for role does not match with current application";
@@ -126,8 +126,8 @@ class Login_model extends CI_Model
     {
         if(isset($_SESSION[APPID]['authenticated']) && $_SESSION[APPID]['authenticated'])
             $_SESSION['sudo'] = true;
-        $this->load->model('RoleModel');
-        $roleInfo = $this->RoleModel->getRoleDetails($roleId);
+        $this->load->model('role_model');
+        $roleInfo = $this->role_model->getRoleDetails($roleId);
         $roleName = $roleInfo->role_name;
         $appId = $roleInfo->role_application_id;
         /*if($this->setDbLoginCredentials($roleName, $appId))

@@ -14,7 +14,7 @@ $(document).ready(function(){
 				 $("#loading").css("visibility","visible");
 				 $.ajax({
 				   type: "POST",
-				   url: "/Indiacom2015/indiacom_online/AJAX/fetchOrganisationNames",
+				   url: "/indiacom2015/indiacom_online/AJAX/fetchOrganisationNames",
 				   data: "data="+keyword,
 				   success: function(msg){	
 					if(msg != 0)

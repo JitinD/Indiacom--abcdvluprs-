@@ -27,6 +27,8 @@ class ErrorController extends CI_Controller
         {
             $errorMsg = $this->errorMsgs[$errorId];
         }
+        echo "MYSQL ERROR: ".mysql_error();
+        echo "<br>" . $_SESSION[APPID]['current_role_id'];
         $this->load->view('pages/errorPage', array('page_error' => $errorMsg));
     }
 }

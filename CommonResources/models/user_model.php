@@ -13,7 +13,7 @@ class User_model extends CI_Model
     {
         if(isset($_SESSION['sudo']))
         {
-            $this->dbCon = $this->load->database('default', TRUE);
+            $this->dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
