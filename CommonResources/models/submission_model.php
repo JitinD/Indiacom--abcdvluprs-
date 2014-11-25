@@ -6,7 +6,7 @@
  * Time: 8:50 PM
  */
 
-class SubmissionModel extends CI_Model
+class Submission_model extends CI_Model
 {
     public $error;
 

@@ -6,7 +6,7 @@
  * Time: 5:42 PM
  */
 
-class RoleModel extends CI_Model
+class Role_model extends CI_Model
 {
     private $dbCon;
     public $error;

@@ -7,7 +7,7 @@
  */
 
 
-class PaperStatusModel extends CI_Model
+class Paper_status_model extends CI_Model
 {
     public function __construct()
     {

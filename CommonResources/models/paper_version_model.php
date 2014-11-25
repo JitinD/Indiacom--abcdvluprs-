@@ -6,7 +6,7 @@
  * Time: 10:21 AM
  */
 
-class PaperVersionModel extends CI_Model
+class Paper_version_model extends CI_Model
 {
     public $error;
 

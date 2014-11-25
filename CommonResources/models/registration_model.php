@@ -7,7 +7,7 @@
  */
 
 
-class RegistrationModel extends CI_Model
+class Registration_model extends CI_Model
 {
    public function __construct()
     {
