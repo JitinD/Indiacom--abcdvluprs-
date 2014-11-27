@@ -32,7 +32,7 @@
 
         }
 
-        public function validate_captcha()
+        private function validate_captcha()
         {
             if(strcmp($this->input->post('captcha'), $this->session->userdata['captcha']))
             {
@@ -43,7 +43,7 @@
             return true;
         }
 
-        public function validate_mobileNumber()
+        private function validate_mobileNumber()
         {
             $mobileNumberRegex = "/(\d{10})$/";
 
@@ -55,7 +55,7 @@
             return true;
         }
 
-        public function validate_confirm_password()
+        private function validate_confirm_password()
         {
             if(strcmp($this -> input -> post('password'), $this -> input -> post('password2')))
             {
@@ -65,7 +65,7 @@
             return true;
         }
 
-        public function formFilledCheck()
+        private function formFilledCheck()
         {
             $member_id = $this -> input -> post('memberID');
             $email_id = $this -> input -> post('email');
@@ -78,7 +78,7 @@
             return true;
         }
 
-        public function sendMail($email_id, $message)
+        private function sendMail($email_id, $message)
         {
             $config = array(
                     'protocol' => 'mail',
@@ -106,7 +106,7 @@
         }
 		
 		//uploading member bio data in temporary folder
-        public function uploadTempBiodata($fileElem, $memberId)
+        private function uploadTempBiodata($fileElem, $memberId)
         {
             $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER;
             $config['allowed_types'] = 'pdf';
@@ -211,7 +211,7 @@
 
         }
 
-        public function assignActivationCode()
+        private function assignActivationCode()
         {
             $active_str = array_merge(range(1,9));
             $str = implode("", $active_str);
