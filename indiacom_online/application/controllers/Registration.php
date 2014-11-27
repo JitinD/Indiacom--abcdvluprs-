@@ -80,10 +80,21 @@
 
         public function sendMail($email_id, $message)
         {
+            $config = array(
+                    'protocol' => 'mail',
+                    'smtp_host' => 'p3plcpnl0820.prod.phx3.secureserver.net',
+                    'smtp_port' => 465,
+                    'smtp_user' => 'info@bvicam.org',
+                    'smtp_pass' => 'CPAcc#4012',
+                    'mailtype'  => 'text',
+                    'charset'   => 'utf-8',
+                    'wordwrap'  => true,
+                    'wrapchars' => 50
+                );
             $this->load->library('email');
+            $this->email->initialize($config);
 
-            $this->email->from('indiacom15@gmail.com', 'Indiacom 2015');
-
+            $this->email->from('stevejobs@deadmail.com', 'Indiacom 2015');
             $this->email->to($email_id);
             $this->email->subject('Indiacom Registration');
             $this->email->message($message);
