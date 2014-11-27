@@ -32,7 +32,7 @@
 
         }
 
-        private function validate_captcha()
+        public function validate_captcha()
         {
             if(strcmp($this->input->post('captcha'), $this->session->userdata['captcha']))
             {
@@ -43,7 +43,7 @@
             return true;
         }
 
-        private function validate_mobileNumber()
+        public function validate_mobileNumber()
         {
             $mobileNumberRegex = "/(\d{10})$/";
 
@@ -55,7 +55,7 @@
             return true;
         }
 
-        private function validate_confirm_password()
+        public function validate_confirm_password()
         {
             if(strcmp($this -> input -> post('password'), $this -> input -> post('password2')))
             {
@@ -65,7 +65,7 @@
             return true;
         }
 
-        private function formFilledCheck()
+        public function formFilledCheck()
         {
             $member_id = $this -> input -> post('memberID');
             $email_id = $this -> input -> post('email');
@@ -86,7 +86,6 @@
                     'smtp_port' => 465,
                     'smtp_user' => 'info@bvicam.org',
                     'smtp_pass' => 'CPAcc#4012',
-                    'mailtype'  => 'text',
                     'charset'   => 'utf-8',
                     'wordwrap'  => true,
                     'wrapchars' => 50
@@ -370,7 +369,7 @@
 
                 $biodata_url = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
                 $assignedMemberId = $this->registration_model->assignMemberId();
-                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url."/{$assignedMemberId}_biodata");
+                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url."{$assignedMemberId}_biodata.pdf");
 
                 if($this -> registration_model -> deleteTempMember($member_id))
                 {
