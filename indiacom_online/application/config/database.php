@@ -45,7 +45,8 @@
 | the active record class
 */
 
-$active_group = 'OnlineTest';
+//$active_group = 'OnlineTest';
+$active_group = DBGROUP;
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
