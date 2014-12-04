@@ -78,12 +78,22 @@
             return true;
         }
 
-        public function sendMail($email_id, $message)
+        private function sendMail($email_id, $message)
         {
+            $config = array(
+                    'protocol' => 'mail',
+                    'smtp_host' => 'p3plcpnl0820.prod.phx3.secureserver.net',
+                    'smtp_port' => 465,
+                    'smtp_user' => 'info@bvicam.org',
+                    'smtp_pass' => 'CPAcc#4012',
+                    'charset'   => 'utf-8',
+                    'wordwrap'  => true,
+                    'wrapchars' => 50
+                );
             $this->load->library('email');
+            $this->email->initialize($config);
 
-            $this->email->from('indiacom15@gmail.com', 'Indiacom 2015');
-
+            $this->email->from('stevejobs@deadmail.com', 'Indiacom 2015');
             $this->email->to($email_id);
             $this->email->subject('Indiacom Registration');
             $this->email->message($message);
@@ -95,7 +105,7 @@
         }
 		
 		//uploading member bio data in temporary folder
-        public function uploadTempBiodata($fileElem, $memberId)
+        private function uploadTempBiodata($fileElem, $memberId)
         {
             $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER;
             $config['allowed_types'] = 'pdf';
@@ -200,7 +210,7 @@
 
         }
 
-        public function assignActivationCode()
+        private function assignActivationCode()
         {
             $active_str = array_merge(range(1,9));
             $str = implode("", $active_str);
@@ -359,7 +369,7 @@
 
                 $biodata_url = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
                 $assignedMemberId = $this->registration_model->assignMemberId();
-                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url."/{$assignedMemberId}_biodata");
+                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url."{$assignedMemberId}_biodata.pdf");
 
                 if($this -> registration_model -> deleteTempMember($member_id))
                 {

@@ -184,7 +184,7 @@ class Dashboard extends CI_Controller
                 else
                 {
                     $this->db->trans_commit();
-                    $page .= "Success";
+                    $page = "submitPaperSuccess";
                     $this->data['paper_code'] = $paperDetails['paper_code'];
                 }
             }
