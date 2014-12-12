@@ -23,7 +23,8 @@ class NewsManager extends CI_Controller
         if (!file_exists(APPPATH . "views/pages/$folder" . $page . '.php')) {
             show_404();
         }
-        if (isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page])) {
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['NewsManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['NewsManager'][$page])) {
             $this->load->view('pages/unauthorizedAccess');
             return;
         }

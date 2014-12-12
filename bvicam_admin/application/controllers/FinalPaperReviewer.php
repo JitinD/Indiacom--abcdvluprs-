@@ -51,7 +51,7 @@
                 show_404();
             }
 
-            if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
+            if(isset($privilege['Page']['FinalPaperReviewer'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['FinalPaperReviewer'][$page]))
             {
                 $this->load->view('pages/unauthorizedAccess');
                 return;

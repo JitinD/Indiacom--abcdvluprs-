@@ -47,9 +47,8 @@ class InitialPaperReviewer extends CI_Controller
         {
             show_404();
         }
-
-
-        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
+        $this->load->model('access_model');
+        if(isset($privilege['Page']['InitialPaperReviewer'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['InitialPaperReviewer'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;

@@ -22,7 +22,7 @@ class UserManager extends CI_Controller
         {
             show_404();
         }
-        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
+        if(isset($privilege['Page']['UserManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;
@@ -123,6 +123,12 @@ class UserManager extends CI_Controller
 
     public function enableUser($userId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['UserManager']['enableUser']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['enableUser'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->enableUser($userId);
@@ -131,6 +137,12 @@ class UserManager extends CI_Controller
 
     public function disableUser($userId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['UserManager']['disableUser']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['disableUser'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->disableUser($userId);
@@ -139,6 +151,12 @@ class UserManager extends CI_Controller
 
     public function deleteUser($userId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['UserManager']['deleteUser']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['deleteUser'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('user_model');
         $this->load->helper('url');
         try
@@ -155,6 +173,12 @@ class UserManager extends CI_Controller
 
     public function enableUserRole($userId, $roleId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['UserManager']['enableUserRole']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['enableUserRole'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->enableUserRole($userId, $roleId);
@@ -163,6 +187,12 @@ class UserManager extends CI_Controller
 
     public function disableUserRole($userId, $roleId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['UserManager']['disableUserRole']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['disableUserRole'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->disableUserRole($userId, $roleId);
@@ -171,6 +201,12 @@ class UserManager extends CI_Controller
 
     public function deleteUserRole($userId, $roleId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['UserManager']['deleteUserRole']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['deleteUserRole'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->deleteUserRole($userId, $roleId);

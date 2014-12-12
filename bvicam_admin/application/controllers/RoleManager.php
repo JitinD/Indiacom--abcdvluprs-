@@ -163,6 +163,12 @@ class RoleManager extends CI_Controller
 
     public function enableRolePrivilege($roleId, $privilegeId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['RoleManager']['enableRolePrivilege']) && !$this->access_model->hasPrivileges($privilege['Page']['RoleManager']['enableRolePrivilege'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('role_model');
         $this->load->helper('url');
         $this->role_model->enablePrivilege($roleId, $privilegeId);
@@ -174,6 +180,12 @@ class RoleManager extends CI_Controller
 
     public function disableRolePrivilege($roleId, $privilegeId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['RoleManager']['disableRolePrivilege']) && !$this->access_model->hasPrivileges($privilege['Page']['RoleManager']['disableRolePrivilege'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('role_model');
         $this->load->helper('url');
         $this->role_model->disablePrivilege($roleId, $privilegeId);
@@ -185,6 +197,12 @@ class RoleManager extends CI_Controller
 
     public function deleteRolePrivilege($roleId, $privilegeId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['RoleManager']['deleteRolePrivilege']) && !$this->access_model->hasPrivileges($privilege['Page']['RoleManager']['deleteRolePrivilege'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('role_model');
         $this->load->helper('url');
         $this->role_model->deletePrivilege($roleId, $privilegeId);
@@ -196,6 +214,12 @@ class RoleManager extends CI_Controller
 
     public function disableRole($roleId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['RoleManager']['disableRole']) && !$this->access_model->hasPrivileges($privilege['Page']['RoleManager']['disableRole'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('role_model');
         $this->load->helper('url');
         $this->role_model->disableRole($roleId);
@@ -204,6 +228,12 @@ class RoleManager extends CI_Controller
 
     public function enableRole($roleId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['RoleManager']['enableRole']) && !$this->access_model->hasPrivileges($privilege['Page']['RoleManager']['enableRole'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('role_model');
         $this->load->helper('url');
         $this->role_model->enableRole($roleId);
@@ -212,6 +242,12 @@ class RoleManager extends CI_Controller
 
     public function deleteRole($roleId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['RoleManager']['deleteRole']) && !$this->access_model->hasPrivileges($privilege['Page']['RoleManager']['deleteRole'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('role_model');
         $this->load->model('database_user_model');
         $this->load->model('user_model');

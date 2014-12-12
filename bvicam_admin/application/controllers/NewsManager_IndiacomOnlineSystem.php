@@ -13,6 +13,12 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
     private $data;
     public function addNews()
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['NewsManager_IndiacomOnlineSystem']['addNews']) && !$this->access_model->hasPrivileges($privilege['Page']['NewsManager_IndiacomOnlineSystem']['addNews'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $folder = "NewsManager/";
         if($this->addNewsSubmitHandle())
         {
@@ -29,6 +35,12 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
 
     public function disableNews($newsId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['NewsManager_IndiacomOnlineSystem']['disableNews']) && !$this->access_model->hasPrivileges($privilege['Page']['NewsManager_IndiacomOnlineSystem']['disableNews'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('indiacom_news_model');
         $this->load->helper('url');
         parent::disableNews($newsId);
@@ -38,6 +50,12 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
 
     public function enableNews($newsId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['NewsManager_IndiacomOnlineSystem']['enableNews']) && !$this->access_model->hasPrivileges($privilege['Page']['NewsManager_IndiacomOnlineSystem']['enableNews'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('indiacom_news_model');
         $this->load->helper('url');
         parent::enableNews($newsId);
@@ -47,6 +65,12 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
 
     public function deleteNews($newsId)
     {
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->load->model('access_model');
+        if (isset($privilege['Page']['NewsManager_IndiacomOnlineSystem']['deleteNews']) && !$this->access_model->hasPrivileges($privilege['Page']['NewsManager_IndiacomOnlineSystem']['deleteNews'])) {
+            $this->load->view('pages/unauthorizedAccess');
+            return;
+        }
         $this->load->model('indiacom_news_model');
         $this->load->helper('url');
         try{
@@ -60,7 +84,7 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
         redirect("NewsManager/load");
     }
 
-    public function addNewsSubmitHandle()
+    protected function addNewsSubmitHandle()
     {
         $this->load->model('application_model');
         $this->load->model('indiacom_news_model');
