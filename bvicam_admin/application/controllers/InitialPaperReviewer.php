@@ -6,16 +6,16 @@ class InitialPaperReviewer extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        //$this -> load -> model('ConvenerModel');
-        $this -> load -> model('PaperModel');//paper
-        $this -> load -> model('SubjectModel');//subject
-        $this -> load -> model('TrackModel');//track
-        $this -> load -> model('EventModel');//event
-        $this -> load -> model('PaperModel');//paper_version
-        $this -> load -> model('PaperVersionModel');
-        $this -> load -> model('SubmissionModel');
-        $this -> load -> model('ReviewerModel');
-        $this -> load -> model('PaperVersionReviewModel');
+        //$this -> load -> model('convener_model');
+        $this -> load -> model('paper_model');//paper
+        $this -> load -> model('subject_model');//subject
+        $this -> load -> model('track_model');//track
+        $this -> load -> model('event_model');//event
+        $this -> load -> model('paper_model');//paper_version
+        $this -> load -> model('paper_version_model');
+        $this -> load -> model('submission_model');
+        $this -> load -> model('reviewer_model');
+        $this -> load -> model('paper_version_review_model');
         $this->load->helper(array('form', 'url'));
     }
 
@@ -49,7 +49,7 @@ class InitialPaperReviewer extends CI_Controller
         }
 
 
-        if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
+        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
             return;
@@ -58,7 +58,7 @@ class InitialPaperReviewer extends CI_Controller
         //$_SESSION[APPID]['user_id'] = 2;
         $this -> data['user_id'] = $_SESSION[APPID]['user_id'];
 
-        $this -> data['papers'] = $this -> PaperVersionReviewModel -> getReviewerAssignedPapers($this -> data['user_id']);
+        $this -> data['papers'] = $this -> paper_version_review_model -> getReviewerAssignedPapers($this -> data['user_id']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/sidebar');
@@ -70,13 +70,13 @@ class InitialPaperReviewer extends CI_Controller
     {
         $page = 'reviewPaperInfo';
 
-        $this->data['paperDetails'] = $this->PaperModel->getPaperDetails($paper_id);
-        $this->data['subjectDetails'] = $this->SubjectModel->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
-        $this->data['trackDetails'] = $this->TrackModel->getTrackDetails($this->data['subjectDetails']->subject_track_id);
-        $this->data['eventDetails'] = $this->EventModel->getEventDetails($this->data['trackDetails']->track_event_id);
-        $this->data['submissions'] = $this->SubmissionModel->getSubmissionsByAttribute('submission_paper_id', $paper_id);
-        $paperVersionReviewDetails = $this->PaperVersionReviewModel->getPaperVersionReview($paper_version_review_id);
-        $this->data['paperVersionDetails'] = $this->PaperVersionModel->getPaperVersionDetails($paperVersionReviewDetails[0]->paper_version_id);
+        $this->data['paperDetails'] = $this->paper_model->getPaperDetails($paper_id);
+        $this->data['subjectDetails'] = $this->subject_model->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
+        $this->data['trackDetails'] = $this->track_model->getTrackDetails($this->data['subjectDetails']->subject_track_id);
+        $this->data['eventDetails'] = $this->event_model->getEventDetails($this->data['trackDetails']->track_event_id);
+        $this->data['submissions'] = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paper_id);
+        $paperVersionReviewDetails = $this->paper_version_review_model->getPaperVersionReview($paper_version_review_id);
+        $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paperVersionReviewDetails[0]->paper_version_id);
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('event', 'Event','');
@@ -91,7 +91,7 @@ class InitialPaperReviewer extends CI_Controller
             $details = array(
                 "paper_version_review_comments_file_path" => $doc_path
             );
-            $this->PaperVersionReviewModel->sendReviewerComments($details, $paper_version_review_id);
+            $this->paper_version_review_model->sendReviewerComments($details, $paper_version_review_id);
         }
 
         if($this -> input -> post('Form2'))
@@ -107,7 +107,7 @@ class InitialPaperReviewer extends CI_Controller
                                             'paper_version_review_date_of_receipt'  =>  date("Y/m/d H:i:s")
                                         );
 
-                    if($this -> PaperVersionReviewModel -> sendReviewerComments($update_data, $paper_version_review_id))
+                    if($this -> paper_version_review_model -> sendReviewerComments($update_data, $paper_version_review_id))
                         $this -> data['message'] = "success";
                     else
                         $this -> data['error2'] = "Sorry, there is some problem. Try again later";
@@ -116,7 +116,7 @@ class InitialPaperReviewer extends CI_Controller
 
             }
         }
-        $this -> data['reviews'] = $this -> PaperVersionReviewModel -> getPaperVersionReview($paper_version_review_id);
+        $this -> data['reviews'] = $this -> paper_version_review_model -> getPaperVersionReview($paper_version_review_id);
 
         $this->index($page);
     }

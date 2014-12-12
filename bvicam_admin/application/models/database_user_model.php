@@ -6,7 +6,7 @@
  * Time: 8:05 PM
  */
 
-class DatabaseUserModel extends CI_Model
+class Database_user_model extends CI_Model
 {
     public function __construct()
     {

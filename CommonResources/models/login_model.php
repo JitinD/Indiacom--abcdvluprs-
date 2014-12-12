@@ -128,13 +128,19 @@ class Login_model extends CI_Model
             $_SESSION['sudo'] = true;
         $this->load->model('role_model');
         $roleInfo = $this->role_model->getRoleDetails($roleId);
-        $roleName = $roleInfo->role_name;
+        //$roleName = $roleInfo->role_name;
         $appId = $roleInfo->role_application_id;
-        /*if($this->setDbLoginCredentials($roleName, $appId))
+        //if($this->setDbLoginCredentials($roleName, $appId))
+        if(APPID == $appId."a")
         {
             $_SESSION[APPID]['current_role_id'] = $roleId;
             $_SESSION[APPID]['authenticated'] = true;
-        }*/
+        }
+        else
+        {
+            return false;
+        }
+        return true;
     }
 
     private function setDbLoginCredentials($roleName, $appId)

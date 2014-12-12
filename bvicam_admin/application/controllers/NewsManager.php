@@ -23,7 +23,7 @@ class NewsManager extends CI_Controller
         if (!file_exists(APPPATH . "views/pages/$folder" . $page . '.php')) {
             show_404();
         }
-        if (isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page])) {
+        if (isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page])) {
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
@@ -37,19 +37,19 @@ class NewsManager extends CI_Controller
     {
         $page = "allNews";
         $this->load->library('form_validation');
-        $this->load->model('ApplicationModel');
-        $this->load->model('NewsModel');
+        $this->load->model('application_model');
+        $this->load->model('news_model');
         $this->data['currentAppId'] = $appId;
-        $this->data['allApplications'] = $this->ApplicationModel->getAllApplications();
+        $this->data['allApplications'] = $this->application_model->getAllApplications();
         if($appId != -1)
         {
-            $this->data['allNews'] = $this->NewsModel->getAllNewsInclDirtyByAppId($appId);
-            $appName = str_replace(' ', '', $this->ApplicationModel->getApplicationName($appId));
+            $this->data['allNews'] = $this->news_model->getAllNewsInclDirtyByAppId($appId);
+            $appName = str_replace(' ', '', $this->application_model->getApplicationName($appId));
             $this->data['addNewsController'] = "NewsManager_$appName";
         }
         else
         {
-            $this->data['allNews'] = $this->NewsModel->getAllNewsInclDirty();
+            $this->data['allNews'] = $this->news_model->getAllNewsInclDirty();
             $this->data['addNewsController'] = "NewsManager";
         }
 
@@ -67,7 +67,7 @@ class NewsManager extends CI_Controller
 
     protected function addNewsSubmitHandle($appId)
     {
-        $this->load->model('NewsModel');
+        $this->load->model('news_model');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('title', "News Title", 'required');
         $this->form_validation->set_rules('content', "News Content", 'required');
@@ -81,7 +81,7 @@ class NewsManager extends CI_Controller
                 "news_publish_date" => $this->input->post('publishDate'),
                 "news_application_id" => $appId
             );
-            $this->NewsModel->addNews($newsDetails);
+            $this->news_model->addNews($newsDetails);
             return $newsDetails['news_id'];
         }
         return null;
@@ -89,20 +89,20 @@ class NewsManager extends CI_Controller
 
     protected function disableNews($newsId)
     {
-        $this->load->model('NewsModel');
-        $this->NewsModel->disableNews($newsId);
+        $this->load->model('news_model');
+        $this->news_model->disableNews($newsId);
     }
 
     protected function enableNews($newsId)
     {
-        $this->load->model('NewsModel');
-        $this->NewsModel->enableNews($newsId);
+        $this->load->model('news_model');
+        $this->news_model->enableNews($newsId);
     }
 
     protected function deleteNews($newsId)
     {
-        $this->load->model('NewsModel');
-        $this->NewsModel->deleteNews($newsId);
+        $this->load->model('news_model');
+        $this->news_model->deleteNews($newsId);
     }
 }
 

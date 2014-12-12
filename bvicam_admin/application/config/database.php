@@ -1,4 +1,4 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php  /*if ( ! defined('BASEPATH')) exit('No direct script access allowed');*/
 /*
 | -------------------------------------------------------------------
 | DATABASE CONNECTIVITY SETTINGS
@@ -45,7 +45,7 @@
 | the active record class
 */
 
-$active_group = 'default';
+$active_group = DBGROUP;
 $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
@@ -63,6 +63,22 @@ $db['default']['dbcollat'] = 'utf8_general_ci';
 $db['default']['swap_pre'] = '';
 $db['default']['autoinit'] = TRUE;
 $db['default']['stricton'] = FALSE;
+
+$db['OnlineTest']['hostname'] = '160.153.55.227';
+$db['OnlineTest']['username'] = 'rootWebsite';
+$db['OnlineTest']['password'] = 'CPAcc#4012';
+$db['OnlineTest']['database'] = 'indiacom';
+$db['OnlineTest']['dbdriver'] = 'mysql';
+$db['OnlineTest']['dbprefix'] = '';
+$db['OnlineTest']['pconnect'] = FALSE;
+$db['OnlineTest']['db_debug'] = FALSE;
+$db['OnlineTest']['cache_on'] = FALSE;
+$db['OnlineTest']['cachedir'] = '';
+$db['OnlineTest']['char_set'] = 'utf8';
+$db['OnlineTest']['dbcollat'] = 'utf8_general_ci';
+$db['OnlineTest']['swap_pre'] = '';
+$db['OnlineTest']['autoinit'] = TRUE;
+$db['OnlineTest']['stricton'] = FALSE;
 
 $dbconfig['hostname'] = $db[$active_group]['hostname'];
 $dbconfig['username'] = $db[$active_group]['username'];

@@ -6,17 +6,17 @@
         public function __construct()
         {
             parent::__construct();
-            //$this -> load -> model('ConvenerModel');
-            $this -> load -> model('PaperModel');//paper
-            $this -> load -> model('SubjectModel');//subject
-            $this -> load -> model('TrackModel');//track
-            $this -> load -> model('EventModel');//event
-            $this -> load -> model('PaperModel');//paper_version
-            $this -> load -> model('PaperVersionModel');
-            $this -> load -> model('SubmissionModel');
-            $this -> load -> model('PaperVersionReviewModel');
-            $this -> load -> model('ReviewerModel');
-            $this -> load -> model('ReviewResultModel');
+            //$this -> load -> model('convener_model');
+            $this -> load -> model('paper_model');//paper
+            $this -> load -> model('subject_model');//subject
+            $this -> load -> model('track_model');//track
+            $this -> load -> model('event_model');//event
+            $this -> load -> model('paper_model');//paper_version
+            $this -> load -> model('paper_version_model');
+            $this -> load -> model('submission_model');
+            $this -> load -> model('paper_version_review_model');
+            $this -> load -> model('reviewer_model');
+            $this -> load -> model('review_result_model');
             $this->load->helper(array('form', 'url'));
         }
 
@@ -45,13 +45,13 @@
         {
             require(dirname(__FILE__).'/../config/privileges.php');
             require(dirname(__FILE__).'/../utils/ViewUtils.php');
-            $this->load->model('AccessModel');
+            $this->load->model('access_model');
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
             {
                 show_404();
             }
 
-            if(isset($privilege['Page'][$page]) && !$this->AccessModel->hasPrivileges($privilege['Page'][$page]))
+            if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
             {
                 $this->load->view('pages/unauthorizedAccess');
                 return;
@@ -59,7 +59,7 @@
 
             //$_SESSION[APPID]['user_id'] = 1;
             $this -> data['user_id'] = $_SESSION[APPID]['user_id'];
-            $this -> data['papers'] = $this -> PaperVersionModel -> getAssignedPapers($this -> data['user_id']);
+            $this -> data['papers'] = $this -> paper_version_model -> getAssignedPapers($this -> data['user_id']);
             $this->data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this->data);
             $this->load->view('templates/sidebar');
@@ -71,7 +71,7 @@
         {
             $update_data = array('paper_version_is_reviewer_assigned'   =>  $value);
 
-            if($this -> PaperVersionModel -> setReviewerAssigned($update_data, $paper_version_id))
+            if($this -> paper_version_model -> setReviewerAssigned($update_data, $paper_version_id))
                 $this -> data['message'] = "success";
             else
                 $this -> data['error1'] = "Sorry, there is some problem. Try again later";
@@ -80,12 +80,12 @@
         public function paperInfo($paper_id, $paper_version_id)
         {
             $page = 'paperInfo';
-            $this->data['paperDetails'] = $this->PaperModel->getPaperDetails($paper_id);
-            $this->data['subjectDetails'] = $this->SubjectModel->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
-            $this->data['trackDetails'] = $this->TrackModel->getTrackDetails($this->data['subjectDetails']->subject_track_id);
-            $this->data['eventDetails'] = $this->EventModel->getEventDetails($this->data['trackDetails']->track_event_id);
-            $this->data['submissions'] = $this->SubmissionModel->getSubmissionsByAttribute('submission_paper_id', $paper_id);
-            $this->data['paperVersionDetails'] = $this->PaperVersionModel->getPaperVersionDetails($paper_version_id);
+            $this->data['paperDetails'] = $this->paper_model->getPaperDetails($paper_id);
+            $this->data['subjectDetails'] = $this->subject_model->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
+            $this->data['trackDetails'] = $this->track_model->getTrackDetails($this->data['subjectDetails']->subject_track_id);
+            $this->data['eventDetails'] = $this->event_model->getEventDetails($this->data['trackDetails']->track_event_id);
+            $this->data['submissions'] = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paper_id);
+            $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
             $this->load->library('form_validation');
 
             $this->form_validation->set_rules('event', 'Event','');
@@ -99,7 +99,7 @@
                 $versionDetails = array(
                     "paper_version_comments_path" => $doc_path
                 );
-                $this->PaperVersionModel->sendConvenerReview($versionDetails, $paper_version_id);
+                $this->paper_version_model->sendConvenerReview($versionDetails, $paper_version_id);
             }
 
             if($this -> input -> post('Form2'))
@@ -116,7 +116,7 @@
                                                 'paper_version_review_date' =>  date("Y/m/d H:i:s")
                                             );
 
-                        if($this -> PaperVersionModel -> sendConvenerReview($update_data, $paper_version_id))
+                        if($this -> paper_version_model -> sendConvenerReview($update_data, $paper_version_id))
                             $this -> data['message'] = "success";
                         else
                             $this -> data['error2'] = "Sorry, there is some problem. Try again later";
@@ -137,7 +137,7 @@
                                                     'paper_version_reviewer_id' =>  $reviewer_id
                                                 );
 
-                        if($this -> PaperVersionReviewModel -> addPaperVersionReviewRecord($paper_version_review_record))
+                        if($this -> paper_version_review_model -> addPaperVersionReviewRecord($paper_version_review_record))
                             $this -> data['message'] = "success";
                         else
                             $this -> data['error1'] = "Sorry, there is some problem. Try again later";
@@ -150,7 +150,7 @@
             {
                 if($this->form_validation->run())
                 {
-                    if($this -> PaperVersionReviewModel -> removePaperVersionReviewer($this -> input -> post('Form3')))
+                    if($this -> paper_version_review_model -> removePaperVersionReviewer($this -> input -> post('Form3')))
                         $this -> data['message'] = "success";
                     else
                         $this -> data['error3'] = "Sorry, there is some problem. Try again later";
@@ -158,10 +158,10 @@
                 }
             }
 
-            $this -> data['review_results'] = $this -> ReviewResultModel -> getAllReviewResults();
-            $this -> data['comments'] = $this -> PaperVersionModel -> getPaperVersionComments($paper_version_id);
-            //$this -> data['reviewers'] = $this -> ConvenerModel -> getReviewerIDs();
-            $this -> data['Allreviewers'] = $this -> ReviewerModel -> getAllReviewers();
+            $this -> data['review_results'] = $this -> review_result_model -> getAllReviewResults();
+            $this -> data['comments'] = $this -> paper_version_model -> getPaperVersionComments($paper_version_id);
+            //$this -> data['reviewers'] = $this -> convener_model -> getReviewerIDs();
+            $this -> data['Allreviewers'] = $this -> reviewer_model -> getAllReviewers();
 
             $reviewers = array();
 
@@ -175,7 +175,7 @@
 
             $this -> data['reviewers'] = $reviewers;
 
-            $this -> data['reviews'] = $this -> PaperVersionReviewModel -> getPaperVersionReviews($paper_version_id);
+            $this -> data['reviews'] = $this -> paper_version_review_model -> getPaperVersionReviews($paper_version_id);
 
             if(empty($this -> data['reviews']))
                 $this -> setReviewerAssigned($paper_version_id, 0);
