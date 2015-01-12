@@ -306,7 +306,10 @@ class Dashboard extends CI_Controller
         }
         $this->index($page);
     }
-
+    public function payment($page)
+    {
+        $this->index($page);
+    }
     public function paperInfo($paperId)
     {
         $this->load->model('submission_model');
