@@ -291,22 +291,22 @@ INSERT INTO `paper_version_master` (`paper_version_id`, `paper_id`, `paper_versi
 ('11', '7', '1', '2014-12-03 06:35:26', 'indiacom2015/uploads/1/papers/Paper_7v1.docx', '', '', '0', '0', '', '', '', '', '0', '', '2014-12-02 23:35:26', '0'),
 ('12', '7', '2', '2014-12-03 06:36:05', 'indiacom2015/uploads/1/papers/Paper_7v2.docx', 'indiacom2015/uploads/1/compliance_reports/Report_7v2.pdf', '', '0', '0', '', '', '', '', '0', '', '2014-12-02 23:36:05', '0');
 
-CREATE TABLE `paper_version_review` (
-   `paper_version_review_id` int(64) not null auto_increment,
-   `paper_version_id` int(32) not null,
-   `paper_version_reviewer_id` int(8) not null,
-   `paper_version_review_comments` varchar(300),
-   `paper_version_review_comments_file_path` varchar(100),
-   `paper_version_date_sent_for_review` timestamp,
-   `paper_version_review_date_of_receipt` datetime,
-   `paper_version_review_hashtag` varchar(64),
-   `paper_version_review_dor` timestamp not null default CURRENT_TIMESTAMP,
-   `paper_version_review_dirty` tinyint(1) not null default '0',
-   PRIMARY KEY (`paper_version_review_id`),
-   UNIQUE KEY (`paper_version_id`,`paper_version_reviewer_id`),
-   KEY `paper_version_id` (`paper_version_id`),
-   KEY `reviewer_id` (`paper_version_reviewer_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1;
+CREATE TABLE IF NOT EXISTS `paper_version_review` (
+  `paper_version_review_id` int(64) NOT NULL AUTO_INCREMENT,
+  `paper_version_id` int(32) NOT NULL,
+  `paper_version_reviewer_id` int(8) NOT NULL,
+  `paper_version_review_comments` varchar(300) DEFAULT NULL,
+  `paper_version_review_comments_file_path` varchar(100) DEFAULT NULL,
+  `paper_version_date_sent_for_review` timestamp NULL DEFAULT NULL,
+  `paper_version_review_date_of_receipt` datetime DEFAULT NULL,
+  `paper_version_review_hashtag` varchar(64) DEFAULT NULL,
+  `paper_version_review_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `paper_version_review_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`paper_version_review_id`),
+  UNIQUE KEY `paper_version_id_2` (`paper_version_id`,`paper_version_reviewer_id`),
+  KEY `paper_version_id` (`paper_version_id`),
+  KEY `reviewer_id` (`paper_version_reviewer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- [Table `paper_version_review` is empty]
 
@@ -635,18 +635,18 @@ INSERT INTO `subject_master` (`subject_id`, `subject_code`, `subject_track_id`, 
 ('6', '101', '5', 'Graphics', '', '', '2014-07-25 11:17:17', '0'),
 ('7', '102', '8', 'Networking', '', '', '2014-07-25 11:17:17', '0');
 
-CREATE TABLE `submission_master` (
-   `submission_id` int(32) not null auto_increment,
-   `submission_paper_id` int(16) not null,
-   `submission_member_id` varchar(10) not null,
-   `submission_hashtag` varchar(64),
-   `submission_dor` timestamp not null default CURRENT_TIMESTAMP,
-   `submission_dirty` tinyint(1) not null default '0',
-   PRIMARY KEY (`submission_id`),
-   UNIQUE KEY (`submission_paper_id`,`submission_member_id`),
-   KEY `submission_paper_id` (`submission_paper_id`),
-   KEY `submission_member_id` (`submission_member_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=11;
+CREATE TABLE IF NOT EXISTS `submission_master` (
+  `submission_id` int(32) NOT NULL AUTO_INCREMENT,
+  `submission_paper_id` int(16) NOT NULL,
+  `submission_member_id` varchar(10) NOT NULL,
+  `submission_hashtag` varchar(64) DEFAULT NULL,
+  `submission_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `submission_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`submission_id`),
+  UNIQUE KEY `submission_paper_id_2` (`submission_paper_id`,`submission_member_id`),
+  KEY `submission_paper_id` (`submission_paper_id`),
+  KEY `submission_member_id` (`submission_member_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 INSERT INTO `submission_master` (`submission_id`, `submission_paper_id`, `submission_member_id`, `submission_hashtag`, `submission_dor`, `submission_dirty`) VALUES 
 ('1', '1', '3', '', '2014-10-24 09:13:44', '0'),
