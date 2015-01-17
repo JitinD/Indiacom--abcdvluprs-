@@ -1173,7 +1173,7 @@ CREATE TABLE IF NOT EXISTS `transaction_master` (
 -- Table structure for table `transcation_mode_master`
 --
 
-CREATE TABLE IF NOT EXISTS `transcation_mode_master` (
+CREATE TABLE IF NOT EXISTS `transaction_mode_master` (
   `transaction_mode_id` int(2) NOT NULL AUTO_INCREMENT,
   `transaction_mode_name` varchar(20) NOT NULL,
   `transaction_mode_hashtag` varchar(64) DEFAULT NULL,
