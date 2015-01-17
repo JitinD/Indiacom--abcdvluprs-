@@ -81,6 +81,70 @@ class Paper_version_model extends CI_Model
             return $query -> result();
     }
 
+    public function getNoReviewerPapers($user_id)
+    {
+        $this -> db -> select('paper_master.paper_id as paper_id, paper_version_id, paper_code, paper_version_number, paper_title');
+        $this -> db -> from('paper_master');
+        $this -> db -> join('paper_version_master', 'paper_master.paper_id = paper_version_master.paper_id');
+        $this -> db -> where('paper_version_convener_id', $user_id);
+        $this -> db -> where('paper_version_is_reviewer_assigned', 0);
+        $this -> db -> order_by('paper_version_date_of_submission','desc');
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() > 0)
+            return $query -> result();
+    }
+
+    public function getReviewedPapers($user_id)
+    {
+        $this -> db -> select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_code, paper_version_number, paper_title');
+        $this -> db -> from('paper_master');
+        $this -> db -> join('paper_version_master', 'paper_master.paper_id = paper_version_master.paper_id');
+        $this -> db -> join('paper_version_review', 'paper_version_master.paper_version_id = paper_version_review.paper_version_id');
+        $this -> db -> where('paper_version_convener_id', $user_id);
+        $this -> db -> where('paper_version_is_reviewer_assigned', 1);
+        $this -> db -> where('paper_version_review_date_of_receipt <>', 'null');
+        $this -> db -> order_by('paper_version_review_date_of_receipt','desc');
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() > 0)
+            return $query -> result();
+    }
+
+    public function getConvenerReviewedPapers($user_id)
+    {
+        $this -> db -> select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_code, paper_version_number, paper_title');
+        $this -> db -> from('paper_master');
+        $this -> db -> join('paper_version_master', 'paper_master.paper_id = paper_version_master.paper_id');
+        $this -> db -> where('paper_version_convener_id', $user_id);
+        $this -> db -> where('paper_version_is_reviewed_convener', 1);
+        $this -> db -> order_by('paper_version_review_date','desc');
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() > 0)
+            return $query -> result();
+    }
+
+    public function getNotReviewedPapers($user_id)
+    {
+        $this -> db -> select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_code, paper_version_number, paper_title');
+        $this -> db -> from('paper_master');
+        $this -> db -> join('paper_version_master', 'paper_master.paper_id = paper_version_master.paper_id');
+        $this -> db -> join('paper_version_review', 'paper_version_master.paper_version_id = paper_version_review.paper_version_id');
+        $this -> db -> where('paper_version_convener_id', $user_id);
+        $this -> db -> where('paper_version_is_reviewer_assigned', 1);
+        $this -> db -> where('paper_version_review_date_of_receipt', null);
+        $this -> db -> order_by('paper_version_date_of_submission','desc');
+
+        $query = $this -> db -> get();
+
+        if($query -> num_rows() > 0)
+            return $query -> result();
+    }
+
     public function sendConvenerReview($update_data, $paper_version_id)
     {
         return $this -> db -> update('paper_version_master', $update_data, array("paper_version_id" => $paper_version_id));

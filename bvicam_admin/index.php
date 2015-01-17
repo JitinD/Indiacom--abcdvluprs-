@@ -19,15 +19,16 @@
  *
  */
     session_start();
-    /*define('HOST', 'localhost/');
+    define('HOST', 'localhost/');
     define('BASEURL', 'Indiacom2015/bvicam_admin/');
     define('INDIACOM', 'Indiacom2015/bvicam_admin/');
-    define('DBGROUP', 'default');*/
+    define('DBGROUP', 'default');
 
-    define('HOST', 'bvicam.org/');
+    /*define('HOST', 'bvicam.org/');
     define('BASEURL', 'indiacom2015/bvicam_admin/');
     define('INDIACOM', 'indiacom2015/bvicam_admin/');
-    define('DBGROUP', 'OnlineTest');
+    define('DBGROUP', 'OnlineTest');*/
+	
 
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');

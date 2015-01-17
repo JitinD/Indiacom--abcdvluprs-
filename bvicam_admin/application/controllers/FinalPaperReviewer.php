@@ -59,7 +59,13 @@
 
             //$_SESSION[APPID]['user_id'] = 1;
             $this -> data['user_id'] = $_SESSION[APPID]['user_id'];
-            $this -> data['papers'] = $this -> paper_version_model -> getAssignedPapers($this -> data['user_id']);
+            //$this -> data['papers'] = $this -> paper_version_model -> getAssignedPapers($this -> data['user_id']);
+
+            $this -> data['no_reviewer_papers'] = $this -> paper_version_model -> getNoReviewerPapers($this -> data['user_id']);
+            $this -> data['reviewed_papers'] = $this -> paper_version_model -> getReviewedPapers($this -> data['user_id']);
+            $this -> data['not_reviewed_papers'] = $this -> paper_version_model -> getNotReviewedPapers($this -> data['user_id']);
+            $this -> data['convener_reviewed_papers'] = $this -> paper_version_model -> getConvenerReviewedPapers($this -> data['user_id']);
+
             $this->data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this->data);
             $this->load->view('templates/sidebar');
@@ -113,7 +119,8 @@
                         $update_data = array(
                                                 'paper_version_review_result_id' => $this -> input -> post('review_result'),
                                                 'paper_version_review'      =>  $this -> input -> post('comments'),
-                                                'paper_version_review_date' =>  date("Y/m/d H:i:s")
+                                                'paper_version_review_date' =>  date("Y/m/d H:i:s"),
+                                                'paper_version_is_reviewed_convener' => 1
                                             );
 
                         if($this -> paper_version_model -> sendConvenerReview($update_data, $paper_version_id))
