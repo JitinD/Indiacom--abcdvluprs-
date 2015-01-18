@@ -1,7 +1,8 @@
 <div class="col-md-12 col-sm-12 col-xs-12" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <h3 class="text-theme">Payments</h3>
     <hr>
-    <form class="form-horizontal">
+
+    <form class="form-horizontal" method="post">
         <div id="step1">
 
             <span class="h3 text-primary">
@@ -19,23 +20,32 @@
                 </tr>
                 </thead>
                 <tbody>
+                <?php
+
+                    foreach($paperDetails as $paperDetail)
+                    {?>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td><?php echo $paperDetail->paper_code;?></td>
+                    <td><?php echo $paperDetail->paper_title?></td>
+                    <td ></td>
                     <td>
                         <div class="btn-group">
                             <label class="btn btn-info">
-                                <input type="checkbox" autocomplete="off"> Basic Registration
+                                <input type="radio" name="radio" id="br" autocomplete="off" onselect=""> Basic Registration
                             </label>
                         </div>
                         <div class="btn-group">
                             <label class="btn btn-info">
-                                <input type="checkbox" autocomplete="off"> Extra Paper
+                                <input type="radio" name="radio" id="ep" autocomplete="off"> Extra Paper
+
                             </label>
                         </div>
                     </td>
                 </tr>
+                <?php
+                    }
+                ?>
+
                 </tbody>
             </table>
             <div>
@@ -153,5 +163,5 @@
             }
         );
     });
-
+    
 </script>

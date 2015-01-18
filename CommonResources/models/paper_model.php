@@ -89,4 +89,79 @@ class Paper_model extends CI_Model
         $row = $query->row();
         return $row->paper_id + 1;
     }
+
+    //Get all the papers of an author
+    public function getAllPapers($memberID)
+    {
+            $this->db->select('paper_master.paper_id,paper_master.paper_code,paper_master.paper_title');
+            $this->db->from('submission_master');
+            $this->db->join('paper_master','submission_master.submission_paper_id=paper_master.paper_id');
+            $this->db->join('paper_latest_version','paper_latest_version.paper_id=submission_master.submission_paper_id');
+            $this->db->where('submission_member_id',$memberID);
+            $this->db->where('review_result_type_name','Accepted');
+            $query=$this->db->get();
+            if($query -> num_rows() > 0)
+                return $query->result();
+    }
+
+    //Check if the author is the main author
+    public function checkMainAuthor($memberID)
+    {
+        $this->db->select('paper_id');
+        $this->db->from('paper_master');
+        $this->db->where('paper_contact_author_id',$memberID);
+        $query=$this->db->get();
+        if($query->num_rows()>0)
+            return true;
+        else
+            return false;
+    }
+
+    //Get the main author of a paper
+    public function getMainAuthor($paperID)
+    {
+        $this->db->select('paper_contact_author_id');
+        $this->db->from('paper_master');
+        $this->db->where('paper_contact_author_id',$paperID);
+        $query=$this->db->get();
+        if($query->num_rows()>0)
+            return $query->result_array();
+    }
+
+    //Get the co-authors of a paper
+    public function getCoAuthors($paperID)
+    {
+        $this->db->select('submission_member_id');
+        $this->db->from('submission_master');
+        $this->db->where('submission_paper_id',$paperID);
+        $query=$this->db->get();
+        $this->db->count_all_results('my_table');
+            if($query->num_rows()>0)
+                return $query->result_array();
+    }
+
+    //Get co-author count
+    public function getCoAuthorCount($paperID)
+    {
+        $this->db->select('count(*)as count');
+        $this->db->from('submission_master');
+        $this->db->where('submission_paper_id',$paperID);
+        $query=$this->db->get();
+        if($query->num_rows()>0)
+            return $query->row_array();
+    }
+
+    //Get the total count of papers of a member
+    public function getPaperCount($memberID)
+    {
+        $this->db->select('count(*)as count');
+        $this -> db -> from('paper_latest_version');
+        $this -> db-> join('submission_master','paper_latest_version.paper_id=submission_master.submission_paper_id');
+        $this -> db-> where('review_result_type_name','Accepted');
+        $this->db->where('submission_member_id',$memberID);
+        $query=$this->db->get();
+        if($query->num_rows()>0)
+            return $query->row_array();
+
+    }
 }
