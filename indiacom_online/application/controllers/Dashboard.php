@@ -311,9 +311,9 @@ class Dashboard extends CI_Controller
         $this->load->model('payment_model');
         $this->load->model('paper_model');
         $this->data['paperDetails']=$this->paper_model->getAllPapers($_SESSION[APPID]['member_id']);
-        $this->data['brcharges']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
-        $this->data['eps']=$this->payment_model->getEPCharges();
-        $this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
+        //$this->data['brcharges']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
+        //$this->data['eps']=$this->payment_model->getEPCharges();
+        //$this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
         $this->index($page);
     }
 

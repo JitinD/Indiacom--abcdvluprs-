@@ -1,8 +1,8 @@
 <div class="col-md-12 col-sm-12 col-xs-12" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <h3 class="text-theme">Payments</h3>
     <hr>
-    <form class="form-horizontal">
 
+    <form class="form-horizontal" method="post">
         <div id="step1">
 
             <span class="h3 text-primary">
@@ -23,7 +23,7 @@
                 <tr>
                     <td></td>
                     <td></td>
-                    <td></td>
+                    <td ></td>
                     <td>
                         <div class="btn-group">
                             <label class="btn btn-info brcheck">
@@ -36,6 +36,7 @@
                             </label>
                         </div>
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -53,6 +54,7 @@
                             </label>
                         </div>
                     </td>
+                    <td></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -70,39 +72,15 @@
                             </label>
                         </div>
                     </td>
-                </tr>
-                <tr>
                     <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="btn-group">
-                            <label class="btn btn-info brcheck">
-                                <input type="checkbox" autocomplete="off"> Basic Registration
-                            </label>
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-info epcheck">
-                                <input type="checkbox" autocomplete="off"> Extra Paper
-                            </label>
-                        </div>
-                    </td>
                 </tr>
                 </tbody>
             </table>
-            <div id="forMoreAuthors">
-                <div class="contentBlock-top">
-
-
-
-                </div>
+            <div id="addMoreAuthors">
             </div>
-            <div id="addHere">
-
-            </div>
-
+            <hr>
             <div class="contentBlock-top">
-                <button type="button" class="btn btn-success" id="addAuthors">
+                <button type="button" class="btn btn-success" id="button_addMoreAuthors">
                     Pay for Another Author &nbsp;<span class="glyphicon glyphicon-plus"></span>
                 </button>
             </div>
@@ -114,30 +92,46 @@
         <div id="step2">
             <div class="form-group">
                 <label class="col-sm-3" for="paymentMode">Add Mode of Payment</label>
-
                 <div class="col-sm-6">
-                    <select id="paymentMode" class="form-control">
+                    <select id="paymentMode" class="form-control" required>
                         <option>Cheque</option>
                         <option>Demand Draft</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
+                <label class="col-sm-3" for="transno">Amount</label>
+                <div class="col-sm-6">
+                    <input id="transno" type="text" class="form-control" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3" for="transno">Bank Name (N/A for Cash)</label>
+                <div class="col-sm-6">
+                    <input id="transno" type="text" class="form-control">
+                </div>
+            </div>
+            <div class="form-group">
                 <label class="col-sm-3" for="transno">Cheque No / DD No / Wired Trans ID</label>
-
                 <div class="col-sm-6">
                     <input id="transno" type="text" class="form-control">
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-3" for="transdate">Cheque Date / DD Date / Wired Trans Date</label>
-
                 <div class="col-sm-6">
                     <input id="transdate" type="date" class="form-control">
                 </div>
             </div>
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-6">
+            <div class="contentBlock-top" id="addMoreModes"></div>
+            <hr>
+            <div class="form-group col-sm-6">
+                <button type="button" class="btn btn-success" id="button_addMoreModes">
+                    Add More Payment Details <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+            <div class="form-group contentBlock-top">
+                <div class="col-sm-9">
                     <input type="submit" class="btn btn-block btn-success" value="Submit Details for Verification">
                 </div>
             </div>
@@ -175,8 +169,9 @@
         $("#addAuthor").click(function () {
 
         });
-        $("#addAuthors").click(function(){
+        $("#button_addMoreAuthors").click(function(){
             var html1=
+                "<hr>"+
             "<span class=\"h3 text-primary\">"+
             "Outstanding Amount for Member ID XY : xyz"+
             "</span>";
@@ -211,10 +206,55 @@
             "</div>";
             var html = html1+html2;
 
-            $("#addHere").append(html);
+            $("#addMoreAuthors").append(html);
+        });
+
+        $("#button_addMoreModes").click(function(){
+            var html1=
+                "<hr>"+
+                "<span class=\"h3\">"+
+                "Add Details for Another Payment"+
+                "</span>";
+
+            var html2=
+                "<div class=\"form-group contentBlock-top\">"+
+                "<label class=\"col-sm-3\" for=\"paymentMode\">Add Mode of Payment</label>"+
+                "<div class=\"col-sm-6\">"+
+                "<select id=\"paymentMode\" class=\"form-control\">"+
+                "<option>Cheque</option>"+
+                "<option>Demand Draft</option>"+
+                "</select>"+
+                "</div>"+
+                "</div>"+
+                "<div class=\"form-group\">"+
+                "<label class=\"col-sm-3\" for=\"transno\">Amount</label>"+
+                "<div class=\"col-sm-6\">"+
+                "<input id=\"transno\" type=\"text\" class=\"form-control\" required>"+
+                "</div>"+
+                "</div>"+
+                "<div class=\"form-group\">"+
+                "<label class=\"col-sm-3\" for=\"transno\">Bank Name (N/A for Cash)</label>"+
+                "<div class=\"col-sm-6\">"+
+                "<input id=\"transno\" type=\"text\" class=\"form-control\">"+
+                "</div>"+
+                "</div>"+
+                "<div class=\"form-group\">"+
+                "<label class=\"col-sm-3\" for=\"transno\">Cheque No / DD No / Wired Trans ID</label>"+
+                "<div class=\"col-sm-6\">"+
+                "<input id=\"transno\" type=\"text\" class=\"form-control\">"+
+                "</div>"+
+                "</div>"+
+                "<div class=\"form-group\">"+
+                "<label class=\"col-sm-3\" for=\"transdate\">Cheque Date / DD Date / Wired Trans Date</label>"+
+                "<div class=\"col-sm-6\">"+
+                "<input id=\"transdate\" type=\"date\" class=\"form-control\">"+
+                "</div>"+
+                "</div>";
+
+            var html = html1+html2;
+
+            $("#addMoreModes").append(html);
         });
 
     });
-
-
 </script>
