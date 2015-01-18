@@ -91,4 +91,31 @@ class Member_model extends CI_Model
     {
         return $this -> dbCon -> update('member_master', $update_data, array("member_id" => $member_id));
     }
+
+    public function getMemberOrganization($member_id)
+    {
+        $this->dbCon->select('member_organization_id');
+        $this->dbCon->from('member_master');
+        $this->dbCon->where('member_organization_id',$member_id);
+        $query=$this->dbCon->get();
+        if($query -> num_rows() > 0)
+            return $query -> row_array();
+    }
+
+    //Check if the member is General
+    public function calculateIsGeneral($member_id)
+    {
+
+    }
+
+    //Get member category
+    public function getMemberCategory($memberID)
+    {
+        $this->dbCon->select('member_category_id');
+        $this->dbCon->from('member_master');
+        $this->dbCon->where('member_id',$memberID);
+        $query=$this->dbCon->get();
+        if($query->num_rows()>0)
+            return $query->row_array();
+    }
 }
