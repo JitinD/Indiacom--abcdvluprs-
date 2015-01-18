@@ -306,16 +306,16 @@ class Dashboard extends CI_Controller
         }
         $this->index($page);
     }
-    public function payment($page)
+    /*public function payment($page)
     {
         $this->load->model('payment_model');
         $this->load->model('paper_model');
         $this->data['paperDetails']=$this->paper_model->getAllPapers($_SESSION[APPID]['member_id']);
-        //$this->data['brcharges']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
-        //$this->data['eps']=$this->payment_model->getEPCharges();
-        //$this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
+        $this->data['brcharges']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
+        $this->data['eps']=$this->payment_model->getEPCharges();
+        $this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
         $this->index($page);
-    }
+    }*/
 
 
     public function paperInfo($paperId)
@@ -553,5 +553,131 @@ class Dashboard extends CI_Controller
 
                 $this->index($page);
     }
+
+    private function getOLPCAmount($paperID)
+    {
+        $olpc_amount = 0;
+
+        $this -> load -> model('payment_model');
+
+        if($this -> payment_model -> checkOLPCValid($paperID))
+        {
+            if(!(checkOLPCPaid($paperID)))
+            {
+                $olpc_amount_object = getOLPCCharges();
+                $olpc_amount = $olpc_amount_object -> payable_class_amount;
+            }
+        }
+
+        return $olpc_amount;
+    }
+
+    //Calculate the payable for a paper
+    private function calculateBRPayable($memberID, $paperID)
+    {
+        $this -> load -> model('paper_model');
+        $this -> load -> model('member_model');
+        $this -> load -> model('payment_model');
+
+        $member_category_object = $this -> member_model -> getMemberCategory($memberID);
+        $paper_count_object = $this -> paper_model -> getPaperCount($memberID);
+        $num_authors_object = $this -> paper_model -> getNumberOfAuthors($paperID);
+
+        //$count_paper = $paper_counts['count'];
+        //$count_coauthor = $coauthor_counts['count'] - 1;
+
+        $total_papers = $paper_count_object -> count;
+        $num_coauthors = ($num_authors_object -> count) - 1;
+
+        $br_amount = $ep_amount = $discounted_br_amount = 0;
+        $olpc_amount = $this -> getOLPCAmount($paperID);
+
+
+        //Check if the paper is registered
+
+        $isPaperRegistered = $this -> payment_model -> checkPaperRegistered($paperID); //Give proper name to variable
+        $isMemberRegistered = $this -> payment_model -> checkBRPaid($memberID); //Give proper name to variable
+
+
+        if($num_coauthors == 0)
+        {
+            if(!($isPaperRegistered))
+            {
+                $br_amount_object = $this -> payment_model -> getBRCharges($memberID, 1, $member_category_object -> member_category_id);
+                $br_amount = $br_amount_object -> payable_class_amount;
+            }
+        }
+        else
+        {
+            if($isMemberRegistered)
+            {
+
+                if($total_papers > 1)
+                {
+                    if($isPaperRegistered)
+                    {
+                        if(!($isPaperRegistered -> payment_member_id == $memberID))
+                        {
+                            $ep_amount_object = $this -> payment_model -> getEPCharges();
+                            $ep_amount = $ep_amount_object -> payable_class_amount;
+                        }
+
+                    }
+                }
+
+            }
+            else
+            {
+                if($isPaperRegistered)
+                {
+                    if(!($isPaperRegistered -> payment_member_id == $memberID))
+                    {
+                        $br_amount_object = $this -> payment_model -> getBRCharges($memberID,1,$member_category_object -> member_category_id);
+                        $ep_amount_object = $this -> payment_model -> getEPCharges();
+
+                        $br_amount = $br_amount_object -> payable_class_amount;
+                        $ep_amount = $ep_amount_object -> payable_class_amount;
+
+                    }
+                }
+            }
+        }
+
+        return array('BR' => $br_amount, 'EP' => $ep_amount, 'OLPC' => $olpc_amount);
+    }
+
+    //Calculate payable amount for a member
+    private function calculatePayable($memberID, $papers)
+    {
+        $this -> load -> model('paper_model');
+
+        $payable = array();
+
+        foreach($papers as $paper)
+            $payable[$paper -> paper_id] = array('BR' => '', 'EP' => '', 'OLPC' => '');
+
+        foreach($papers as $paper)
+            $payable[$paper -> paper_id] = $this -> calculateBRPayable($memberID, $paper -> paper_id);
+
+
+        return $payable;
+    }
+
+    public function payment($page)
+    {
+        $memberID = $_SESSION[APPID]['member_id'];
+
+        $this->load->model('payment_model');
+        $this->load->model('paper_model');
+
+        $this -> data['papers'] = $papers = $this -> paper_model -> getAllPapers($memberID);
+        $this -> data['payable'] = $this -> calculatePayable($memberID, $papers);
+
+        //$this->data['brcharges']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
+        //$this->data['eps']=$this->payment_model->getEPCharges();
+        //$this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
+        $this->index($page);
+    }
+
 
 }

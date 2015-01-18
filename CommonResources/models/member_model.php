@@ -116,6 +116,6 @@ class Member_model extends CI_Model
         $this->dbCon->where('member_id',$memberID);
         $query=$this->dbCon->get();
         if($query->num_rows()>0)
-            return $query->row_array();
+            return $query -> row();
     }
 }

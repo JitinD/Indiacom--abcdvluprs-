@@ -125,7 +125,7 @@ class Paper_model extends CI_Model
         $this->db->where('paper_contact_author_id',$paperID);
         $query=$this->db->get();
         if($query->num_rows()>0)
-            return $query->result_array();
+            return $query -> row();
     }
 
     //Get the co-authors of a paper
@@ -137,18 +137,19 @@ class Paper_model extends CI_Model
         $query=$this->db->get();
         $this->db->count_all_results('my_table');
             if($query->num_rows()>0)
-                return $query->result_array();
+                return $query -> result();
     }
 
     //Get co-author count
-    public function getCoAuthorCount($paperID)
+    //public function getCoAuthorCount($paperID)
+    public function getNumberOfAuthors($paperID)
     {
         $this->db->select('count(*)as count');
         $this->db->from('submission_master');
         $this->db->where('submission_paper_id',$paperID);
         $query=$this->db->get();
         if($query->num_rows()>0)
-            return $query->row_array();
+            return $query -> row();
     }
 
     //Get the total count of papers of a member
@@ -161,7 +162,7 @@ class Paper_model extends CI_Model
         $this->db->where('submission_member_id',$memberID);
         $query=$this->db->get();
         if($query->num_rows()>0)
-            return $query->row_array();
+            return $query -> row();
 
     }
 }

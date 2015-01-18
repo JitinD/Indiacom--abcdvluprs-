@@ -41,7 +41,8 @@ class Payment_model extends CI_Model
         $this -> dbCon -> having('count(member_organization_id)=3');
         $this -> dbCon -> or_having('count(member_organization_id)>3');
         $query = $this -> dbCon -> get();
-             return $query -> result_array();
+             //return $query -> result_array();
+        return $query -> row();
     }
 
 
@@ -55,7 +56,8 @@ class Payment_model extends CI_Model
         $this -> dbCon -> where('payment_head_name','BR');
         $query = $this -> dbCon -> get();
         if($query -> num_rows() > 0)
-            return $query->row_array();
+            return $query -> row();
+            //return $query->row_array();
         else
             return false;
     }
@@ -86,7 +88,9 @@ class Payment_model extends CI_Model
         $this -> dbCon -> where('payment_head_name','BR');
         $query = $this -> dbCon -> get();
         if($query -> num_rows() > 0)
-            return $query->row_array();
+            return $query -> row();
+            //return $query->row_array();
+
         else
             return false;
     }
@@ -163,6 +167,7 @@ class Payment_model extends CI_Model
         $isGeneral=$this->member_model->calculateIsGeneral($member_id);
         $isGeneral=0;
         $current_date=date('y-m-d');
+
         $this->dbCon->select('payable_class_amount');
         $this->dbCon->from('payable_class');
         $this->dbCon->join('payment_head_master','payable_class.payable_class_payhead_id=payment_head_master.payment_head_id');
@@ -173,10 +178,17 @@ class Payment_model extends CI_Model
         $this->dbCon->where('end_date >=',$current_date);
         $this->dbCon->where('is_general',$isGeneral);
         $query=$this->dbCon->get();
+
         if($query->num_rows()==0)
             return null;
-        $row = $query->row();
+
+        /*$row = $query->row();
+
         return $row->payable_class_amount;
+        */
+
+        //return $query->result_array();
+        return $query -> row();
     }
 
     //Get the payable EP for a paper
@@ -189,7 +201,8 @@ class Payment_model extends CI_Model
         $this->dbCon->where('payable_class_nationality',1);
         $query=$this->dbCon->get();
         if($query->num_rows()>0)
-            return $query->result_array();
+            //return $query->result_array();
+            return $query -> row();
 
     }
 
@@ -202,7 +215,8 @@ class Payment_model extends CI_Model
         $this->dbCon->where('payment_head_name','OLPC');
         $query=$this->dbCon->get();
             if($query->num_rows()>0)
-                return $query->row_array();
+               // return $query->row_array();
+                return $query -> row();
     }
 
 
@@ -218,8 +232,5 @@ class Payment_model extends CI_Model
     {
 
     }
-
-
-
 
 }

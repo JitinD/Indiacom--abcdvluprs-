@@ -20,60 +20,46 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td ></td>
-                    <td>
-                        <div class="btn-group">
-                            <label class="btn btn-info brcheck">
-                                <input type="radio" name="brorep" autocomplete="off"> Basic Registration
-                            </label>
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-info epcheck">
-                                <input type="radio" name="brorep" autocomplete="off"> Extra Paper
-                            </label>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="btn-group">
-                            <label class="btn btn-info brcheck">
-                                <input type="checkbox" autocomplete="off"> Basic Registration
-                            </label>
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-info epcheck">
-                                <input type="checkbox" autocomplete="off"> Extra Paper
-                            </label>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                        <div class="btn-group">
-                            <label class="btn btn-info brcheck">
-                                <input type="checkbox" autocomplete="off"> Basic Registration
-                            </label>
-                        </div>
-                        <div class="btn-group">
-                            <label class="btn btn-info epcheck">
-                                <input type="checkbox" autocomplete="off"> Extra Paper
-                            </label>
-                        </div>
-                    </td>
-                    <td></td>
-                </tr>
+
+                    <?php
+
+                    if(empty($papers))
+                    {
+                        ?>
+                        <tr>
+                            <td colspan="6">
+                                No transaction yet!
+                            </td>
+                        </tr>
+                    <?php
+                    }
+                    else
+                    {
+                        foreach($papers as $paper)
+                        {
+                            ?>
+                            <tr>
+                                <td><?php echo $paper -> paper_id; ?></td>
+                                <td><?php echo $paper -> paper_title; ?></td>
+                                <td><span id = "BR" hidden = ""><?php echo $payable[$paper -> paper_id]["BR"]; ?></span><span id = "EP" hidden = ""><?php echo $payable[$paper -> paper_id]["EP"]; ?></span></td>
+                                <td>
+                                    <div class="btn-group">
+                                        <label class="btn btn-info brcheck">
+                                            <input type="radio" name="brorep" autocomplete="off" class = "radio_BR"> Basic Registration
+                                        </label>
+                                    </div>
+                                    <div class="btn-group">
+                                        <label class="btn btn-info epcheck">
+                                            <input type="radio" name="brorep" autocomplete="off" class = "radio_EP"> Extra Paper
+                                        </label>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                    }
+                    ?>
+
                 </tbody>
             </table>
             <div id="addMoreAuthors">
@@ -255,6 +241,27 @@
 
             $("#addMoreModes").append(html);
         });
+
+        $(".radio_BR").click(function()
+            {
+                var TD = $(this).closest('tr').children().eq(2);
+                var SPAN = TD.children();
+
+                SPAN.eq(0).show();
+                SPAN.eq(1).hide();
+            }
+        );
+
+        $(".radio_EP").click(function()
+            {
+                var TD = $(this).closest('tr').children().eq(2);
+                var SPAN = TD.children();
+
+                SPAN.eq(0).hide();
+                SPAN.eq(1).show();
+            }
+        );
+
 
     });
 </script>
