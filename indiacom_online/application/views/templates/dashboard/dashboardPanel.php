@@ -10,7 +10,8 @@
                 <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision">Submit Paper Revision</a></li>
                 <li class="list-group-item"><a href="#">Edit Submission</a></li>
                 <!--<li class="list-group-item"><a href="#">Paper Status</a></li>-->
-                <li class="list-group-item"><a href="#">Payments</a></li>
+                <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/payment/paymentHome">Payments</a></li>
+                <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/transaction/transactionHistory">Transaction History</a></li>
                 <li class="list-group-item"><a href="/<?php echo INDIACOM; ?>Dashboard/changePassword">Change Password</a></li>
 
 

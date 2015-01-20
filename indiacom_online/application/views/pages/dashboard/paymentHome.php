@@ -1,5 +1,6 @@
 <div class="col-md-12 col-sm-12 col-xs-12" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <h3 class="text-theme">Payments</h3>
+
     <hr>
 
     <form class="form-horizontal" method="post">
