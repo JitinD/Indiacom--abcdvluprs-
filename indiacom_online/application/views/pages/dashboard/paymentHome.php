@@ -8,13 +8,62 @@
             <span class="h3 text-primary">
                 Your Outstanding Amount : #Calculate
             </span>
-
+            <span class="h5 center-block text-success">
+                Registration Category
+                <span class="bg-primary">
+                    <?php
+                    foreach($registrationCategories as $category)
+                    {
+                        if($category['member_category_id'] == $registrationCat->member_category_id)
+                        {
+                            echo $category['member_category_name'];
+                        }
+                    }
+                    ?>
+                </span>
+            </span>
+            <span class="h5 center-block text-success">
+                Currency
+                <?php
+                foreach($currencies as $currency)
+                {
+                    if($currency->currency_id == $selectedCurrency)
+                    {
+                ?>
+                        <span class="bg-primary"><?php echo $currency->currency_name; ?></span>
+                <?php
+                    }
+                    else
+                    {
+                ?>
+                        <a href="<?php echo $currency->currency_id; ?>"><?php echo $currency->currency_name; ?></a>
+                <?php
+                    }
+                }
+                ?>
+            </span>
+            <span class="h5 center-block text-success">
+                Professional Body Member
+                <span class="bg-primary">
+                    <?php
+                    if($isProfBodyMember)
+                        echo "Yes";
+                    else
+                        echo "No";
+                    ?>
+                </span>
+            </span>
             <table class="table table-responsive table-striped table-hover">
                 <thead>
                 <tr>
                     <th>Paper ID</th>
                     <th>Paper Title</th>
-                    <th>Pending Amount</th>
+                    <th>Discount</th>
+                    <th>Payable</th>
+                    <th>Waive Off</th>
+                    <th>Paid</th>
+                    <th>Pending</th>
+                    <th>Pay Amount</th>
                     <th>Type</th>
                     <th>Remarks</th>
                 </tr>
@@ -28,7 +77,7 @@
                         ?>
                         <tr>
                             <td colspan="6">
-                                No transaction yet!
+                                No Accepted Papers!
                             </td>
                         </tr>
                     <?php
@@ -39,21 +88,81 @@
                         {
                             ?>
                             <tr>
-                                <td><?php echo $paper -> paper_id; ?></td>
-                                <td><?php echo $paper -> paper_title; ?></td>
-                                <td><span id = "BR" hidden = ""><?php echo $payable[$paper -> paper_id]["BR"]; ?></span><span id = "EP" hidden = ""><?php echo $payable[$paper -> paper_id]["EP"]; ?></span></td>
+                                <td><?php echo $paper->paper_id; ?></td>
+                                <td><?php echo $paper->paper_title; ?></td>
                                 <td>
-                                    <div class="btn-group">
-                                        <label class="btn btn-info brcheck">
-                                            <input type="radio" name="brorep" autocomplete="off" class = "radio_BR"> Basic Registration
-                                        </label>
-                                    </div>
-                                    <div class="btn-group">
-                                        <label class="btn btn-info epcheck">
-                                            <input type="radio" name="brorep" autocomplete="off" class = "radio_EP"> Extra Paper
-                                        </label>
-                                    </div>
+                                    <!--<span id = "BR" hidden = ""><?php /*echo $payable[$paper->paper_id]["BR"]; */?></span>
+                                    <span id = "EP" hidden = ""><?php /*echo $payable[$paper->paper_id]["EP"]; */?></span>-->
                                 </td>
+                                <td>
+                                    <span class="BR" <?php if(!isset($papersInfo[$paper->paper_id]['paid'])) {?> style="display: none;" <?php } ?>>
+                                        <?php
+                                        if(isset($papersInfo[$paper->paper_id]['br']))
+                                            echo $papersInfo[$paper->paper_id]['br'];
+                                        ?>
+                                    </span>
+                                    <span class="EP" <?php if(!isset($papersInfo[$paper->paper_id]['paid'])) {?> style="display: none;" <?php } ?>>
+                                        <?php
+                                        if(isset($papersInfo[$paper->paper_id]['ep']))
+                                            echo $papersInfo[$paper->paper_id]['ep'];
+                                        ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <?php
+                                        if(isset($papersInfo[$paper->paper_id]['waiveOff']))
+                                            echo $papersInfo[$paper->paper_id]['waiveOff'];
+                                        ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <?php
+                                        if(isset($papersInfo[$paper->paper_id]['paid']))
+                                            echo $papersInfo[$paper->paper_id]['paid'];
+                                        ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span>
+                                        <?php
+                                        if(isset($papersInfo[$paper->paper_id]['pending']))
+                                            echo $papersInfo[$paper->paper_id]['pending'];
+                                        ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <input type="number" value="<?php if(isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>"
+                                           max="<?php if(isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>" min="0">
+                                </td>
+                                <td>
+                                    <?php
+                                    if(isset($papersInfo[$paper->paper_id]['br']))
+                                    {
+                                    ?>
+                                        <input type="radio" name="<?php echo $paper->paper_id; ?>_paytype" value="br" class="radio"> Basic Registration
+                                        <input type="hidden" class="discount_br">
+                                        <input type="hidden" class="payable_br"
+                                               value="<?php echo $papersInfo[$paper->paper_id]['br']; ?>">
+                                        <input type="hidden" class="paid_br">
+                                        <input type="hidden" class="pending_br">
+                                    <?php
+                                    }
+                                    if(isset($papersInfo[$paper->paper_id]['ep']))
+                                    {
+                                    ?>
+                                        <input type="radio" name="<?php echo $paper->paper_id; ?>_paytype" value="ep" class="radio"> Extra Paper
+                                        <input type="hidden" class="discount_ep">
+                                        <input type="hidden" class="payable_ep"
+                                               value="<?php echo $papersInfo[$paper->paper_id]['ep']; ?>">
+                                        <input type="hidden" class="paid_ep">
+                                        <input type="hidden" class="pending_ep">
+                                        <?php
+                                    }
+                                    ?>
+                                </td>
+                                <td></td>
                             </tr>
                         <?php
                         }
@@ -262,6 +371,19 @@
             }
         );
 
-
+        $(".radio").click(function()
+        {
+            var ref = $(this).parent().parent();
+            if($(this).val() == "br")
+            {
+                $("td:nth-child(4) .br" ,ref).attr("style", "display: block;");
+                $("td:nth-child(4) .ep" ,ref).attr("style", "display: none;");
+            }
+            else if($(this).val() == "ep")
+            {
+                $("td:nth-child(4) .br" ,ref).attr("style", "display: none;");
+                $("td:nth-child(4) .ep" ,ref).attr("style", "display: block;");
+            }
+        });
     });
 </script>

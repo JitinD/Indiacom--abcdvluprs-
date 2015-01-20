@@ -70,7 +70,6 @@ class Login_model extends CI_Model
             $encrypted_pass = md5($this->password);
         else
             $encrypted_pass = $this->password;
-
         $memberInfo = $this->member_model->getMemberInfo($this->username);
         if($encrypted_pass == $memberInfo['member_password'] && (($memberInfo['member_is_activated']==1) || !$encryption))
         {

@@ -16,7 +16,6 @@ class Paper_status_model extends CI_Model
 
     public function getMemberPapers($member_id)
     {
-        //$query = $this -> db -> get_where('paper_status_info',array('submission_member_id' => $member_id));
         $sql = "Select paper_id, paper_code, paper_title, latest_paper_version_number, review_result_type_name
                 From paper_latest_version join submission_master on paper_id = submission_paper_id
                 Where submission_member_id = ? And submission_dirty = 0";
@@ -24,15 +23,23 @@ class Paper_status_model extends CI_Model
         if($query->num_rows() > 0)
             return $query->result();
         return array();
-        /*$number = 0;
-        $paper = "";
+    }
 
-        if($query -> num_rows() > 0)
-        {
-            foreach($query -> result() as $record)
-                $paper .= "<tr><td>".(++$number)."</td><td>".$record -> paper_id."</td><td>".$record -> paper_title."</td><td>".$record -> review_result_type_name."</td><td>".$record -> paper_version_number."</td></tr>";
-        }
-        return $paper;*/
-
+    public function getMemberAcceptedPapers($memberId)
+    {
+        $sql = "Select paper_id, paper_title
+                From
+                  paper_latest_version
+                    Join
+                  submission_master
+                    On paper_id = submission_paper_id
+                Where
+                  submission_member_id = ? And
+                  submission_dirty = 0 AND
+                  review_result_id = ?";
+        $query = $this->db->query($sql, array($memberId, REVIEW_RESULT_ACCEPTED_ID));
+        if($query->num_rows() > 0)
+            return $query->result();
+        return array();
     }
 }

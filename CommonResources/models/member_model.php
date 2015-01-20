@@ -118,4 +118,9 @@ class Member_model extends CI_Model
         if($query->num_rows()>0)
             return $query -> row();
     }
+
+    public function isProfBodyMember($mid)
+    {
+        return true;
+    }
 }

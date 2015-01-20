@@ -69,6 +69,16 @@ class Submission_model extends CI_Model
         return $query->result();
     }
 
+    public function getAllPapersByAuthor($memberId)
+    {
+        return $this->getSubmissionsByAttribute("submission_member_id", $memberId);
+    }
+
+    public function getAllAuthorsOfPaper($paperId)
+    {
+        return $this->getSubmissionsByAttribute("submission_paper_id", $paperId);
+    }
+
     public function isMemberValidAuthorOfPaper($memberId, $paperId)
     {
         $sql = "Select submission_id From submission_master Where submission_member_id = ? And submission_paper_id = ?";

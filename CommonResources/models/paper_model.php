@@ -90,7 +90,7 @@ class Paper_model extends CI_Model
         return $row->paper_id + 1;
     }
 
-    //Get all the papers of an author
+    /*//Get all the papers of an author
     public function getAllPapers($memberID)
     {
             $this->db->select('paper_master.paper_id,paper_master.paper_code,paper_master.paper_title');
@@ -102,7 +102,7 @@ class Paper_model extends CI_Model
             $query=$this->db->get();
             if($query -> num_rows() > 0)
                 return $query->result();
-    }
+    }*/
 
     //Check if the author is the main author
     public function checkMainAuthor($memberID)

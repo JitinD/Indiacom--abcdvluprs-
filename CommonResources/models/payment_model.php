@@ -29,6 +29,11 @@ class Payment_model extends CI_Model
         $this->dbCon = $this->load->database(DBGROUP, TRUE);
     }
 
+    public function addNewPayment($paymentDetails = array())
+    {
+        $this->dbCon->insert('payment_master', $paymentDetails);
+    }
+
     //Function to get the organizations under bulk registration
     public function getBulkRegistration()
     {
@@ -45,9 +50,8 @@ class Payment_model extends CI_Model
         return $query -> row();
     }
 
-
     //Check if one basic registration paid under a member registration
-    public function  checkBRPaid($memberID)
+    public function  isMemberBRPaid($memberID)
     {
         $this -> dbCon -> select ('*');
         $this -> dbCon -> from ('payment_master');
@@ -233,4 +237,257 @@ class Payment_model extends CI_Model
 
     }
 
+    public function transferPayment($sourceDetails = array(), $destinationDetails = array())
+    {
+        $this->load->model('transfer_model');
+        $fromPayments = $this->fetchPayments($sourceDetails['payment_member_id'], $sourceDetails['payment_paper_id'], $sourceDetails['payment_head']);
+        $transferAmount = 0;
+        foreach($fromPayments as $fromPayment)
+        {
+            $transferAmount += $fromPayment->payment_amount_paid;
+            $this->setIsTransferred($fromPayment->payment_id);
+            $destPayment = array(
+                'payment_trans_id' => $fromPayment->payment_trans_id,
+                'payment_head' => $destinationDetails['payment_head'],
+                'payment_member_id' => $destinationDetails['payment_member_id'],
+                'payment_paper_id' => $destinationDetails['payment_paper_id'],
+                'payment_amount_paid' => $fromPayment->payment_amount_paid,
+                'payment_payable_class' => $destinationDetails['payment_payable_class']
+            );
+            $this->addNewPayment($destPayment);
+            $this->transfer_model->newTransfer(
+                $fromPayment['payment_id'],
+                $this->getPaymentId(
+                    $destPayment['payment_member_id'],
+                    $destPayment['payment_paper_id'],
+                    $destPayment['payment_head'],
+                    $destPayment['payment_trans_id']
+                ),
+                $destPayment['payment_amount_paid']
+            );
+        }
+    }
+
+    public function getMemberPayments($mid)
+    {
+        return $this->getPayments($mid, null);
+    }
+
+    public function getPaperPayments($pid)
+    {
+        return $this->getPayments(null, $pid);
+    }
+
+    public function getPayments($mid, $pid, $limit=null, $offset=null)
+    {
+        $sql = "
+        Select
+            table1.payment_payable_class,
+            table1.payment_member_id,
+            table1.payment_paper_id,
+            Case
+                When waiveoff_amount Is Null
+                Then 0
+                Else waiveoff_amount
+            End As waiveoff_amount,
+            Case
+                When waiveoff_amount Is NULL
+                Then total_amount
+                Else (total_amount - waiveoff_amount)
+            End As paid_amount
+        From
+            (/* total amount against mid,pid,payhead including waiveoff amount (not discount) */
+                Select
+                    payment_payable_class,
+                    payment_member_id,
+                    payment_paper_id,
+                    SUM(payment_amount_paid) As total_amount
+                From payment_master
+                    Right Join transaction_master
+                        On transaction_id = payment_trans_id
+                Where is_verified = 1
+                Group By payment_member_id, payment_paper_id, payment_payable_class
+            ) As table1
+            Left Join
+            (/* waiveoff_amount against mid,pid,payhead */
+                Select
+                    payment_payable_class,
+                    payment_member_id,
+                    payment_paper_id,
+                    SUM(payment_amount_paid) as waiveoff_amount
+                From payment_master
+                    Join transaction_master
+                        On transaction_id = payment_trans_id
+                Where is_waived_off = 1
+                Group By payment_member_id, payment_paper_id, payment_payable_class
+            ) As table2 On
+                table1.payment_payable_class = table2.payment_payable_class And
+                table1.payment_member_id = table2.payment_member_id And
+                table1.payment_paper_id = table2.payment_paper_id";
+        $where = "";
+        $params = array();
+        if($mid == null && $pid != null)
+        {
+            $where = " Where table1.payment_paper_id = ?";
+            $params[] = $pid;
+        }
+        else if($mid != null && $pid == null)
+        {
+            $where = " Where table1.payment_member_id = ?";
+            $params[] = $mid;
+        }
+        else if($mid != null && $pid != null)
+        {
+            $where = " Where table1.payment_paper_id = ? And table1.payment_member_id = ?";
+            $params[] = $pid;
+            $params[] = $mid;
+        }
+        $sql .= $where;
+        $query = $this->dbCon->query($sql, $params);
+        if($query->num_rows() == 0)
+            return array();
+        return $query->result();
+    }
+
+    public function getPaymentBreakup($mid, $pid, $payhead)
+    {
+        $sql = "
+        Select
+            payment_amount_paid,
+            transaction_date
+        From
+            payment_master
+                Join
+            transaction_master
+                On payment_trans_id = transaction_id
+        Where
+            payment_member_id = ? And
+            payment_paper_id = ? And
+            payment_head = ?
+        Order By transaction_date";
+        $query = $this->dbCon->query($sql, array($mid, $pid, $payhead));
+        if($query->num_rows() == 0)
+            return array();
+        return $query->result();
+    }
+
+    public function isMemberRegistered($mid)
+    {
+        $sql = "
+        Select
+            payment_member_id,
+            payment_paper_id,
+            SUM(payment_amount_paid) as total_amount_paid,
+            payable_class_amount
+        From payment_master
+            Join payable_class
+                On payment_payable_class = payable_class_id
+        Where
+            payable_class_payhead_id = 1 And
+            payment_member_id = ?
+        Group By payment_member_id, payment_paper_id";
+        $query = $this->dbCon->query($sql, array($mid));
+        if($query->num_rows() == 0)
+            return false;
+        $result = $query->result();
+        foreach($result as $row)
+        {
+            if($row->total_amount_paid >= $row->payable_class_amount)
+                return true;
+        }
+        return false;
+    }
+
+    public function isPaperRegistered($pid)
+    {
+        $sql = "
+        Select
+            payment_member_id,
+            payment_paper_id,
+            SUM(payment_amount_paid) as total_amount_paid,
+            payable_class_amount
+        From payment_master
+            Join payable_class
+                On payment_payable_class = payable_class_id
+        Where
+            payable_class_payhead_id = 1 And
+            payment_paper_id = ?
+        Group By payment_paper_id, payment_member_id";
+        $query = $this->dbCon->query($sql, array($pid));
+        if($query->num_rows() == 0)
+            return false;
+        $result = $query->result();
+        foreach($result as $row)
+        {
+            if($row->total_amount_paid >= $row->payable_class_amount)
+                return true;
+        }
+        return false;
+    }
+
+    public function noofEps($pid)
+    {
+        //Partial ep payment also counted
+        $sql = "
+        Select
+            payment_member_id,
+            payment_paper_id
+        From payment_master
+            Join payable_class
+                On payment_payable_class = payable_class_id
+        Where
+            payable_class_payhead_id = 2 And
+            payment_paper_id = ?
+        Group By payment_paper_id, payment_member_id";
+        $query = $this->db->query($sql, array($pid));
+        return $query->num_rows();
+    }
+
+    public function getAllPayingMembers()
+    {
+        $sql = "Select Distinct payment_member_id as member_id
+                From payment_master;";
+        $query = $this->dbCon->query($sql);
+        if($query->num_rows() == 0)
+            return array();
+        return $query->result();
+    }
+
+    public function getAllPayingPapers()
+    {
+        $sql = "Select Distinct payment_paper_id as paper_id
+                From payment_master;";
+        $query = $this->dbCon->query($sql);
+        if($query->num_rows() == 0)
+            return array();
+        return $query->result();
+    }
+
+    private function getPaymentId($mid, $pid, $paymentHead, $transId)
+    {
+        $sql = "Select payment_id From payment_master
+                Where payment_member_id=? And payment_paper_id=? And payment_head=? And payment_trans_id=?";
+        $query = $this->dbCon->query($sql, array($mid, $pid, $paymentHead, $transId));
+        if($query->num_rows() == 0)
+            return null;
+        $row = $query->row();
+        return $row->payment_id;
+    }
+
+    private function fetchPayments($mid, $pid, $paymentHead)
+    {
+        $sql = "Select * From payment_master
+                Where payment_member_id=? And payment_paper_id=? And payment_head=?";
+        $query = $this->dbCon->query($sql, array($mid, $pid, $paymentHead));
+        if($query->num_rows() > 0)
+            return $query->result();
+        return array();
+    }
+
+    private function setIsTransferred($paymentId)
+    {
+        $sql = "Update payment_master Set payment_is_transferred=1
+                Where payment_id = ?";
+        $this->dbCon->query($sql, array($paymentId));
+    }
 }
