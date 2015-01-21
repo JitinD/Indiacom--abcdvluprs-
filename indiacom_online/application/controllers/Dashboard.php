@@ -672,6 +672,13 @@ class Dashboard extends CI_Controller
         //$this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
         $this->index($page);
     }
+    public function transaction()
+    {
+        $page="transactionHistory";
+        $this->load->model('transaction_model');
+        $this->data['transactions']=$this->transaction_model->getMemberTransactions($_SESSION[APPID]['member_id']);
+        $this->index($page);
+    }
 
     private function isProfBodyMember($mid)
     {
