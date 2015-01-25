@@ -27,7 +27,7 @@ class Paper_status_model extends CI_Model
 
     public function getMemberAcceptedPapers($memberId)
     {
-        $sql = "Select paper_id, paper_title
+        $sql = "Select paper_id, paper_code, paper_title, submission_id
                 From
                   paper_latest_version
                     Join

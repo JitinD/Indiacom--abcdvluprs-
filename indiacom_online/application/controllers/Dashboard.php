@@ -479,9 +479,6 @@ class Dashboard extends CI_Controller
         $this -> data['member_categories'] = $this -> registration_model -> getMemberCategories();
         $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         $this->load->library('form_validation');
-
-
-
         $this->form_validation->set_rules('salutation', 'Salutation', 'required');
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('address', 'Address', 'required');
@@ -495,7 +492,6 @@ class Dashboard extends CI_Controller
 
         if($this->form_validation->run())
         {
-
             $organization_id_array = $this -> registration_model -> getOrganizationId($this -> input -> post('organization'));
 
             if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$_SESSION[APPID]['member_id'])) == false)
@@ -506,36 +502,32 @@ class Dashboard extends CI_Controller
             if($organization_id_array)
             {
                 $member_record = array(
-                    'member_id'             =>  $_SESSION[APPID]['member_id'],
-                    'member_salutation'     =>  $this -> input -> post('salutation'),
-                    'member_name'           =>   $this -> input -> post('name'),
-                    'member_address'        =>   $this -> input -> post('address'),
-                    'member_pincode'        =>   $this -> input -> post('pincode'),
-                    'member_email'          =>   $this -> input -> post('email'),
-                    'member_phone'          =>   $this -> input -> post('phoneNumber'),
-                    'member_mobile'         =>   $this -> input -> post('mobileNumber'),
-                    'member_fax'            =>   $this -> input -> post('fax'),
-                    'member_designation'    =>   $this -> input -> post('designation'),
-                    'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
-                    'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
-                    'member_organization_id'=>   $organization_id_array['organization_id'],
-                    'member_biodata_path'   =>   $doc_path,
-                    'member_category_id'    =>   $this -> input -> post('category'),
-                    'member_department'     =>   $this-> input -> post ('department'),
-                    'member_experience'     =>   $this -> input -> post('experience'),
-                    'member_is_activated'   =>   ""
+                    'member_id' => $_SESSION[APPID]['member_id'],
+                    'member_salutation' => $this->input->post('salutation'),
+                    'member_name' => $this->input->post('name'),
+                    'member_address' => $this->input->post('address'),
+                    'member_pincode' => $this->input->post('pincode'),
+                    'member_email' => $this->input->post('email'),
+                    'member_phone' => $this->input->post('phoneNumber'),
+                    'member_mobile' => $this->input->post('mobileNumber'),
+                    'member_fax' => $this->input->post('fax'),
+                    'member_designation' => $this->input->post('designation'),
+                    'member_csi_mem_no' => $this->input->post('csimembershipno'),
+                    'member_iete_mem_no' => $this->input->post('ietemembershipno'),
+                    'member_organization_id' => $organization_id_array['organization_id'],
+                    'member_biodata_path' => $doc_path,
+                    'member_category_id' => $this->input->post('category'),
+                    'member_department' => $this->input->post('department'),
+                    'member_experience' => $this->input->post('experience'),
+                    'member_is_activated' => ""
                 );
 
                 if($this->member_model->updateMemberInfo($member_record, $_SESSION[APPID]['member_id']))
                     $page .= "Success";
-
             }
             else
                 $this -> data['error'] = "No such organization";
-
         }
-
-
                 $this->index($page);
     }
 
@@ -557,97 +549,6 @@ class Dashboard extends CI_Controller
         return $olpc_amount;
     }
 
-    //Calculate the payable for a paper
-    private function calculateBRPayable($memberID, $paperID)
-    {
-        $this -> load -> model('paper_model');
-        $this -> load -> model('member_model');
-        $this -> load -> model('payment_model');
-
-        $member_category_object = $this -> member_model -> getMemberCategory($memberID);
-        $paper_count_object = $this -> paper_model -> getPaperCount($memberID);
-        $num_authors_object = $this -> paper_model -> getNumberOfAuthors($paperID);
-
-        //$count_paper = $paper_counts['count'];
-        //$count_coauthor = $coauthor_counts['count'] - 1;
-
-        $total_papers = $paper_count_object -> count;
-        $num_coauthors = ($num_authors_object -> count) - 1;
-
-        $br_amount = $ep_amount = $discounted_br_amount = 0;
-        $olpc_amount = $this -> getOLPCAmount($paperID);
-
-
-        //Check if the paper is registered
-
-        $isPaperRegistered = $this -> payment_model -> checkPaperRegistered($paperID); //Give proper name to variable
-        $isMemberRegistered = $this -> payment_model -> checkBRPaid($memberID); //Give proper name to variable
-
-
-        if($num_coauthors == 0)
-        {
-            if(!($isPaperRegistered))
-            {
-                $br_amount_object = $this -> payment_model -> getBRCharges($memberID, 1, $member_category_object -> member_category_id);
-                $br_amount = $br_amount_object -> payable_class_amount;
-            }
-        }
-        else
-        {
-            if($isMemberRegistered)
-            {
-
-                if($total_papers > 1)
-                {
-                    if($isPaperRegistered)
-                    {
-                        if(!($isPaperRegistered -> payment_member_id == $memberID))
-                        {
-                            $ep_amount_object = $this -> payment_model -> getEPCharges();
-                            $ep_amount = $ep_amount_object -> payable_class_amount;
-                        }
-
-                    }
-                }
-
-            }
-            else
-            {
-                if($isPaperRegistered)
-                {
-                    if(!($isPaperRegistered -> payment_member_id == $memberID))
-                    {
-                        $br_amount_object = $this -> payment_model -> getBRCharges($memberID,1,$member_category_object -> member_category_id);
-                        $ep_amount_object = $this -> payment_model -> getEPCharges();
-
-                        $br_amount = $br_amount_object -> payable_class_amount;
-                        $ep_amount = $ep_amount_object -> payable_class_amount;
-
-                    }
-                }
-            }
-        }
-
-        return array('BR' => $br_amount, 'EP' => $ep_amount, 'OLPC' => $olpc_amount);
-    }
-
-    //Calculate payable amount for a member
-    private function calculatePayable($memberID, $papers)
-    {
-        $this -> load -> model('paper_model');
-
-        $payable = array();
-
-        foreach($papers as $paper)
-            $payable[$paper -> paper_id] = array('BR' => '', 'EP' => '', 'OLPC' => '');
-
-        foreach($papers as $paper)
-            $payable[$paper -> paper_id] = $this -> calculateBRPayable($memberID, $paper -> paper_id);
-
-
-        return $payable;
-    }
-
     public function payment($currency=1)
     {
         $page = "paymentHome";
@@ -657,155 +558,89 @@ class Dashboard extends CI_Controller
         $this->load->model('member_categories_model');
         $this->load->model('member_model');
         $this->load->model('currency_model');
+        $this->load->model('transaction_mode_model');
+        $this->load->model('payment_model');
 
-        $this->data['isProfBodyMember'] = $this->isProfBodyMember($memberID);
+        $this->data['isProfBodyMember'] = $this->member_model->isProfBodyMember($memberID);
         $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
         $this->data['registrationCat'] = $this->member_model->getMemberCategory($memberID);
         $this->data['currencies'] = $this->currency_model->getAllCurrencies();
         $this->data['selectedCurrency'] = $currency;
         $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberID);
-        $this->data['papersInfo'] = $this->calculatePayables($memberID, $currency, $this->data['registrationCat'], $this->data['papers']);
-
-        //$this -> data['payable'] = $this -> calculatePayable($memberID, $papers);
-        //$this->data['brcharges']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
-        //$this->data['eps']=$this->payment_model->getEPCharges();
-        //$this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
-        $this->index($page);
+        $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
+        $this->data['papersInfo'] = $this->payment_model->calculatePayables($memberID, $currency, $this->data['registrationCat'], $this->data['papers']);
+        if(!$this->paymentSubmitHandle($memberID, $this->data['registrationCat'], $currency))
+            $this->index($page);
     }
+
+    private function paymentSubmitHandle($memberID, $registrationCat, $currency)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('payable_class_model');
+        $this->load->model('payment_head_model');
+        $this->load->model('submission_model');
+        $this->load->model('transaction_model');
+
+        $this->form_validation->set_rules('trans_mode', "Payment Mode", 'required');
+        $this->form_validation->set_rules('trans_amount', "Amount", 'required');
+        $this->form_validation->set_rules('trans_bank', "Bank Name", 'required');
+        $this->form_validation->set_rules('trans_no', "Transaction No.", 'required');
+        $this->form_validation->set_rules('trans_date', "Transaction Date", 'required');
+
+        if($this->form_validation->run())
+        {
+            $submissionIds = $this->input->post('submissionIds');
+            $paymentsDetails = array();
+            $totalPayAmount = 0;
+            foreach($submissionIds as $submission)
+            {
+                $payAmount = $this->input->post($submission."_payAmount");
+                $payHead = $this->input->post($submission."_payhead");
+                $totalPayAmount += $payAmount;
+                $payHeadId = $this->payment_head_model->getPaymentHeadId($payHead);
+                $submissionDetails = $this->submission_model->getSubmissionsByAttribute("submission_id", $submission);
+                if($payHeadId != null)
+                {
+                    $payableClass = $this->payable_class_model->getPayableClass(
+                        $payHeadId,
+                        !$this->isProfBodyMember($memberID),
+                        $registrationCat->member_category_id,
+                        $currency
+                    );
+                    $paymentsDetails[] = array(
+                        "payment_submission_id" => $submission,
+                        "payment_member_id" => $submissionDetails[0]->submission_member_id ,
+                        "payment_paper_id" => $submissionDetails[0]->submission_paper_id,
+                        "payment_amount_paid" => $payAmount,
+                        "payment_payable_class" => $payableClass->payable_class_id
+                    );
+                }
+            }
+            $transactionDetails = array(
+                "transaction_member_id" => $memberID,
+                "transaction_bank" => $this->input->post('trans_bank'),
+                "transaction_number" => $this->input->post('trans_no'),
+                "transaction_mode" => $this->input->post('trans_mode'),
+                "transaction_amount" => $this->input->post('trans_amount'),
+                "transaction_date" => $this->input->post('trans_date'),
+                "transaction_currency" => $currency
+            );
+            if($totalPayAmount == $transactionDetails['transaction_amount'])
+            {
+                $this->transaction_model->newTransaction($transactionDetails);
+                $transId = $this->transaction_model->getTransactionId($transactionDetails);
+                $this->payment_model->addMultiPaymentsWithCommonTransaction($paymentsDetails, $transId);
+                return true;
+            }
+        }
+        return false;
+    }
+
     public function transaction()
     {
         $page="transactionHistory";
         $this->load->model('transaction_model');
         $this->data['transactions']=$this->transaction_model->getMemberTransactions($_SESSION[APPID]['member_id']);
         $this->index($page);
-    }
-
-    private function isProfBodyMember($mid)
-    {
-        return true;
-    }
-
-    private function calculatePayables($memberID, $selectedCurrency, $registrationCat, $papers)
-    {
-        $this->load->model('payable_class_model');
-        $this->load->model('payment_model');
-        $this->load->model('submission_model');
-        $currency = $selectedCurrency;
-        $brPayableClass = $this->payable_class_model->getBrPayableClass(
-            !$this->isProfBodyMember($memberID),
-            $registrationCat->member_category_id,
-            $currency
-        );
-        $epPayableClass = $this->payable_class_model->getEpPayableClass(
-            !$this->isProfBodyMember($memberID),
-            $registrationCat->member_category_id,
-            $currency
-        );
-
-        $isAuthorRegistered = $this->payment_model->isMemberRegistered($memberID);
-        $papersInfo = array();
-        $noofPapers = count($papers);
-        foreach($papers as $paper)
-        {
-            $isPaperRegistered = $this->payment_model->isPaperRegistered($paper->paper_id);
-            $isPaid = $this->setPaidPayments(
-                $memberID,
-                $paper,
-                $brPayableClass->payable_class_amount,
-                $epPayableClass->payable_class_amount,
-                $papersInfo[$paper->paper_id]
-            );
-            if(!$isPaid)
-            {
-                $this->setPayablePayments(
-                    $memberID,
-                    $paper,
-                    $isPaperRegistered,
-                    $isAuthorRegistered,
-                    $noofPapers,
-                    $brPayableClass->payable_class_amount,
-                    $epPayableClass->payable_class_amount,
-                    $papersInfo[$paper->paper_id]
-                );
-            }
-            /*if noofPapers(author) = 1 then br
-            if noofAuthors(paper) = 1 then br
-            if noofAuthors(paper) > 1 and noofEps(paper) = noofAuthors(paper) - 1 then br
-            if noofAuthors(paper) > 1 and noofEps(paper) < noofAuthors(paper) - 1 then
-                  if paperRegistered and authorRegistered then ep
-                  else then br or ep*/
-
-        }
-        return $papersInfo;
-    }
-
-    private function setPaidPayments($mid, $paper, $brPayable, $epPayable, &$paperInfo = array())
-    {
-        $this->load->model('payment_model');
-        $this->load->model('payable_class_model');
-        $payments = $this->payment_model->getPayments($mid, $paper->paper_id);
-        if(!empty($payments))
-        {
-            $paymentClass = $payments[0]->payment_payable_class;
-            $paperInfo['paid'] = $payments[0]->paid_amount;
-            $paperInfo['waiveOff'] = $payments[0]->waiveoff_amount;
-            $paymentClassDetails = $this->payable_class_model->getPayableClassDetails($paymentClass);
-            switch($paymentClassDetails->payable_class_payhead_id)
-            {
-                case 1: //BR
-                    $paperInfo['br'] = $paymentClassDetails->payable_class_amount;
-                    $paperInfo['pending'] = $paperInfo['br'] - $paperInfo['paid'] - $paperInfo['waiveOff'];
-                    break;
-                case 2: //EP
-                    $paperInfo['ep'] = $paymentClassDetails->payable_class_amount;
-                    $paperInfo['pending'] = $paperInfo['ep'] - $paperInfo['paid'] - $paperInfo['waiveOff'];
-                    break;
-            }
-            return true;
-        }
-        return false;
-    }
-
-    private function setPayablePayments($mid, $paper, $isPaperRegistered, $isAuthorRegistered, $noofPapers, $brPayable, $epPayable, &$paperInfo = array())
-    {
-        if($noofPapers == 1)
-        {
-            if(!$isAuthorRegistered)
-            {
-                $paperInfo['br'] = $brPayable;
-            }
-        }
-        else
-        {
-            $noofAuthors = count($this->submission_model->getAllAuthorsOfPaper($paper->paper_id));
-            if($noofAuthors == 1)
-            {
-                $paperInfo['br'] = $brPayable;
-            }
-            else
-            {
-                $noofEps = $this->payment_model->noofEps($paper->paper_id);
-                if($noofEps == $noofAuthors - 1)
-                {
-                    $paperInfo['br'] = $brPayable;
-                }
-                else if($noofEps < $noofAuthors - 1)
-                {
-                    if($isPaperRegistered && $isAuthorRegistered)
-                    {
-                        $paperInfo['ep'] = $epPayable;
-                    }
-                    else
-                    {
-                        $paperInfo['ep'] = $epPayable;
-                        $paperInfo['br'] = $brPayable;
-                    }
-                }
-                else
-                {
-                    //Payment error. All eps received against paper.
-                }
-            }
-        }
     }
 }

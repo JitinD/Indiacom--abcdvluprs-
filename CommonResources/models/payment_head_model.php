@@ -24,4 +24,16 @@ class Payment_head_model extends CI_Model
             return array();
         return $query->result();
     }
+
+    public function getPaymentHeadId($payHeadName)
+    {
+        $sql = "Select payment_head_id
+                From payment_head_master
+                Where payment_head_name = ?";
+        $query = $this->db->query($sql, array($payHeadName));
+        if($query->num_rows() == 0 || $query->num_rows() > 1)
+            return null;
+        $row = $query->row();
+        return $row->payment_head_id;
+    }
 }

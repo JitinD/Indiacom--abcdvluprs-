@@ -28,7 +28,7 @@
     define('BASEURL', 'indiacom2015/bvicam_admin/');
     define('INDIACOM', 'indiacom2015/bvicam_admin/');
     define('DBGROUP', 'OnlineTest');*/
-	
+
 
     define('DEFAULT_ROLE', 0);
 	define('ENVIRONMENT', 'development');
@@ -44,6 +44,7 @@
         $_SESSION[APPID]['current_role_id'] = 30;
 
     }
+    define('REVIEW_RESULT_ACCEPTED_ID', 2);
     require('application/config/paths.php');
     require('application/config/exceptions.php');
 /*

@@ -31,7 +31,17 @@ class Payment_model extends CI_Model
 
     public function addNewPayment($paymentDetails = array())
     {
+        $paymentDetails['payment_is_transferred'] = 0;
         $this->dbCon->insert('payment_master', $paymentDetails);
+    }
+
+    public function addMultiPaymentsWithCommonTransaction($paymentsDetails = array(), $transId)
+    {
+        foreach($paymentsDetails as $paymentDetail)
+        {
+            $paymentDetail['payment_trans_id'] = $transId;
+            $this->addNewPayment($paymentDetail);
+        }
     }
 
     //Function to get the organizations under bulk registration
@@ -223,20 +233,6 @@ class Payment_model extends CI_Model
                 return $query -> row();
     }
 
-
-
-    //Calculate the payable ep for a paper
-    public function calculateEPPayable()
-    {
-
-    }
-
-    //Calculate the payable OLPC for a paper
-    public function calculateOLPCPayable($memberID,$paperID)
-    {
-
-    }
-
     public function transferPayment($sourceDetails = array(), $destinationDetails = array())
     {
         $this->load->model('transfer_model');
@@ -278,7 +274,7 @@ class Payment_model extends CI_Model
         return $this->getPayments(null, $pid);
     }
 
-    public function getPayments($mid, $pid, $limit=null, $offset=null)
+    public function getPayments($mid, $pid, $includeUnverified = false, $limit=null, $offset=null)
     {
         $sql = "
         Select
@@ -294,19 +290,19 @@ class Payment_model extends CI_Model
                 When waiveoff_amount Is NULL
                 Then total_amount
                 Else (total_amount - waiveoff_amount)
-            End As paid_amount
-        From
+            End As paid_amount" . ($includeUnverified ? ", table1.is_verified " : " ") .
+        "From
             (/* total amount against mid,pid,payhead including waiveoff amount (not discount) */
                 Select
                     payment_payable_class,
                     payment_member_id,
                     payment_paper_id,
-                    SUM(payment_amount_paid) As total_amount
+                    SUM(payment_amount_paid) As total_amount" . ($includeUnverified ? ", is_verified " : " ") . "
                 From payment_master
                     Right Join transaction_master
                         On transaction_id = payment_trans_id
-                Where is_verified = 1
-                Group By payment_member_id, payment_paper_id, payment_payable_class
+                " . ($includeUnverified ? " " : " Where is_verified = 1 ") .
+                "Group By payment_member_id, payment_paper_id, payment_payable_class
             ) As table1
             Left Join
             (/* waiveoff_amount against mid,pid,payhead */
@@ -343,6 +339,7 @@ class Payment_model extends CI_Model
             $params[] = $mid;
         }
         $sql .= $where;
+        //die($sql);
         $query = $this->dbCon->query($sql, $params);
         if($query->num_rows() == 0)
             return array();
@@ -489,5 +486,123 @@ class Payment_model extends CI_Model
         $sql = "Update payment_master Set payment_is_transferred=1
                 Where payment_id = ?";
         $this->dbCon->query($sql, array($paymentId));
+    }
+
+    public function calculatePayables($memberID, $selectedCurrency, $registrationCat, $papers)
+    {
+        $this->load->model('payable_class_model');
+        $this->load->model('payment_model');
+        $this->load->model('submission_model');
+        $this->load->model('member_model');
+        $currency = $selectedCurrency;
+        $brPayableClass = $this->payable_class_model->getBrPayableClass(
+            !$this->member_model->isProfBodyMember($memberID),
+            $registrationCat->member_category_id,
+            $currency
+        );
+        $epPayableClass = $this->payable_class_model->getEpPayableClass(
+            !$this->member_model->isProfBodyMember($memberID),
+            $registrationCat->member_category_id,
+            $currency
+        );
+
+        $isAuthorRegistered = $this->payment_model->isMemberRegistered($memberID);
+        $papersInfo = array();
+        $noofPapers = count($papers);
+        foreach($papers as $paper)
+        {
+            $isPaperRegistered = $this->payment_model->isPaperRegistered($paper->paper_id);
+            $isPaid = $this->setPaidPayments(
+                $memberID,
+                $paper,
+                $brPayableClass->payable_class_amount,
+                $epPayableClass->payable_class_amount,
+                $papersInfo[$paper->paper_id]
+            );
+            if(!$isPaid)
+            {
+                $this->setPayablePayments(
+                    $memberID,
+                    $paper,
+                    $isPaperRegistered,
+                    $isAuthorRegistered,
+                    $noofPapers,
+                    $brPayableClass->payable_class_amount,
+                    $epPayableClass->payable_class_amount,
+                    $papersInfo[$paper->paper_id]
+                );
+            }
+        }
+        return $papersInfo;
+    }
+
+    private function setPaidPayments($mid, $paper, $brPayable, $epPayable, &$paperInfo = array())
+    {
+        $this->load->model('payment_model');
+        $this->load->model('payable_class_model');
+        $payments = $this->payment_model->getPayments($mid, $paper->paper_id, true);
+        if(!empty($payments))
+        {
+            $paymentClass = $payments[0]->payment_payable_class;
+            $paperInfo['paid'] = $payments[0]->paid_amount;
+            $paperInfo['waiveOff'] = $payments[0]->waiveoff_amount;
+            $paymentClassDetails = $this->payable_class_model->getPayableClassDetails($paymentClass);
+            switch($paymentClassDetails->payable_class_payhead_id)
+            {
+                case 1: //BR
+                    $paperInfo['br'] = $paymentClassDetails->payable_class_amount;
+                    $paperInfo['pending'] = $paperInfo['br'] - $paperInfo['paid'] - $paperInfo['waiveOff'];
+                    break;
+                case 2: //EP
+                    $paperInfo['ep'] = $paymentClassDetails->payable_class_amount;
+                    $paperInfo['pending'] = $paperInfo['ep'] - $paperInfo['paid'] - $paperInfo['waiveOff'];
+                    break;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private function setPayablePayments($mid, $paper, $isPaperRegistered, $isAuthorRegistered, $noofPapers, $brPayable, $epPayable, &$paperInfo = array())
+    {
+        if($noofPapers == 1)
+        {
+            if(!$isAuthorRegistered)
+            {
+                $paperInfo['br'] = $brPayable;
+            }
+        }
+        else
+        {
+            $noofAuthors = count($this->submission_model->getAllAuthorsOfPaper($paper->paper_id));
+            if($noofAuthors == 1)
+            {
+                $paperInfo['br'] = $brPayable;
+            }
+            else
+            {
+                $noofEps = $this->payment_model->noofEps($paper->paper_id);
+                if($noofEps == $noofAuthors - 1)
+                {
+                    $paperInfo['br'] = $brPayable;
+                }
+                else if($noofEps < $noofAuthors - 1)
+                {
+                    if($isPaperRegistered && $isAuthorRegistered)
+                    {
+                        $paperInfo['ep'] = $epPayable;
+                    }
+                    else
+                    {
+                        $paperInfo['ep'] = $epPayable;
+                        $paperInfo['br'] = $brPayable;
+                    }
+                }
+                else
+                {
+                    //Payment error. All eps received against paper.
+                }
+            }
+        }
     }
 }
