@@ -13237,7 +13237,7 @@ INSERT INTO `user_master` (`user_id`, `user_name`, `user_organization_id`, `user
 --
 DROP TABLE IF EXISTS `paper_latest_version`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `paper_latest_version` AS (select `paper_master`.`paper_id` AS `paper_id`,`paper_master`.`paper_code` AS `paper_code`,`paper_master`.`paper_title` AS `paper_title`,max(`paper_version_master`.`paper_version_number`) AS `latest_paper_version_number`,`review_result_master`.`review_result_type_name` AS `review_result_type_name`,`review_result_master`.`review_result_id` AS `review_result_id` from ((`paper_master` join `paper_version_master` on((`paper_master`.`paper_id` = `paper_version_master`.`paper_id`))) left join `review_result_master` on((`review_result_master`.`review_result_id` = `paper_version_master`.`paper_version_review_result_id`))) where (`paper_version_master`.`paper_version_dirty` = 0) group by `paper_version_master`.`paper_id`);
+CREATE VIEW `paper_latest_version` AS (select `paper_master`.`paper_id` AS `paper_id`,`paper_master`.`paper_code` AS `paper_code`,`paper_master`.`paper_title` AS `paper_title`,max(`paper_version_master`.`paper_version_number`) AS `latest_paper_version_number`,`review_result_master`.`review_result_type_name` AS `review_result_type_name`,`review_result_master`.`review_result_id` AS `review_result_id` from ((`paper_master` join `paper_version_master` on((`paper_master`.`paper_id` = `paper_version_master`.`paper_id`))) left join `review_result_master` on((`review_result_master`.`review_result_id` = `paper_version_master`.`paper_version_review_result_id`))) where (`paper_version_master`.`paper_version_dirty` = 0) group by `paper_version_master`.`paper_id`);
 
 --
 -- Constraints for dumped tables
