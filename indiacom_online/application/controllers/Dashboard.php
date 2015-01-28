@@ -580,6 +580,7 @@ class Dashboard extends CI_Controller
         $this->load->model('payment_head_model');
         $this->load->model('submission_model');
         $this->load->model('transaction_model');
+        $this->load->model('member_model');
 
         $this->form_validation->set_rules('trans_mode', "Payment Mode", 'required');
         $this->form_validation->set_rules('trans_amount', "Amount", 'required');
@@ -590,23 +591,32 @@ class Dashboard extends CI_Controller
         if($this->form_validation->run())
         {
             $submissionIds = $this->input->post('submissionIds');
+            if($submissionIds == null)
+                $submissionIds = array();
             $paymentsDetails = array();
             $totalPayAmount = 0;
             foreach($submissionIds as $submission)
             {
                 $payAmount = $this->input->post($submission."_payAmount");
                 $payHead = $this->input->post($submission."_payhead");
-                $totalPayAmount += $payAmount;
+                if($payAmount <= 0)
+                    continue;
                 $payHeadId = $this->payment_head_model->getPaymentHeadId($payHead);
                 $submissionDetails = $this->submission_model->getSubmissionsByAttribute("submission_id", $submission);
                 if($payHeadId != null)
                 {
                     $payableClass = $this->payable_class_model->getPayableClass(
                         $payHeadId,
-                        !$this->isProfBodyMember($memberID),
+                        !$this->member_model->isProfBodyMember($memberID),
                         $registrationCat->member_category_id,
                         $currency
                     );
+                    if($payAmount > $payableClass->payable_class_amount)
+                    {
+                        $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
+                        return false;
+                    }
+                    $totalPayAmount += $payAmount;
                     $paymentsDetails[] = array(
                         "payment_submission_id" => $submission,
                         "payment_member_id" => $submissionDetails[0]->submission_member_id ,
@@ -629,8 +639,13 @@ class Dashboard extends CI_Controller
             {
                 $this->transaction_model->newTransaction($transactionDetails);
                 $transId = $this->transaction_model->getTransactionId($transactionDetails);
-                $this->payment_model->addMultiPaymentsWithCommonTransaction($paymentsDetails, $transId);
+                $noofAdded = $this->payment_model->addMultiPaymentsWithCommonTransaction($paymentsDetails, $transId);
+                $this->data['message'][] = $noofAdded . " payments added.";
                 return true;
+            }
+            else
+            {
+                $this->data['pay_error'] = "Selected pay amount unequal to transaction amount!";
             }
         }
         return false;

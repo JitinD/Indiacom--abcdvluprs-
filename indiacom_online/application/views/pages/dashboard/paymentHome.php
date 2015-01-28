@@ -2,7 +2,23 @@
 <h3 class="text-theme">Payments</h3>
 
 <hr>
-
+<div class="bg-danger h4">
+    <?php
+    if(isset($pay_error))
+        echo $pay_error;
+    ?>
+</div>
+<div class="bg-info h4">
+    <?php
+    if(isset($message))
+    {
+        foreach($message as $msg)
+        {
+            echo "<div>$msg</div>";
+        }
+    }
+    ?>
+</div>
 <form class="for m-horizontal" method="post">
 <div id="step1">
             <span class="h3 text-primary">
@@ -56,7 +72,7 @@
     <table class="table table-responsive table-striped table-hover">
         <thead>
         <tr>
-            <th>Paper ID</th>
+            <th>Paper Code</th>
             <th>Paper Title</th>
             <th>Discount</th>
             <th>Payable</th>
@@ -96,42 +112,56 @@
                     <td>
                     </td>
                     <td>
-                                    <span class="BR" <?php if(!isset($papersInfo[$paper->paper_id]['paid'])) {?> style="display: none;" <?php } ?>>
-                                        <?php
-                                        if(isset($papersInfo[$paper->paper_id]['br']))
-                                            echo $papersInfo[$paper->paper_id]['br'];
-                                        ?>
-                                    </span>
-                                    <span class="EP" <?php if(!isset($papersInfo[$paper->paper_id]['paid'])) {?> style="display: none;" <?php } ?>>
-                                        <?php
-                                        if(isset($papersInfo[$paper->paper_id]['ep']))
-                                            echo $papersInfo[$paper->paper_id]['ep'];
-                                        ?>
-                                    </span>
+                        <span class="BR"
+                            <?php
+                            if(!isset($papersInfo[$paper->paper_id]['paid']) && isset($papersInfo[$paper->paper_id]['ep']))
+                            {?>
+                                style="display: none;"
+                            <?php
+                            }
+                            ?>>
+                            <?php
+                            if(isset($papersInfo[$paper->paper_id]['br']) && isset($papersInfo[$paper->paper_id]['br']))
+                                echo $papersInfo[$paper->paper_id]['br'];
+                            ?>
+                        </span>
+                        <span class="EP"
+                            <?php
+                            if(!isset($papersInfo[$paper->paper_id]['paid']))
+                            {?>
+                                style="display: none;"
+                            <?php
+                            }
+                            ?>>
+                            <?php
+                            if(isset($papersInfo[$paper->paper_id]['ep']))
+                                echo $papersInfo[$paper->paper_id]['ep'];
+                            ?>
+                        </span>
                     </td>
                     <td>
-                                    <span>
-                                        <?php
-                                        if(isset($papersInfo[$paper->paper_id]['waiveOff']))
-                                            echo $papersInfo[$paper->paper_id]['waiveOff'];
-                                        ?>
-                                    </span>
+                        <span>
+                            <?php
+                            if(isset($papersInfo[$paper->paper_id]['waiveOff']))
+                                echo $papersInfo[$paper->paper_id]['waiveOff'];
+                            ?>
+                        </span>
                     </td>
                     <td>
-                                    <span>
-                                        <?php
-                                        if(isset($papersInfo[$paper->paper_id]['paid']))
-                                            echo $papersInfo[$paper->paper_id]['paid'];
-                                        ?>
-                                    </span>
+                        <span>
+                            <?php
+                            if(isset($papersInfo[$paper->paper_id]['paid']))
+                                echo $papersInfo[$paper->paper_id]['paid'];
+                            ?>
+                        </span>
                     </td>
                     <td>
-                                    <span>
-                                        <?php
-                                        if(isset($papersInfo[$paper->paper_id]['pending']))
-                                            echo $papersInfo[$paper->paper_id]['pending'];
-                                        ?>
-                                    </span>
+                        <span>
+                            <?php
+                            if(isset($papersInfo[$paper->paper_id]['pending']))
+                                echo $papersInfo[$paper->paper_id]['pending'];
+                            ?>
+                        </span>
                     </td>
                     <td>
                         <input type="number" value="<?php if(isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>"
@@ -314,7 +344,7 @@
             $("#addMoreAuthors").append(html);
         });
 
-        $("#button_addMoreModes").click(function(){
+/*        $("#button_addMoreModes").click(function(){
             var html1=
                 "<hr>"+
                     "<span class=\"h3\">"+
@@ -379,7 +409,7 @@
                 SPAN.eq(0).hide();
                 SPAN.eq(1).show();
             }
-        );
+        );*/
 
         $(".radio").click(function()
         {
