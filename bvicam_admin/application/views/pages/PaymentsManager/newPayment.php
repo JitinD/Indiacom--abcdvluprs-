@@ -35,7 +35,7 @@
             <span class="bg-primary">
                 <?php echo $transDetails->transaction_id; ?>
             </span>
-            <a href="#">Change Transaction</a>
+            <a href="<?php echo "/".BASEURL."index.php/TransactionManager/loadUnusedTransactions"; ?>">Change Transaction</a>
         </span>
         <span class="h5 center-block text-success">
             Transaction Member
@@ -58,7 +58,10 @@
         <span class="h5 center-block text-success">
             Transaction Mode
             <span class="bg-primary">
-                <?php echo $transModeDetails->transaction_mode_name; ?>
+                <?php
+                if($transDetails->is_waived_off == 0)
+                    echo $transModeDetails->transaction_mode_name;
+                ?>
             </span>
         </span>
         <span class="h5 center-block text-success">
@@ -90,7 +93,16 @@
             <span class="bg-primary">
                 <?php echo $transDetails->transaction_date; ?>
             </span>
-        </span><span class="h5 center-block text-success">
+        </span>
+        <span class="h5 center-block text-success">
+            Is Waived Off
+            <span class="bg-primary">
+                <?php
+                echo ($transDetails->is_waived_off == 1) ? "Yes" : "No";
+                ?>
+            </span>
+        </span>
+        <span class="h5 center-block text-success">
             Transaction Remarks
             <span class="bg-primary">
                 <?php echo $transDetails->transaction_remarks; ?>
@@ -101,6 +113,9 @@
     else
     {
         echo "Invalid Transaction ID";
+    ?>
+        <a href="<?php echo "/".BASEURL."TransactionManager/loadUnusedTransactions"; ?>">Change Transaction</a>
+    <?php
     }
     ?>
     <form class="form-horizontal" method="post">
@@ -165,7 +180,7 @@
             <table class="table table-responsive table-striped table-hover">
                 <thead>
                 <tr>
-                    <th>Paper ID</th>
+                    <th>Paper Code</th>
                     <th>Paper Title</th>
                     <th>Discount</th>
                     <th>Payable</th>

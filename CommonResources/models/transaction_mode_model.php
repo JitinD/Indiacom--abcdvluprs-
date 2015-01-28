@@ -26,6 +26,17 @@ class Transaction_mode_model extends CI_Model
         return $query->result();
     }
 
+    public function getAllTransactionModesAsAssocArray()
+    {
+        $allModes = $this->getAllTransactionModes();
+        $allModesArr = array();
+        foreach($allModes as $mode)
+        {
+            $allModesArr[$mode->transaction_mode_id]['transaction_mode_name'] = $mode->transaction_mode_name;
+        }
+        return $allModesArr;
+    }
+
     public function getTransactionModeDetails($trans_mode_id)
     {
         $sql = "Select * From transaction_mode_master

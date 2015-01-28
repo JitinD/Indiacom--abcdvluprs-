@@ -122,6 +122,15 @@
             return $query->result();
         }
 
+        public function getAllTransactions($limit=null, $offset=null)
+        {
+            $sql = "Select * From transaction_master";
+            $query = $this->db->query($sql);
+            if($query->num_rows() == 0)
+                return array();
+            return $query->result();
+        }
+
         public function getTransactions()
         {
             $this -> db -> select('member_name, transaction_id, transaction_bank, transaction_number, transaction_mode_name, transaction_amount, transaction_date, transaction_currency, transaction_EQINR, is_verified, transaction_remarks');

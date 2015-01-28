@@ -54,11 +54,14 @@ class TransactionManager extends CI_Controller
     {
         $this->load->model('transaction_model');
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('trans_mode', 'Transaction Mode', 'required');
+        if($this->input->post('trans_isWaivedOff') != null && !$this->input->post('trans_isWaivedOff'))
+        {
+            $this->form_validation->set_rules('trans_mode', 'Transaction Mode', 'required');
+            $this->form_validation->set_rules('trans_bank', 'Bank Name', 'required');
+            $this->form_validation->set_rules('trans_no', 'Transaction Number', 'required');
+        }
         $this->form_validation->set_rules('trans_amount', 'Amount', 'required');
         $this->form_validation->set_rules('trans_currency', 'Currency', 'required');
-        $this->form_validation->set_rules('trans_bank', 'Bank Name', 'required');
-        $this->form_validation->set_rules('trans_no', 'Transaction Number', 'required');
         $this->form_validation->set_rules('trans_date', 'Transaction Date', 'required');
         $this->form_validation->set_rules('trans_memberId', 'Member ID', 'required');
 
@@ -66,15 +69,20 @@ class TransactionManager extends CI_Controller
         {
             $transDetails = array(
                 "transaction_member_id" => $this->input->post('trans_memberId'),
-                "transaction_bank" => $this->input->post('trans_bank'),
-                "transaction_number" => $this->input->post('trans_no'),
-                "transaction_mode" => $this->input->post('trans_mode'),
                 "transaction_amount" => $this->input->post('trans_amount'),
                 "transaction_date" => $this->input->post('trans_date'),
                 "transaction_currency" => $this->input->post('trans_currency'),
+                "transaction_bank" => $this->input->post('trans_bank'),
+                "transaction_number" => $this->input->post('trans_no'),
+                "transaction_mode" => $this->input->post('trans_mode'),
                 "is_verified" => 1,
                 "transaction_remarks" => $this->input->post('trans_remarks')
             );
+            if($this->input->post('trans_isWaivedOff') != null && $this->input->post('trans_isWaivedOff'))
+            {
+                $transDetails['transaction_mode'] = null;
+                $transDetails['is_waived_off'] = true;
+            }
             $this->transaction_model->newTransaction($transDetails);
             $_SESSION[APPID]['transId'] = $this->transaction_model->getTransactionId($transDetails);
             return true;
@@ -86,14 +94,26 @@ class TransactionManager extends CI_Controller
     {
         $page = "index";
         $this->load->model('transaction_model');
+        $this->load->model('transaction_mode_model');
+        $this->load->model('currency_model');
         $this->data['transactions'] = $this->transaction_model->getUnusedTransactions();
+        $this->data['transModes'] = $this->transaction_mode_model->getAllTransactionModesAsAssocArray();
+        $this->data['currencies'] = $this->currency_model->getAllCurrenciesAsAssocArray();
         $this->data['isUnusedTransactionList'] = true;
         $this->index($page);
     }
 
     public function load()
     {
-
+        $page = "index";
+        $this->load->model('transaction_model');
+        $this->load->model('transaction_mode_model');
+        $this->load->model('currency_model');
+        $this->data['transactions'] = $this->transaction_model->getAllTransactions();
+        $this->data['transModes'] = $this->transaction_mode_model->getAllTransactionModesAsAssocArray();
+        $this->data['currencies'] = $this->currency_model->getAllCurrenciesAsAssocArray();
+        $this->data['isUnusedTransactionList'] = false;
+        $this->index($page);
     }
 
     public function viewTransaction($transId)

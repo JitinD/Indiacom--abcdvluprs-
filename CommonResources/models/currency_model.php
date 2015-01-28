@@ -47,6 +47,17 @@ class Currency_model extends CI_Model
         return $query->result();
     }
 
+    public function getAllCurrenciesAsAssocArray()
+    {
+        $currencies = $this->getAllCurrencies();
+        $currenciesArr = array();
+        foreach($currencies as $currency)
+        {
+            $currenciesArr[$currency->currency_id]['currency_name'] = $currency->currency_name;
+        }
+        return $currenciesArr;
+    }
+
     public function getCurrencyExchangeRateInINR($currencyId)
     {
         $currency = $this->getCurrencyName($currencyId);

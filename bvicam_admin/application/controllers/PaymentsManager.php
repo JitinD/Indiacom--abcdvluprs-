@@ -63,7 +63,7 @@ class PaymentsManager extends CI_Controller
         $this->index($page);
     }
 
-    public function newPayment()
+    public function newPayment($transId = null)
     {
         $this->load->model('transaction_model');
         $this->load->model('paper_status_model');
@@ -73,9 +73,9 @@ class PaymentsManager extends CI_Controller
         $this->load->model('transaction_mode_model');
         $this->load->model('payment_model');
         $page = "newPayment";
-        if(isset($_SESSION[APPID]['transId']))
+        if(isset($_SESSION[APPID]['transId']) || $transId != null)
         {
-            $transId = $_SESSION[APPID]['transId'];
+            $transId = ($transId != null) ? $transId : $_SESSION[APPID]['transId'];
             $memberId =  $this->input->post('payment_memberId');
             $this->data['transDetails'] = $this->transaction_model->getTransactionDetails($transId);
             $this->data['transUsedAmount'] = $this->transaction_model->getTransactionUsedAmount($transId);
@@ -201,7 +201,7 @@ class PaymentsManager extends CI_Controller
 
     }
 
-    public function waiveOff()
+    /*public function waiveOff()
     {
         $page = "waiveOff";
         $this->load->model("submission_model");
@@ -229,7 +229,7 @@ class PaymentsManager extends CI_Controller
         $this->data['nationalityDetails'] = $this->nationalityNamesAsAssocArray();
 
         $this->index($page);
-    }
+    }*/
 
     private function payheadNamesAsAssocArray()
     {
