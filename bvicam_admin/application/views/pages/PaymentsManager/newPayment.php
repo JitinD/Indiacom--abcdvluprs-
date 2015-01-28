@@ -9,74 +9,103 @@
 <div class="col-md-12 col-sm-12 col-xs-12" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <h3 class="text-theme">Create New Payment</h3>
     <hr>
-    <span class="h5 center-block text-success">
-        Transaction Id
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_id; ?>
+    <div class="bg-danger h4">
+        <?php
+        if(isset($pay_error))
+            echo $pay_error;
+        ?>
+    </div>
+    <div class="bg-info h4">
+        <?php
+        if(isset($message))
+        {
+            foreach($message as $msg)
+            {
+                echo "<div>$msg</div>";
+            }
+        }
+        ?>
+    </div>
+    <?php
+    if(!empty($transDetails))
+    {
+    ?>
+        <span class="h5 center-block text-success">
+            Transaction Id
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_id; ?>
+            </span>
+            <a href="#">Change Transaction</a>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Member
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_member_id; ?>
+        <span class="h5 center-block text-success">
+            Transaction Member
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_member_id; ?>
+            </span>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Bank
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_bank; ?>
+        <span class="h5 center-block text-success">
+            Transaction Bank
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_bank; ?>
+            </span>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Number
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_number; ?>
+        <span class="h5 center-block text-success">
+            Transaction Number
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_number; ?>
+            </span>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Mode
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_mode; ?>
+        <span class="h5 center-block text-success">
+            Transaction Mode
+            <span class="bg-primary">
+                <?php echo $transModeDetails->transaction_mode_name; ?>
+            </span>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Amount
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_amount; ?>
+        <span class="h5 center-block text-success">
+            Transaction Amount
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_amount; ?>
+            </span>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Currency
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_currency; ?>
+        <span class="h5 center-block text-success">
+            Transaction Currency
+            <span class="bg-primary">
+                <?php echo $currencyName; ?>
+            </span>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Amount(EQINR)
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_EQINR; ?>
+        <span class="h5 center-block text-success">
+            Transaction Amount(EQINR)
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_EQINR; ?>
+            </span>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Unused Amount
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_EQINR - $transUsedAmount; ?>
+        <span class="h5 center-block text-success">
+            Transaction Unused Amount
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_EQINR - $transUsedAmount; ?>
+            </span>
         </span>
-    </span>
-    <span class="h5 center-block text-success">
-        Transaction Date
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_date; ?>
+        <span class="h5 center-block text-success">
+            Transaction Date
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_date; ?>
+            </span>
+        </span><span class="h5 center-block text-success">
+            Transaction Remarks
+            <span class="bg-primary">
+                <?php echo $transDetails->transaction_remarks; ?>
+            </span>
         </span>
-    </span><span class="h5 center-block text-success">
-        Transaction Remarks
-        <span class="bg-primary">
-            <?php echo $transDetails->transaction_remarks; ?>
-        </span>
-    </span>
+    <?php
+    }
+    else
+    {
+        echo "Invalid Transaction ID";
+    }
+    ?>
     <form class="form-horizontal" method="post">
         <?php
-        if(!isset($paymentMemberId))
+        if(!isset($paymentMemberId) && !empty($transDetails))
         {
         ?>
         <div class="form-group">
@@ -87,12 +116,12 @@
         </div>
         <?php
         }
-        else
+        else if(!empty($transDetails) && $memberDetails != null)
         {
         ?>
             <span class="h5 center-block text-success">
                 Member ID
-                <span class="">
+                <span class="bg-primary">
                     <?php
                     echo $memberDetails['member_id'];
                     ?>
@@ -176,13 +205,29 @@
                             <td>
                             </td>
                             <td>
-                                <span class="BR" <?php if(!isset($papersInfo[$paper->paper_id]['paid'])) {?> style="display: none;" <?php } ?>>
+                                <span class="BR"
                                     <?php
-                                    if(isset($papersInfo[$paper->paper_id]['br']))
+                                    if(!isset($papersInfo[$paper->paper_id]['paid']) && isset($papersInfo[$paper->paper_id]['ep']))
+                                    {
+                                    ?>
+                                        style="display: none;"
+                                    <?php
+                                    }
+                                    ?>>
+                                    <?php
+                                    if(isset($papersInfo[$paper->paper_id]['br']) && isset($papersInfo[$paper->paper_id]['br']))
                                         echo $papersInfo[$paper->paper_id]['br'];
                                     ?>
                                 </span>
-                                <span class="EP" <?php if(!isset($papersInfo[$paper->paper_id]['paid'])) {?> style="display: none;" <?php } ?>>
+                                <span class="EP"
+                                    <?php
+                                    if(!isset($papersInfo[$paper->paper_id]['paid']))
+                                    {
+                                    ?>
+                                        style="display: none;"
+                                    <?php
+                                    }
+                                    ?>>
                                     <?php
                                     if(isset($papersInfo[$paper->paper_id]['ep']))
                                         echo $papersInfo[$paper->paper_id]['ep'];
@@ -194,6 +239,8 @@
                                     <?php
                                     if(isset($papersInfo[$paper->paper_id]['waiveOff']))
                                         echo $papersInfo[$paper->paper_id]['waiveOff'];
+                                    else
+                                        echo 0;
                                     ?>
                                 </span>
                             </td>
@@ -202,6 +249,8 @@
                                     <?php
                                     if(isset($papersInfo[$paper->paper_id]['paid']))
                                         echo $papersInfo[$paper->paper_id]['paid'];
+                                    else
+                                        echo 0;
                                     ?>
                                 </span>
                             </td>
@@ -214,7 +263,8 @@
                                 </span>
                             </td>
                             <td>
-                                <input type="number" value="<?php if(isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>"
+                                <input type="number"
+                                       value="<?php if(isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>"
                                        max="<?php if(isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>" min="0"
                                        name="<?php echo $paper->submission_id; ?>_payAmount">
                             </td>
@@ -256,6 +306,12 @@
                 </div>
                 <label class="col-sm-2" for="">Add payment for more authors with this transaction</label>
             </div>
+        <?php
+        }
+        else if(empty($transDetails))
+        {
+        ?>
+            No transaction selected
         <?php
         }
         ?>

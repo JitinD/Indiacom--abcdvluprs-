@@ -94,6 +94,34 @@
             return $row->amount_used;
         }
 
+        public function getUnusedTransactions()
+        {
+            $sql = "Select
+                        table1.*
+                    From
+                        (
+                            Select
+                                transaction_master.*,
+                                Case
+                                    When payment_amount_paid is Null
+                                    Then 0
+                                    Else SUM(payment_amount_paid)
+                                End as amount_used
+                            From
+                                transaction_master
+                                    Left Join
+                                payment_master
+                                    On transaction_id = payment_trans_id
+                            Group By
+                                transaction_id
+                        ) as table1
+                    Where amount_used < transaction_amount";
+            $query = $this->db->query($sql);
+            if($query->num_rows() == 0)
+                return array();
+            return $query->result();
+        }
+
         public function getTransactions()
         {
             $this -> db -> select('member_name, transaction_id, transaction_bank, transaction_number, transaction_mode_name, transaction_amount, transaction_date, transaction_currency, transaction_EQINR, is_verified, transaction_remarks');
@@ -104,6 +132,7 @@
 
             if($query -> num_rows() > 0)
                 return $query -> result();
+            return array();
         }
 
         public function getWaiveOffTransactions()

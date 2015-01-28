@@ -63,51 +63,6 @@ class PaymentsManager extends CI_Controller
         $this->index($page);
     }
 
-    public function newTransaction()
-    {
-        $this->load->model('transaction_mode_model');
-        $this->load->model('currency_model');
-        $this->load->helper('url');
-        $page = "newTransaction";
-        $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
-        $this->data['currencies'] = $this->currency_model->getAllCurrencies();
-        if($this->newTransactionSubmitHandle())
-            redirect('PaymentsManager/newPayment');
-        $this->index($page);
-    }
-
-    private function newTransactionSubmitHandle()
-    {
-        $this->load->model('transaction_model');
-        $this->load->library('form_validation');
-        $this->form_validation->set_rules('trans_mode', 'Transaction Mode', 'required');
-        $this->form_validation->set_rules('trans_amount', 'Amount', 'required');
-        $this->form_validation->set_rules('trans_currency', 'Currency', 'required');
-        $this->form_validation->set_rules('trans_bank', 'Bank Name', 'required');
-        $this->form_validation->set_rules('trans_no', 'Transaction Number', 'required');
-        $this->form_validation->set_rules('trans_date', 'Transaction Date', 'required');
-        $this->form_validation->set_rules('trans_memberId', 'Member ID', 'required');
-
-        if($this->form_validation->run())
-        {
-            $transDetails = array(
-                "transaction_member_id" => $this->input->post('trans_memberId'),
-                "transaction_bank" => $this->input->post('trans_bank'),
-                "transaction_number" => $this->input->post('trans_no'),
-                "transaction_mode" => $this->input->post('trans_mode'),
-                "transaction_amount" => $this->input->post('trans_amount'),
-                "transaction_date" => $this->input->post('trans_date'),
-                "transaction_currency" => $this->input->post('trans_currency'),
-                "is_verified" => 1,
-                "transaction_remarks" => $this->input->post('trans_remarks')
-            );
-            $this->transaction_model->newTransaction($transDetails);
-            $_SESSION[APPID]['transId'] = $this->transaction_model->getTransactionId($transDetails);
-            return true;
-        }
-        return false;
-    }
-
     public function newPayment()
     {
         $this->load->model('transaction_model');
@@ -124,40 +79,57 @@ class PaymentsManager extends CI_Controller
             $memberId =  $this->input->post('payment_memberId');
             $this->data['transDetails'] = $this->transaction_model->getTransactionDetails($transId);
             $this->data['transUsedAmount'] = $this->transaction_model->getTransactionUsedAmount($transId);
-            if($memberId != null)
+            if($memberId != null && !empty($this->data['transDetails']))
             {
                 $this->data['paymentMemberId'] = $memberId;
                 $this->data['memberDetails'] = $this->member_model->getMemberInfo($memberId);
-                $this->data['isProfBodyMember'] = true;
-                $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
-                $this->data['registrationCat'] = $this->member_model->getMemberCategory($memberId);
-                $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberId);
-                $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
-                if($this->newPaymentSubmitHandle(
-                    $memberId,
-                    $this->data['registrationCat'],
-                    $this->data['transDetails']->transaction_currency,
-                    $transId,
-                    $this->data['transDetails']->transaction_EQINR - $this->data['transUsedAmount']
-                ))
+                $this->data['currencyName'] = $this->currency_model->getCurrencyName($this->data['transDetails']->transaction_currency);
+                $this->data['transModeDetails'] = $this->transaction_mode_model->getTransactionModeDetails($this->data['transDetails']->transaction_mode);
+                if($this->data['memberDetails'] != null)
                 {
-                    $morePayments = $this->input->post('morePayments');
-                    if($morePayments)
+                    $this->data['isProfBodyMember'] = true;
+                    $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
+                    $this->data['registrationCat'] = $this->member_model->getMemberCategory($memberId);
+                    $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberId);
+                    $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
+                    if($this->newPaymentSubmitHandle(
+                        $memberId,
+                        $this->data['registrationCat'],
+                        $this->data['transDetails']->transaction_currency,
+                        $transId,
+                        $this->data['transDetails']->transaction_EQINR - $this->data['transUsedAmount']
+                    ))
                     {
-                        unset($this->data['paymentMemberId']);
+                        $this->data['transUsedAmount'] = $this->transaction_model->getTransactionUsedAmount($transId);
+                        $morePayments = $this->input->post('morePayments');
+                        if($morePayments)
+                        {
+                            unset($this->data['paymentMemberId']);
+                        }
                     }
-                    else
-                    {
-                        unset($_SESSION[APPID]['transId']);
-                    }
+                    $this->data['papersInfo'] = $this->payment_model->calculatePayables($memberId, $this->data['transDetails']->transaction_currency, $this->data['registrationCat'], $this->data['papers']);
                 }
-                $this->data['papersInfo'] = $this->payment_model->calculatePayables($memberId, $this->data['transDetails']->transaction_currency, $this->data['registrationCat'], $this->data['papers']);
+                else
+                {
+                    $this->data['pay_error'] = "Unknown member id";
+                    unset($this->data['paymentMemberId']);
+                }
+            }
+            else if(empty($this->data['transDetails']))
+            {
+                unset($_SESSION[APPID]['transId']);
+            }
+            else
+            {
+                $this->data['currencyName'] = $this->currency_model->getCurrencyName($this->data['transDetails']->transaction_currency);
+                $this->data['transModeDetails'] = $this->transaction_mode_model->getTransactionModeDetails($this->data['transDetails']->transaction_mode);
             }
             $this->index($page);
         }
         else
         {
-            echo "No transaction selected";
+            $this->index($page);
+            //echo "No transaction selected";
         }
     }
 
@@ -175,13 +147,16 @@ class PaymentsManager extends CI_Controller
         if($this->form_validation->run())
         {
             $submissionIds = $this->input->post('submissionIds');
+            if($submissionIds == null)
+                $submissionIds = array();
             $paymentsDetails = array();
             $totalPayAmount = 0;
             foreach($submissionIds as $submission)
             {
                 $payAmount = $this->input->post($submission."_payAmount");
                 $payHead = $this->input->post($submission."_payhead");
-                $totalPayAmount += $payAmount;
+                if($payAmount <= 0)
+                    continue;
                 $payHeadId = $this->payment_head_model->getPaymentHeadId($payHead);
                 $submissionDetails = $this->submission_model->getSubmissionsByAttribute("submission_id", $submission);
                 if($payHeadId != null)
@@ -192,6 +167,12 @@ class PaymentsManager extends CI_Controller
                         $registrationCat->member_category_id,
                         $currency
                     );
+                    if($payAmount > $payableClass->payable_class_amount)
+                    {
+                        $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
+                        return false;
+                    }
+                    $totalPayAmount += $payAmount;
                     $paymentsDetails[] = array(
                         "payment_submission_id" => $submission,
                         "payment_member_id" => $submissionDetails[0]->submission_member_id ,
@@ -203,8 +184,13 @@ class PaymentsManager extends CI_Controller
             }
             if($totalPayAmount <= $transAmount)
             {
-                $this->payment_model->addMultiPaymentsWithCommonTransaction($paymentsDetails, $transId);
+                $noofAdded = $this->payment_model->addMultiPaymentsWithCommonTransaction($paymentsDetails, $transId);
+                $this->data['message'][] = $noofAdded . " payments added.";
                 return true;
+            }
+            else
+            {
+                $this->data['pay_error'] = "Selected pay amount greater than transaction amount!";
             }
         }
         return false;

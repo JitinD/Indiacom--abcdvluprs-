@@ -5,7 +5,6 @@
     <ignored path="Indiacom2015.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
-    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,41 +24,76 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="transaction_model.php" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PaymentsManager.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/PaymentsManager.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="110" column="17" selection-start="4898" selection-end="4898" vertical-scroll-proportion="-0.0" vertical-offset="1870" max-vertical-offset="4675">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransactionManager.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/TransactionManager.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="89" column="24" selection-start="3633" selection-end="3633" vertical-scroll-proportion="0.0" vertical-offset="1513" max-vertical-offset="1836">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/TransactionManager/index.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="20" column="39" selection-start="594" selection-end="594" vertical-scroll-proportion="-8.692307" vertical-offset="114" max-vertical-offset="748">
+              <folding>
+                <element signature="e#6#87#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="paper_status_model.php" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/CommonResources/models/paper_status_model.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="33" column="35" selection-start="967" selection-end="967" vertical-scroll-proportion="0.5320285" vertical-offset="177" max-vertical-offset="765">
+              <folding>
+                <marker date="1421772585222" expanded="true" signature="283:548" placeholder="Select paper..paper_latest_version..." />
+                <marker date="1421772585222" expanded="true" signature="791:1172" placeholder="Select paper..paper_latest_version..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="transaction_model.php" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/CommonResources/models/transaction_model.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="680">
-              <caret line="19" column="123" selection-start-line="19" selection-start-column="123" selection-end-line="19" selection-end-column="123" />
+            <state line="110" column="50" selection-start="3828" selection-end="3828" vertical-scroll-proportion="0.0" vertical-offset="1575" max-vertical-offset="2975">
+              <folding>
+                <marker date="1422272430239" expanded="true" signature="1544:1635" placeholder="Select trans..transaction_master..." />
+                <marker date="1422272430239" expanded="true" signature="2192:2269" placeholder="Select * Fro..transaction_master..." />
+                <marker date="1422272430239" expanded="true" signature="2553:3004" placeholder="Select Case ..transaction_master..." />
+                <marker date="1422272430239" expanded="true" signature="3299:4173" placeholder="Select table..*..." />
+                <marker date="1422272430239" expanded="true" signature="3418:4078" placeholder="Select trans..transaction_master..." />
+                <marker date="1422272430239" expanded="true" signature="5167:5334" placeholder="Select trans..transaction_master..." />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="newPayment.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/newPayment.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="37" column="42" selection-start="905" selection-end="905" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="5916">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="paymentHome.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentHome.php">
+      <file leaf-file-name="viewPayments.php" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/viewPayments.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.70740104" vertical-offset="3176" max-vertical-offset="3825">
-              <caret line="211" column="34" selection-start-line="211" selection-start-column="34" selection-end-line="211" selection-end-column="34" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="submitpaper.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/submitpaper.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.461538" vertical-offset="1734" max-vertical-offset="3247">
-              <caret line="118" column="25" selection-start-line="118" selection-start-column="25" selection-end-line="118" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="paymentDetails.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentDetails.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="459">
-              <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
+            <state line="32" column="28" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="1700">
               <folding />
             </state>
           </provider>
@@ -78,33 +112,7 @@
   <component name="IdeDocumentHistory">
     <option name="changedFiles">
       <list>
-        <option value="$PROJECT_DIR$/application/views/templates/footer.php" />
-        <option value="$PROJECT_DIR$/application/views/templates/quickLinks.php" />
-        <option value="$PROJECT_DIR$/application/views/templates/hero.php" />
-        <option value="$PROJECT_DIR$/application/assets/.htaccess" />
-        <option value="$PROJECT_DIR$/application/models/Application.php" />
-        <option value="$PROJECT_DIR$/application/views/templates/banner.php" />
-        <option value="$PROJECT_DIR$/application/views/pages/index.php" />
-        <option value="$PROJECT_DIR$/index.php" />
-        <option value="$PROJECT_DIR$/application/views/templates/loginPage.php" />
-        <option value="$PROJECT_DIR$/application/views/pages/aboutIndiacom.php" />
-        <option value="$PROJECT_DIR$/application/views/templates/header.php" />
-        <option value="$PROJECT_DIR$/application/config/database.php" />
-        <option value="$PROJECT_DIR$/application/controllers/Login.php" />
-        <option value="$PROJECT_DIR$/application/models/LoginModel.php" />
-        <option value="$PROJECT_DIR$/application/views/pages/loginPage.php" />
-        <option value="$PROJECT_DIR$/application/views/templates/navbar.php" />
-        <option value="$PROJECT_DIR$/application/controllers/MainController.php" />
-        <option value="$PROJECT_DIR$/application/controllers/AJAX.php" />
-        <option value="$PROJECT_DIR$/application/assets/js/script.js" />
-        <option value="$PROJECT_DIR$/application/assets/css/style.css" />
-        <option value="$PROJECT_DIR$/application/models/AjaxModel.php" />
-        <option value="$PROJECT_DIR$/application/views/pages/signup.php" />
-        <option value="$PROJECT_DIR$/application/config/routes.php" />
-        <option value="$PROJECT_DIR$/application/views/pages/newsitem.php" />
         <option value="$PROJECT_DIR$/application/views/pages/news.php" />
-        <option value="$PROJECT_DIR$/indiacom_online/index.php" />
-        <option value="$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js" />
         <option value="$PROJECT_DIR$/CommonResources/models/RegistrationModel.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/config/email.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php" />
@@ -116,18 +124,45 @@
         <option value="$PROJECT_DIR$/CommonResources/models/MemberModel.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/SignUpController.php" />
         <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/allNews.php" />
-        <option value="$PROJECT_DIR$/indiacom_online/application/controllers/Dashboard.php" />
         <option value="$PROJECT_DIR$/CommonResources/models/NewsModel.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/MainController.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/NewsController.php" />
         <option value="$PROJECT_DIR$/CommonResources/models/ApplicationModel.php" />
         <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/addNews.php" />
         <option value="$PROJECT_DIR$/bvicam_admin/application/controllers/AddNewsController.php" />
-        <option value="$PROJECT_DIR$/indiacom_online/application/config/paths.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/controllers/Registration.php" />
-        <option value="$PROJECT_DIR$/CommonResources/models/transaction_model.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentDetails.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/paymentBreakup.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/index.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/viewPayments.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/waiveOff.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/paper_model.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/submission_model.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/registrationCategoryModel.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/currency_model.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/nationality_model.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/controllers/Login.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/login_model.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/payable_class_model.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/paper_status_model.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/transaction_mode_model.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/payment_head_model.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/views/templates/dashboard/dashboardPanel.php" />
         <option value="$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentHome.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/controllers/Dashboard.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/member_model.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/config/paths.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/config/paths.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/newTransaction.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/payment_model.php" />
+        <option value="$PROJECT_DIR$/indiacom_online/index.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/controllers/PaymentsManager.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/newPayment.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/index.php" />
+        <option value="$PROJECT_DIR$/CommonResources/models/transaction_model.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/controllers/TransactionManager.php" />
+        <option value="$PROJECT_DIR$/bvicam_admin/application/views/pages/TransactionManager/index.php" />
       </list>
     </option>
   </component>
@@ -135,7 +170,7 @@
   <component name="ProjectFrameBounds">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
-    <option name="width" value="1382" />
+    <option name="width" value="1376" />
     <option name="height" value="744" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
@@ -152,7 +187,7 @@
     <option name="STATE" value="0" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
+    <navigator currentView="ProjectPane" proportions="" version="1" splitterProportion="0.5">
       <flattenPackages />
       <showMembers />
       <showModules />
@@ -207,7 +242,53 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemId" value="CommonResources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="CommonResources" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="models" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -225,7 +306,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemId" value="bvicam_admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -247,7 +328,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemId" value="bvicam_admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -273,7 +354,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="indiacom_online" />
+              <option name="myItemId" value="bvicam_admin" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
@@ -289,7 +370,67 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="dashboard" />
+              <option name="myItemId" value="TransactionManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="RoleManager" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="Indiacom2015" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="bvicam_admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="application" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="views" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PaymentsManager" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -299,7 +440,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="SearchEverywhereHistory" value="" />
+    <property name="SearchEverywhereHistory" value="&#10;p" />
     <property name="FullScreen" value="false" />
     <property name="options.lastSelected" value="vcs.Git" />
     <property name="options.splitter.main.proportions" value="0.3" />
@@ -309,6 +450,7 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\wamp\www\Indiacom2015\bvicam_admin\application\views\pages\TransactionManager" />
       <recent name="C:\xampp\htdocs\Indiacom2015\application\views\pages" />
       <recent name="C:\xampp\htdocs\Indiacom2015\application\views" />
       <recent name="C:\xampp\htdocs\Indiacom2015\application\views\templates" />
@@ -322,19 +464,7 @@
     <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
       <method />
     </configuration>
-    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
-      <method />
-    </configuration>
-    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
-      <BehatRunner />
-      <method />
-    </configuration>
-    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
-      <node-options />
-      <gulpfile />
-      <tasks />
-      <pass-parent-env-vars>false</pass-parent-env-vars>
-      <envs />
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug" singleton="true">
       <method />
     </configuration>
     <configuration default="true" type="PhpUnitRemoteRunConfigurationType" factoryName="PHPUnit on Server">
@@ -350,41 +480,37 @@
     <task active="true" id="Default" summary="Default task">
       <changelist id="6d47970e-6ef5-43aa-bcf6-716baba039c8" name="Default" comment="" />
       <created>1405061000967</created>
-      <option name="number" value="Default" />
       <updated>1405061000967</updated>
     </task>
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
-    <editor active="true" />
+    <frame x="-8" y="-8" width="1376" height="744" extended-state="6" />
+    <editor active="false" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.27013177" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.21691176" sideWeight="0.4992126" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3022059" sideWeight="0.5007874" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="8" side_tool="true" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32913387" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
-      <collection />
-    </option>
-    <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
       <collection />
     </option>
   </component>
@@ -397,327 +523,302 @@
     </option>
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
-    <watches-manager />
+    <breakpoint-manager>
+      <option name="time" value="2" />
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/CommonResources/models/transaction_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="680">
-          <caret line="19" column="123" selection-start-line="19" selection-start-column="123" selection-end-line="19" selection-end-column="123" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentHome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3570">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommonResources/models/transaction_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="680">
-          <caret line="19" column="123" selection-start-line="19" selection-start-column="123" selection-end-line="19" selection-end-column="123" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentHome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3570">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommonResources/models/transaction_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="680">
-          <caret line="19" column="123" selection-start-line="19" selection-start-column="123" selection-end-line="19" selection-end-column="123" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentHome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="3689">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/ConvenerDashboardHome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="850" max-vertical-offset="4981">
-          <caret line="52" column="32" selection-start-line="52" selection-start-column="32" selection-end-line="52" selection-end-column="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/submitpaper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1105" max-vertical-offset="3247">
-          <caret line="83" column="65" selection-start-line="83" selection-start-column="65" selection-end-line="83" selection-end-column="65" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentHome.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="1323" max-vertical-offset="3689">
-          <caret line="97" column="51" selection-start-line="97" selection-start-column="51" selection-end-line="97" selection-end-column="51" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/CommonResources/models/transaction_model.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="680">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1190">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Registration.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6868">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/paths.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="272" max-vertical-offset="391">
-          <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1258">
-          <caret line="35" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Registration.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="3570" max-vertical-offset="6494">
-          <caret line="210" column="40" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="4080">
-          <caret line="11" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="4080">
-          <caret line="11" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system_ci_v2.2.0/helpers/captcha_helper.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.942953" vertical-offset="3603" max-vertical-offset="4267">
-          <caret line="245" column="51" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/templates/header.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5862069" vertical-offset="0" max-vertical-offset="609">
-          <caret line="26" column="41" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system_ci_v2.2.0/core/Loader.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.68456376" vertical-offset="1768" max-vertical-offset="21301">
-          <caret line="128" column="64" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/AJAX.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="635">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/index.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5637584" vertical-offset="38" max-vertical-offset="3689">
-          <caret line="22" column="49" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.42834646" vertical-offset="0" max-vertical-offset="1683">
-          <caret line="16" column="55" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6256">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signupSuccess.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3180272" vertical-offset="0" max-vertical-offset="588">
-          <caret line="16" column="30" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/EmailActiveCode.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6862416" vertical-offset="33" max-vertical-offset="629">
-          <caret line="26" column="11" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.8719212" vertical-offset="251" max-vertical-offset="935">
-          <caret line="46" column="48" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/email.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.30706075" vertical-offset="0" max-vertical-offset="609">
-          <caret line="11" column="8" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/EnterPassword.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.942953" vertical-offset="237" max-vertical-offset="901">
-          <caret line="47" column="6" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/ListOfServices.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.47454843" vertical-offset="0" max-vertical-offset="609">
-          <caret line="17" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/RoleManager/viewRole.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.8789474" vertical-offset="501" max-vertical-offset="2057">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/MainController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-15.769231" vertical-offset="49" max-vertical-offset="714">
-          <caret line="32" column="10" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Dashboard.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.39449543" vertical-offset="4256" max-vertical-offset="8279">
-          <caret line="263" column="13" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/signup.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="187" max-vertical-offset="4080">
-          <caret line="11" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/NewsManager.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.7427101" vertical-offset="433" max-vertical-offset="2924">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/NewsManager_IndiacomOnlineSystem.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="609">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Registration.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="5508" max-vertical-offset="6868">
-          <caret line="329" column="0" selection-start-line="329" selection-start-column="0" selection-end-line="329" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/paths.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.46815833" vertical-offset="0" max-vertical-offset="581">
-          <caret line="21" column="43" selection-start-line="21" selection-start-column="43" selection-end-line="21" selection-end-column="43" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="510" max-vertical-offset="1190">
-          <caret line="35" column="0" selection-start-line="35" selection-start-column="0" selection-end-line="35" selection-end-column="0" />
-        </state>
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/ConvenerDashboardHome.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.35915494" vertical-offset="850" max-vertical-offset="4981">
-          <caret line="62" column="0" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/submitpaper.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-3.9807017" vertical-offset="2269" max-vertical-offset="3247" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/UserManager/newUser.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="47" column="46" selection-start="2210" selection-end="2210" vertical-scroll-proportion="1.3005464" vertical-offset="0" max-vertical-offset="1717" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/RoleManager/newRole.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-0.46448088" vertical-offset="255" max-vertical-offset="2074" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/paymentBreakup.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="30" selection-start="403" selection-end="403" vertical-scroll-proportion="0.49544626" vertical-offset="0" max-vertical-offset="1683" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/waiveOff.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="81" column="133" selection-start="3780" selection-end="3780" vertical-scroll-proportion="0.0" vertical-offset="913" max-vertical-offset="2295" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/paymentModes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1564" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentDetails.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="0" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/olpc_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1037" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/paper_version_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="9" selection-start="740" selection-end="740" vertical-scroll-proportion="0.5964912" vertical-offset="0" max-vertical-offset="3060" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/registration_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="26" column="41" selection-start="530" selection-end="530" vertical-scroll-proportion="0.6352313" vertical-offset="0" max-vertical-offset="1972" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/registration_category_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="32" selection-start="528" selection-end="528" vertical-scroll-proportion="0.7259787" vertical-offset="0" max-vertical-offset="562" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/member_categories_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="29" column="9" selection-start="766" selection-end="766" vertical-scroll-proportion="0.7259787" vertical-offset="0" max-vertical-offset="562" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/nationality_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="5" selection-start="929" selection-end="929" vertical-scroll-proportion="-18.346153" vertical-offset="169" max-vertical-offset="765" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/login_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="92" column="47" selection-start="2752" selection-end="2752" vertical-scroll-proportion="0.78647685" vertical-offset="1037" max-vertical-offset="2737" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Login.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="51" column="46" selection-start="1462" selection-end="1462" vertical-scroll-proportion="0.5142349" vertical-offset="493" max-vertical-offset="1190" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/config/config.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="6256" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/config/database.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="-1.6334519" vertical-offset="918" max-vertical-offset="1785" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/payment_head_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="36" column="37" selection-start="910" selection-end="910" vertical-scroll-proportion="0.9039451" vertical-offset="0" max-vertical-offset="663" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/payable_class_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="50" column="46" selection-start="1318" selection-end="1318" vertical-scroll-proportion="0.0" vertical-offset="850" max-vertical-offset="1530" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/indiacom_news_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="74" column="18" selection-start="2429" selection-end="2429" vertical-scroll-proportion="0.30350876" vertical-offset="1085" max-vertical-offset="2567" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/templates/dashboard/dashboardPanel.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="96" selection-start="797" selection-end="797" vertical-scroll-proportion="0.3096539" vertical-offset="0" max-vertical-offset="549" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/submission_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="18" column="43" selection-start="307" selection-end="307" vertical-scroll-proportion="0.4025501" vertical-offset="0" max-vertical-offset="1700" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/Dashboard.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="630" column="16" selection-start="27066" selection-end="27066" vertical-scroll-proportion="-13.269231" vertical-offset="10365" max-vertical-offset="11067" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentHome.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="240" column="14" selection-start="9663" selection-end="9663" vertical-scroll-proportion="4.57193" vertical-offset="1474" max-vertical-offset="6868" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/controllers/AJAX.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="14" column="5" selection-start="245" selection-end="245" vertical-scroll-proportion="0.27224198" vertical-offset="0" max-vertical-offset="578" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/assets/js/AJAX.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1683" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/assets/js/AJAX.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="16" column="27" selection-start="471" selection-end="471" vertical-scroll-proportion="0.029565217" vertical-offset="255" max-vertical-offset="2482" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/application/config/paths.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="12" column="2" selection-start="125" selection-end="125" vertical-scroll-proportion="0.20411664" vertical-offset="0" max-vertical-offset="583" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/config/paths.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="10" column="0" selection-start="183" selection-end="183" vertical-scroll-proportion="0.1457976" vertical-offset="0" max-vertical-offset="583" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/currency_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="25" column="29" selection-start="564" selection-end="564" vertical-scroll-proportion="-9.846154" vertical-offset="84" max-vertical-offset="1054" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/transaction_mode_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="27" column="0" selection-start="568" selection-end="568" vertical-scroll-proportion="-12.961538" vertical-offset="37" max-vertical-offset="646" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/indiacom_online/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="33" selection-start="561" selection-end="737" vertical-scroll-proportion="0.46448088" vertical-offset="153" max-vertical-offset="4046">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/member_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="61" column="36" selection-start="1729" selection-end="1729" vertical-scroll-proportion="1.0291595" vertical-offset="352" max-vertical-offset="2329" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/payment_model.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="385" column="46" selection-start="13796" selection-end="13796" vertical-scroll-proportion="0.10382514" vertical-offset="2646" max-vertical-offset="6681" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/PaymentsManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="110" column="17" selection-start="4898" selection-end="4898" vertical-scroll-proportion="0.0" vertical-offset="1870" max-vertical-offset="4675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/TransactionManager/newTransaction.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="72" column="41" selection-start="3101" selection-end="3101" vertical-scroll-proportion="2.0994854" vertical-offset="0" max-vertical-offset="1751" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/viewPayments.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="28" selection-start="1002" selection-end="1002" vertical-scroll-proportion="0.0" vertical-offset="544" max-vertical-offset="1700">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/newPayment.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="42" selection-start="905" selection-end="905" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="5916">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="33" selection-start="561" selection-end="731" vertical-scroll-proportion="0.17894737" vertical-offset="306" max-vertical-offset="4080">
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/CommonResources/models/transaction_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="86" max-vertical-offset="680">
-          <caret line="19" column="123" selection-start-line="19" selection-start-column="123" selection-end-line="19" selection-end-column="123" />
+        <state line="110" column="50" selection-start="3828" selection-end="3828" vertical-scroll-proportion="0.0" vertical-offset="1575" max-vertical-offset="2975">
+          <folding>
+            <marker date="1422272430239" expanded="true" signature="1544:1635" placeholder="Select trans..transaction_master..." />
+            <marker date="1422272430239" expanded="true" signature="2192:2269" placeholder="Select * Fro..transaction_master..." />
+            <marker date="1422272430239" expanded="true" signature="2553:3004" placeholder="Select Case ..transaction_master..." />
+            <marker date="1422272430239" expanded="true" signature="3299:4173" placeholder="Select table..*..." />
+            <marker date="1422272430239" expanded="true" signature="3418:4078" placeholder="Select trans..transaction_master..." />
+            <marker date="1422272430239" expanded="true" signature="5167:5334" placeholder="Select trans..transaction_master..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/PaymentsManager/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="9" column="0" selection-start="93" selection-end="93" vertical-scroll-proportion="0.11663808" vertical-offset="0" max-vertical-offset="583" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/RoleManager/index.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="66" column="6" selection-start="94" selection-end="2580" vertical-scroll-proportion="0.81850535" vertical-offset="577" max-vertical-offset="1139" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/controllers/TransactionManager.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="89" column="24" selection-start="3633" selection-end="3633" vertical-scroll-proportion="0.0" vertical-offset="1513" max-vertical-offset="1836">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentDetails.php">
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/paper_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.115385" vertical-offset="0" max-vertical-offset="459">
-          <caret line="17" column="12" selection-start-line="17" selection-start-column="12" selection-end-line="17" selection-end-column="12" />
-          <folding />
+        <state line="23" column="72" selection-start="556" selection-end="556" vertical-scroll-proportion="-0.90569395" vertical-offset="815" max-vertical-offset="2856">
+          <folding>
+            <marker date="1421658034842" expanded="true" signature="-1:-1" placeholder="Select track..track_master..." />
+            <marker date="1421658034842" expanded="true" signature="-1:-1" placeholder="Select subje..subject_master..." />
+            <marker date="1421658034842" expanded="true" signature="-1:-1" placeholder="Select paper..paper_master..." />
+            <marker date="1421658034842" expanded="true" signature="-1:-1" placeholder="Select * Fro..paper_master..." />
+            <marker date="1421658034842" expanded="true" signature="-1:-1" placeholder="Select event..paper_master..." />
+            <marker date="1421658034842" expanded="true" signature="-1:-1" placeholder="Select paper..paper_master..." />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/submitpaper.php">
+    <entry file="file://$PROJECT_DIR$/bvicam_admin/application/views/pages/TransactionManager/index.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.461538" vertical-offset="1734" max-vertical-offset="3247">
-          <caret line="118" column="25" selection-start-line="118" selection-start-column="25" selection-end-line="118" selection-end-column="25" />
-          <folding />
+        <state line="20" column="39" selection-start="594" selection-end="594" vertical-scroll-proportion="-8.692307" vertical-offset="114" max-vertical-offset="748">
+          <folding>
+            <element signature="e#6#87#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/indiacom_online/application/views/pages/dashboard/paymentHome.php">
+    <entry file="file://$PROJECT_DIR$/CommonResources/models/paper_status_model.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.70740104" vertical-offset="3176" max-vertical-offset="3825">
-          <caret line="211" column="34" selection-start-line="211" selection-start-column="34" selection-end-line="211" selection-end-column="34" />
-          <folding />
+        <state line="33" column="35" selection-start="967" selection-end="967" vertical-scroll-proportion="0.5320285" vertical-offset="177" max-vertical-offset="765">
+          <folding>
+            <marker date="1421772585222" expanded="true" signature="283:548" placeholder="Select paper..paper_latest_version..." />
+            <marker date="1421772585222" expanded="true" signature="791:1172" placeholder="Select paper..paper_latest_version..." />
+          </folding>
         </state>
       </provider>
     </entry>

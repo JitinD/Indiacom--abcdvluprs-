@@ -27,12 +27,14 @@
                     }
                     ?>
                 </select>
+                <div class="bg-danger"><?php echo form_error('trans_mode'); ?></div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3" for="transno">Amount</label>
             <div class="col-sm-6">
-                <input id="transamt" name="trans_amount" type="text" class="form-control" required>
+                <input id="transamt" name="trans_amount" type="text" class="form-control">
+                <div class="bg-danger"><?php echo form_error('trans_amount'); ?></div>
             </div>
         </div>
         <div class="form-group">
@@ -50,30 +52,35 @@
                     }
                     ?>
                 </select>
+                <div class="bg-danger"><?php echo form_error('trans_currency'); ?></div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3" for="transno">Bank</label>
             <div class="col-sm-6">
                 <input id="transbank" name="trans_bank" type="text" class="form-control">
+                <div class="bg-danger"><?php echo form_error('trans_bank'); ?></div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3" for="transno">Cheque No / DD No / Wired Trans ID</label>
             <div class="col-sm-6">
                 <input id="transno" name="trans_no" type="text" class="form-control">
+                <div class="bg-danger"><?php echo form_error('trans_no'); ?></div>
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-3" for="transdate">Cheque Date / DD Date / Wired Trans Date</label>
+            <label class="col-sm-3" for="transdate">Date</label>
             <div class="col-sm-6">
                 <input id="transdate" name="trans_date" type="date" class="form-control">
+                <div class="bg-danger"><?php echo form_error('trans_date'); ?></div>
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3" for="transdate">Transaction Member ID</label>
             <div class="col-sm-6">
                 <input id="transmemberid" name="trans_memberId" type="text" class="form-control">
+                <div class="bg-danger"><?php echo form_error('trans_memberId'); ?></div>
             </div>
         </div>
         <div class="form-group">

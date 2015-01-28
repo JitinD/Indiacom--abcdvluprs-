@@ -42,7 +42,7 @@
         $_SESSION[APPID]['dbPassword'] = $db[$active_group]['password'];
         $_SESSION[APPID]['current_role_id'] = 31;
     }
-    define('REVIEW_RESULT_ACCEPTED_ID', 2);
+    define('REVIEW_RESULT_ACCEPTED_ID', 8);
     require('application/config/paths.php');
     require('application/config/exceptions.php');
 /*
