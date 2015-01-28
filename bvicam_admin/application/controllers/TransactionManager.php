@@ -87,7 +87,7 @@ class TransactionManager extends CI_Controller
         $page = "index";
         $this->load->model('transaction_model');
         $this->data['transactions'] = $this->transaction_model->getUnusedTransactions();
-        $this->data['isUnusedTransaction'] = true;
+        $this->data['isUnusedTransactionList'] = true;
         $this->index($page);
     }
 

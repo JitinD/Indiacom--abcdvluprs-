@@ -25,12 +25,49 @@
                     <th>Trans Amount(EQINR)</th>
                     <th>Waived Off</th>
                     <th>Verified</th>
-                    <th>Unused Amount</th>
+                    <?php
+                    if($isUnusedTransactionList)
+                    {
+                    ?>
+                        <th>Unused Amount</th>
+                    <?php
+                    }
+                    ?>
+                    <th>Remarks</th>
                     <th>Op</th>
                 </tr>
                 </thead>
                 <tbody>
-
+                <?php
+                $sno = 1;
+                foreach($transactions as $trans)
+                {
+                ?>
+                    <td><?php echo $sno++; ?></td>
+                    <td><?php echo $trans->transaction_id; ?></td>
+                    <td><?php echo $trans->transaction_member_id; ?></td>
+                    <td><?php echo $trans->transaction_bank; ?></td>
+                    <td><?php echo $trans->transaction_number; ?></td>
+                    <td><?php echo $trans->transaction_mode; ?></td>
+                    <td><?php echo $trans->transaction_amount; ?></td>
+                    <td><?php echo $trans->transaction_date; ?></td>
+                    <td><?php echo $trans->transaction_currency; ?></td>
+                    <td><?php echo $trans->transaction_EQINR; ?></td>
+                    <td><?php echo $trans->is_waived_off; ?></td>
+                    <td><?php echo $trans->is_verified; ?></td>
+                    <?php
+                    if($isUnusedTransactionList)
+                    {
+                    ?>
+                        <td><?php echo $trans->transaction_EQINR - $trans->amount_used; ?></td>
+                    <?php
+                    }
+                    ?>
+                    <td><?php echo $trans->transaction_remarks; ?></td>
+                    <td></td>
+                <?php
+                }
+                ?>
                 </tbody>
             </table>
             <!--<a class="btn btn-success"  href="newRole"><span class="glyphicon glyphicon-plus"></span> Create new role</a>-->
