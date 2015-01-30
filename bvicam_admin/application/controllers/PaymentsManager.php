@@ -56,7 +56,7 @@ class PaymentsManager extends CI_Controller
         $this->data['membersPayments'] = array();
         foreach($members as $member)
         {
-            $this->data['membersPayments'][$member->member_id] = $this->payment_model->getMemberPayments($member->member_id);
+            $this->data['membersPayments'][$member->member_id] = $this->payment_model->getMemberPayments($member->member_id, true);
             $this->data['memberDetails'][$member->member_id] = $this->member_model->getMemberInfo($member->member_id);
         }
 
@@ -87,7 +87,7 @@ class PaymentsManager extends CI_Controller
                 $this->data['transModeDetails'] = $this->transaction_mode_model->getTransactionModeDetails($this->data['transDetails']->transaction_mode);
                 if($this->data['memberDetails'] != null)
                 {
-                    $this->data['isProfBodyMember'] = true;
+                    $this->data['isProfBodyMember'] = $this->member_model->isProfBodyMember($memberId);
                     $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
                     $this->data['registrationCat'] = $this->member_model->getMemberCategory($memberId);
                     $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberId);

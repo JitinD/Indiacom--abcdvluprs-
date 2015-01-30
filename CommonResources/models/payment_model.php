@@ -78,14 +78,14 @@ class Payment_model extends CI_Model
         }
     }
 
-    public function getMemberPayments($mid)
+    public function getMemberPayments($mid, $includeUnverified = null)
     {
-        return $this->getPayments($mid, null);
+        return $this->getPayments($mid, null, $includeUnverified);
     }
 
-    public function getPaperPayments($pid)
+    public function getPaperPayments($pid, $includeUnverified = null)
     {
-        return $this->getPayments(null, $pid);
+        return $this->getPayments(null, $pid, $includeUnverified);
     }
 
     public function getPayments($mid, $pid, $includeUnverified = false, $limit=null, $offset=null)
