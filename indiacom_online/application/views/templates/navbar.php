@@ -103,7 +103,7 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="/<?php echo INDIACOM; ?>aboutIndiacom">INDIACom History</a></li>
                         <li><a href="/<?php echo INDIACOM; ?>listofspeakers">Invited Speakers</a></li>
                         <li><a href="/<?php echo INDIACOM; ?>sponsors">Sponsors</a></li>
-                        <li><a href="#">Committees</a></li>
+                        <li><a href="/<?php echo INDIACOM; ?>committees">Committees</a></li>
                         <li><a href="/<?php echo INDIACOM; ?>reviewProcess">Review Process, Publication and Indexing</a></li>
                     </ul>
                 </li>

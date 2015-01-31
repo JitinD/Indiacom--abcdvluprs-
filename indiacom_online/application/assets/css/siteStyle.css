@@ -96,3 +96,14 @@ body
 {
     display: none;
 }
+
+.rowHeader
+{
+    color: #ff3635;
+}
+
+tr.rowTopMargin > td
+{
+    padding-top: 2em;
+}
+
