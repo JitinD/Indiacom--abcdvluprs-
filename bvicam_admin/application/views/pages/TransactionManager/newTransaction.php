@@ -10,6 +10,11 @@
     <h3 class="text-theme">Create New Transaction</h3>
     <hr>
     <form class="form-horizontal" method="post">
+        <div class="bg-danger">
+            <?php
+            if(isset($trans_error)) echo $trans_error;
+            ?>
+        </div>
         <div class="form-group notForWaiveOff">
             <label class="col-sm-3" for="paymentMode">Add Mode of Payment</label>
             <div class="col-sm-6">
@@ -17,8 +22,6 @@
                     <?php
                     foreach($transaction_modes as $trans_mode)
                     {
-                        if($trans_mode->transaction_mode_name == "Cash")
-                            continue;
                         ?>
                         <option value="<?php echo $trans_mode->transaction_mode_id; ?>" <?php if(set_value('trans_mode')==$trans_mode->transaction_mode_id) echo "selected"; ?>>
                             <?php echo $trans_mode->transaction_mode_name; ?>
@@ -116,10 +119,12 @@
             if($("#waiveOff").is(":checked"))
             {
                 $(".notForWaiveOff").attr("style", "display:none;");
+                $("#waiveOff").val(true);
             }
             else
             {
                 $(".notForWaiveOff").attr("style", "display:block;");
+                $("#waiveOff").val(false);
             }
         }
     });

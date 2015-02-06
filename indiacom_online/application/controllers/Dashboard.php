@@ -549,7 +549,7 @@ class Dashboard extends CI_Controller
         return $olpc_amount;
     }
 
-    public function payment($currency=1)
+    public function payment($currency=1, $transDate=null)
     {
         $page = "paymentHome";
         $memberID = $_SESSION[APPID]['member_id'];
@@ -560,7 +560,12 @@ class Dashboard extends CI_Controller
         $this->load->model('currency_model');
         $this->load->model('transaction_mode_model');
         $this->load->model('payment_model');
+        $this->load->model('discount_model');
 
+        if($transDate == null)
+            $transDate = $this->data['transDate'] = date("Y-m-d");
+        else
+            $this->data['transDate'] = $transDate;
         $this->data['isProfBodyMember'] = $this->member_model->isProfBodyMember($memberID);
         $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
         $this->data['registrationCat'] = $this->member_model->getMemberCategory($memberID);
@@ -568,7 +573,10 @@ class Dashboard extends CI_Controller
         $this->data['selectedCurrency'] = $currency;
         $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberID);
         $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
-        $this->data['papersInfo'] = $this->payment_model->calculatePayables($memberID, $currency, $this->data['registrationCat'], $this->data['papers']);
+        $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($memberID, $this->data['papers']);
+        if($this->discount_model->error != null)
+            die($this->discount_model->error);
+        $this->data['papersInfo'] = $this->payment_model->calculatePayables($memberID, $currency, $this->data['registrationCat'], $this->data['papers'], $transDate);
         if(!$this->paymentSubmitHandle($memberID, $this->data['registrationCat'], $currency))
             $this->index($page);
     }
@@ -619,8 +627,8 @@ class Dashboard extends CI_Controller
                     $totalPayAmount += $payAmount;
                     $paymentsDetails[] = array(
                         "payment_submission_id" => $submission,
-                        "payment_member_id" => $submissionDetails[0]->submission_member_id ,
-                        "payment_paper_id" => $submissionDetails[0]->submission_paper_id,
+                        /*"payment_member_id" => $submissionDetails[0]->submission_member_id ,
+                        "payment_paper_id" => $submissionDetails[0]->submission_paper_id,*/
                         "payment_amount_paid" => $payAmount,
                         "payment_payable_class" => $payableClass->payable_class_id
                     );
@@ -656,6 +664,34 @@ class Dashboard extends CI_Controller
         $page="transactionHistory";
         $this->load->model('transaction_model');
         $this->data['transactions']=$this->transaction_model->getMemberTransactions($_SESSION[APPID]['member_id']);
+        $this->index($page);
+    }
+
+    public function payablesChart()
+    {
+        $this->load->model('payable_class_model');
+        $this->load->model('member_categories_model');
+        $this->load->model('nationality_model');
+        $this->load->model('currency_model');
+        $page = "viewPayableChart";
+        $brPayableClasses = $this->payable_class_model->getAllBrPayableClassDetails();
+        $this->data['memCats'] = $this->member_categories_model->getMemberCategoriesAsAssocArray();
+        $this->data['nationalities'] = $this->nationality_model->getAllNationalitiesAsAssocArray();
+        $this->data['currencies'] = $this->currency_model->getAllCurrenciesAsAssocArray();
+        $payableClasses = array();
+        foreach($brPayableClasses as $payableClass)
+        {
+            if($payableClass->start_date==null && $payableClass->end_date!=null)
+                $dateType = "Early Bird";
+            else if($payableClass->start_date!=null && $payableClass->end_date==null)
+                $dateType = "Late Bird";
+            else
+                $dateType = "Spot";
+            $payableClasses[$payableClass->payable_class_nationality]
+                           [$payableClass->payable_class_registration_category]
+                           [$dateType][$payableClass->is_general] = $payableClass;
+        }
+        $this->data['payableClasses'] = $payableClasses;
         $this->index($page);
     }
 }

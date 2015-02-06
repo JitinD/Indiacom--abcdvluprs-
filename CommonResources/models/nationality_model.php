@@ -37,4 +37,15 @@ class Nationality_model extends CI_Model
             return array();
         return $query->result();
     }
+
+    public function getAllNationalitiesAsAssocArray()
+    {
+        $nationalities = $this->getAllNationalities();
+        $nations = array();
+        foreach($nationalities as $nationality)
+        {
+            $nations[$nationality->Nationality_id] = $nationality;
+        }
+        return $nations;
+    }
 }

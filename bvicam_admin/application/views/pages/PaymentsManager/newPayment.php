@@ -122,14 +122,25 @@
         <?php
         if(!isset($paymentMemberId) && !empty($transDetails))
         {
+            if($transDetails->transaction_EQINR - $transUsedAmount > 0)
+            {
         ?>
-        <div class="form-group">
-            <label class="col-sm-3" for="memberId">Member ID</label>
-            <div class="col-sm-6">
-                <input id="memberId" name="payment_memberId" type="text" class="form-control">
-            </div>
-        </div>
+                <div class="form-group">
+                    <label class="col-sm-3" for="memberId">Member ID</label>
+                    <div class="col-sm-6">
+                        <input id="memberId" name="payment_memberId" type="text" class="form-control">
+                    </div>
+                </div>
         <?php
+            }
+            else
+            {
+        ?>
+                <div class="bg-danger h4">
+                    This transaction cannot be used for payments since it has been already fully used.
+                </div>
+        <?php
+            }
         }
         else if(!empty($transDetails) && $memberDetails != null)
         {
@@ -279,7 +290,6 @@
                             </td>
                             <td>
                                 <input type="number"
-                                       value="<?php if(isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>"
                                        max="<?php if(isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>" min="0"
                                        name="<?php echo $paper->submission_id; ?>_payAmount">
                             </td>

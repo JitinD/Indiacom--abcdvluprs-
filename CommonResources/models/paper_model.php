@@ -122,10 +122,12 @@ class Paper_model extends CI_Model
     {
         $this->db->select('paper_contact_author_id');
         $this->db->from('paper_master');
-        $this->db->where('paper_contact_author_id',$paperID);
-        $query=$this->db->get();
-        if($query->num_rows()>0)
-            return $query -> row();
+        $this->db->where('paper_id',$paperID);
+        $query = $this->db->get();
+        if($query->num_rows() == 0)
+            return null;
+        $row = $query->row();
+        return $row->paper_contact_author_id;
     }
 
     //Get the co-authors of a paper

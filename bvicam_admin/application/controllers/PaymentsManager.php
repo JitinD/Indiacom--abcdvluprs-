@@ -97,7 +97,8 @@ class PaymentsManager extends CI_Controller
                         $this->data['registrationCat'],
                         $this->data['transDetails']->transaction_currency,
                         $transId,
-                        $this->data['transDetails']->transaction_EQINR - $this->data['transUsedAmount']
+                        $this->data['transDetails']->transaction_EQINR - $this->data['transUsedAmount'],
+                        $this->data['transDetails']->transaction_date
                     ))
                     {
                         $this->data['transUsedAmount'] = $this->transaction_model->getTransactionUsedAmount($transId);
@@ -107,7 +108,13 @@ class PaymentsManager extends CI_Controller
                             unset($this->data['paymentMemberId']);
                         }
                     }
-                    $this->data['papersInfo'] = $this->payment_model->calculatePayables($memberId, $this->data['transDetails']->transaction_currency, $this->data['registrationCat'], $this->data['papers']);
+                    $this->data['papersInfo'] = $this->payment_model->calculatePayables(
+                        $memberId,
+                        $this->data['transDetails']->transaction_currency,
+                        $this->data['registrationCat'],
+                        $this->data['papers'],
+                        $this->data['transDetails']->transaction_date
+                    );
                 }
                 else
                 {
@@ -133,11 +140,12 @@ class PaymentsManager extends CI_Controller
         }
     }
 
-    private function newPaymentSubmitHandle($memberID, $registrationCat, $currency, $transId, $transAmount)
+    private function newPaymentSubmitHandle($memberID, $registrationCat, $currency, $transId, $transAmount, $transDate)
     {
         $this->load->library('form_validation');
         $this->load->model('payable_class_model');
         $this->load->model('payment_head_model');
+        $this->load->model('payment_model');
         $this->load->model('submission_model');
         $this->load->model('transaction_model');
         $this->load->model('member_model');
@@ -161,12 +169,25 @@ class PaymentsManager extends CI_Controller
                 $submissionDetails = $this->submission_model->getSubmissionsByAttribute("submission_id", $submission);
                 if($payHeadId != null)
                 {
-                    $payableClass = $this->payable_class_model->getPayableClass(
-                        $payHeadId,
-                        !$this->member_model->isProfBodyMember($memberID),
-                        $registrationCat->member_category_id,
-                        $currency
+                    $paidPayments = $this->payment_model->getPayments(
+                        $submissionDetails[0]->submission_member_id,
+                        $submissionDetails[0]->submission_paper_id,
+                        true
                     );
+                    if(empty($paidPayments))
+                    {
+                        $payableClass = $this->payable_class_model->getPayableClass(
+                            $payHeadId,
+                            !$this->member_model->isProfBodyMember($memberID),
+                            $registrationCat->member_category_id,
+                            $currency,
+                            $transDate
+                        );
+                    }
+                    else
+                    {
+                        $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
+                    }
                     if($payAmount > $payableClass->payable_class_amount)
                     {
                         $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
@@ -175,8 +196,8 @@ class PaymentsManager extends CI_Controller
                     $totalPayAmount += $payAmount;
                     $paymentsDetails[] = array(
                         "payment_submission_id" => $submission,
-                        "payment_member_id" => $submissionDetails[0]->submission_member_id ,
-                        "payment_paper_id" => $submissionDetails[0]->submission_paper_id,
+                        /*"payment_member_id" => $submissionDetails[0]->submission_member_id ,
+                        "payment_paper_id" => $submissionDetails[0]->submission_paper_id,*/
                         "payment_amount_paid" => $payAmount,
                         "payment_payable_class" => $payableClass->payable_class_id
                     );

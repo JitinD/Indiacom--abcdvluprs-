@@ -45,6 +45,7 @@
 
     }
     define('REVIEW_RESULT_ACCEPTED_ID', 8);
+    define('BULK_REGISTRATION_MIN_REGISTRATION_VALUE', 3);
     require('application/config/paths.php');
     require('application/config/exceptions.php');
 /*

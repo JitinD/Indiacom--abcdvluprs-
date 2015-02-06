@@ -51,7 +51,7 @@
                                 {
                                     ?>
                                     <tr>
-                                        <td><?php echo $memberPayment->payment_paper_id; ?></td>
+                                        <td><?php echo $memberPayment->submission_paper_id; ?></td>
                                         <td><?php echo $payheadDetails[$memberPayment->payment_head]; ?></td>
                                         <td>
                                             <button class="btn btn-link">

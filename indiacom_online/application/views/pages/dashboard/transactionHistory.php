@@ -18,7 +18,7 @@
         <th>Amount</th>
         <th>Currency</th>
         <th>Bank</th>
-        <th>Date</th>
+        <th>Date (dd-mm-yy)</th>
         <th>Verified</th>
         <th>Remarks</th>
     </tr>
@@ -49,7 +49,9 @@ foreach($transactions as $transaction)
         <?php echo $transaction->transaction_bank;?>
     </td>
     <td>
-        <?php echo $transaction->transaction_date;?>
+        <?php
+        echo date_format(date_create($transaction->transaction_date), 'd-m-Y');
+        ?>
     </td>
     <td>
         <?php if($transaction->is_verified==0)

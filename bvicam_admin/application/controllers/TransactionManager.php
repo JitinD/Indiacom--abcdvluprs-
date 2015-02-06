@@ -54,7 +54,7 @@ class TransactionManager extends CI_Controller
     {
         $this->load->model('transaction_model');
         $this->load->library('form_validation');
-        if($this->input->post('trans_isWaivedOff') != null && !$this->input->post('trans_isWaivedOff'))
+        if(!$this->input->post('trans_isWaivedOff'))
         {
             $this->form_validation->set_rules('trans_mode', 'Transaction Mode', 'required');
             $this->form_validation->set_rules('trans_bank', 'Bank Name', 'required');
@@ -78,14 +78,20 @@ class TransactionManager extends CI_Controller
                 "is_verified" => 1,
                 "transaction_remarks" => $this->input->post('trans_remarks')
             );
-            if($this->input->post('trans_isWaivedOff') != null && $this->input->post('trans_isWaivedOff'))
+            if($this->input->post('trans_isWaivedOff'))
             {
                 $transDetails['transaction_mode'] = null;
                 $transDetails['is_waived_off'] = true;
+                $transDetails['transaction_bank'] = "";
+                $transDetails['transaction_number'] = "";
             }
-            $this->transaction_model->newTransaction($transDetails);
-            $_SESSION[APPID]['transId'] = $this->transaction_model->getTransactionId($transDetails);
-            return true;
+            if($this->transaction_model->newTransaction($transDetails))
+            {
+                $_SESSION[APPID]['transId'] = $transDetails['transaction_id'];  //$this->transaction_model->getTransactionId($transDetails);
+                return true;
+            }
+            else
+                $this->data['trans_error'] = "Unable to create transaction. Transaction details might be duplicate.";
         }
         return false;
     }

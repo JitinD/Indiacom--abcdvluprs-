@@ -7,7 +7,7 @@
  */ ?>
 
 <div class="col-sm-12 col-md-12 ">
-    <h1 class="page-header">Transactions</h1>
+    <h1 class="page-header"><?php if($isUnusedTransactionList) echo "Unused "; ?>Transactions</h1>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-responsive table-hover">

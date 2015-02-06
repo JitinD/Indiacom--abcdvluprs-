@@ -28,6 +28,17 @@
             if($query -> num_rows() > 0)
                 return $query -> result_array();
         }
+
+        public function getMemberCategoriesAsAssocArray()
+        {
+            $memCats = $this->getMemberCategories();
+            $cats = array();
+            foreach($memCats as $memCat)
+            {
+                $cats[$memCat['member_category_id']] = $memCat;
+            }
+            return $cats;
+        }
     }
 
 ?>

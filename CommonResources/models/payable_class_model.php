@@ -25,6 +25,16 @@ class Payable_class_model extends CI_Model
         return $query->result();
     }
 
+    public function getAllBrPayableClassDetails()
+    {
+        $sql = "Select * From payable_class
+                Where payable_class_payhead_id = 1";
+        $query = $this->db->query($sql);
+        if($query->num_rows() == 0)
+            return array();
+        return $query->result();
+    }
+
     public function getPayableClassDetails($payableClassId)
     {
         $sql = "Select * From payable_class Where payable_class_id = ?";
@@ -34,7 +44,7 @@ class Payable_class_model extends CI_Model
         return $query->row();
     }
 
-    public function getPayableClass($payhead, $isGeneral, $regCat, $currency)
+    public function getPayableClass($payhead, $isGeneral, $regCat, $currency, $transDate)
     {
         $sql = "
         Select *
@@ -43,12 +53,12 @@ class Payable_class_model extends CI_Model
         Where
             Case
                 When start_date Is Not Null
-                Then current_date() > start_date
+                Then '$transDate' >= start_date
                 Else 1
             End And
             Case
                 When end_date Is Not Null
-                Then current_date() < end_date
+                Then '$transDate' <= end_date
                 Else 1
             End And
             Case
@@ -69,17 +79,17 @@ class Payable_class_model extends CI_Model
             End";
         $query = $this->db->query($sql, array($isGeneral, $payhead, $regCat, $currency));
         if($query->num_rows() == 0)
-            return array();
+            return null;
         return $query->row();
     }
 
-    public function getBrPayableClass($isGeneral, $regCat, $currency)
+    public function getBrPayableClass($isGeneral, $regCat, $currency, $transDate)
     {
-        return $this->getPayableClass(1, $isGeneral, $regCat, $currency);
+        return $this->getPayableClass(1, $isGeneral, $regCat, $currency, $transDate);
     }
 
-    public function getEpPayableClass($isGeneral, $regCat, $currency)
+    public function getEpPayableClass($isGeneral, $regCat, $currency, $transDate)
     {
-        return $this->getPayableClass(2, $isGeneral, $regCat, $currency);
+        return $this->getPayableClass(2, $isGeneral, $regCat, $currency, $transDate);
     }
 }

@@ -50,7 +50,7 @@ class Payment_model extends CI_Model
     public function transferPayment($sourceDetails = array(), $destinationDetails = array())
     {
         $this->load->model('transfer_model');
-        $fromPayments = $this->fetchPayments($sourceDetails['payment_member_id'], $sourceDetails['payment_paper_id'], $sourceDetails['payment_head']);
+        $fromPayments = $this->fetchPayments($sourceDetails['payment_submission_id'], $sourceDetails['payment_head']);
         $transferAmount = 0;
         foreach($fromPayments as $fromPayment)
         {
@@ -59,8 +59,7 @@ class Payment_model extends CI_Model
             $destPayment = array(
                 'payment_trans_id' => $fromPayment->payment_trans_id,
                 'payment_head' => $destinationDetails['payment_head'],
-                'payment_member_id' => $destinationDetails['payment_member_id'],
-                'payment_paper_id' => $destinationDetails['payment_paper_id'],
+                'payment_submission_id' => $destinationDetails['payment_submission_id'],
                 'payment_amount_paid' => $fromPayment->payment_amount_paid,
                 'payment_payable_class' => $destinationDetails['payment_payable_class']
             );
@@ -68,8 +67,7 @@ class Payment_model extends CI_Model
             $this->transfer_model->newTransfer(
                 $fromPayment['payment_id'],
                 $this->getPaymentId(
-                    $destPayment['payment_member_id'],
-                    $destPayment['payment_paper_id'],
+                    $destPayment['payment_submission_id'],
                     $destPayment['payment_head'],
                     $destPayment['payment_trans_id']
                 ),
@@ -93,8 +91,9 @@ class Payment_model extends CI_Model
         $sql = "
         Select
             table1.payment_payable_class,
-            table1.payment_member_id,
-            table1.payment_paper_id,
+            table1.payment_submission_id,
+            submission_member_id,
+            submission_paper_id,
             Case
                 When waiveoff_amount Is Null
                 Then 0
@@ -109,51 +108,55 @@ class Payment_model extends CI_Model
             (/* total amount against mid,pid,payhead including waiveoff amount (not discount) */
                 Select
                     payment_payable_class,
-                    payment_member_id,
-                    payment_paper_id,
+                    payment_submission_id,
                     SUM(payment_amount_paid) As total_amount" . ($includeUnverified ? ", is_verified " : " ") . "
-                From payment_master
-                    Right Join transaction_master
+                From
+                    payment_master
+                        Join
+                    transaction_master
                         On transaction_id = payment_trans_id
                 " . ($includeUnverified ? " " : " Where is_verified = 1 ") .
-                "Group By payment_member_id, payment_paper_id, payment_payable_class
+                "Group By payment_submission_id, payment_payable_class
             ) As table1
             Left Join
             (/* waiveoff_amount against mid,pid,payhead */
                 Select
                     payment_payable_class,
-                    payment_member_id,
-                    payment_paper_id,
+                    payment_submission_id,
                     SUM(payment_amount_paid) as waiveoff_amount
-                From payment_master
-                    Join transaction_master
+                From
+                    payment_master
+                        Join
+                    transaction_master
                         On transaction_id = payment_trans_id
                 Where is_waived_off = 1
-                Group By payment_member_id, payment_paper_id, payment_payable_class
-            ) As table2 On
-                table1.payment_payable_class = table2.payment_payable_class And
-                table1.payment_member_id = table2.payment_member_id And
-                table1.payment_paper_id = table2.payment_paper_id";
+                Group By payment_submission_id, payment_payable_class
+            ) As table2
+                On
+            table1.payment_payable_class = table2.payment_payable_class And
+            table1.payment_submission_id = table2.payment_submission_id
+                Join
+            submission_master
+                On submission_master.submission_id = table1.payment_submission_id";
         $where = "";
         $params = array();
         if($mid == null && $pid != null)
         {
-            $where = " Where table1.payment_paper_id = ?";
+            $where = " Where submission_paper_id = ?";
             $params[] = $pid;
         }
         else if($mid != null && $pid == null)
         {
-            $where = " Where table1.payment_member_id = ?";
+            $where = " Where submission_member_id = ?";
             $params[] = $mid;
         }
         else if($mid != null && $pid != null)
         {
-            $where = " Where table1.payment_paper_id = ? And table1.payment_member_id = ?";
+            $where = " Where submission_paper_id = ? And submission_member_id = ?";
             $params[] = $pid;
             $params[] = $mid;
         }
         $sql .= $where;
-        //die($sql);
         $query = $this->dbCon->query($sql, $params);
         if($query->num_rows() == 0)
             return array();
@@ -170,10 +173,14 @@ class Payment_model extends CI_Model
             payment_master
                 Join
             transaction_master
-                On payment_trans_id = transaction_id
+                On
+                  payment_trans_id = transaction_id
+                Join
+            submission_master
+                On submission_master.submission_id = payment_master.payment_submission_id
         Where
-            payment_member_id = ? And
-            payment_paper_id = ? And
+            submission_member_id = ? And
+            submission_paper_id = ? And
             payment_head = ?
         Order By transaction_date";
         $query = $this->dbCon->query($sql, array($mid, $pid, $payhead));
@@ -186,17 +193,17 @@ class Payment_model extends CI_Model
     {
         $sql = "
         Select
-            payment_member_id,
-            payment_paper_id,
             SUM(payment_amount_paid) as total_amount_paid,
             payable_class_amount
         From payment_master
             Join payable_class
                 On payment_payable_class = payable_class_id
+            Join submission_master
+                On submission_master.submission_id = payment_master.payment_submission_id
         Where
             payable_class_payhead_id = 1 And
-            payment_member_id = ?
-        Group By payment_member_id, payment_paper_id";
+            submission_member_id = ?
+        Group By payment_submission_id";
         $query = $this->dbCon->query($sql, array($mid));
         if($query->num_rows() == 0)
             return false;
@@ -209,21 +216,47 @@ class Payment_model extends CI_Model
         return false;
     }
 
+    public function getRegisteredMembers()
+    {
+        $sql = "Select
+                  submission_member_id
+                From
+                (
+                    Select
+                        submission_member_id,
+                        SUM(payment_amount_paid) as total_amount_paid,
+                        payable_class_amount
+                    From payment_master
+                        Join payable_class
+                            On payment_payable_class = payable_class_id
+                        Join submission_master
+                            On submission_master.submission_id = payment_master.payment_submission_id
+                    Where
+                        payable_class_payhead_id = 1
+                    Group By payment_submission_id
+                ) as table1
+                Where total_amount_paid >= payable_class_amount";
+        $query = $this->dbCon->query($sql);
+        if($query->num_rows() == 0)
+            return array();
+        return $query->result();
+    }
+
     public function isPaperRegistered($pid)
     {
         $sql = "
         Select
-            payment_member_id,
-            payment_paper_id,
             SUM(payment_amount_paid) as total_amount_paid,
             payable_class_amount
         From payment_master
             Join payable_class
                 On payment_payable_class = payable_class_id
+            Join submission_master
+                On submission_master.submission_id = payment_master.payment_submission_id
         Where
             payable_class_payhead_id = 1 And
-            payment_paper_id = ?
-        Group By payment_paper_id, payment_member_id";
+            submission_paper_id = ?
+        Group By payment_submission_id";
         $query = $this->dbCon->query($sql, array($pid));
         if($query->num_rows() == 0)
             return false;
@@ -241,23 +274,28 @@ class Payment_model extends CI_Model
         //Partial ep payment also counted
         $sql = "
         Select
-            payment_member_id,
-            payment_paper_id
+            payment_submission_id
         From payment_master
             Join payable_class
                 On payment_payable_class = payable_class_id
+            Join submission_master
+                On submission_master.submission_id = payment_master.payment_submission_id
         Where
             payable_class_payhead_id = 2 And
-            payment_paper_id = ?
-        Group By payment_paper_id, payment_member_id";
+            submission_paper_id = ?
+        Group By payment_submission_id";
         $query = $this->db->query($sql, array($pid));
         return $query->num_rows();
     }
 
     public function getAllPayingMembers()
     {
-        $sql = "Select Distinct payment_member_id as member_id
-                From payment_master;";
+        $sql = "Select Distinct submission_member_id as member_id
+                From
+                  payment_master
+                    Join
+                  submission_master
+                    On submission_master.submission_id = payment_master.payment_submission_id";
         $query = $this->dbCon->query($sql);
         if($query->num_rows() == 0)
             return array();
@@ -266,30 +304,34 @@ class Payment_model extends CI_Model
 
     public function getAllPayingPapers()
     {
-        $sql = "Select Distinct payment_paper_id as paper_id
-                From payment_master;";
+        $sql = "Select Distinct submission_paper_id as paper_id
+                From
+                  payment_master
+                    Join
+                  submission_master
+                    On submission_master.submission_id = payment_master.payment_submission_id";
         $query = $this->dbCon->query($sql);
         if($query->num_rows() == 0)
             return array();
         return $query->result();
     }
 
-    private function getPaymentId($mid, $pid, $paymentHead, $transId)
+    private function getPaymentId($submissionId, $paymentHead, $transId)
     {
         $sql = "Select payment_id From payment_master
-                Where payment_member_id=? And payment_paper_id=? And payment_head=? And payment_trans_id=?";
-        $query = $this->dbCon->query($sql, array($mid, $pid, $paymentHead, $transId));
+                Where payment_submission_id=? And payment_head=? And payment_trans_id=?";
+        $query = $this->dbCon->query($sql, array($submissionId, $paymentHead, $transId));
         if($query->num_rows() == 0)
             return null;
         $row = $query->row();
         return $row->payment_id;
     }
 
-    private function fetchPayments($mid, $pid, $paymentHead)
+    private function fetchPayments($submissionId, $paymentHead)
     {
         $sql = "Select * From payment_master
-                Where payment_member_id=? And payment_paper_id=? And payment_head=?";
-        $query = $this->dbCon->query($sql, array($mid, $pid, $paymentHead));
+                Where payment_submission_id=? And payment_head=?";
+        $query = $this->dbCon->query($sql, array($submissionId, $paymentHead));
         if($query->num_rows() > 0)
             return $query->result();
         return array();
@@ -302,7 +344,7 @@ class Payment_model extends CI_Model
         $this->dbCon->query($sql, array($paymentId));
     }
 
-    public function calculatePayables($memberID, $selectedCurrency, $registrationCat, $papers)
+    public function calculatePayables($memberID, $selectedCurrency, $registrationCat, $papers, $transDate)
     {
         $this->load->model('payable_class_model');
         $this->load->model('payment_model');
@@ -312,27 +354,24 @@ class Payment_model extends CI_Model
         $brPayableClass = $this->payable_class_model->getBrPayableClass(
             !$this->member_model->isProfBodyMember($memberID),
             $registrationCat->member_category_id,
-            $currency
+            $currency,
+            $transDate
         );
         $epPayableClass = $this->payable_class_model->getEpPayableClass(
             !$this->member_model->isProfBodyMember($memberID),
             $registrationCat->member_category_id,
-            $currency
+            $currency,
+            $transDate
         );
-
+        if($brPayableClass == null || $epPayableClass == null)
+            return array();
         $isAuthorRegistered = $this->payment_model->isMemberRegistered($memberID);
         $papersInfo = array();
         $noofPapers = count($papers);
         foreach($papers as $paper)
         {
             $isPaperRegistered = $this->payment_model->isPaperRegistered($paper->paper_id);
-            $isPaid = $this->setPaidPayments(
-                $memberID,
-                $paper,
-                $brPayableClass->payable_class_amount,
-                $epPayableClass->payable_class_amount,
-                $papersInfo[$paper->paper_id]
-            );
+            $isPaid = $this->setPaidPayments($memberID, $paper, $papersInfo[$paper->paper_id]);
             if(!$isPaid)
             {
                 $this->setPayablePayments(
@@ -350,11 +389,11 @@ class Payment_model extends CI_Model
         return $papersInfo;
     }
 
-    private function setPaidPayments($mid, $paper, $brPayable, $epPayable, &$paperInfo = array())
+    private function setPaidPayments($mid, $paper, &$paperInfo = array())
     {
-        $this->load->model('payment_model');
+        //$this->load->model('payment_model');
         $this->load->model('payable_class_model');
-        $payments = $this->payment_model->getPayments($mid, $paper->paper_id, true);
+        $payments = $this->getPayments($mid, $paper->paper_id, true);
         if(!empty($payments))
         {
             $paymentClass = $payments[0]->payment_payable_class;
@@ -395,7 +434,7 @@ class Payment_model extends CI_Model
             }
             else
             {
-                $noofEps = $this->payment_model->noofEps($paper->paper_id);
+                $noofEps = $this->noofEps($paper->paper_id);
                 if($noofEps == $noofAuthors - 1)
                 {
                     $paperInfo['br'] = $brPayable;

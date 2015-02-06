@@ -15,15 +15,29 @@
             $this->load->database();
         }
 
-        public function newTransaction($transDetails = array())
+        public function newTransaction(&$transDetails = array())
         {
             $this->load->model('currency_model');
             $transDetails['transaction_EQINR'] = $transDetails['transaction_amount'] * $this->currency_model->getCurrencyExchangeRateInINR($transDetails['transaction_currency']);
+            $transDetails['transaction_id'] = $this->assignTransactionId();
             if(!isset($transDetails['is_waived_off']))
                 $transDetails['is_waived_off'] = 0;
             if(!isset($transDetails['is_verified']))
                 $transDetails['is_verified'] = 0;
             $this->db->insert('transaction_master', $transDetails);
+            return $this->db->trans_status();
+        }
+
+        private function assignTransactionId()
+        {
+            $sql = "Select transaction_id
+                    From transaction_master
+                    Order By transaction_id Desc Limit 1";
+            $query = $this->db->query($sql);
+            if($query->num_rows() == 0)
+                return 1;
+            $row = $query->row();
+            return $row->transaction_id + 1;
         }
 
         public function newWaiveOffTransaction($amount)
