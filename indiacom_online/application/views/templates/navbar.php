@@ -113,7 +113,7 @@ function SetActiveNavItem($navItem, $page)
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="#">Submit Paper</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Paper Submission Guidelines</a></li>
+                        <li><a href="/<?php echo INDIACOM; ?>proceduralGuidelines">Paper Submission Guidelines</a></li>
                         <li><a href="#">Paper Formatting Guidelines</a></li>
                         <li><a href="#">Payment Modes</a></li>
                     </ul>
@@ -122,9 +122,9 @@ function SetActiveNavItem($navItem, $page)
                 <li class="dropdown <?php SetActiveNavItem("Downloads", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Downloads <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Downloads</a></li>
+                        <li><a href="/<?php echo INDIACOM; ?>downloads">Downloads</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">Proceedings</a></li>
+                        <li><a href="/<?php echo INDIACOM; ?>proceedings">Proceedings</a></li>
                     </ul>
                 </li>
 <!--                <li class="--><?php //SetActiveNavItem("FAQs", $navbarItem); ?><!--"><a href="#">FAQs</a></li>-->
