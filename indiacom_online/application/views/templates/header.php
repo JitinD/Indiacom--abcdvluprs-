@@ -15,9 +15,7 @@
         <link rel="stylesheet" href= "/<?php echo PATH ?>assets/css/bootstrap.css">
         <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/siteStyle.css">
         <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/textStyle.css">
-        <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/abcdvluprs.css">
-        <script src="/<?php echo PATH ?>assets/js/bootstrap.js"></script>
-        <style type="text/css"></style>
+        <!--<link rel="stylesheet" href="/<?php /*echo PATH */?>assets/css/abcdvluprs.css">-->
         <script src="/<?php echo PATH ?>assets/js/jquery.min.js"></script>
         <script src="/<?php echo PATH ?>assets/js/bootstrap.min.js"></script>
     </head>

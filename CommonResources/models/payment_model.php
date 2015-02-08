@@ -33,6 +33,7 @@ class Payment_model extends CI_Model
     {
         $paymentDetails['payment_is_transferred'] = 0;
         $this->dbCon->insert('payment_master', $paymentDetails);
+        return $this->dbCon->trans_status();
     }
 
     public function addMultiPaymentsWithCommonTransaction($paymentsDetails = array(), $transId)
@@ -41,10 +42,23 @@ class Payment_model extends CI_Model
         foreach($paymentsDetails as $paymentDetail)
         {
             $paymentDetail['payment_trans_id'] = $transId;
-            $this->addNewPayment($paymentDetail);
-            $noofPayments++;
+            if($this->addNewPayment($paymentDetail))
+                $noofPayments++;
+            else
+                die(mysql_error());
         }
         return $noofPayments;
+    }
+
+    public function quickWaiveOff($paymentId, $amount, $memberId)
+    {
+        $this->load->model('transaction_model');
+        $payDetails = $this->getPaymentDetails($paymentId);
+        $transId = $this->transaction_model->newWaiveOffTransaction($amount, $memberId, date("Y-m-d"));
+        $newPaymentDetails = array(
+            'payment_trans_id' => $transId,
+            'payment_submission_id' => ""
+        );
     }
 
     public function transferPayment($sourceDetails = array(), $destinationDetails = array())
@@ -76,17 +90,17 @@ class Payment_model extends CI_Model
         }
     }
 
-    public function getMemberPayments($mid, $includeUnverified = null)
+    public function getMemberPayments($mid, $includeRejected = false)
     {
-        return $this->getPayments($mid, null, $includeUnverified);
+        return $this->getPayments($mid, null, $includeRejected);
     }
 
-    public function getPaperPayments($pid, $includeUnverified = null)
+    public function getPaperPayments($pid, $includeRejected = false)
     {
-        return $this->getPayments(null, $pid, $includeUnverified);
+        return $this->getPayments(null, $pid, $includeRejected);
     }
 
-    public function getPayments($mid, $pid, $includeUnverified = false, $limit=null, $offset=null)
+    public function getPayments($mid, $pid, $includeRejected = false, $limit=null, $offset=null)
     {
         $sql = "
         Select
@@ -103,19 +117,23 @@ class Payment_model extends CI_Model
                 When waiveoff_amount Is NULL
                 Then total_amount
                 Else (total_amount - waiveoff_amount)
-            End As paid_amount" . ($includeUnverified ? ", table1.is_verified " : " ") .
-        "From
+            End As paid_amount,
+            payment_discount_type,
+            table1.is_verified
+        From
             (/* total amount against mid,pid,payhead including waiveoff amount (not discount) */
                 Select
                     payment_payable_class,
                     payment_submission_id,
-                    SUM(payment_amount_paid) As total_amount" . ($includeUnverified ? ", is_verified " : " ") . "
+                    payment_discount_type,
+                    SUM(payment_amount_paid) As total_amount,
+                    is_verified
                 From
                     payment_master
                         Join
                     transaction_master
                         On transaction_id = payment_trans_id
-                " . ($includeUnverified ? " " : " Where is_verified = 1 ") .
+                " . ($includeRejected ? " " : " Where is_verified != 2 ") .
                 "Group By payment_submission_id, payment_payable_class
             ) As table1
             Left Join
@@ -129,7 +147,7 @@ class Payment_model extends CI_Model
                         Join
                     transaction_master
                         On transaction_id = payment_trans_id
-                Where is_waived_off = 1
+                Where is_waived_off = 1 " . ($includeRejected ? "" : " And is_verified !=2 ") . "
                 Group By payment_submission_id, payment_payable_class
             ) As table2
                 On
@@ -189,17 +207,35 @@ class Payment_model extends CI_Model
         return $query->result();
     }
 
+    public function getPaymentDetails($paymentId)
+    {
+        $sql = "Select * From payment_master Where payment_id = ?";
+        $query = $this->dbCon->query($sql, array($paymentId));
+        if($query->num_rows() == 1)
+            return $query->row();
+        return null;
+    }
+
     public function isMemberRegistered($mid)
     {
         $sql = "
         Select
             SUM(payment_amount_paid) as total_amount_paid,
+            Case
+                When discount_type_amount is Null
+                Then 0
+                Else floor(discount_type_amount * payable_class_amount)
+            End As discount_amount,
             payable_class_amount
         From payment_master
             Join payable_class
                 On payment_payable_class = payable_class_id
             Join submission_master
                 On submission_master.submission_id = payment_master.payment_submission_id
+            Left Join discount_type_master
+                On discount_type_id = payment_discount_type
+            Join transaction_master
+		        On transaction_id = payment_trans_id And is_verified = 1
         Where
             payable_class_payhead_id = 1 And
             submission_member_id = ?
@@ -210,7 +246,7 @@ class Payment_model extends CI_Model
         $result = $query->result();
         foreach($result as $row)
         {
-            if($row->total_amount_paid >= $row->payable_class_amount)
+            if($row->total_amount_paid >= ($row->payable_class_amount - $row->discount_amount))
                 return true;
         }
         return false;
@@ -225,17 +261,26 @@ class Payment_model extends CI_Model
                     Select
                         submission_member_id,
                         SUM(payment_amount_paid) as total_amount_paid,
+                        Case
+                            When discount_type_amount is Null
+                            Then 0
+                            Else floor(discount_type_amount * payable_class_amount)
+                        End As discount_amount,
                         payable_class_amount
                     From payment_master
                         Join payable_class
                             On payment_payable_class = payable_class_id
                         Join submission_master
                             On submission_master.submission_id = payment_master.payment_submission_id
+                        Left Join discount_type_master
+                            On discount_type_id = payment_discount_type
+                        Join transaction_master
+		                    On transaction_id = payment_trans_id And is_verified = 1
                     Where
                         payable_class_payhead_id = 1
                     Group By payment_submission_id
                 ) as table1
-                Where total_amount_paid >= payable_class_amount";
+                Where total_amount_paid >= (payable_class_amount - discount_amount)";
         $query = $this->dbCon->query($sql);
         if($query->num_rows() == 0)
             return array();
@@ -253,6 +298,8 @@ class Payment_model extends CI_Model
                 On payment_payable_class = payable_class_id
             Join submission_master
                 On submission_master.submission_id = payment_master.payment_submission_id
+            Join transaction_master
+		        On transaction_id = payment_trans_id And is_verified = 1
         Where
             payable_class_payhead_id = 1 And
             submission_paper_id = ?
@@ -280,6 +327,8 @@ class Payment_model extends CI_Model
                 On payment_payable_class = payable_class_id
             Join submission_master
                 On submission_master.submission_id = payment_master.payment_submission_id
+            Join transaction_master
+		        On transaction_id = payment_trans_id And is_verified = 1
         Where
             payable_class_payhead_id = 2 And
             submission_paper_id = ?
@@ -347,7 +396,6 @@ class Payment_model extends CI_Model
     public function calculatePayables($memberID, $selectedCurrency, $registrationCat, $papers, $transDate)
     {
         $this->load->model('payable_class_model');
-        $this->load->model('payment_model');
         $this->load->model('submission_model');
         $this->load->model('member_model');
         $currency = $selectedCurrency;
@@ -365,12 +413,12 @@ class Payment_model extends CI_Model
         );
         if($brPayableClass == null || $epPayableClass == null)
             return array();
-        $isAuthorRegistered = $this->payment_model->isMemberRegistered($memberID);
+        $isAuthorRegistered = $this->isMemberRegistered($memberID);
         $papersInfo = array();
         $noofPapers = count($papers);
         foreach($papers as $paper)
         {
-            $isPaperRegistered = $this->payment_model->isPaperRegistered($paper->paper_id);
+            $isPaperRegistered = $this->isPaperRegistered($paper->paper_id);
             $isPaid = $this->setPaidPayments($memberID, $paper, $papersInfo[$paper->paper_id]);
             if(!$isPaid)
             {
@@ -393,21 +441,31 @@ class Payment_model extends CI_Model
     {
         //$this->load->model('payment_model');
         $this->load->model('payable_class_model');
-        $payments = $this->getPayments($mid, $paper->paper_id, true);
+        $this->load->model('discount_model');
+        $payments = $this->getPayments($mid, $paper->paper_id);
         if(!empty($payments))
         {
             $paymentClass = $payments[0]->payment_payable_class;
+            $paymentDiscountType = $payments[0]->payment_discount_type;
             $paperInfo['paid'] = $payments[0]->paid_amount;
             $paperInfo['waiveOff'] = $payments[0]->waiveoff_amount;
+
             $paymentClassDetails = $this->payable_class_model->getPayableClassDetails($paymentClass);
+            $discountAmount = 0;
+            if($paymentDiscountType != null)
+            {
+                $discountTypeDetails = $this->discount_model->getDiscountDetails($paymentDiscountType);
+                $discountAmount = ($discountTypeDetails == null) ? 0 : floor($discountTypeDetails->discount_type_amount * $paymentClassDetails->payable_class_amount);
+                $paperInfo['discountType'] = $discountTypeDetails;
+            }
             switch($paymentClassDetails->payable_class_payhead_id)
             {
                 case 1: //BR
-                    $paperInfo['br'] = $paymentClassDetails->payable_class_amount;
+                    $paperInfo['br'] = $paymentClassDetails->payable_class_amount - $discountAmount;
                     $paperInfo['pending'] = $paperInfo['br'] - $paperInfo['paid'] - $paperInfo['waiveOff'];
                     break;
                 case 2: //EP
-                    $paperInfo['ep'] = $paymentClassDetails->payable_class_amount;
+                    $paperInfo['ep'] = $paymentClassDetails->payable_class_amount - $discountAmount;
                     $paperInfo['pending'] = $paperInfo['ep'] - $paperInfo['paid'] - $paperInfo['waiveOff'];
                     break;
             }

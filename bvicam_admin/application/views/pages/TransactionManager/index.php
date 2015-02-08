@@ -9,27 +9,27 @@
 <div class="col-sm-12 col-md-12 ">
     <h1 class="page-header"><?php if($isUnusedTransactionList) echo "Unused "; ?>Transactions</h1>
     <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div id="trans-list" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-responsive table-hover">
                 <thead>
                 <tr>
-                    <th>#</th>
+                    <th class="sort btn-link" data-sort="sno">#</th>
                     <th>Trans ID</th>
-                    <th>Trans Member ID</th>
-                    <th>Bank</th>
+                    <th class="sort btn-link" data-sort="trans_member_id">Trans Member ID</th>
+                    <th class="sort btn-link" data-sort="trans_bank">Bank</th>
                     <th>Trans number</th>
-                    <th>Trans Mode</th>
-                    <th>Trans Amount</th>
-                    <th>Trans Date</th>
-                    <th>Currency</th>
+                    <th class="sort btn-link" data-sort="trans_mode">Trans Mode</th>
+                    <th class="sort btn-link" data-sort="trans_amount">Trans Amount</th>
+                    <th class="sort btn-link" data-sort="trans_date">Trans Date</th>
+                    <th class="sort btn-link" data-sort="trans_currency">Currency</th>
                     <th>Trans Amount(EQINR)</th>
-                    <th>Waived Off</th>
-                    <th>Verified</th>
+                    <th class="sort btn-link" data-sort="trans_waivedoff">Waived Off</th>
+                    <th class="sort btn-link" data-sort="trans_verified">Verification Status</th>
                     <?php
-                    if($isUnusedTransactionList)
+                    //if($isUnusedTransactionList)
                     {
                     ?>
-                        <th>Unused Amount</th>
+                        <th class="sort btn-link" data-sort="trans_unused_amount">Unused Amount</th>
                     <?php
                     }
                     ?>
@@ -37,42 +37,50 @@
                     <th>Op</th>
                 </tr>
                 </thead>
-                <tbody>
+                <tbody class="list">
                 <?php
                 $sno = 1;
                 foreach($transactions as $trans)
                 {
                 ?>
                     <tr>
-                        <td><?php echo $sno++; ?></td>
-                        <td><?php echo $trans->transaction_id; ?></td>
-                        <td><?php echo $trans->transaction_member_id; ?></td>
-                        <td><?php echo $trans->transaction_bank; ?></td>
+                        <td class="sno"><?php echo $sno++; ?></td>
+                        <td class="trans_id"><?php echo $trans->transaction_id; ?></td>
+                        <td class="trans_member_id"><?php echo $trans->transaction_member_id; ?></td>
+                        <td class="trans_bank"><?php echo $trans->transaction_bank; ?></td>
                         <td><?php echo $trans->transaction_number; ?></td>
-                        <td>
+                        <td class="trans_mode">
                             <?php
                             if($trans->is_waived_off == 0)
-                                echo $transModes[$trans->transaction_mode]['transaction_mode_name'];
+                                echo $transModes[$trans->transaction_mode]->transaction_mode_name;
                             ?>
                         </td>
-                        <td><?php echo $trans->transaction_amount; ?></td>
-                        <td><?php echo $trans->transaction_date; ?></td>
-                        <td><?php echo $currencies[$trans->transaction_currency]['currency_name']; ?></td>
+                        <td class="trans_amount"><?php echo $trans->transaction_amount; ?></td>
+                        <td class="trans_date"><?php echo $trans->transaction_date; ?></td>
+                        <td class="trans_currency"><?php echo $currencies[$trans->transaction_currency]['currency_name']; ?></td>
                         <td><?php echo $trans->transaction_EQINR; ?></td>
-                        <td><?php echo ($trans->is_waived_off) ? "Yes" : "No"; ?></td>
-                        <td><?php echo ($trans->is_verified) ? "Yes" : "No"; ?></td>
+                        <td class="trans_waivedoff"><?php echo ($trans->is_waived_off) ? "Yes" : "No"; ?></td>
+                        <td>
+                            <select class="trans_verified">
+                                <option value="0" <?php if($trans->is_verified == 0) echo "selected"; ?>>Not Verifed</option>
+                                <option value="1" <?php if($trans->is_verified == 1) echo "selected"; ?>>Accepted</option>
+                                <option value="2" <?php if($trans->is_verified == 2) echo "selected"; ?>>Rejected</option>
+                            </select>
+                            <div class="bg-danger"></div>
+                            <div class="bg-info"></div>
+                        </td>
                         <?php
-                        if($isUnusedTransactionList)
+                        //if($isUnusedTransactionList)
                         {
                             ?>
-                            <td><?php echo $trans->transaction_EQINR - $trans->amount_used; ?></td>
+                            <td class="trans_unused_amount"><?php echo $trans->transaction_EQINR - $trans->amount_used; ?></td>
                         <?php
                         }
                         ?>
                         <td><?php echo $trans->transaction_remarks; ?></td>
                         <td>
                             <?php
-                            if($isUnusedTransactionList)
+                            if(($trans->transaction_EQINR - $trans->amount_used) > 0)
                             {
                                 ?>
                                 <a href="<?php echo "/".BASEURL."index.php/PaymentsManager/newPayment/".$trans->transaction_id; ?>"
@@ -91,3 +99,51 @@
         </div>
     </div>
 </div>
+
+<script>
+    var options = {
+        valueNames: [
+            'sno',
+            'trans_member_id',
+            'trans_bank',
+            'trans_mode',
+            'trans_amount',
+            'trans_date',
+            'trans_currency',
+            'trans_waivedoff',
+            'trans_verified',
+            'trans_unused_amount'
+        ]
+    };
+
+    var transList = new List('trans-list', options);
+
+    $(document).ready(function()
+    {
+        $('.trans_verified').change(function()
+        {
+            var ref = $(this);
+            var ref_tr = $(this).parent().parent();
+            var ref_td = $(this).parent();
+            var transId = $(".trans_id", ref_tr).html();
+            var status = $(this).val();
+            $(".bg-info", ref_td).html("Updating...");
+            $.ajax({
+                type: "POST",
+                url: "/<?php echo BASEURL; ?>index.php/TransactionManager/setTransactionVerificationStatus_AJAX",
+                data: "trans_id=" + transId + "&verification_status=" +status,
+                success: function(msg){
+                    if(msg == "true")
+                    {
+                        $(".bg-info", ref_td).html("Updated");
+                    }
+                    else
+                    {
+                        $(".bg-info", ref_td).html("");
+                        $(".bg-danger", ref_td).html("Could not update");
+                    }
+                }
+            });
+        })
+    });
+</script>

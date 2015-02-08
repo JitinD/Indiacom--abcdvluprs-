@@ -1,4 +1,4 @@
-<style type="text/css">
+<!--<style type="text/css">
     .navbar .nav > li > a {
         padding: 10px 0px 10px;
     }
@@ -62,27 +62,44 @@
         }
     }
 
-</style>
+</style>-->
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/<?php echo BASEURL; ?>index.php/Page/index">BVICAM Admin System</a>
-        <div class="col-sm-1 col-xs-1 nav navbar-nav navbar-right">
+        <div class="col-md-8 col-sm-8 col-xs-8">
+            <a class="navbar-brand" href="/<?php echo BASEURL; ?>index.php/Page/index">BVICAM Admin System</a>
+        </div>
+        <div class="nav navbar-nav navbar-right">
+            <?php
+            if(isset($_SESSION) && isset($_SESSION[APPID]['authenticated']))
+            {
+            ?>
+                <a href="/<?php echo BASEURL; ?>index.php/Page/login" type="submit" class="btn btn-sm navbar-btn">
+                    Change Role
+                </a>
+                <a href="/<?php echo BASEURL; ?>index.php/Page/logout" type="submit" class="btn btn-sm navbar-btn">
+                    <span class="glyphicon glyphicon-user"></span> Logout
+                </a>
+            <?php
+            }
+            ?>
+        </div>
+        <!--<div class="col-md-4 col-sm-4 col-xs-4">
             <ul class="nav navbar-nav">
                 <?php
-                if(isset($_SESSION) && isset($_SESSION[APPID]['authenticated']))
+/*                if(isset($_SESSION) && isset($_SESSION[APPID]['authenticated']))
                 {
-                ?>
+                */?>
                 <li>
-                    <a href="/<?php echo BASEURL; ?>index.php/Page/logout" class="btn navbar-btn btn-danger">Logout</a>
+                    <a href="/<?php /*echo BASEURL; */?>index.php/Page/logout" class="btn navbar-btn btn-danger">Logout</a>
                 </li>
                 <?php
-                }
-                ?>
+/*                }
+                */?>
             </ul>
         </div>
         <div class="col-xs-1 col-sm-1 navbar-right nav navbar-nav">
             <ul class="nav navbar-nav">
-                <a href="/<?php echo BASEURL; ?>index.php/Page/login" class="btn btn-primary navbar-btn">Change Role</a>
+                <a href="/<?php /*echo BASEURL; */?>index.php/Page/login" class="btn btn-primary navbar-btn">Change Role</a>
             </ul>
         </div>
         <div class="col-sm-1 col-xs-1 nav navbar-nav">
@@ -90,11 +107,11 @@
                 <li>
                     <a>
                         <?php
-                        echo $_SESSION[APPID]['dbUserName'];
-                        ?>
+/*                        echo $_SESSION[APPID]['dbUserName'];
+                        */?>
                     </a>
                 </li>
             </ul>
-        </div>
+        </div>-->
     </div>
 </div>

@@ -126,4 +126,21 @@ class TransactionManager extends CI_Controller
     {
 
     }
+
+    public function setTransactionVerificationStatus_AJAX()
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('trans_id', 'trans_id', 'required');
+        $this->form_validation->set_rules('verification_status', 'verification_status', 'required');
+        $success = false;
+        if($this->form_validation->run())
+        {
+            $this->load->model('transaction_model');
+            $success = $this->transaction_model->setTransactionVerificationStatus(
+                $this->input->post('trans_id'),
+                $this->input->post('verification_status')
+            );
+        }
+        echo json_encode($success);
+    }
 }

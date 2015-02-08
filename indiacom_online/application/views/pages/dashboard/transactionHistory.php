@@ -13,7 +13,7 @@
     <thead>
     <tr>
         <th>Transaction ID</th>
-        <th>Name</th>
+        <th>Transaction Member Id</th>
         <th>Mode</th>
         <th>Amount</th>
         <th>Currency</th>
@@ -31,13 +31,16 @@ foreach($transactions as $transaction)
     ?>
     <tr>
         <td>
-    <?php echo $transaction->transaction_number;?>
+        <?php echo $transaction->transaction_id;?>
         </td>
     <td>
-        <?php echo $transaction->member_name;?>
+        <?php echo $transaction->transaction_member_id;?>
     </td>
     <td>
-        <?php echo $transaction->transaction_mode_name;?>
+        <?php
+        if($transaction->transaction_mode != null)
+            echo $transactionModes[$transaction->transaction_mode]->transaction_mode_name;
+        ?>
     </td>
     <td>
         <?php echo $transaction->transaction_amount;?>

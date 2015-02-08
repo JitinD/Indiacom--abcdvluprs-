@@ -32,7 +32,7 @@ class Transaction_mode_model extends CI_Model
         $allModesArr = array();
         foreach($allModes as $mode)
         {
-            $allModesArr[$mode->transaction_mode_id]['transaction_mode_name'] = $mode->transaction_mode_name;
+            $allModesArr[$mode->transaction_mode_id] = $mode;
         }
         return $allModesArr;
     }

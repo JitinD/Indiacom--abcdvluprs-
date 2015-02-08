@@ -8,7 +8,7 @@
             <hr>
             <div class="row">
                 <?php
-                if(in_array("Role Manager", $loadableComponents))
+                if(in_array("RoleManager", $loadableComponents))
                 {
                 ?>
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
@@ -24,7 +24,7 @@
                 }
                 ?>
                 <?php
-                if(in_array("User Manager", $loadableComponents))
+                if(in_array("UserManager", $loadableComponents))
                 {
                 ?>
                 <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
@@ -40,7 +40,7 @@
                 }
                 ?>
                 <?php
-                if(in_array("Initial Paper Reviewer", $loadableComponents))
+                if(in_array("InitialPaperReviewer", $loadableComponents))
                 {
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
@@ -56,7 +56,7 @@
                 }
                 ?>
                 <?php
-                if(in_array("Final Paper Reviewer", $loadableComponents))
+                if(in_array("FinalPaperReviewer", $loadableComponents))
                 {
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
@@ -72,7 +72,7 @@
                 }
                 ?>
                 <?php
-                if(in_array("News Maker", $loadableComponents))
+                if(in_array("NewsManager", $loadableComponents) && in_array("NewsManager_IndiacomOnlineSystem", $loadableComponents))
                 {
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">

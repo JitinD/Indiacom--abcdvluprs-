@@ -25,6 +25,15 @@ class Discount_model extends CI_Model
         return $query->result();
     }
 
+    public function getDiscountDetails($discountId)
+    {
+        $sql = "Select * From discount_type_master Where discount_type_id=?";
+        $query = $this->db->query($sql, array($discountId));
+        if($query->num_rows() == 0)
+            return null;
+        return $query->row();
+    }
+
     public function isAlumniDiscountValid($memberId)
     {
         /*
@@ -49,12 +58,21 @@ class Discount_model extends CI_Model
                         Select
                             submission_member_id,
                             SUM(payment_amount_paid) as total_amount_paid,
+                            Case
+                                When discount_type_amount is Null
+                                Then 0
+                                Else floor(discount_type_amount * payable_class_amount)
+                            End As discount_amount,
                             payable_class_amount
                         From payment_master
                             Join payable_class
                                 On payment_payable_class = payable_class_id
                             Join submission_master
                                 On submission_master.submission_id = payment_master.payment_submission_id
+                            Left Join discount_type_master
+		                        On discount_type_id = payment_discount_type
+                            Join transaction_master
+		                        On transaction_id = payment_trans_id And is_verified = 1
                         Where
                             payable_class_payhead_id = 1 And
                             is_general = 1
@@ -64,7 +82,7 @@ class Discount_model extends CI_Model
                     member_master
                         On submission_member_id = member_id
                 Where
-                    total_amount_paid >= payable_class_amount And
+                    total_amount_paid >= (payable_class_amount - discount_amount)And
                     member_organization_id = ?
                 Group By member_organization_id";
         $query = $this->db->query($sql, array($memberInfo['member_organization_id']));
@@ -83,11 +101,11 @@ class Discount_model extends CI_Model
          * Co-Authors (provided the main author has registered) of accepted papers
          * and Alumni of BVICAM will get 20% discount on base rate in the respective category.
          */
-        $this->load->model('paper_model');
+        //$this->load->model('paper_model');
         $this->load->model('payment_model');
-        $mainAuthor = $this->paper_model->getMainAuthor($paperId);
+        /*$mainAuthor = $this->paper_model->getMainAuthor($paperId);
         if($mainAuthor == $memberId)
-            return false;
+            return false;*/
         if($this->payment_model->isPaperRegistered($paperId))
         {
             return true;

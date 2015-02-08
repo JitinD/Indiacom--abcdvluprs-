@@ -1,6 +1,6 @@
-$(document).ready(function(){
 
-    $(document).click(function(){
+$(document).ready(function(){
+	$(document).click(function(){
 		$("#ajax_response").fadeOut('slow');
 	});
 	var width = $(".col-sm-9").width();
@@ -14,7 +14,7 @@ $(document).ready(function(){
 				 $("#loading").css("visibility","visible");
 				 $.ajax({
 				   type: "POST",
-				   url: "Indiacom2015/indiacom_online/AJAX/fetchOrganisationNames",
+				   url: "/Indiacom2015/index.php/AJAX/fetchOrganisationNames",
 				   data: "data="+keyword,
 				   success: function(msg){	
 					if(msg != 0)
@@ -91,51 +91,4 @@ $(document).ready(function(){
 			  $("#ajax_response").fadeOut("slow");
 		});
 	});
-
-    var categoryValue = function()
-    {
-        if($("#category").val() == 5 || $("#category").val() == 6)
-            $(".category-based").show();
-        else
-            $(".category-based").hide();
-    };
-
-    categoryValue();
-
-    $("#category").on('change', categoryValue);
-
-    var onlyNumericValue = function(e)
-    {
-        if ((e.keyCode < 48) || (e.keyCode > 57))
-            return false;
-
-    }
-
-    $('#pincode, #phoneNumber, #countryCode, #mobileNumber, #fax, #csimembershipno, #ietemembershipno, #experience').on('keypress', onlyNumericValue);
-
-    $('#pincode, #phoneNumber, #countryCode, #mobileNumber, #fax, #csimembershipno, #ietemembershipno, #experience').bind("paste", function(e)
-    {
-        e.preventDefault();
-    });
-
-
-    $('#name').on('keypress', function(e){
-
-        var regex = /^[a-zA-Z.\s]*$/;
-
-        if(!(regex.test(String.fromCharCode((e.keyCode)))))
-            return false;
-
-        return true;
-
-    });
-
-    jQuery("#mobileNumber").blur(function()
-    {
-        if($("#mobileNumber").val().length)
-        {
-            if(!$("#mobileNumber").val().match(/^(\d{10})$/))
-                alert("Mobile number must have 10 digits!");
-        }
-    });
 });

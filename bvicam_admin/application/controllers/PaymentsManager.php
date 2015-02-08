@@ -72,6 +72,7 @@ class PaymentsManager extends CI_Controller
         $this->load->model('currency_model');
         $this->load->model('transaction_mode_model');
         $this->load->model('payment_model');
+        $this->load->model('discount_model');
         $page = "newPayment";
         if(isset($_SESSION[APPID]['transId']) || $transId != null)
         {
@@ -92,6 +93,9 @@ class PaymentsManager extends CI_Controller
                     $this->data['registrationCat'] = $this->member_model->getMemberCategory($memberId);
                     $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberId);
                     $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
+                    $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($memberId, $this->data['papers']);
+                    if($this->discount_model->error != null)
+                        die($this->discount_model->error);
                     if($this->newPaymentSubmitHandle(
                         $memberId,
                         $this->data['registrationCat'],
@@ -162,46 +166,50 @@ class PaymentsManager extends CI_Controller
             foreach($submissionIds as $submission)
             {
                 $payAmount = $this->input->post($submission."_payAmount");
-                $payHead = $this->input->post($submission."_payhead");
+                $payHead = $this->input->post($submission."_payheadAndDiscount");
                 if($payAmount <= 0)
                     continue;
+                $split = explode("_", $payHead);
+                $payHead = $split[0];
+                $discountType = (isset($split[1])) ? $split[1] : null;
                 $payHeadId = $this->payment_head_model->getPaymentHeadId($payHead);
                 $submissionDetails = $this->submission_model->getSubmissionsByAttribute("submission_id", $submission);
-                if($payHeadId != null)
+                if($payHeadId == null)
                 {
-                    $paidPayments = $this->payment_model->getPayments(
-                        $submissionDetails[0]->submission_member_id,
-                        $submissionDetails[0]->submission_paper_id,
-                        true
-                    );
-                    if(empty($paidPayments))
-                    {
-                        $payableClass = $this->payable_class_model->getPayableClass(
-                            $payHeadId,
-                            !$this->member_model->isProfBodyMember($memberID),
-                            $registrationCat->member_category_id,
-                            $currency,
-                            $transDate
-                        );
-                    }
-                    else
-                    {
-                        $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
-                    }
-                    if($payAmount > $payableClass->payable_class_amount)
-                    {
-                        $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
-                        return false;
-                    }
-                    $totalPayAmount += $payAmount;
-                    $paymentsDetails[] = array(
-                        "payment_submission_id" => $submission,
-                        /*"payment_member_id" => $submissionDetails[0]->submission_member_id ,
-                        "payment_paper_id" => $submissionDetails[0]->submission_paper_id,*/
-                        "payment_amount_paid" => $payAmount,
-                        "payment_payable_class" => $payableClass->payable_class_id
+                    $this->data['pay_error'] = "System Error: Payheads don't match! Contact Admin.";
+                    return false;
+                }
+                $paidPayments = $this->payment_model->getPayments(
+                    $submissionDetails[0]->submission_member_id,
+                    $submissionDetails[0]->submission_paper_id,
+                    true
+                );
+                if(empty($paidPayments))
+                {
+                    $payableClass = $this->payable_class_model->getPayableClass(
+                        $payHeadId,
+                        !$this->member_model->isProfBodyMember($memberID),
+                        $registrationCat->member_category_id,
+                        $currency,
+                        $transDate
                     );
                 }
+                else
+                {
+                    $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
+                }
+                if($payAmount > $payableClass->payable_class_amount)
+                {
+                    $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
+                    return false;
+                }
+                $totalPayAmount += $payAmount;
+                $paymentsDetails[] = array(
+                    "payment_submission_id" => $submission,
+                    "payment_amount_paid" => $payAmount,
+                    "payment_payable_class" => $payableClass->payable_class_id,
+                    "payment_discount_type" => $discountType
+                );
             }
             if($totalPayAmount <= $transAmount)
             {

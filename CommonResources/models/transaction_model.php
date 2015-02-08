@@ -40,19 +40,21 @@
             return $row->transaction_id + 1;
         }
 
-        public function newWaiveOffTransaction($amount)
+        public function newWaiveOffTransaction($amount, $memberId, $transDate)
         {
             $this->load->model('currency_model');
             $transDetails = array(
+                'transaction_member_id' => $memberId,
                 'transaction_bank' => "",
                 'transaction_number' => "",
                 'transaction_amount' => $amount,
-                'transaction_date' => 0,
+                'transaction_date' => $transDate,
                 'transaction_currency' => $this->currency_model->getCurrencyId("INR"),
                 'is_waived_off' => 1,
                 'is_verified' => 1
             );
             $this->newTransaction($transDetails);
+            return $transDetails['transaction_id'];
         }
 
         public function getTransactionId($transDetails = array())
@@ -138,7 +140,20 @@
 
         public function getAllTransactions($limit=null, $offset=null)
         {
-            $sql = "Select * From transaction_master";
+            $sql = "Select
+                        transaction_master.*,
+                        Case
+                            When payment_amount_paid is Null
+                            Then 0
+                            Else SUM(payment_amount_paid)
+                        End as amount_used
+                    From
+                        transaction_master
+                            Left Join
+                        payment_master
+                            On transaction_id = payment_trans_id
+                    Group By
+                        transaction_id";
             $query = $this->db->query($sql);
             if($query->num_rows() == 0)
                 return array();
@@ -169,9 +184,13 @@
             return $query->result();
         }
 
-        public function verifyDetails($update_data, $transaction_id)
+        public function setTransactionVerificationStatus($transId, $status)
         {
-            return $this -> db -> update('transaction_master', $update_data, array("transaction_id" => $transaction_id));
+            $sql = "Update transaction_master
+                    Set is_verified = ?
+                    Where transaction_id = ?";
+            $this->db->query($sql, array($status, $transId));
+            return $this->db->trans_status();
         }
 
         public function getMemberTransactions($memberID)
@@ -189,4 +208,21 @@
                 return array();
         }
 
+        /*
+         * Get transaction details of all payments related to $memberId
+         */
+        public function getMemberPaymentsTransactions($memberId)
+        {
+            $sql = "Select DISTINCT transaction_master.*
+                    From transaction_master
+                      Left Join payment_master
+                        On transaction_id = payment_trans_id
+                      Left Join submission_master
+                        On payment_submission_id = submission_id
+                    Where submission_member_id = ? Or transaction_member_id = ?";
+            $query = $this->db->query($sql, array($memberId, $memberId));
+            if($query->num_rows() == 0)
+                return array();
+            return $query->result();
+        }
     }

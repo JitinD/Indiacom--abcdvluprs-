@@ -549,7 +549,7 @@ class Dashboard extends CI_Controller
         return $olpc_amount;
     }
 
-    public function payment($currency=1, $transDate=null)
+    public function payment()
     {
         $page = "paymentHome";
         $memberID = $_SESSION[APPID]['member_id'];
@@ -562,10 +562,13 @@ class Dashboard extends CI_Controller
         $this->load->model('payment_model');
         $this->load->model('discount_model');
 
+        $currency = ($this->input->get('trans_currency') == null) ? 1 : $this->input->get('trans_currency');
+        $transDate = $this->input->get('trans_date');
         if($transDate == null)
             $transDate = $this->data['transDate'] = date("Y-m-d");
         else
             $this->data['transDate'] = $transDate;
+
         $this->data['isProfBodyMember'] = $this->member_model->isProfBodyMember($memberID);
         $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
         $this->data['registrationCat'] = $this->member_model->getMemberCategory($memberID);
@@ -576,9 +579,9 @@ class Dashboard extends CI_Controller
         $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($memberID, $this->data['papers']);
         if($this->discount_model->error != null)
             die($this->discount_model->error);
+        $this->paymentSubmitHandle($memberID, $this->data['registrationCat'], $currency);
         $this->data['papersInfo'] = $this->payment_model->calculatePayables($memberID, $currency, $this->data['registrationCat'], $this->data['papers'], $transDate);
-        if(!$this->paymentSubmitHandle($memberID, $this->data['registrationCat'], $currency))
-            $this->index($page);
+        $this->index($page);
     }
 
     private function paymentSubmitHandle($memberID, $registrationCat, $currency)
@@ -586,6 +589,7 @@ class Dashboard extends CI_Controller
         $this->load->library('form_validation');
         $this->load->model('payable_class_model');
         $this->load->model('payment_head_model');
+        $this->load->model('payment_model');
         $this->load->model('submission_model');
         $this->load->model('transaction_model');
         $this->load->model('member_model');
@@ -606,33 +610,50 @@ class Dashboard extends CI_Controller
             foreach($submissionIds as $submission)
             {
                 $payAmount = $this->input->post($submission."_payAmount");
-                $payHead = $this->input->post($submission."_payhead");
+                $payHead = $this->input->post($submission."_payheadAndDiscount");
                 if($payAmount <= 0)
                     continue;
+                $split = explode("_", $payHead);
+                $payHead = $split[0];
+                $discountType = (isset($split[1])) ? $split[1] : null;
                 $payHeadId = $this->payment_head_model->getPaymentHeadId($payHead);
                 $submissionDetails = $this->submission_model->getSubmissionsByAttribute("submission_id", $submission);
-                if($payHeadId != null)
+                if($payHeadId == null)
+                {
+                    $this->data['pay_error'] = "System Error: Payheads don't match! Contact Admin.";
+                    return false;
+                }
+                $paidPayments = $this->payment_model->getPayments(
+                    $submissionDetails[0]->submission_member_id,
+                    $submissionDetails[0]->submission_paper_id,
+                    true
+                );
+                if(empty($paidPayments))
                 {
                     $payableClass = $this->payable_class_model->getPayableClass(
                         $payHeadId,
                         !$this->member_model->isProfBodyMember($memberID),
                         $registrationCat->member_category_id,
-                        $currency
-                    );
-                    if($payAmount > $payableClass->payable_class_amount)
-                    {
-                        $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
-                        return false;
-                    }
-                    $totalPayAmount += $payAmount;
-                    $paymentsDetails[] = array(
-                        "payment_submission_id" => $submission,
-                        /*"payment_member_id" => $submissionDetails[0]->submission_member_id ,
-                        "payment_paper_id" => $submissionDetails[0]->submission_paper_id,*/
-                        "payment_amount_paid" => $payAmount,
-                        "payment_payable_class" => $payableClass->payable_class_id
+                        $currency,
+                        $this->input->post('trans_date')
                     );
                 }
+                else
+                {
+                    $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
+                }
+                if($payAmount > $payableClass->payable_class_amount)
+                {
+                    $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
+                    return false;
+                }
+                $totalPayAmount += $payAmount;
+                $paymentsDetails[] = array(
+                    "payment_submission_id" => $submission,
+                    "payment_amount_paid" => $payAmount,
+                    "payment_payable_class" => $payableClass->payable_class_id,
+                    "payment_discount_type" => $discountType
+                );
             }
             $transactionDetails = array(
                 "transaction_member_id" => $memberID,
@@ -645,11 +666,14 @@ class Dashboard extends CI_Controller
             );
             if($totalPayAmount == $transactionDetails['transaction_amount'])
             {
-                $this->transaction_model->newTransaction($transactionDetails);
-                $transId = $this->transaction_model->getTransactionId($transactionDetails);
-                $noofAdded = $this->payment_model->addMultiPaymentsWithCommonTransaction($paymentsDetails, $transId);
-                $this->data['message'][] = $noofAdded . " payments added.";
-                return true;
+                if($this->transaction_model->newTransaction($transactionDetails))
+                {
+                    $noofAdded = $this->payment_model->addMultiPaymentsWithCommonTransaction($paymentsDetails, $transactionDetails['transaction_id']);
+                    $this->data['message'][] = $noofAdded . " payments added.";
+                    return true;
+                }
+                else
+                    $this->data['pay_error'] = "Unable to create transaction. Transaction details might be duplicate.";
             }
             else
             {
@@ -663,7 +687,9 @@ class Dashboard extends CI_Controller
     {
         $page="transactionHistory";
         $this->load->model('transaction_model');
-        $this->data['transactions']=$this->transaction_model->getMemberTransactions($_SESSION[APPID]['member_id']);
+        $this->load->model('transaction_mode_model');
+        $this->data['transactions'] = $this->transaction_model->getMemberPaymentsTransactions($_SESSION[APPID]['member_id']);
+        $this->data['transactionModes'] = $this->transaction_mode_model->getAllTransactionModesAsAssocArray();
         $this->index($page);
     }
 

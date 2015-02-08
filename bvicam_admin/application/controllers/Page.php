@@ -30,7 +30,7 @@ class Page extends CI_Controller
         }
         if($page == "home")
         {
-            $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Component']);
+            $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         }
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
