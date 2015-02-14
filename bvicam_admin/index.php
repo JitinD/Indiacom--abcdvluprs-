@@ -23,6 +23,7 @@
     define('BASEURL', 'Indiacom2015/bvicam_admin/');
     define('INDIACOM', 'Indiacom2015/bvicam_admin/');
     define('DBGROUP', 'default');
+    define('EVENT_ID',221);
 
     /*define('HOST', 'bvicam.org/');
     define('BASEURL', 'indiacom2015/bvicam_admin/');
