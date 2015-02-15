@@ -254,7 +254,7 @@ class PaymentsManager extends CI_Controller
         {
             $this->data['payableClassDetails'] = $this->payable_class_model->getPayableClassDetails($payableClass);
         }
-        $this->data['payheadDetails'] = $this->payheadNamesAsAssocArray();
+        $this->data['payheadDetails'] = $this->payheadNamesAsAssocArraypayheadNamesAsAssocArray();
         $this->data['nationalityDetails'] = $this->nationalityNamesAsAssocArray();
 
         $this->index($page);
