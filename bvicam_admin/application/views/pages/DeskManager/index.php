@@ -17,7 +17,7 @@
                 <div class="col-sm-3">
 
                     <?php
-                    $search_parameters = array("Member ID", "Paper ID", "Member Name", "Paper Title");
+                        $search_parameters = array("MemberID", "PaperID", "MemberName", "PaperTitle");
                     ?>
 
                     <select id="searchby" name="searchby" class="form-control">
@@ -25,7 +25,7 @@
                         foreach($search_parameters as $parameter)
                         {
                             ?>
-                            <option value = <?php echo $parameter ?><!--<?php /*if(set_value('searchby') == $parameter) echo "selected" ;*/?>--><?php echo $parameter ?></option>
+                            <option value ="<?php echo $parameter; ?>"<!--<?php /*if(set_value('searchby') == $parameter) echo "selected" ;*/?>--><?php echo $parameter ?></option>
                         <?php
                         }
                         ?>
@@ -51,6 +51,13 @@
                 </div>
             </div>
 
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </form>
     </div>
 
 </div>
