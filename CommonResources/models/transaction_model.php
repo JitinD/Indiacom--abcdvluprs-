@@ -28,6 +28,22 @@
             return $this->db->trans_status();
         }
 
+        public function makeTransactionTempMappings($transId, $memberIds = array())
+        {
+            $details = array("transaction_id" => $transId);
+            $totalSuccess = true;
+            foreach($memberIds as $id)
+            {
+                $details["member_id"]= $id;
+                $this->db->insert("temp_transaction_member_mapper", $details);
+                if(!$this->db->trans_status())
+                    $totalSuccess = false;
+            }
+            if(!empty($memberIds))
+                return $totalSuccess;
+            return false;
+        }
+
         private function assignTransactionId()
         {
             $sql = "Select transaction_id
@@ -76,13 +92,28 @@
             return $row->transaction_id;
         }
 
+        public function getMemberTempTransactionMappings($memberId)
+        {
+            $sql = "Select transaction_id
+                    From temp_transaction_member_mapper
+                    Where member_id = ? And dirty = 0";
+            $query = $this->db->query($sql, array($memberId));
+            $mappings = $query->result();
+            $transactions = array();
+            foreach($mappings as $mapping)
+            {
+                $transactions[$mapping->transaction_id] = $this->getTransactionDetails($mapping->transaction_id);
+            }
+            return $transactions;
+        }
+
         public function getTransactionDetails($transId)
         {
             $sql = "Select * From transaction_master
                     Where transaction_id = ?";
             $query = $this->db->query($sql, array($transId));
             if($query->num_rows() == 0)
-                return array();
+                return null;
             return $query->row();
         }
 

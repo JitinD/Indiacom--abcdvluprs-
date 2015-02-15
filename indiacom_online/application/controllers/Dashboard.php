@@ -561,6 +561,7 @@ class Dashboard extends CI_Controller
         $this->load->model('transaction_mode_model');
         $this->load->model('payment_model');
         $this->load->model('discount_model');
+        $this->load->model('transaction_model');
 
         $currency = ($this->input->get('trans_currency') == null) ? 1 : $this->input->get('trans_currency');
         $transDate = $this->input->get('trans_date');
@@ -577,9 +578,20 @@ class Dashboard extends CI_Controller
         $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberID);
         $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
         $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($memberID, $this->data['papers']);
+        $this->data['mappedTransactions'] = $this->transaction_model->getMemberTempTransactionMappings($memberID);
+        foreach($this->data['mappedTransactions'] as $transaction)
+        {
+            $this->data['transactionUsedAmount'][$transaction->transaction_id] = $this->transaction_model->getTransactionUsedAmount($transaction->transaction_id);
+        }
         if($this->discount_model->error != null)
             die($this->discount_model->error);
-        $this->paymentSubmitHandle($memberID, $this->data['registrationCat'], $currency);
+        if($this->paymentSubmitHandle($memberID, $this->data['registrationCat'], $currency))
+        {
+            foreach($this->data['mappedTransactions'] as $transaction)
+            {
+                $this->data['transactionUsedAmount'][$transaction->transaction_id] = $this->transaction_model->getTransactionUsedAmount($transaction->transaction_id);
+            }
+        }
         $this->data['papersInfo'] = $this->payment_model->calculatePayables($memberID, $currency, $this->data['registrationCat'], $this->data['papers'], $transDate);
         $this->index($page);
     }
@@ -590,23 +602,66 @@ class Dashboard extends CI_Controller
         $this->load->model('payable_class_model');
         $this->load->model('payment_head_model');
         $this->load->model('payment_model');
+        $this->load->model('discount_model');
         $this->load->model('submission_model');
         $this->load->model('transaction_model');
         $this->load->model('member_model');
 
-        $this->form_validation->set_rules('trans_mode', "Payment Mode", 'required');
-        $this->form_validation->set_rules('trans_amount', "Amount", 'required');
-        $this->form_validation->set_rules('trans_bank', "Bank Name", 'required');
-        $this->form_validation->set_rules('trans_no', "Transaction No.", 'required');
-        $this->form_validation->set_rules('trans_date', "Transaction Date", 'required');
+        if($this->input->post('mapped_transaction_id') >= 0)
+        {
+            $this->form_validation->set_rules('trans_no', "Transaction No.", 'required');
+        }
+        else
+        {
+            $this->form_validation->set_rules('trans_mode', "Payment Mode", 'required');
+            $this->form_validation->set_rules('trans_amount', "Amount", 'required');
+            $this->form_validation->set_rules('trans_bank', "Bank Name", 'required');
+            $this->form_validation->set_rules('trans_no', "Transaction No.", 'required');
+            $this->form_validation->set_rules('trans_date', "Transaction Date", 'required');
+        }
 
         if($this->form_validation->run())
         {
+            $transAuthorIds = $this->input->post('trans_authorIds');
             $submissionIds = $this->input->post('submissionIds');
             if($submissionIds == null)
                 $submissionIds = array();
             $paymentsDetails = array();
             $totalPayAmount = 0;
+
+            if(!empty($this->data['mappedTransactions']) && $this->input->post('mapped_transaction_id') >= 0)
+            {
+                $details = $this->transaction_model->getTransactionDetails($this->input->post('mapped_transaction_id'));
+                $transCreated = true;
+                $transactionDetails = array(
+                    "transaction_id" => $details->transaction_id,
+                    "transaction_amount" => $details->transaction_EQINR - $this->data['transactionUsedAmount'][$details->transaction_id],
+                    "transaction_date" => $details->transaction_date
+                );
+                if($details == null)
+                {
+                    $this->data['pay_error'] = "Invalid transaction id!";
+                    return false;
+                }
+                if($this->input->post('trans_no') != $details->transaction_number)
+                {
+                    $this->data['pay_error'] = "The transaction number does not match.";
+                    return false;
+                }
+            }
+            else
+            {
+                $transactionDetails = array(
+                    "transaction_member_id" => $memberID,
+                    "transaction_bank" => $this->input->post('trans_bank'),
+                    "transaction_number" => $this->input->post('trans_no'),
+                    "transaction_mode" => $this->input->post('trans_mode'),
+                    "transaction_amount" => $this->input->post('trans_amount'),
+                    "transaction_date" => $this->input->post('trans_date'),
+                    "transaction_currency" => $currency
+                );
+            }
+            $transDate = $transactionDetails['transaction_date'];
             foreach($submissionIds as $submission)
             {
                 $payAmount = $this->input->post($submission."_payAmount");
@@ -625,8 +680,7 @@ class Dashboard extends CI_Controller
                 }
                 $paidPayments = $this->payment_model->getPayments(
                     $submissionDetails[0]->submission_member_id,
-                    $submissionDetails[0]->submission_paper_id,
-                    true
+                    $submissionDetails[0]->submission_paper_id
                 );
                 if(empty($paidPayments))
                 {
@@ -635,12 +689,19 @@ class Dashboard extends CI_Controller
                         !$this->member_model->isProfBodyMember($memberID),
                         $registrationCat->member_category_id,
                         $currency,
-                        $this->input->post('trans_date')
+                        $transDate
                     );
                 }
                 else
                 {
                     $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
+                    $discountAmt = 0;
+                    if($paidPayments[0]->payment_discount_type != null)
+                    {
+                        $detail = $this->discount_model->getDiscountDetails($paidPayments[0]->payment_discount_type);
+                        $discountAmt = floor($payableClass->payable_class_amount * $detail->discount_type_amount);
+                    }
+                    $payableClass->payable_class_amount -= ($paidPayments[0]->paid_amount + $discountAmt);
                 }
                 if($payAmount > $payableClass->payable_class_amount)
                 {
@@ -655,21 +716,31 @@ class Dashboard extends CI_Controller
                     "payment_discount_type" => $discountType
                 );
             }
-            $transactionDetails = array(
-                "transaction_member_id" => $memberID,
-                "transaction_bank" => $this->input->post('trans_bank'),
-                "transaction_number" => $this->input->post('trans_no'),
-                "transaction_mode" => $this->input->post('trans_mode'),
-                "transaction_amount" => $this->input->post('trans_amount'),
-                "transaction_date" => $this->input->post('trans_date'),
-                "transaction_currency" => $currency
-            );
-            if($totalPayAmount == $transactionDetails['transaction_amount'])
+
+            if($totalPayAmount > 0 && $totalPayAmount <= $transactionDetails['transaction_amount'])
             {
-                if($this->transaction_model->newTransaction($transactionDetails))
+                if($totalPayAmount < $transactionDetails['transaction_amount'] && !empty($transAuthorIds))
                 {
+                    $transactionDetails['is_open'] = 1;
+                }
+                else if($totalPayAmount == $transactionDetails['transaction_amount'] && !empty($transAuthorIds))
+                {
+                    $this->data['pay_error'] = "The transaction amount is exactly equal to selected pay amount and hence, cannot be selected for use by other authors.";
+                    return false;
+                }
+                if(!isset($transactionDetails['transaction_id']))
+                    $transCreated = $this->transaction_model->newTransaction($transactionDetails);
+                if($transCreated)
+                {
+                    if(!empty($transAuthorIds))
+                    {
+                        if(!$this->transaction_model->makeTransactionTempMappings($transactionDetails['transaction_id'], $transAuthorIds))
+                            $this->data['message'][] = "One or more author id's supplied in list of authors for this transaction was incorrect. It was ignored.";
+                    }
                     $noofAdded = $this->payment_model->addMultiPaymentsWithCommonTransaction($paymentsDetails, $transactionDetails['transaction_id']);
                     $this->data['message'][] = $noofAdded . " payments added.";
+                    if(isset($transactionDetails['is_open']) && $transactionDetails['is_open'] == 1)
+                        $this->data['message'][] = "The transaction can be further used by the specified authors for their payments.";
                     return true;
                 }
                 else

@@ -150,6 +150,7 @@ class PaymentsManager extends CI_Controller
         $this->load->model('payable_class_model');
         $this->load->model('payment_head_model');
         $this->load->model('payment_model');
+        $this->load->model('discount_model');
         $this->load->model('submission_model');
         $this->load->model('transaction_model');
         $this->load->model('member_model');
@@ -197,6 +198,13 @@ class PaymentsManager extends CI_Controller
                 else
                 {
                     $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
+                    $discountAmt = 0;
+                    if($paidPayments[0]->payment_discount_type != null)
+                    {
+                        $detail = $this->discount_model->getDiscountDetails($paidPayments[0]->payment_discount_type);
+                        $discountAmt = floor($payableClass->payable_class_amount * $detail->discount_type_amount);
+                    }
+                    $payableClass->payable_class_amount -= ($paidPayments[0]->paid_amount + $discountAmt);
                 }
                 if($payAmount > $payableClass->payable_class_amount)
                 {

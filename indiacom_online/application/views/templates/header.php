@@ -18,6 +18,7 @@
         <!--<link rel="stylesheet" href="/<?php /*echo PATH */?>assets/css/abcdvluprs.css">-->
         <script src="/<?php echo PATH ?>assets/js/jquery.min.js"></script>
         <script src="/<?php echo PATH ?>assets/js/bootstrap.min.js"></script>
+        <script src="/<?php echo PATH ?>assets/js/list.js"></script>
     </head>
     <body>
         <div class="container-fluid">

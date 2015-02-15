@@ -50,15 +50,9 @@ class Payment_model extends CI_Model
         return $noofPayments;
     }
 
-    public function quickWaiveOff($paymentId, $amount, $memberId)
+    public function quickWaiveOff()
     {
-        $this->load->model('transaction_model');
-        $payDetails = $this->getPaymentDetails($paymentId);
-        $transId = $this->transaction_model->newWaiveOffTransaction($amount, $memberId, date("Y-m-d"));
-        $newPaymentDetails = array(
-            'payment_trans_id' => $transId,
-            'payment_submission_id' => ""
-        );
+
     }
 
     public function transferPayment($sourceDetails = array(), $destinationDetails = array())
