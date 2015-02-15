@@ -23,7 +23,6 @@
     define('BASEURL', 'Indiacom2015/bvicam_admin/');
     define('INDIACOM', 'Indiacom2015/bvicam_admin/');
     define('DBGROUP', 'default');
-    define('EVENT_ID',221);
 
     /*define('HOST', 'bvicam.org/');
     define('BASEURL', 'indiacom2015/bvicam_admin/');
@@ -47,6 +46,7 @@
     }
     define('REVIEW_RESULT_ACCEPTED_ID', 8);
     define('BULK_REGISTRATION_MIN_REGISTRATION_VALUE', 3);
+    define('EVENT_ID',221);
     require('application/config/paths.php');
     require('application/config/exceptions.php');
 /*

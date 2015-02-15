@@ -22,3 +22,4 @@ define('COMPLIANCE_REPORT_FOLDER', 'compliance_reports/');
 define('BIODATA_FOLDER', 'biodata/');
 define('TEMP_BIODATA_FOLDER','biodata_temp/');
 define('UPLOAD_PATH', 'Indiacom2015/'.UPLOAD_FOLDER);
+//define('UPLOAD_PATH', 'indiacom2015/'.UPLOAD_FOLDER);

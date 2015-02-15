@@ -21,3 +21,4 @@ define('NEWS_ATTACHMENT_FOLDER', 'Attachments/');
 
 //Upload base path
 define('UPLOAD_PATH', 'Indiacom2015/'.UPLOAD_FOLDER);
+//define('UPLOAD_PATH', 'indiacom2015/'.UPLOAD_FOLDER);
