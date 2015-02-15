@@ -16,7 +16,7 @@ class Attendance_model extends CI_Model
         $this->load->database();
     }
 
-    public function getDeskAttendance($member_id, $paper_id)
+    public function getMemberAttendance($member_id, $paper_id)
     {
         $sql = "Select attendance_master.is_present_on_desk,attendance_master.is_present_in_hall
                 From
@@ -40,6 +40,16 @@ class Attendance_model extends CI_Model
 
     public function updateAttendance($member_id,$paper_id)
     {
-
+       $sql= "Update attendance_master
+                Join
+                  submission_master
+                 On submission_master.submission_id = attendance_master.submission_id
+                  set attendance_master.is_present_in_hall=1
+                Where
+                  submission_member_id = ? And
+                  submission_dirty = 0 AND
+                  submission_paper_id= ?";
+        $query = $this->db->query($sql, array($member_id, $paper_id));
+        return true;
     }
 }

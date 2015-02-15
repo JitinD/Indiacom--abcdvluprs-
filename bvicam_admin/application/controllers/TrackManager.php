@@ -35,12 +35,14 @@ class TrackManager extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function trackAttendance($paper_id,$member_id=5413)
+    public function trackAttendance($paper_id, $member_id)
     {
         $page = "markAttendance";
         $this->load->model('attendance_model');
-        $this->data['attendance']=$this->attendance_model->getDeskAttendance($member_id,$paper_id);
-
+        $this->data['attendance'] = $this->attendance_model->getMemberAttendance($member_id, $paper_id);
+        if (isset($_POST['trackAttendance'])) {
+            $this->attendance_model->updateAttendance($member_id, $paper_id);
+        }
         $this->index($page);
     }
 
@@ -55,12 +57,11 @@ class TrackManager extends CI_Controller
             $this->load->model('track_model');
             $this->data['papers'] = $this->paper_status_model->getTrackPapersInfo($member_id, $track_id);
         }
-        $paper_id=$this->input->post('paper');
-        if($paper_id>0)
-        {
-            redirect("/TrackManager/trackAttendance/".$paper_id."/".$member_id);
-        }
 
+        $paper_id = $this->input->post('paper');
+        if ($paper_id > 0) {
+            redirect('/TrackManager/trackAttendance/'.$paper_id.'/'.$member_id);
+        }
         $this->index($page);
     }
 
