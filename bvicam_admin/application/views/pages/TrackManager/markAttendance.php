@@ -11,7 +11,7 @@
         <table class="table">
             <thead>
             <tr>
-                <th>Paper ID</th>
+                <th>Paper Code</th>
                 <th>Paper Title</th>
                 <th>Attendance on Desk</th>
                 <th>Attendance on Track</th>
@@ -19,8 +19,32 @@
             </tr>
             </thead>
             <?php
-            foreach($papers as $paper)
+            foreach ($papers as $paper) {
+                ?>
+                <tr>
+                    <td><?php echo $paper->paper_code; ?></td>
+                    <td><?php echo $paper->paper_title; ?></td>
+                    <?php if (isset($attendance[$paper->paper_id]->is_present_on_desk) && $attendance[$paper->paper_id]->is_present_on_desk == 1) {
+                        ?>
+                        <td><?php echo "Present" ?></td>
+                        <td><input type="submit" name="submit" value="Mark Attendance"/></td>
+                    <?php
+                    } else {
+                        ?>
+                        <td><?php echo "Absent On desk" ?></td>
+                        <td><?php echo "Not marked" ?></td>
+                    <?php
+                    }
+                    ?>
+                    <td><input type="text" value="<?php if(isset($certificate[$paper->paper_id]->certificate_outward_number))
+                        {
+                            echo $certificate[$paper->paper_id]->certificate_outward_number;
+                        }?>"> </td>
+                    <td></td>
+                </tr>
 
+            <?php
+            }
             ?>
 
         </table>

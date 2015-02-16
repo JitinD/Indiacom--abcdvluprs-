@@ -41,7 +41,7 @@ class Certificate_model extends CI_Model
               ";
         $query = $this->db->query($sql, array($submission_id));
         if ($query->num_rows() == 0)
-            return array();
+            return null;
         return $query->row();
     }
 }

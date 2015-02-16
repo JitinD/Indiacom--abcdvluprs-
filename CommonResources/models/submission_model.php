@@ -104,7 +104,7 @@ class Submission_model extends CI_Model
               submission_master
               where
               submission_paper_id=? AND
-              submission_member_id?";
+              submission_member_id=?";
         $query = $this->db->query($sql, array($paper_id, $member_id));
         if ($query->num_rows() == 0)
             return array();
