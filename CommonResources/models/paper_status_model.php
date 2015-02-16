@@ -43,9 +43,9 @@ class Paper_status_model extends CI_Model
     }
 
     //Get accepted papers of a track
-    public function getTrackPapersInfo($member_id, $track_id)
+    public function getTrackAcceptedPapersInfo($member_id, $track_id)
     {
-        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id
+        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id
                 From
                   paper_latest_version
                     Join

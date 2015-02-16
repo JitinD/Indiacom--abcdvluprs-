@@ -16,40 +16,41 @@ class Attendance_model extends CI_Model
         $this->load->database();
     }
 
-    public function getMemberAttendance($member_id, $paper_id)
+    private function assignId($entity)
     {
-        $sql = "Select attendance_master.is_present_on_desk,attendance_master.is_present_in_hall
-                From
-                   paper_latest_version
-                    Join
-                  submission_master
-                  On paper_latest_version.paper_id = submission_master.submission_paper_id
-                    JOIN
-                   attendance_master
-                    On submission_master.submission_id = attendance_master.submission_id
-                Where
-                  submission_member_id = ? And
-                  submission_dirty = 0 AND
-                  submission_paper_id= ? AND
-                  review_result_id = ?";
-        $query = $this->db->query($sql, array($member_id, $paper_id, REVIEW_RESULT_ACCEPTED_ID));
-        if ($query->num_rows() == 0)
-            return array();
-        return $query->result();
+        $sql = "SELECT max(cast(`member_id` as UNSIGNED))as `attendance_id` from $entity";
+        $query = $this->db->query($sql);
+        if($query->num_rows()==0)
+            return 1;
+        $attendance_id_array = $query->row_array();
+        $attendance_id = $attendance_id_array['attendance_id'] + 1;
+        return $attendance_id;
     }
 
-    public function updateAttendance($member_id,$paper_id)
+
+    public function markDeskAttendance($entity,$attendanceRecord=array())
     {
-       $sql= "Update attendance_master
-                Join
-                  submission_master
-                 On submission_master.submission_id = attendance_master.submission_id
-                  set attendance_master.is_present_in_hall=1
-                Where
-                  submission_member_id = ? And
-                  submission_dirty = 0 AND
-                  submission_paper_id= ?";
-        $query = $this->db->query($sql, array($member_id, $paper_id));
-        return true;
+        $attendanceRecord['attendance_id']=$this->assignId($entity);
+        $this -> db -> insert($entity, $attendanceRecord);
+        return $this->db->trans_status;
     }
+
+    public function checkDeskAttendance($submission_id)
+    {
+        $sql="Select * from
+              attendance_master
+              where
+              submission_id=?
+              ";
+        $query = $this->db->query($sql, array($submission_id));
+        if ($query->num_rows() == 0)
+            return array();
+        return $query->row();
+    }
+    public function markTrackAttendance($entity,$attendanceRecord=array())
+    {
+        $this -> db -> update($entity,$attendanceRecord);
+        return $this->db->trans_status;
+    }
+
 }

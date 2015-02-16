@@ -6,31 +6,22 @@
  * Time: 10:18 PM
  */
 ?>
-<div>
+<div style="padding-top: 120px;">
     <form method="post" enctype="multipart/form-data">
-        <table>
+        <table class="table">
             <thead>
             <tr>
+                <th>Paper ID</th>
+                <th>Paper Title</th>
                 <th>Attendance on Desk</th>
                 <th>Attendance on Track</th>
+                <th>Certificate Outward Number</th>
             </tr>
             </thead>
-            <?php foreach ($attendance as $track) {
-                ?>
+            <?php
+            foreach($papers as $paper)
 
-                <?php if ($track->is_present_on_desk == 1) {
-                    ?>
-                    <tr>
-                        <td>
-                            <?php echo "Present"; ?></td>
-                        <td><input type="submit" name="trackAttendance" value="Mark Attendance"/></td>
-                        <td><input type="text" name="certificate"></td>
-                        <td><input type="submit" name="trackCertificate" value="Mark Certificate"/></td>
-                    </tr>
-                <?php
-                }
-
-            }?>
+            ?>
 
         </table>
     </form>
