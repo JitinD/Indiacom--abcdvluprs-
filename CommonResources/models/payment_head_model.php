@@ -25,6 +25,16 @@ class Payment_head_model extends CI_Model
         return $query->result();
     }
 
+    public function getPayheadDetails($payheadId)
+    {
+        $sql = "Select * From payment_head_master
+                Where payment_head_id = ?";
+        $query = $this->db->query($sql, array($payheadId));
+        if($query->num_rows() == 0)
+            return null;
+        return $query->row();
+    }
+
     public function getPaymentHeadId($payHeadName)
     {
         $sql = "Select payment_head_id
