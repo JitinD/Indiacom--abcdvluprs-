@@ -6,7 +6,7 @@
  * Time: 5:16 PM
  */ ?>
 
-<div class="col-sm-12 col-md-12 ">
+<div class="col-sm-10 col-md-10" id="contentPanel">
     <h1 class="page-header"><?php if($isUnusedTransactionList) echo "Unused "; ?>Transactions</h1>
     <div class="row">
         <div id="trans-list" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

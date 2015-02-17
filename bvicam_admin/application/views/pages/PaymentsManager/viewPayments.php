@@ -8,7 +8,7 @@
 ?>
 
 <div class="col-sm-10 col-md-10" id="contentPanel">
-    <h1 class="page-header">Payments</h1>
+    <h3 class="text-theme">Payments</h3>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-responsive table-hover">
@@ -106,7 +106,6 @@
                 ?>
                 </tbody>
             </table>
-            <a class="btn btn-success"  href="newRole"><span class="glyphicon glyphicon-plus"></span> Create new role</a>
         </div>
     </div>
 </div>

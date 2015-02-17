@@ -20,6 +20,8 @@ class TransactionManager extends CI_Controller
         $this->load->model('access_model');
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        $sidebarData['controllerName'] = $controllerName = "TransactionManager";
+        $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/TransactionManager/'.$page.'.php'))
         {
             show_404();
@@ -32,9 +34,17 @@ class TransactionManager extends CI_Controller
 
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-        //$this->load->view('templates/sidebar');
+        $this->load->view('templates/sidebar', $sidebarData);
         $this->load->view('pages/TransactionManager/'.$page, $this->data);
         $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+        $links['newTransaction'] = "New Transaction";
+        $links['load'] = "Load all transactions";
+        $links['loadUnusedTransactions'] = "Load unused transactions";
+        return $links;
     }
 
     public function newTransaction()

@@ -8,7 +8,7 @@
 ?>
 <div class="row main">
     <div class="col-sm-2 col-md-2 main" id="sidebar">
-        <div class="list-group">
+        <div class="list-group" style="position: fixed;">
             <?php
             if(isset($links))
             {
@@ -20,10 +20,6 @@
                 }
             }
             ?>
-            <!--<a href="#" class="list-group-item">View payments memberwise</a>
-            <a href="#" class="list-group-item">View payments paperwise</a>
-            <a href="#" class="list-group-item">New payment</a>
-            <a href="#" class="list-group-item">Spot payment</a>-->
         </div>
     </div>
     <div style="position: fixed; z-index: 100; margin-top: 300px;">
