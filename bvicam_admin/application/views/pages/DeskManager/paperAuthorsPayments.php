@@ -233,7 +233,7 @@
                                                     ?>
                                                 </select>
                                                 <div class="bg-info attInfo"></div>
-                                                <div class="bg-danger attDanger"></div>
+                                                <div class="bg-danger attError"></div>
                                             </td>
                                         </tr>
                                     <?php
