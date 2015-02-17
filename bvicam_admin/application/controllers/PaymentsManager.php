@@ -359,7 +359,8 @@ class PaymentsManager extends CI_Controller
         $registrationCat = $this->member_model->getMemberCategory($memberId);
         $paidPayments = $this->payment_model->getPayments(
             $memberId,
-            $paperId
+            $paperId,
+            $payheadId
         );
         $discountAmt = 0;
         $paidAmount = 0;
