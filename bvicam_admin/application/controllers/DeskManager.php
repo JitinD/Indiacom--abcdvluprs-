@@ -1,11 +1,11 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Pavithra
  * Date: 2/14/15
  * Time: 2:21 PM
  */
-
 class DeskManager extends CI_Controller
 {
     private $data = array();
@@ -15,25 +15,23 @@ class DeskManager extends CI_Controller
         parent::__construct();
         $this->load->helper(array('form', 'url'));
 
-        $this -> load -> model('paper_model');//paper
-        $this -> load -> model('subject_model');//subject
-        $this -> load -> model('track_model');//track
-        $this -> load -> model('event_model');//event
-        $this -> load -> model('submission_model');
+        $this->load->model('paper_model'); //paper
+        $this->load->model('subject_model'); //subject
+        $this->load->model('track_model'); //track
+        $this->load->model('event_model'); //event
+        $this->load->model('submission_model');
     }
 
     private function index($page)
     {
         $this->load->model('access_model');
-        require(dirname(__FILE__).'/../config/privileges.php');
-        require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        require(dirname(__FILE__) . '/../utils/ViewUtils.php');
 
-        if ( ! file_exists(APPPATH.'views/pages/DeskManager/'.$page.'.php'))
-        {
+        if (!file_exists(APPPATH . 'views/pages/DeskManager/' . $page . '.php')) {
             show_404();
         }
-        if(isset($privilege['Page']['DeskManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['DeskManager'][$page]))
-        {
+        if (isset($privilege['Page']['DeskManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['DeskManager'][$page])) {
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
@@ -41,7 +39,7 @@ class DeskManager extends CI_Controller
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         //$this->load->view('templates/sidebar');
-        $this->load->view('pages/DeskManager/'.$page, $this->data);
+        $this->load->view('pages/DeskManager/' . $page, $this->data);
         $this->load->view('templates/footer');
     }
 
@@ -53,26 +51,22 @@ class DeskManager extends CI_Controller
 
         $this->form_validation->set_rules('searchvalue', 'Search value', 'required');
 
+        if ($this->form_validation->run()) {
+            $this->load->helper('url');
 
-        if($this->form_validation->run())
-        {
-            $this -> load -> helper('url');
+            $search_by = $this->input->post('searchby');
+            $search_value = $this->input->post('searchvalue');
 
-            $search_by = $this -> input -> post('searchby');
-            $search_value = $this -> input -> post('searchvalue');
+            switch ($search_by) {
+                case 'MemberID':
+                    redirect('/DeskManager/viewAuthorPapersPayments/' . $search_value);
+                    break;
 
-            switch($search_by)
-            {
-                case 'MemberID':    redirect('/DeskManager/viewAuthorPapersPayments/'.$search_value);
-                                    break;
-
-                case 'PaperID':     redirect('/DeskManager/viewPaperAuthorsPayments/'.$search_value);
-                                    break;
+                case 'PaperID':
+                    redirect('/DeskManager/viewPaperAuthorsPayments/' . $search_value);
+                    break;
             }
-
         }
-
-
         $this->index($page);
     }
 
@@ -90,7 +84,7 @@ class DeskManager extends CI_Controller
     {
         $page = "paperAuthorsPayments";
 
-        $this -> getPaperInfo($paper_id);
+        $this->getPaperInfo($paper_id);
 
         $this->load->model('paper_status_model');
         $this->load->model('member_categories_model');
@@ -102,25 +96,22 @@ class DeskManager extends CI_Controller
 
         $paper_authors_array = $this->submission_model->getAllAuthorsOfPaper($paper_id);
 
-        foreach($paper_authors_array as $index => $author)
-        {
-            $member_id = $author -> submission_member_id;
+        foreach ($paper_authors_array as $index => $author) {
+            $member_id = $author->submission_member_id;
 
             $memberInfo = $this->member_model->getMemberInfo($member_id);
 
             $member_id_name_array[$member_id] = $memberInfo['member_name'];
             $this->data['member_id_name_array'] = $member_id_name_array;
 
-            if($memberInfo)
-            {
+            if ($memberInfo) {
                 $this->data['registrationCat'][$member_id] = $this->member_model->getMemberCategory($member_id);
                 $this->data['papers'][$member_id] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
                 $this->data['isMemberRegistered'][$member_id] = $this->payment_model->isMemberRegistered($member_id);
 
                 $papers = $this->data['papers'][$member_id];
-                foreach($papers as $index => $paper)
-                {
-                    $this->data['isPaperRegistered'][$paper->paper_id] = $this->payment_model->isPaperRegistered($paper -> paper_id);
+                foreach ($papers as $index => $paper) {
+                    $this->data['isPaperRegistered'][$paper->paper_id] = $this->payment_model->isPaperRegistered($paper->paper_id);
                     $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
                 }
 
@@ -134,18 +125,15 @@ class DeskManager extends CI_Controller
                     date("Y-m-d")
                 );
             }
-
             //$paper_authors_payables[$member_id] = $paperPayables;
 
             $this->data['paper_authors_payables'][$member_id] = $paperPayables;
         }
-
-        $this -> index($page);
+        $this->index($page);
     }
 
     public function viewAuthorPapersPayments($member_id)
     {
-
         $page = "authorPapersPayments";
 
         $this->load->model('paper_status_model');
@@ -158,8 +146,7 @@ class DeskManager extends CI_Controller
 
         $this->data['memberDetails'] = $this->member_model->getMemberInfo($member_id);
 
-        if($this->data['memberDetails'])
-        {
+        if ($this->data['memberDetails']) {
             $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
             $this->data['registrationCat'] = $this->member_model->getMemberCategory($member_id);
             $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
@@ -167,13 +154,10 @@ class DeskManager extends CI_Controller
 
             $papers = $this->data['papers'];
 
-            foreach($papers as $index => $paper)
-            {
-                $isPaperRegistered[$paper -> paper_id] = $this->payment_model->isPaperRegistered($paper -> paper_id);
+            foreach ($papers as $index => $paper) {
+                $isPaperRegistered[$paper->paper_id] = $this->payment_model->isPaperRegistered($paper->paper_id);
                 $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
             }
-
-
 
             $this->data['isPaperRegistered'] = $isPaperRegistered;
 
@@ -184,12 +168,22 @@ class DeskManager extends CI_Controller
                 $this->data['papers'],
                 date("Y-m-d")
             );
-
-
         }
+        $this->index($page);
+    }
 
-        $this -> index($page);
+    private function getMemberDeliverables($memberId)
+    {
+        $this->load->model('payment_model');
+        $this->load->model('payment_head_model');
+        $brPayheadId = $this->payment_head_model->getPaymentHeadId("BR");
+        $prPayheadId = $this->payment_head_model->getPaymentHeadId("PR");
+        if($brPayheadId == null || $prPayheadId == null)
+        {
+            return false;
+        }
+        $payments[$brPayheadId] = $this->payment_model->getPayments($memberId, null, $brPayheadId);
+        $payments[$prPayheadId] = $this->payment_model->getPayments($memberId, null, $prPayheadId);
+        return $payments;
     }
 }
-
-
