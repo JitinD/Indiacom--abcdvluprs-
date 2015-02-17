@@ -87,7 +87,7 @@
 
         </table>
     </form>
-    <a href="/<?php echo BASEURL; ?>index.php/TrackManager/MemberDetails">Back</a>
+    <a href="/<?php echo BASEURL; ?>index.php/TrackManager/search">Back</a>
 </div>
 <script>
     $(document).ready(function () {
@@ -104,9 +104,9 @@
                 success: function (msg) {
                     if (msg == "true") {
                         $(".attInfo", ref_td).html("Updated");
-                        if (outwardNumber == "") {
+                        if ($(this).val() == "") {
                             var certificateGiven = 0;
-                            $('.is_certificate_given', ref).attr("disabled", "disabled");
+                            $('.is_certificate_given', ref).attr("disabled","disabled");
                             $.ajax({
                                 type: "POST",
                                 url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markCertificateGiven_AJAX",

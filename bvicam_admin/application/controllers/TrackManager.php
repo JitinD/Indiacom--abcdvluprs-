@@ -38,7 +38,7 @@ class TrackManager extends CI_Controller
         $this->load->view('pages/TrackManager/'.$page, $this->data);
         $this->load->view('templates/footer');
     }
-    public function Home()
+    public function home()
     {
         $page = "selectTrack";
         $this->load->helper('url');
@@ -46,25 +46,40 @@ class TrackManager extends CI_Controller
         $this->data['tracks'] = $this->track_model->getAllTracks(EVENT_ID);
         $_SESSION[APPID]['track_id']= $this->input->post('track');
         if ($_SESSION[APPID]['track_id']> 0) {
-            redirect("/TrackManager/MemberDetails");
+            redirect("/TrackManager/Search");
+        }
+        $this->index($page);
+    }
+    public function search()
+    {
+        $page = "search";
+
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('searchvalue', 'Search value', 'required');
+
+        if ($this->form_validation->run()) {
+            $this->load->helper('url');
+
+            $search_by = $this->input->post('searchby');
+            $search_value = $this->input->post('searchvalue');
+
+            switch ($search_by) {
+                case 'MemberID':
+                    redirect('/TrackManager/markAuthorAttendance/' .$_SESSION[APPID]['track_id'].'/'. $search_value);
+                    break;
+
+                case 'PaperID':
+                    redirect('/TrackManager/markPaperAttendance/'.$_SESSION[APPID]['track_id'].'/'. $search_value);
+                    break;
+            }
         }
         $this->index($page);
     }
 
-    public function MemberDetails()
+    public function markAuthorAttendance($track_id,$member_id)
     {
-        $page="getMember";
-        $this->load->helper('url');
-        $member_id=$this->input->post('member');
-        if($member_id>0)
-        {
-            redirect("/TrackManager/AttendanceOnHall/".$_SESSION[APPID]['track_id']."/".$member_id);
-        }
-        $this->index($page);
-    }
-    public function AttendanceOnHall($track_id,$member_id)
-    {
-        $page="markAttendance";
+        $page="markMemberAttendance";
         $this->load->model('paper_status_model');
         $this->load->model('attendance_model');
         $this->load->model('certificate_model');
@@ -75,8 +90,24 @@ class TrackManager extends CI_Controller
             $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
             $this->data['certificate'][$paper->paper_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
         }
+        $this->index($page);
+    }
 
-
+    public function markPaperAttendance($track_id,$paper_id)
+    {
+        $page="markPaperAttendance";
+        $this->load->helper('url');
+        $this->load->model('paper_status_model');
+        $this->load->model('attendance_model');
+        $this->load->model('certificate_model');
+        $this->load->model('submission_model');
+        $this->load->model('certificate_model');
+        $this->data['members'] = $this->paper_status_model->getTrackMemberInfo($paper_id, $track_id);
+        $member_id=$this->input->post('member_id');
+        if($member_id>0)
+        {
+            redirect('/TrackManager/markAuthorAttendance/' .$_SESSION[APPID]['track_id'].'/'. $member_id);
+        }
         $this->index($page);
     }
 

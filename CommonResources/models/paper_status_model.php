@@ -68,8 +68,37 @@ class Paper_status_model extends CI_Model
         if ($query->num_rows() == 0)
             return array();
         return $query->result();
-
-
     }
+
+    public function getTrackMemberInfo($paper_id, $track_id)
+    {
+        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,member_master.member_name
+                From
+                  paper_latest_version
+                    Join
+                  submission_master
+                    On paper_latest_version.paper_id = submission_master.submission_paper_id
+                    Join
+                    paper_master
+                    On
+                    paper_latest_version.paper_id=paper_master.paper_id
+                    Join
+                    subject_master
+                    On
+                     paper_master.paper_subject_id=subject_master.subject_id
+                     JOIN
+                     member_master
+                     On submission_master.submission_member_id=member_master.member_id
+                Where
+                  paper_master.paper_code = ? And
+                  submission_dirty = 0 AND
+                  subject_track_id= ? AND
+                  review_result_id = ?";
+        $query = $this->db->query($sql, array($paper_id, $track_id, REVIEW_RESULT_ACCEPTED_ID));
+        if ($query->num_rows() == 0)
+            return array();
+        return $query->result();
+    }
+
 
 }
