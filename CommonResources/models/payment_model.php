@@ -99,8 +99,10 @@ class Payment_model extends CI_Model
         $sql = "
         Select
             table1.payment_payable_class,
+            payable_class_amount,
             payable_class_payhead_id,
             table1.payment_submission_id,
+            table1.payment_member_id,
             submission_member_id,
             submission_paper_id,
             Case
@@ -114,12 +116,14 @@ class Payment_model extends CI_Model
                 Else (total_amount - waiveoff_amount)
             End As paid_amount,
             payment_discount_type,
+            discount_type_amount,
             table1.is_verified
         From
             (/* total amount against mid,pid,payhead including waiveoff amount (not discount) */
                 Select
                     payment_payable_class,
                     payment_submission_id,
+                    payment_member_id,
                     payment_discount_type,
                     SUM(payment_amount_paid) As total_amount,
                     is_verified
@@ -148,12 +152,15 @@ class Payment_model extends CI_Model
                 On
             table1.payment_payable_class = table2.payment_payable_class And
             table1.payment_submission_id = table2.payment_submission_id
-                Join
+                Left Join
             submission_master
                 On submission_master.submission_id = table1.payment_submission_id
                 Join
             payable_class
-                On table1.payment_payable_class = payable_class_id";
+                On table1.payment_payable_class = payable_class_id
+                Left Join
+            discount_type_master
+                On discount_type_id = table1.payment_discount_type";
         $where = " Where ";
         $params = array();
         if($pid != null)
@@ -163,7 +170,8 @@ class Payment_model extends CI_Model
         }
         if($mid != null)
         {
-            $where .= " submission_member_id = ? And ";
+            $where .= " (submission_member_id = ? Or table1.payment_member_id = ?) And ";
+            $params[] = $mid;
             $params[] = $mid;
         }
         if($payheadId != null)

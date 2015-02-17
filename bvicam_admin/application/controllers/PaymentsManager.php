@@ -51,7 +51,6 @@ class PaymentsManager extends CI_Controller
         $this->load->model('member_model');
 
         $members = $this->payment_model->getAllPayingMembers();
-        $this->data['payableClassDetail'] = $this->payableClassDetailsAsAssocArray();
         $this->data['payheadDetails'] = $this->payheadNamesAsAssocArray();
         $this->data['membersPayments'] = array();
         foreach($members as $member)

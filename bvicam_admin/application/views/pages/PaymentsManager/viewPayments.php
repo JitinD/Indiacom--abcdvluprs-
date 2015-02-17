@@ -36,12 +36,11 @@
                                 <tr>
                                     <th>PaperId</th>
                                     <th>Payhead</th>
-                                    <th>Paid</th>
                                     <th>Payable<br>(w/o discount and waiveoff)</th>
                                     <th>Waiveoff</th>
-                                    <th>Payable<br>(with waiveoff)</th>
                                     <th>Discount</th>
                                     <th>Payable<br>(with waiveoff and discount)</th>
+                                    <th>Paid</th>
                                     <th>Outstanding</th>
                                 </tr>
                                 </thead>
@@ -52,18 +51,17 @@
                                     ?>
                                     <tr>
                                         <td><?php echo $memberPayment->submission_paper_id; ?></td>
-                                        <td><?php echo $payheadDetails[$payableClassDetail[$memberPayment->payment_payable_class]['payhead']]; ?></td>
+                                        <td><?php echo $payheadDetails[$memberPayment->payable_class_payhead_id]; ?></td>
+                                        <td>Rs. <?php echo $payableAmt = $memberPayment->payable_class_amount; ?>/-</td>
+                                        <td>Rs. <?php echo $waiveOffAmt = $memberPayment->waiveoff_amount; ?>/-</td>
+                                        <td>Rs. <?php echo $discountAmt = floor($memberPayment->payable_class_amount * $memberPayment->discount_type_amount); ?>/-</td>
+                                        <td>Rs. <?php echo $actualPayable = $payableAmt - ($waiveOffAmt - $discountAmt); ?>/-</td>
                                         <td>
                                             <button class="btn btn-link">
-                                                Rs. <?php echo $memberPayment->paid_amount; ?>/-
+                                                Rs. <?php echo $paidAmt = $memberPayment->paid_amount; ?>/-
                                             </button>
                                         </td>
-                                        <td>Rs. <?php echo $payableClassDetail[$memberPayment->payment_payable_class]['amount']; ?>/-</td>
-                                        <td>Rs. <?php echo $memberPayment->waiveoff_amount; ?>/-</td>
-                                        <td>Rs. <?php echo $payableClassDetail[$memberPayment->payment_payable_class]['amount']-$memberPayment->waiveoff_amount; ?>/-</td>
-                                        <td>Rs. /-</td>
-                                        <td>Rs. /-</td>
-                                        <td>Rs. /-</td>
+                                        <td>Rs. <?php echo $actualPayable - $paidAmt; ?>/-</td>
                                     </tr>
                                     <tr style="display: none;">
                                         <td colspan="10">
