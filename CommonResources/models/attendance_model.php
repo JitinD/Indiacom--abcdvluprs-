@@ -31,7 +31,16 @@ class Attendance_model extends CI_Model
     public function markDeskAttendance($entity,$attendanceRecord=array())
     {
         $attendanceRecord['attendance_id']=$this->assignId($entity);
-        $this -> db -> insert($entity, $attendanceRecord);
+        $is_marked=$this->checkDeskAttendance($attendanceRecord['submission_id']);
+        if($is_marked==null)
+        {
+            $this -> db -> insert($entity, $attendanceRecord);
+        }
+        else
+        {
+            $this -> db -> update($entity,$attendanceRecord);
+        }
+
         return $this->db->trans_status;
     }
 

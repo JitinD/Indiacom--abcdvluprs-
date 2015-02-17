@@ -16,7 +16,7 @@ class AttendanceManager extends CI_Controller
 
     }
 
-    public function DeskAttendanceManager($member_id, $paper_id)
+    public function MarkDeskAttendance($member_id, $paper_id, $is_present)
     {
         $this->load->model("attendance_model");
         $this->load->model("submission_model");
@@ -26,12 +26,12 @@ class AttendanceManager extends CI_Controller
             'event_id' => EVENT_ID,
             'member_id' => "",
             'submission_id' => $submission_id,
-            'is_present_on_desk' => 1
+            'is_present_on_desk' => $is_present
         );
         $this->attendance_model->markDeskAttendance("attendance_master", $attendance_record);
     }
 
-    public function TrackAttendanceManager($member_id, $paper_id)
+    public function MarkTrackAttendance($member_id, $paper_id, $is_present)
     {
         $this->load->model("attendance_model");
         $this->load->model("submission_model");
@@ -39,11 +39,11 @@ class AttendanceManager extends CI_Controller
         $submission_id = $submission_id_array->submission_id;
         $track_attendance = $this->attendance_model->checkDeskAttendance($submission_id);
         if ($track_attendance->is_present_on_desk == 1) {
-            $desk_attendance['is_present_in_hall'] = 1;
-            return $this->attendance_model->markTrackAttendance("attendance_master", $track_attendance);
+            $desk_attendance['is_present_in_hall'] = $is_present;
+            return json_encode($this->attendance_model->markTrackAttendance("attendance_master", $track_attendance));
         }
         else {
-            return false;
+            return json_encode(false);
         }
     }
 
