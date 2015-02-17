@@ -25,6 +25,17 @@ class Discount_model extends CI_Model
         return $query->result();
     }
 
+    public function getAllDiscountsAsAssocArray()
+    {
+        $discounts = $this->getAllDiscounts();
+        $arr = array();
+        foreach($discounts as $discount)
+        {
+            $arr[$discount->discount_type_id] = $discount;
+        }
+        return $arr;
+    }
+
     public function getDiscountDetails($discountId)
     {
         $sql = "Select * From discount_type_master Where discount_type_id=?";

@@ -20,6 +20,8 @@ class PaymentsManager extends CI_Controller
         $this->load->model('access_model');
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        $sidebarData['controllerName'] = $controllerName = "PaymentsManager";
+        $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/PaymentsManager/'.$page.'.php'))
         {
             show_404();
@@ -32,9 +34,18 @@ class PaymentsManager extends CI_Controller
 
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-        //$this->load->view('templates/sidebar');
+        $this->load->view('templates/sidebar', $sidebarData);
         $this->load->view('pages/PaymentsManager/'.$page, $this->data);
         $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+        $links['viewPayments'] = "View payments memberwise";
+        $links['viewPayments'] = "View payments paperwise";
+        $links['newPayment'] = "New payment";
+        $links['spotPayments'] = "Spot payment";
+        return $links;
     }
 
     public function load()
@@ -49,16 +60,17 @@ class PaymentsManager extends CI_Controller
         $page = "viewPayments";
         $this->load->model('payment_model');
         $this->load->model('member_model');
+        $this->load->model('discount_model');
 
         $members = $this->payment_model->getAllPayingMembers();
         $this->data['payheadDetails'] = $this->payheadNamesAsAssocArray();
+        $this->data['discountTypes'] = $this->discount_model->getAllDiscountsAsAssocArray();
         $this->data['membersPayments'] = array();
         foreach($members as $member)
         {
-            $this->data['membersPayments'][$member->member_id] = $this->payment_model->getMemberPayments($member->member_id, true);
+            $this->data['membersPayments'][$member->member_id] = $this->payment_model->getMemberPayments($member->member_id);
             $this->data['memberDetails'][$member->member_id] = $this->member_model->getMemberInfo($member->member_id);
         }
-
         $this->index($page);
     }
 
@@ -398,30 +410,5 @@ class PaymentsManager extends CI_Controller
             $payHeads[$payHead->payment_head_id] = $payHead->payment_head_name;
         }
         return $payHeads;
-    }
-
-    private function nationalityNamesAsAssocArray()
-    {
-        $this->load->model('nationality_model');
-        $allNationalities = $this->nationality_model->getAllNationalities();
-        $nationalities = array();
-        foreach($allNationalities as $nationality)
-        {
-            $nationalities[$nationality->Nationality_id] = $nationality->Nationality_type;
-        }
-        return $nationalities;
-    }
-
-    private function payableClassDetailsAsAssocArray()
-    {
-        $this->load->model('payable_class_model');
-        $allPayableClasses = $this->payable_class_model->getAllPayableClassDetails();
-        $payableClasses = array();
-        foreach($allPayableClasses as $payableClass)
-        {
-            $payableClasses[$payableClass->payable_class_id]['amount'] = $payableClass->payable_class_amount;
-            $payableClasses[$payableClass->payable_class_id]['payhead'] = $payableClass->payable_class_payhead_id;
-        }
-        return $payableClasses;
     }
 }

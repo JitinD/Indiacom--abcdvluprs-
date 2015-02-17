@@ -345,12 +345,20 @@ class Payment_model extends CI_Model
 
     public function getAllPayingMembers()
     {
-        $sql = "Select Distinct submission_member_id as member_id
+        $sql = "Select
+                  Distinct Case
+                    When submission_member_id Is Null
+                    Then payment_member_id
+                    Else submission_member_id
+                  End as member_id
                 From
-                  payment_master
-                    Join
-                  submission_master
-                    On submission_master.submission_id = payment_master.payment_submission_id";
+                payment_master
+                  Left Join
+                submission_master
+                  On submission_master.submission_id = payment_master.payment_submission_id
+                  Join
+                transaction_master
+                  On payment_trans_id = transaction_id And is_verified != 2";
         $query = $this->dbCon->query($sql);
         if($query->num_rows() == 0)
             return array();
@@ -361,10 +369,13 @@ class Payment_model extends CI_Model
     {
         $sql = "Select Distinct submission_paper_id as paper_id
                 From
-                  payment_master
-                    Join
-                  submission_master
-                    On submission_master.submission_id = payment_master.payment_submission_id";
+                    payment_master
+                        Join
+                    submission_master
+                        On submission_master.submission_id = payment_master.payment_submission_id
+                        Join
+                    transaction_master
+                        On payment_trans_id = transaction_id And is_verified != 2";
         $query = $this->dbCon->query($sql);
         if($query->num_rows() == 0)
             return array();

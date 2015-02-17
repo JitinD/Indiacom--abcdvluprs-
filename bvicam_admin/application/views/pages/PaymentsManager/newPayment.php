@@ -6,7 +6,7 @@
  * Time: 1:38 PM
  */
 ?>
-<div class="col-md-12 col-sm-12 col-xs-12" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<div class="col-md-10 col-sm-10" id="contentPanel" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <h3 class="text-theme">Create New Payment</h3>
     <hr>
     <div class="bg-danger h4">
