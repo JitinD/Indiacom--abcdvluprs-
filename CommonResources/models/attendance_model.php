@@ -44,7 +44,7 @@ class Attendance_model extends CI_Model
     }
 
 
-    public function markDeskAttendance($attendanceRecord=array())
+    public function markAttendance($attendanceRecord=array())
     {
         $record = $this->getAttendanceRecord($attendanceRecord['submission_id']);
 
@@ -55,10 +55,9 @@ class Attendance_model extends CI_Model
         }
         else
         {
-            $this -> db -> where('attendance_id', $record -> attendance_id);
+            $this -> db -> where('attendance_id', $record['attendance_id']);
             $this -> db -> update($this -> entity, $attendanceRecord);
         }
-
         return $this->db->trans_status();
     }
 
@@ -72,13 +71,8 @@ class Attendance_model extends CI_Model
         $query = $this->db->query($sql, array($submission_id));
         if ($query->num_rows() == 0)
             return null;
-        return $query->row();
+        return $query->row_array();
     }
 
-    public function markTrackAttendance($attendanceRecord=array())
-    {
-        $this -> db -> update($attendanceRecord);
-        return $this->db->trans_status;
-    }
 
 }

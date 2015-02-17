@@ -33,28 +33,20 @@ class AttendanceManager extends CI_Controller
             'is_present_on_desk' => $is_present
         );
 
-        echo json_encode($this->attendance_model->markDeskAttendance($attendanceRecord));
+        echo json_encode($this->attendance_model->markAttendance($attendanceRecord));
     }
 
     public function markTrackAttendance_AJAX()
     {
         $this->load->model("attendance_model");
-        $this->load->model("submission_model");
-
-        $member_id = $this->input->post('memberId');
-        $paper_id = $this->input->post('paperId');
+        $submission_id = $this->input->post('submissionId');
         $is_present = $this->input->post('isPresent');
-        $submission_id_array = $this->submission_model->getSubmissionID($member_id, $paper_id);
-        $submission_id = $submission_id_array->submission_id;
-
-        $track_attendance = $this->attendance_model->getAttendanceRecord($submission_id);
-
-        if ($track_attendance->is_present_on_desk == 1) {
+        $attendanceRecord = $this->attendance_model->getAttendanceRecord($submission_id);
+        if($attendanceRecord!=null)
+        {
             $track_attendance['is_present_in_hall'] = $is_present;
-            echo json_encode($this->attendance_model->markTrackAttendance("attendance_master", $track_attendance));
+            echo json_encode($this->attendance_model->markAttendance($attendanceRecord));
         }
-        else {
-            echo json_encode(false);
-        }
+
     }
 }

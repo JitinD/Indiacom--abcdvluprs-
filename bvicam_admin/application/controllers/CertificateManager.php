@@ -22,7 +22,8 @@ class CertificateManager extends CI_Controller
         $certificateRecord = array(
             'event_id' => EVENT_ID,
             'submission_id' => $submission_id,
-            'certificate_outward_number' => $outward_number
+            'certificate_outward_number' => $outward_number,
+            'is_certificate_given' => 0
         );
 
         echo json_encode($this->certificate_model->submitCertificateData($certificateRecord));
@@ -33,16 +34,12 @@ class CertificateManager extends CI_Controller
         $this->load->model("certificate_model");
         $submission_id = $this->input->post('submissionId');
         $is_certificate_given = $this->input->post('is_certificate_given');
-        $certificate_record_array = $this->certificate_model->getCertificateRecord($submission_id);
+        $certificateRecord = $this->certificate_model->getCertificateRecord($submission_id);
 
-        if ($certificate_record_array != null)
+        if ($certificateRecord != null)
         {
-            $certificate_record_array['is_certificate_given'] = $is_certificate_given;
-            echo json_encode($this->certificate_model->submitCertificateData($certificate_record_array));
+            $certificateRecord['is_certificate_given'] = $is_certificate_given;
+            echo json_encode($this->certificate_model->submitCertificateData($certificateRecord));
         }
-        else {
-            echo json_encode(false);
-        }
-
     }
 }
