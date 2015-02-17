@@ -214,6 +214,7 @@ class DeskManager extends CI_Controller
         $this->load->model('payment_model');
         $this->load->model('discount_model');
         $this->load->model('paper_model');
+        $this->load->model('attendance_model');
 
         $this->data['memberDetails'] = $this->member_model->getMemberInfo($member_id);
 
@@ -225,10 +226,14 @@ class DeskManager extends CI_Controller
             $this->data['isMemberRegistered'] = $this->payment_model->isMemberRegistered($member_id);
 
             $papers = $this->data['papers'];
+
             foreach($papers as $index => $paper)
             {
                 $isPaperRegistered[$paper -> paper_id] = $this->payment_model->isPaperRegistered($paper -> paper_id);
+                $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
             }
+
+
 
             $this->data['isPaperRegistered'] = $isPaperRegistered;
 

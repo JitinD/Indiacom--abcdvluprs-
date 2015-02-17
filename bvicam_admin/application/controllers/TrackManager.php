@@ -72,7 +72,7 @@ class TrackManager extends CI_Controller
         $this->load->model('certificate_model');
         $this->data['papers'] = $this->paper_status_model->getTrackAcceptedPapersInfo($member_id, $track_id);
         foreach ($this->data['papers'] as $paper) {
-            $this->data['attendance'][$paper->paper_id] = $this->attendance_model->checkDeskAttendance($paper->submission_id);
+            $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
             $this->data['certificate'][$paper->paper_id] = $this->certificate_model->getCertificateData($paper->submission_id);
         }
         $this->index($page);

@@ -16,29 +16,34 @@ class AttendanceManager extends CI_Controller
 
     }
 
-    public function markDeskAttendance($member_id, $paper_id, $is_present)
+    public function markDeskAttendance_AJAX()
     {
         $this->load->model("attendance_model");
         $this->load->model("submission_model");
 
-        $submission_id_array = $this->submission_model->getSubmissionID($member_id, $paper_id);
-        $submission_id = $submission_id_array->submission_id;
+        $member_id = $this->input->post('memberId');
+        $paper_id = $this->input->post('paperId');
+        $is_present = $this->input->post('isPresent');
+
+        $submission_id = $this->submission_model->getSubmissionID($member_id, $paper_id);
 
         $attendanceRecord = array(
             'event_id' => EVENT_ID,
-            'member_id' => "",
             'submission_id' => $submission_id,
             'is_present_on_desk' => $is_present
         );
 
-        $this->attendance_model->markDeskAttendance($attendanceRecord);
+        echo json_encode($this->attendance_model->markDeskAttendance($attendanceRecord));
     }
 
-    public function markTrackAttendance($member_id, $paper_id, $is_present)
+    public function markTrackAttendance_AJAX()
     {
         $this->load->model("attendance_model");
         $this->load->model("submission_model");
 
+        $member_id = $this->input->post('memberId');
+        $paper_id = $this->input->post('paperId');
+        $is_present = $this->input->post('isPresent');
         $submission_id_array = $this->submission_model->getSubmissionID($member_id, $paper_id);
         $submission_id = $submission_id_array->submission_id;
 
@@ -46,12 +51,10 @@ class AttendanceManager extends CI_Controller
 
         if ($track_attendance->is_present_on_desk == 1) {
             $track_attendance['is_present_in_hall'] = $is_present;
-            return json_encode($this->attendance_model->markTrackAttendance("attendance_master", $track_attendance));
+            echo json_encode($this->attendance_model->markTrackAttendance("attendance_master", $track_attendance));
         }
         else {
-            return json_encode(false);
+            echo json_encode(false);
         }
     }
-
-
 }

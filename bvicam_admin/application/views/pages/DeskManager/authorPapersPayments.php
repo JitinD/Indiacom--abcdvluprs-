@@ -4,11 +4,34 @@
 
     <table class="table table-striped table-hover table-responsive">
         <tbody>
-            <tr><td><span class = "h4 text-theme">Member ID</span> </td><td><?php echo $memberDetails['member_id']; ?></td></tr>
-            <tr><td><span class = "h4 text-theme">Member Name</span> </td><td><?php echo $memberDetails['member_name']; ?></td></tr>
-            <tr><td><span class = "h4 text-theme">Member Email</span> </td><td><?php echo $memberDetails['member_email']; ?></td></tr>
             <tr>
-                <td><span class = "h4 text-theme">Is Member registered</span> </td>
+                <td>
+                    <span class = "h4 text-theme">Member ID</span>
+                </td>
+                <td id="member_id" data-member_id="<?php echo $memberDetails['member_id']; ?>">
+                    <?php echo $memberDetails['member_id']; ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class = "h4 text-theme">Member Name</span>
+                </td>
+                <td>
+                    <?php echo $memberDetails['member_name']; ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class = "h4 text-theme">Member Email</span>
+                </td>
+                <td>
+                    <?php echo $memberDetails['member_email']; ?>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class = "h4 text-theme">Is Member registered</span>
+                </td>
                 <td>
                     <?php if($isMemberRegistered)
                             echo "Yes";
@@ -49,7 +72,7 @@
                 {
         ?>
                     <tr>
-                        <td><?php echo $paper -> paper_code;?></td>
+                        <td class="paper_id" data-paper_id="<?php echo $paper->paper_id; ?>"><?php echo $paper -> paper_code;?></td>
                         <td><?php echo $paper -> paper_title; ?></td>
                         <td>
                             <?php
@@ -183,18 +206,24 @@
                             ?>
                         </td>
                         <td>
-                            <select name = "attendance_on_desk" class="form-control" id="attendance_on_desk" >
+                            <select name = "attendance_on_desk" class="form-control attendance_on_desk">
                                 <?php
-                                $attendance_on_desk = array("Absent", "Present");
+                                    $attendance_on_desk = array("Absent", "Present");
 
-                                for($index = 0; $attendance_on_desk[$index]; $index++)
-                                {
-                                    ?>
-                                    <option value = "<?php echo $value = $index ?>"><?php echo $attendance_on_desk[$index]?></option>
-                                <?php
-                                }
+                                    for($index = 0; $attendance_on_desk[$index]; $index++)
+                                    {
+                                        ?>
+                                        <option value = "<?php echo $index; ?>"
+                                            <?php if (isset($attendance[$paper->paper_id]->is_present_on_desk) && $attendance[$paper->paper_id]->is_present_on_desk == $index)
+                                                echo "selected"
+                                            ?>
+                                        ><?php echo $attendance_on_desk[$index]; ?></option>
+                                    <?php
+                                    }
                                 ?>
                             </select>
+                            <div class="bg-info attInfo"></div>
+                            <div class="bg-danger attDanger"></div>
                         </td>
                     </tr>
         <?php
@@ -213,6 +242,31 @@
             var ref = $(this).parent().parent().parent();
             $("td:nth-child(4)", ref).html(val);
             $("td:nth-child(7)", ref).html(val);
+        });
+
+        $(".attendance_on_desk").change(function () {
+            var memberId = $('#member_id').attr('data-member_id');
+            var ref = $(this).parent().parent();
+            var ref_td = $(this).parent();
+            var paperId = $('.paper_id', ref).attr('data-paper_id');
+            var isPresent = $(this).val();
+            $('.attInfo', ref_td).html("Updating");
+            $.ajax({
+                type: "POST",
+                url: "/<?php echo BASEURL; ?>index.php/AttendanceManager/markDeskAttendance_AJAX",
+                data: "memberId=" + memberId + "&paperId=" + paperId + "&isPresent=" + isPresent,
+                success: function(msg){
+                    if(msg == "true")
+                    {
+                        $(".attInfo", ref_td).html("Updated");
+                    }
+                    else
+                    {
+                        $(".attInfo", ref_td).html("");
+                        $(".attError", ref_td).html("Could not update");
+                    }
+                }
+            });
         });
     });
 </script>
