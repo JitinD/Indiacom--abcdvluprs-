@@ -86,19 +86,20 @@ class Payment_model extends CI_Model
 
     public function getMemberPayments($mid, $includeRejected = false)
     {
-        return $this->getPayments($mid, null, $includeRejected);
+        return $this->getPayments($mid, null, null, $includeRejected);
     }
 
     public function getPaperPayments($pid, $includeRejected = false)
     {
-        return $this->getPayments(null, $pid, $includeRejected);
+        return $this->getPayments(null, $pid, null, $includeRejected);
     }
 
-    public function getPayments($mid, $pid, $includeRejected = false, $limit=null, $offset=null)
+    public function getPayments($mid=null, $pid=null, $payheadId=null, $includeRejected = false, $limit=null, $offset=null)
     {
         $sql = "
         Select
             table1.payment_payable_class,
+            payable_class_payhead_id,
             table1.payment_submission_id,
             submission_member_id,
             submission_paper_id,
@@ -149,25 +150,28 @@ class Payment_model extends CI_Model
             table1.payment_submission_id = table2.payment_submission_id
                 Join
             submission_master
-                On submission_master.submission_id = table1.payment_submission_id";
-        $where = "";
+                On submission_master.submission_id = table1.payment_submission_id
+                Join
+            payable_class
+                On table1.payment_payable_class = payable_class_id";
+        $where = " Where ";
         $params = array();
-        if($mid == null && $pid != null)
+        if($pid != null)
         {
-            $where = " Where submission_paper_id = ?";
+            $where .= " submission_paper_id = ? And ";
             $params[] = $pid;
         }
-        else if($mid != null && $pid == null)
+        if($mid != null)
         {
-            $where = " Where submission_member_id = ?";
+            $where .= " submission_member_id = ? And ";
             $params[] = $mid;
         }
-        else if($mid != null && $pid != null)
+        if($payheadId != null)
         {
-            $where = " Where submission_paper_id = ? And submission_member_id = ?";
-            $params[] = $pid;
-            $params[] = $mid;
+            $where .= " payable_class_payhead_id = ? And ";
+            $params[] = $payheadId;
         }
+        $where .= " 1 ";
         $sql .= $where;
         $query = $this->dbCon->query($sql, $params);
         if($query->num_rows() == 0)

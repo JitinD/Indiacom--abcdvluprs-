@@ -678,31 +678,14 @@ class Dashboard extends CI_Controller
                     $this->data['pay_error'] = "System Error: Payheads don't match! Contact Admin.";
                     return false;
                 }
-                $paidPayments = $this->payment_model->getPayments(
+                $payableClass = $this->getPseudoPayableClass(
                     $submissionDetails[0]->submission_member_id,
-                    $submissionDetails[0]->submission_paper_id
+                    $submissionDetails[0]->submission_paper_id,
+                    $payHeadId,
+                    $currency,
+                    $transDate,
+                    $discountType
                 );
-                if(empty($paidPayments))
-                {
-                    $payableClass = $this->payable_class_model->getPayableClass(
-                        $payHeadId,
-                        !$this->member_model->isProfBodyMember($memberID),
-                        $registrationCat->member_category_id,
-                        $currency,
-                        $transDate
-                    );
-                }
-                else
-                {
-                    $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
-                    $discountAmt = 0;
-                    if($paidPayments[0]->payment_discount_type != null)
-                    {
-                        $detail = $this->discount_model->getDiscountDetails($paidPayments[0]->payment_discount_type);
-                        $discountAmt = floor($payableClass->payable_class_amount * $detail->discount_type_amount);
-                    }
-                    $payableClass->payable_class_amount -= ($paidPayments[0]->paid_amount + $discountAmt);
-                }
                 if($payAmount > $payableClass->payable_class_amount)
                 {
                     $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
@@ -752,6 +735,43 @@ class Dashboard extends CI_Controller
             }
         }
         return false;
+    }
+
+    private function getPseudoPayableClass($memberId, $paperId, $payheadId, $currency, $date, &$discountType)
+    {
+        $this->load->model('member_model');
+        $this->load->model('payment_model');
+        $this->load->model('payable_class_model');
+        $registrationCat = $this->member_model->getMemberCategory($memberId);
+        $paidPayments = $this->payment_model->getPayments(
+            $memberId,
+            $paperId
+        );
+        $discountAmt = 0;
+        $paidAmount = 0;
+        if(empty($paidPayments))
+        {
+            $payableClass = $this->payable_class_model->getPayableClass(
+                $payheadId,
+                !$this->member_model->isProfBodyMember($memberId),
+                $registrationCat->member_category_id,
+                $currency,
+                $date
+            );
+        }
+        else
+        {
+            $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
+            $discountType = $paidPayments[0]->payment_discount_type;
+            $paidAmount = $paidPayments[0]->paid_amount + $paidPayments[0]->waiveoff_amount;
+        }
+        if($discountType != null)
+        {
+            $detail = $this->discount_model->getDiscountDetails($discountType);
+            $discountAmt = floor($payableClass->payable_class_amount * $detail->discount_type_amount);
+        }
+        $payableClass->payable_class_amount -= ($paidAmount + $discountAmt);
+        return $payableClass;
     }
 
     public function transaction()

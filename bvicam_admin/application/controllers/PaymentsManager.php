@@ -180,32 +180,15 @@ class PaymentsManager extends CI_Controller
                     $this->data['pay_error'] = "System Error: Payheads don't match! Contact Admin.";
                     return false;
                 }
-                $paidPayments = $this->payment_model->getPayments(
+                $payableClass = $this->getPseudoPayableClass(
                     $submissionDetails[0]->submission_member_id,
                     $submissionDetails[0]->submission_paper_id,
-                    true
+                    $payHeadId,
+                    $currency,
+                    $transDate,
+                    $discountType
                 );
-                if(empty($paidPayments))
-                {
-                    $payableClass = $this->payable_class_model->getPayableClass(
-                        $payHeadId,
-                        !$this->member_model->isProfBodyMember($memberID),
-                        $registrationCat->member_category_id,
-                        $currency,
-                        $transDate
-                    );
-                }
-                else
-                {
-                    $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
-                    $discountAmt = 0;
-                    if($paidPayments[0]->payment_discount_type != null)
-                    {
-                        $detail = $this->discount_model->getDiscountDetails($paidPayments[0]->payment_discount_type);
-                        $discountAmt = floor($payableClass->payable_class_amount * $detail->discount_type_amount);
-                    }
-                    $payableClass->payable_class_amount -= ($paidPayments[0]->paid_amount + $discountAmt);
-                }
+
                 if($payAmount > $payableClass->payable_class_amount)
                 {
                     $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
@@ -238,35 +221,172 @@ class PaymentsManager extends CI_Controller
 
     }
 
-    /*public function waiveOff()
+    public function spotPayments()
     {
-        $page = "waiveOff";
-        $this->load->model("submission_model");
-        $this->load->model("payable_class_model");
-        $this->load->model("payment_head_model");
-
-        $this->data['mid'] = $mid = $this->input->get('mid');
-        $this->data['pid'] = $pid = $this->input->get('pid');
-        $this->data['payableClass'] = $payableClass = $this->input->get('payableClass');
-        $this->data['waiveOffAmount'] = $waiveOffAmount = $this->input->get('waiveOffAmount');
-
-        if($mid != null && $pid == null)
-        {
-            $this->data['memberPapers'] = $this->submission_model->getSubmissionsByAttribute("submission_member_id", $mid);
-        }
-        if($pid != null && $mid == null)
-        {
-            $this->data['paperMembers'] = $this->submission_model->getSubmissionsByAttribute("submission_paper_id", $pid);
-        }
-        if($payableClass != null)
-        {
-            $this->data['payableClassDetails'] = $this->payable_class_model->getPayableClassDetails($payableClass);
-        }
-        $this->data['payheadDetails'] = $this->payheadNamesAsAssocArraypayheadNamesAsAssocArray();
-        $this->data['nationalityDetails'] = $this->nationalityNamesAsAssocArray();
-
+        $page = "spotPayment";
+        $this->load->model('payment_head_model');
+        $this->load->model('discount_model');
+        $this->data['paymentHeads'] = $this->payment_head_model->getAllPayheadDetails();
+        $this->data['discounts'] = $this->discount_model->getAllDiscounts();
+        $this->spotPaymentsSubmitHandle();
         $this->index($page);
-    }*/
+    }
+
+    private function spotPaymentsSubmitHandle()
+    {
+        $this->load->model('transaction_model');
+        $this->load->model('submission_model');
+        $this->load->model('payment_model');
+        $this->load->model('paper_status_model');
+        $this->load->library('form_validation');
+
+        $this->form_validation->set_rules('trans_memberId', "Member ID", 'required');
+        if($this->form_validation->run())
+        {
+            $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($this->input->post('trans_memberId'));
+        }
+        $this->form_validation->set_rules('trans_amount', "Amount", 'required');
+        $this->form_validation->set_rules('trans_no', "Transaction Number", 'required');
+        $this->form_validation->set_rules('trans_payhead', "Payhead", 'required');
+        $this->form_validation->set_rules('trans_isWaivedOff', "Waived Off flag", 'required');
+
+        if($this->form_validation->run())
+        {
+            if(!$this->verifyPayheadDiscountCombination($this->input->post('trans_payhead'), $this->input->post('trans_discountType')))
+            {
+                $this->data['pay_error'] = "The selected discount is not available for the selected payhead!";
+                return false;
+            }
+            $discountType = $this->input->post('trans_discountType');
+            $payableClass = $this->getPseudoPayableClass(
+                $this->input->post('trans_memberId'),
+                $this->input->post('trans_paperId'),
+                $this->input->post('trans_payhead'),
+                DEFAULT_CURRENCY,
+                date("Y-m-d"),
+                $discountType
+            );
+            if($this->input->post('trans_amount') <= $payableClass->payable_class_amount)
+            {
+                $transDetails = array(
+                    "transaction_member_id" => $this->input->post('trans_memberId'),
+                    "transaction_bank" => FAKE_BANK,
+                    "transaction_number" => $this->input->post('trans_no'),
+                    "transaction_mode" => CASH_MODE_ID,
+                    "transaction_amount" => $this->input->post('trans_amount'),
+                    "transaction_date" => date("Y-m-d"),
+                    "transaction_currency" => DEFAULT_CURRENCY,
+                    "is_verified" => 1,
+                    "transaction_remarks" => "Spot Payment"
+                );
+                if($this->input->post('trans_isWaivedOff') == "true")
+                {
+                    $transDetails['transaction_mode'] = null;
+                    $transDetails['is_waived_off'] = true;
+                    $transDetails['transaction_bank'] = "";
+                    $transDetails['transaction_number'] = "";
+                }
+                if(!$this->transaction_model->newTransaction($transDetails))
+                {
+                    $this->data['pay_error'] = "Error creating transaction. Transaction number might be duplicate.";
+                    return false;
+                }
+                $this->data['info'][] = "Transaction created";
+                $paymentDetails = array(
+                    "payment_trans_id" => $transDetails["transaction_id"],
+                    "payment_amount_paid" => $transDetails["transaction_amount"],
+                    "payment_payable_class" => $payableClass->payable_class_id
+                );
+                if($this->checkPayheadPapersRequirement($this->input->post('trans_payhead')))
+                {
+                    $paymentDetails["payment_submission_id"] = $this->submission_model->getSubmissionID(
+                        $this->input->post('trans_memberId'),
+                        $this->input->post('trans_paperId')
+                    );
+                }
+                else
+                {
+                    $paymentDetails["payment_member_id"] = $this->input->post('trans_memberId');
+                }
+                if($discountType != null)
+                {
+                    $paymentDetails["payment_discount_type"] = $discountType;
+                }
+                if(!$this->payment_model->addNewPayment($paymentDetails))
+                {
+                    $this->data['pay_error'] = "Error creating payment. Contact Admin.";
+                    return false;
+                }
+                $this->data['info'][] = "Payment created";
+            }
+            else
+            {
+                $this->data['pay_error'] = "Pay amount more than required amount of " . $payableClass->payable_class_amount;
+                return false;
+            }
+            return true;
+        }
+    }
+
+    private function verifyPayheadDiscountCombination($payheadId, $discountType)
+    {
+        if($discountType != null)
+        {
+            $this->load->model('discount_model');
+            $discountDetails = $this->discount_model->getDiscountDetails($discountType);
+            if($payheadId != $discountDetails->discount_type_payhead)
+                return false;
+        }
+        return true;
+    }
+
+    private function checkPayheadPapersRequirement($payheadId)
+    {
+        $this->load->model('payment_head_model');
+        $payheadDetails = $this->payment_head_model->getPayheadDetails($payheadId);
+        if($payheadDetails->payment_head_name == "PR")
+        {
+            return false;
+        }
+        return true;
+    }
+
+    private function getPseudoPayableClass($memberId, $paperId, $payheadId, $currency, $date, &$discountType)
+    {
+        $this->load->model('member_model');
+        $this->load->model('payment_model');
+        $this->load->model('payable_class_model');
+        $registrationCat = $this->member_model->getMemberCategory($memberId);
+        $paidPayments = $this->payment_model->getPayments(
+            $memberId,
+            $paperId
+        );
+        $discountAmt = 0;
+        $paidAmount = 0;
+        if(empty($paidPayments))
+        {
+            $payableClass = $this->payable_class_model->getPayableClass(
+                $payheadId,
+                !$this->member_model->isProfBodyMember($memberId),
+                $registrationCat->member_category_id,
+                $currency,
+                $date
+            );
+        }
+        else
+        {
+            $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
+            $discountType = $paidPayments[0]->payment_discount_type;
+            $paidAmount = $paidPayments[0]->paid_amount + $paidPayments[0]->waiveoff_amount;
+        }
+        if($discountType != null)
+        {
+            $detail = $this->discount_model->getDiscountDetails($discountType);
+            $discountAmt = floor($payableClass->payable_class_amount * $detail->discount_type_amount);
+        }
+        $payableClass->payable_class_amount -= ($paidAmount + $discountAmt);
+        return $payableClass;
+    }
 
     private function payheadNamesAsAssocArray()
     {
