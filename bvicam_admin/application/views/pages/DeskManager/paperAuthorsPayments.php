@@ -1,4 +1,4 @@
-<?php /*print_r($check); */?>
+<?php /*print_r($attendance); */?>
 
 <div class="col-sm-12 col-md-12 main">
 
@@ -41,7 +41,7 @@
     ?>
             <tbody>
                 <tr>
-                    <td>
+                    <td class = "member_id" data-member_id = "<?php echo $author_id; ?>">
                         <?php echo $author_id; ?>
                     </td>
                     <td>
@@ -67,7 +67,7 @@
                             <tbody>
 
                             <?php
-                                if(empty($papers))
+                                if(empty($papers[$author_id]))
                                 {
                                     ?>
                                     <tr><td colspan="8">No Accepted Papers!</td></tr>
@@ -75,17 +75,17 @@
                                 }
                                 else
                                 {
-                                    foreach($papers as $index => $paper)
+                                    foreach($papers[$author_id] as $index => $paper)
                                     {
                                         ?>
                                         <tr>
-                                            <td><?php echo $paper -> paper_code;?></td>
+                                            <td class="paper_id" data-paper_id="<?php echo $paper->paper_id; ?>"><?php echo $paper -> paper_code;?></td>
                                             <td><?php echo $paper -> paper_title; ?></td>
                                             <td>
                                                 <?php
-                                                if(isset($isPaperRegistered))
+                                                if(isset($isPaperRegistered[$paper->paper_id]))
                                                 {
-                                                    if($isPaperRegistered[$paper -> paper_id])
+                                                    if($isPaperRegistered[$paper->paper_id])
                                                         echo "Yes";
                                                     else
                                                         echo "No";
@@ -94,7 +94,8 @@
                                                     echo "-";
                                                 ?>
                                             </td>
-                                            <td><?php
+                                            <td>
+                                                <?php
                                                 if (isset($paperPayables[$paper->paper_id]['br']) && !isset($paperPayables[$paper->paper_id]['ep']))
                                                     echo $paperPayables[$paper->paper_id]['br'];
                                                 else if (!isset($paperPayables[$paper->paper_id]['br']) && isset($paperPayables[$paper->paper_id]['ep']))
@@ -213,18 +214,26 @@
                                                 ?>
                                             </td>
                                             <td>
-                                                <select name = "attendance_on_desk" class="form-control" id="attendance_on_desk" >
+                                                <select name = "attendance_on_desk" class="form-control attendance_on_desk">
                                                     <?php
                                                     $attendance_on_desk = array("Absent", "Present");
 
-                                                    for($index = 0; $attendance_on_desk[$index]; $index++)
+                                                    for($index = 0; $index < 2; $index++)
                                                     {
-                                                        ?>
-                                                        <option value = "<?php echo $value = $index ?>"><?php echo $attendance_on_desk[$index]?></option>
+                                                    ?>
+                                                        <option value = "<?php echo $index; ?>"
+                                                            <?php
+                                                            if (isset($attendance[$paper->submission_id]->is_present_on_desk) && $attendance[$paper->submission_id]->is_present_on_desk == $index)
+                                                                echo "selected"
+                                                            ?>>
+                                                            <?php echo $attendance_on_desk[$index]; ?>
+                                                        </option>
                                                     <?php
                                                     }
                                                     ?>
                                                 </select>
+                                                <div class="bg-info attInfo"></div>
+                                                <div class="bg-danger attDanger"></div>
                                             </td>
                                         </tr>
                                     <?php
@@ -251,6 +260,37 @@
             var ref = $(this).parent().parent().parent();
             $("td:nth-child(4)", ref).html(val);
             $("td:nth-child(7)", ref).html(val);
+        });
+
+        $(".attendance_on_desk").change(function () {
+
+            var ref_member = $(this).parent().parent().parent().parent().parent().parent();
+            var ref_paper = $(this).parent().parent();
+            var ref_td = $(this).parent();
+
+            var memberId = $('.member_id',ref_member).attr('data-member_id');
+            var paperId = $('.paper_id', ref_paper).attr('data-paper_id');
+            var isPresent = $(this).val();
+
+            $('.attInfo', ref_td).html("Updating");
+
+
+            $.ajax({
+                type: "POST",
+                url: "/<?php echo BASEURL; ?>index.php/AttendanceManager/markDeskAttendance_AJAX",
+                data: "memberId=" + memberId + "&paperId=" + paperId + "&isPresent=" + isPresent,
+                success: function(msg)
+                {
+                    if(msg == "true")
+                        $(".attInfo", ref_td).html("Updated");
+                    else
+                    {
+                        $(".attInfo", ref_td).html("");
+                        $(".attError", ref_td).html("Could not update");
+                    }
+                }
+            });
+
         });
     });
 </script>

@@ -210,14 +210,16 @@
                                 <?php
                                     $attendance_on_desk = array("Absent", "Present");
 
-                                    for($index = 0; $attendance_on_desk[$index]; $index++)
+                                    for($index = 0; $index < 2; $index++)
                                     {
                                         ?>
                                         <option value = "<?php echo $index; ?>"
-                                            <?php if (isset($attendance[$paper->paper_id]->is_present_on_desk) && $attendance[$paper->paper_id]->is_present_on_desk == $index)
-                                                echo "selected"
-                                            ?>
-                                        ><?php echo $attendance_on_desk[$index]; ?></option>
+                                                <?php
+                                                if (isset($attendance[$paper->submission_id]->is_present_on_desk) && $attendance[$paper->submission_id]->is_present_on_desk == $index)
+                                                    echo "selected"
+                                                ?>>
+                                            <?php echo $attendance_on_desk[$index]; ?>
+                                        </option>
                                     <?php
                                     }
                                 ?>
@@ -255,7 +257,8 @@
                 type: "POST",
                 url: "/<?php echo BASEURL; ?>index.php/AttendanceManager/markDeskAttendance_AJAX",
                 data: "memberId=" + memberId + "&paperId=" + paperId + "&isPresent=" + isPresent,
-                success: function(msg){
+                success: function(msg)
+                {
                     if(msg == "true")
                     {
                         $(".attInfo", ref_td).html("Updated");
