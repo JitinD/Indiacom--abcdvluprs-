@@ -61,8 +61,6 @@ class DeskManager extends CI_Controller
             $search_by = $this -> input -> post('searchby');
             $search_value = $this -> input -> post('searchvalue');
 
-            //redirect('/DeskManager/viewPaperAuthorsPayments/'.$search_value);
-
             switch($search_by)
             {
                 case 'MemberID':    redirect('/DeskManager/viewAuthorPapersPayments/'.$search_value);
@@ -88,64 +86,62 @@ class DeskManager extends CI_Controller
 
     }
 
-   /* private function getMemberPaymentsRecord($member_id, $paper_id = null)
-    {
-        $this->load->model('payment_model');
-        $is_paper_id_given = false;
-
-        $member_payments_array = $this -> payment_model -> getPayments($member_id, $paper_id);
-
-        if($paper_id)
-            $is_paper_id_given = true;
-
-        foreach($member_payments_array as $member_payments)
-        {
-            $payable_class = $member_payments -> payment_payable_class;
-            $waiveoff_amount = $member_payments -> waiveoff_amount;
-            $discount_type = $member_payments -> payment_discount_type;
-            $paid_amount = $member_payments -> paid_amount;
-
-            if(!$paper_id)
-                $paper_id = $member_payments -> submission_paper_id;
-
-            $paper_details = $this->paper_model->getPaperDetails($paper_id);
-            $paper_title = $paper_details -> paper_title;
-
-            $this -> load -> model('payable_class_model');
-            $this -> load -> model('discount_model');
-
-            $payable_class_details = $this -> payable_class_model -> getPayableClassDetails($payable_class);
-
-            $payable_amount = $payable_class_details -> payable_class_amount;
-            $discount_amount = 0;
-
-            if($discount_type)
-            {
-                $discount_details = $this -> discount_model -> getDiscountDetails($discount_type);
-                $discount_amount = $payable_amount * ($discount_details -> discount_type_amount);
-            }
-
-            $pay_amount = $payable_amount - ($waiveoff_amount + $discount_amount);
-            $due_amount = $pay_amount - $paid_amount;
-
-            if($is_paper_id_given)
-                $member_payments_record[$member_id] =  array('PaperID' => $paper_id, 'Title' => $paper_title, 'MemberID' => $member_id, 'Payable' => $payable_amount, 'Waive' => $waiveoff_amount, 'Discount' => $discount_amount, 'Pay' => $pay_amount, 'Paid' => $paid_amount, 'Due' => $due_amount);
-            else
-                $member_payments_record[$paper_id] =  array('PaperID' => $paper_id, 'Title' => $paper_title, 'MemberID' => $member_id, 'Payable' => $payable_amount, 'Waive' => $waiveoff_amount, 'Discount' => $discount_amount, 'Pay' => $pay_amount, 'Paid' => $paid_amount, 'Due' => $due_amount);
-
-        }
-
-        return $member_payments_array;
-    }*/
-
     public function viewPaperAuthorsPayments($paper_id)
     {
         $page = "paperAuthorsPayments";
 
         $this -> getPaperInfo($paper_id);
 
-        $this -> load -> model('payment_model');
-        $paper_payments_array = $this -> payment_model -> getPaperPayments($paper_id);
+        $this->load->model('paper_status_model');
+        $this->load->model('member_categories_model');
+        $this->load->model('member_model');
+        $this->load->model('payment_model');
+        $this->load->model('discount_model');
+        $this->load->model('paper_model');
+
+        $paper_authors_array = $this->submission_model->getAllAuthorsOfPaper($paper_id);
+
+        foreach($paper_authors_array as $index => $author)
+        {
+            $member_id = $author -> submission_member_id;
+
+            $memberInfo = $this->member_model->getMemberInfo($member_id);
+
+            $member_id_name_array[$member_id] = $memberInfo['member_name'];
+            $this->data['member_id_name_array'] = $member_id_name_array;
+
+            if($memberInfo)
+            {
+                $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
+                $this->data['registrationCat'] = $this->member_model->getMemberCategory($member_id);
+                $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
+                $this->data['isMemberRegistered'] = $this->payment_model->isMemberRegistered($member_id);
+
+                $papers = $this->data['papers'];
+                foreach($papers as $index => $paper)
+                {
+                    $isPaperRegistered[$paper -> paper_id] = $this->payment_model->isPaperRegistered($paper -> paper_id);
+                }
+
+                $this->data['isPaperRegistered'] = $isPaperRegistered;
+
+                $paperPayables = $this->payment_model->calculatePayables(
+                    $member_id,
+                    1,
+                    $this->data['registrationCat'],
+                    $this->data['papers'],
+                    date("Y-m-d")
+                );
+
+            }
+
+            $paper_authors_payables[$member_id] = $paperPayables;
+
+            $this->data['paper_authors_payables'] = $paper_authors_payables;
+        }
+        //$this -> load -> model('payment_model');
+
+        /*$paper_payments_array = $this -> payment_model -> getPaperPayments($paper_id);
 
         if($paper_payments_array)
         {
@@ -202,7 +198,7 @@ class DeskManager extends CI_Controller
             }
 
             $this -> data['paper_payments_record'] = $paper_payments_record;
-        }
+        }*/
 
         $this -> index($page);
     }
@@ -212,7 +208,43 @@ class DeskManager extends CI_Controller
 
         $page = "authorPapersPayments";
 
+        $this->load->model('paper_status_model');
+        $this->load->model('member_categories_model');
+        $this->load->model('member_model');
         $this->load->model('payment_model');
+        $this->load->model('discount_model');
+        $this->load->model('paper_model');
+
+        $this->data['memberDetails'] = $this->member_model->getMemberInfo($member_id);
+
+        if($this->data['memberDetails'])
+        {
+            $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
+            $this->data['registrationCat'] = $this->member_model->getMemberCategory($member_id);
+            $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
+            $this->data['isMemberRegistered'] = $this->payment_model->isMemberRegistered($member_id);
+
+            $papers = $this->data['papers'];
+            foreach($papers as $index => $paper)
+            {
+                $isPaperRegistered[$paper -> paper_id] = $this->payment_model->isPaperRegistered($paper -> paper_id);
+            }
+
+            $this->data['isPaperRegistered'] = $isPaperRegistered;
+
+            $this->data['papersInfo'] = $this->payment_model->calculatePayables(
+                $member_id,
+                1,
+                $this->data['registrationCat'],
+                $this->data['papers'],
+                date("Y-m-d")
+            );
+
+
+        }
+
+
+        /*$this->load->model('payment_model');
         $member_payments_array = $this -> payment_model -> getMemberPayments($member_id);
 
         if($member_payments_array)
@@ -272,7 +304,7 @@ class DeskManager extends CI_Controller
             $this -> load -> model('member_model');
             $this -> data['member_info'] = $this -> member_model -> getMemberInfo($member_id);
             $this -> data['member_payments_record'] = $member_payments_record;
-        }
+        }*/
 
         $this -> index($page);
     }
