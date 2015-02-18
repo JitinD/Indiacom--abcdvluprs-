@@ -6,7 +6,10 @@
  * Time: 10:18 PM
  */
 ?>
-<div style="padding-top: 120px;">
+<div class="col-md-12 col-sm-12">
+    <h1 class="page-header">Track Manager &raquo;<span class="h3">Mark Attendance</span></h1>
+
+    <div class="row"></div>
     <form method="post" enctype="multipart/form-data">
         <table class="table">
             <thead>
@@ -48,6 +51,7 @@
                                 }
                                 ?>
                             </select>
+
                             <div class="bg-info attInfo"></div>
                             <div class="bg-danger attError"></div>
                         </td>
@@ -62,7 +66,8 @@
                     <td><input type="text" class="certificate_outward_number"
                                value="<?php if (isset($certificate[$paper->paper_id]['certificate_outward_number'])) {
                                    echo $certificate[$paper->paper_id]['certificate_outward_number'];
-                               }?>">
+                               } ?>">
+
                         <div class="bg-info attInfo"></div>
                         <div class="bg-danger attError"></div>
                     <td>
@@ -76,6 +81,7 @@
                             if (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1))
                                 echo "checked";
                             ?>>
+
                         <div class="bg-info attInfo"></div>
                         <div class="bg-danger attError"></div>
                     </td>
@@ -87,7 +93,8 @@
 
         </table>
     </form>
-    <a href="/<?php echo BASEURL; ?>index.php/TrackManager/search">Back</a>
+    <a class="btn btn-primary" href="/<?php echo BASEURL; ?>index.php/TrackManager/search"><span
+            class="glyphicon glyphicon-chevron-left"></span> Back</a>
 </div>
 <script>
     $(document).ready(function () {
@@ -109,7 +116,7 @@
                         if (outwardNumber == "") {
 
                             var certificateGiven = 0;
-                            $('.is_certificate_given', ref).attr("disabled","disabled");
+                            $('.is_certificate_given', ref).attr("disabled", "disabled");
                             $.ajax({
                                 type: "POST",
                                 url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markCertificateGiven_AJAX",
@@ -140,7 +147,6 @@
         });
 
 
-
         $(".is_certificate_given").click(function () {
             var ref = $(this).parent().parent();
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
@@ -160,12 +166,10 @@
                 data: "submissionId=" + submissionId + "&is_certificate_given=" + certificateGiven,
                 success: function (msg) {
                     if (msg == "true") {
-                        if(certificateGiven==0)
-                        {
+                        if (certificateGiven == 0) {
                             $(this).val(0);
                         }
-                        else
-                        {
+                        else {
                             $(this).val(1);
                         }
                         $(".attInfo", ref_td).html("Updated");
@@ -194,22 +198,19 @@
                 url: "/<?php echo BASEURL; ?>index.php/AttendanceManager/markTrackAttendance_AJAX",
                 data: "submissionId=" + submissionId + "&isPresent=" + isPresent,
                 success: function (msg) {
-                    if (msg == "true")
-                    {
-                        $(".attInfo",ref_td).html("Updated");
-                        if(isPresent==0)
-                        {
+                    if (msg == "true") {
+                        $(".attInfo", ref_td).html("Updated");
+                        if (isPresent == 0) {
                             $('.is_certificate_given', ref).attr("disabled", "disabled");
                         }
-                        else
-                        {
+                        else {
                             $('.is_certificate_given', ref).removeAttr("disabled");
                         }
                     }
 
                     else {
-                        $(".attInfo",ref_td).html("");
-                        $(".attError",ref_td).html("Could not update");
+                        $(".attInfo", ref_td).html("");
+                        $(".attError", ref_td).html("Could not update");
                     }
                 }
             });
