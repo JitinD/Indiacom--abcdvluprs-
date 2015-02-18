@@ -234,6 +234,8 @@
         ?>
         </tbody>
     </table>
+
+    <a href = "<?php echo "/".BASEURL."index.php/DeliverablesManager/assignMemberDeliverables/".$memberDetails['member_id']; ?>">Assign Member Deliverables</a>
 </div>
 
 <script>
