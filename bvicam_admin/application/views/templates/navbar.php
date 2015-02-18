@@ -9,10 +9,10 @@
             <?php
             if (isset($_SESSION) && isset($_SESSION[APPID]['authenticated'])) {
                 ?>
-                <a href="/<?php echo BASEURL; ?>index.php/Page/login" type="submit" class="btn btn-sm navbar-btn">
+                <a href="/<?php echo BASEURL; ?>index.php/Page/login" type="submit" class="btn btn-primary navbar-btn">
                     Change Role
                 </a>
-                <a href="/<?php echo BASEURL; ?>index.php/Page/logout" type="submit" class="btn btn-sm navbar-btn">
+                <a href="/<?php echo BASEURL; ?>index.php/Page/logout" type="submit" class="btn btn-danger navbar-btn">
                     <span class="glyphicon glyphicon-user"></span> Logout
                 </a>
             <?php

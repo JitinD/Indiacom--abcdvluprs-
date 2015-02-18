@@ -25,7 +25,7 @@
                 <?php
                 for ($i = 0; $i < 10; $i++) {
                     ?>
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
                         <a href="#" class="thumbnail">
                             <div class="panel text-muted">
                                 <h3>
