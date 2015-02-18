@@ -171,19 +171,4 @@ class DeskManager extends CI_Controller
         }
         $this->index($page);
     }
-
-    private function getMemberDeliverables($memberId)
-    {
-        $this->load->model('payment_model');
-        $this->load->model('payment_head_model');
-        $brPayheadId = $this->payment_head_model->getPaymentHeadId("BR");
-        $prPayheadId = $this->payment_head_model->getPaymentHeadId("PR");
-        if($brPayheadId == null || $prPayheadId == null)
-        {
-            return false;
-        }
-        $payments[$brPayheadId] = $this->payment_model->getPayments($memberId, null, $brPayheadId);
-        $payments[$prPayheadId] = $this->payment_model->getPayments($memberId, null, $prPayheadId);
-        return $payments;
-    }
 }
