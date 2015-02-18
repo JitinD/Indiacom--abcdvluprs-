@@ -7,7 +7,7 @@
  */
 ?>
 
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div id="contentPanel" class="col-sm-10 col-md-10">
     <h1 class="page-header">Roles</h1>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

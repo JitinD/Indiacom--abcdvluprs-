@@ -23,7 +23,10 @@
                     }
                     ?>
                 </select>
-                <input type="submit">
+                <div class="col-md-8 col-md-offset-2">
+                    <input type="submit" style="margin-top: 10px;" class="btn btn-primary btn-block">
+                </div>
+
             </form>
         </div>
     </div>

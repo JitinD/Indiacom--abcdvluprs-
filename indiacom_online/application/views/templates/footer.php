@@ -19,6 +19,7 @@
         }
 
     </style>
+
 <div class="container-fluid">
     <div class="text-center text-muted footer row">
         <div class="col-md-12">
