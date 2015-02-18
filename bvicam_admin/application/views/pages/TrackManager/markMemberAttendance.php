@@ -95,6 +95,7 @@
 
         $(".certificate_outward_number").change(function () {
             var ref = $(this).parent().parent();
+            var ref_td = $(this).parent();
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
             var outwardNumber = $(this).val();
             $.ajax({
@@ -104,7 +105,9 @@
                 success: function (msg) {
                     if (msg == "true") {
                         $(".attInfo", ref_td).html("Updated");
-                        if ($(this).val() == "") {
+
+                        if (outwardNumber == "") {
+
                             var certificateGiven = 0;
                             $('.is_certificate_given', ref).attr("disabled","disabled");
                             $.ajax({
@@ -112,7 +115,7 @@
                                 url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markCertificateGiven_AJAX",
                                 data: "submissionId=" + submissionId + "&is_certificate_given=" + certificateGiven,
                                 success: function (msg) {
-                                    alert();
+
                                     if (msg == "true") {
                                         $(".attInfo", ref_td).html("Updated");
                                     }
@@ -125,6 +128,7 @@
                         }
                         else {
                             $('.is_certificate_given', ref).removeAttr("disabled");
+                            $('.is_certificate_given', ref).prop('checked', false);
                         }
                     }
                     else {

@@ -44,7 +44,7 @@ class AttendanceManager extends CI_Controller
         $attendanceRecord = $this->attendance_model->getAttendanceRecord($submission_id);
         if($attendanceRecord!=null)
         {
-            $track_attendance['is_present_in_hall'] = $is_present;
+            $attendanceRecord['is_present_in_hall'] = $is_present;
             echo json_encode($this->attendance_model->markAttendance($attendanceRecord));
         }
 

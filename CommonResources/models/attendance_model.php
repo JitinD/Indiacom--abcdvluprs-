@@ -38,7 +38,7 @@ class Attendance_model extends CI_Model
         $attendance_id = $attendance_id_object -> attendance_id;
 
         if(!$attendance_id)
-            $attendance_id = 1;
+            $attendance_id = 0;
 
         return $attendance_id + 1;
     }

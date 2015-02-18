@@ -46,13 +46,13 @@ class TrackManager extends CI_Controller
         $this->data['tracks'] = $this->track_model->getAllTracks(EVENT_ID);
         $_SESSION[APPID]['track_id']= $this->input->post('track');
         if ($_SESSION[APPID]['track_id']> 0) {
-            redirect("/TrackManager/Search");
+            redirect("/TrackManager/search");
         }
         $this->index($page);
     }
     public function search()
     {
-        $page = "search";
+        $page = "searchMember";
 
         $this->load->library('form_validation');
 
