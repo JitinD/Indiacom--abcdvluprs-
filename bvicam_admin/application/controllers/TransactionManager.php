@@ -55,12 +55,12 @@ class TransactionManager extends CI_Controller
         $page = "newTransaction";
         $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
         $this->data['currencies'] = $this->currency_model->getAllCurrencies();
-        if($this->newTransactionSubmitHandle())
-            redirect('PaymentsManager/newPayment');
+        if($this->newTransactionSubmitHandle($transId))
+            redirect('PaymentsManager/newPayment/' . $transId);
         $this->index($page);
     }
 
-    private function newTransactionSubmitHandle()
+    private function newTransactionSubmitHandle(&$transId)
     {
         $this->load->model('transaction_model');
         $this->load->library('form_validation');
@@ -97,7 +97,7 @@ class TransactionManager extends CI_Controller
             }
             if($this->transaction_model->newTransaction($transDetails))
             {
-                $_SESSION[APPID]['transId'] = $transDetails['transaction_id'];  //$this->transaction_model->getTransactionId($transDetails);
+                //$_SESSION[APPID]['transId'] = $transDetails['transaction_id'];
                 return true;
             }
             else

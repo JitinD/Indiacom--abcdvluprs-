@@ -31,7 +31,7 @@ class PaymentsManager extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-
+        $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/sidebar', $sidebarData);
@@ -41,8 +41,8 @@ class PaymentsManager extends CI_Controller
 
     private function setSidebarLinks()
     {
-        $links['viewPayments'] = "View payments memberwise";
-        $links['viewPayments'] = "View payments paperwise";
+        $links['viewPaymentsMemberWise'] = "View payments memberwise";
+        $links['viewPaymentsPaperWise'] = "View payments paperwise";
         $links['newPayment'] = "New payment";
         $links['spotPayments'] = "Spot payment";
         return $links;
@@ -55,7 +55,7 @@ class PaymentsManager extends CI_Controller
         $this->index($page);
     }
 
-    public function viewPayments()
+    public function viewPaymentsMemberWise()
     {
         $page = "viewPayments";
         $this->load->model('payment_model');
@@ -65,11 +65,32 @@ class PaymentsManager extends CI_Controller
         $members = $this->payment_model->getAllPayingMembers();
         $this->data['payheadDetails'] = $this->payheadNamesAsAssocArray();
         $this->data['discountTypes'] = $this->discount_model->getAllDiscountsAsAssocArray();
+        $this->data['viewBy'] = "members";
         $this->data['membersPayments'] = array();
         foreach($members as $member)
         {
             $this->data['membersPayments'][$member->member_id] = $this->payment_model->getMemberPayments($member->member_id);
             $this->data['memberDetails'][$member->member_id] = $this->member_model->getMemberInfo($member->member_id);
+        }
+        $this->index($page);
+    }
+
+    public function viewPaymentsPaperWise()
+    {
+        $page = "viewPayments";
+        $this->load->model('payment_model');
+        $this->load->model('paper_model');
+        $this->load->model('discount_model');
+
+        $papers = $this->payment_model->getAllPayingPapers();
+        $this->data['payheadDetails'] = $this->payheadNamesAsAssocArray();
+        $this->data['discountTypes'] = $this->discount_model->getAllDiscountsAsAssocArray();
+        $this->data['viewBy'] = "papers";
+        $this->data['papersPayments'] = array();
+        foreach($papers as $paper)
+        {
+            $this->data['papersPayments'][$paper->paper_id] = $this->payment_model->getPaperPayments($paper->paper_id);
+            $this->data['paperDetails'][$paper->paper_id] = $this->paper_model->getPaperDetails($paper->paper_id);
         }
         $this->index($page);
     }
@@ -85,9 +106,8 @@ class PaymentsManager extends CI_Controller
         $this->load->model('payment_model');
         $this->load->model('discount_model');
         $page = "newPayment";
-        if(isset($_SESSION[APPID]['transId']) || $transId != null)
+        if($transId != null)
         {
-            $transId = ($transId != null) ? $transId : $_SESSION[APPID]['transId'];
             $memberId =  $this->input->post('payment_memberId');
             $this->data['transDetails'] = $this->transaction_model->getTransactionDetails($transId);
             $this->data['transUsedAmount'] = $this->transaction_model->getTransactionUsedAmount($transId);
@@ -117,11 +137,6 @@ class PaymentsManager extends CI_Controller
                     ))
                     {
                         $this->data['transUsedAmount'] = $this->transaction_model->getTransactionUsedAmount($transId);
-                        $morePayments = $this->input->post('morePayments');
-                        if($morePayments)
-                        {
-                            unset($this->data['paymentMemberId']);
-                        }
                     }
                     $this->data['papersInfo'] = $this->payment_model->calculatePayables(
                         $memberId,
@@ -137,11 +152,11 @@ class PaymentsManager extends CI_Controller
                     unset($this->data['paymentMemberId']);
                 }
             }
-            else if(empty($this->data['transDetails']))
+            /*else if(empty($this->data['transDetails']))
             {
                 unset($_SESSION[APPID]['transId']);
-            }
-            else
+            }*/
+            else if(!empty($this->data['transDetails']))
             {
                 $this->data['currencyName'] = $this->currency_model->getCurrencyName($this->data['transDetails']->transaction_currency);
                 $this->data['transModeDetails'] = $this->transaction_mode_model->getTransactionModeDetails($this->data['transDetails']->transaction_mode);
