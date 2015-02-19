@@ -56,6 +56,8 @@ class Paper_model extends CI_Model
     {
         $sql = "Select * From paper_master Where paper_id = ?";
         $query = $this->db->query($sql, array($paperId));
+        if($query->num_rows() == 0)
+            return null;
         return $query->row();
     }
 
