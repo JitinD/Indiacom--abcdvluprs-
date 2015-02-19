@@ -7,7 +7,7 @@
  */
 ?>
 <div style="padding-top: 120px;"></div>
-<form class="form-horizontal" enctype="multipart/form-data" method="get">
+<form class="form-horizontal" enctype="multipart/form-data" method="post">
     <div>
         <div class="form-group">
             <label for="comment">Query:</label>

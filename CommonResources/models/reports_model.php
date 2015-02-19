@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: Pavithra
@@ -12,22 +13,24 @@ class reports_model extends CI_Model
         $this->load->database();
     }
 
-    public function getQueryFields()
+    public function getQueryFields($sql)
     {
-        $sql="Select * from member_master";
+
         $query = $this->db->query($sql);
+
         if ($query->num_rows() == 0)
             return null;
         return $query->list_fields();
     }
 
-    public function getQueryReport()
+    public function getQueryReport($sql)
     {
-        $sql="Select * from member_master";
+
         $query = $this->db->query($sql);
         if ($query->num_rows() == 0)
             return null;
-        return $query->row_array();
+        return $query->result_array();
     }
 }
+
 ?>

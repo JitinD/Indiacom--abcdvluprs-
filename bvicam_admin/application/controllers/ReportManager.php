@@ -37,13 +37,14 @@ class ReportManager extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function getReport($sql)
+    public function getReport($sql1)
     {
         $page = "viewReport";
         $this->load->helper('url');
         $this->load->model('reports_model');
-        $this->data['fields'] = $this->reports_model->getQueryFields();
-        $this->data['results']= $this->reports_model->getQueryReport();
+        $sql=rawurldecode($sql1);
+        $this->data['fields'] = $this->reports_model->getQueryFields($sql);
+        $this->data['results']= $this->reports_model->getQueryReport($sql);
 
         $this->index($page);
     }
@@ -54,10 +55,11 @@ class ReportManager extends CI_Controller
         $this->load->helper('url');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('query', 'Query Field', 'required');
-        $sql= str_replace('%20',' ',($this->input->get("query")));
+        $sql= $this->input->post("query");
         if($sql!=null)
         {
             redirect('/ReportManager/getReport/'.$sql);
+
         }
 
         $this->index($page);

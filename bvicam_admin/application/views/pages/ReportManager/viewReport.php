@@ -8,27 +8,53 @@
 ?>
 <div style="padding-top: 120px;"></div>
 <div>
-    <table>
-        <thead>
-        <?php if ($fields == null) {
-            echo "No results found";
-        } else {
-            foreach ($fields as $field) {
+    <div id="trans-list" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <table class="table table-responsive table-hover">
+            <thead>
+            <?php if ($fields == null) {
+                echo "No results found";
+            } else {
+                foreach ($fields as $field) {
 
+                    ?>
+                    <th class="sort btn-link" data-sort="<?php echo $field; ?>"><?php echo $field; ?></th>
+                <?php
+                }
+            }?>
+            </thead>
+
+            <?php
+            if ($results == null) {
+                echo "No results found";
+            } else {
+                foreach ($results as $index => $record_array) {
+                    ?>
+                    <tr>
+                    <?php
+                    foreach ($fields as $index => $field) {
+                        ?>
+                        <td><?php echo $record_array[$field]; ?></td>
+                    <?php
+                    }
+                }
                 ?>
-                <th><?php echo $field; ?></th>
+                </tr>
             <?php
             }
-        }?>
-        </thead>
-        <?php if ($results == null) {
+            ?>
+        </table>
 
-        } else {
-            foreach ($results as $result) {
-                ?>
-                <td><?php echo $result; ?></td>
-            <?php
-            }
-        }?>
-    </table>
+    </div>
 </div>
+<script>
+    var options = {
+        values: [
+            <?php
+            foreach ($fields as $field) {
+                 echo $field;
+                }
+            ?>
+        ]
+    };
+    var transList = new List('trans-list',options);
+</script>
