@@ -42,4 +42,16 @@ class CertificateManager extends CI_Controller
             echo json_encode($this->certificate_model->submitCertificateData($certificateRecord));
         }
     }
+
+    public function removeCertificateRecord_AJAX()
+    {
+        $this->load->model("certificate_model");
+        $submission_id = $this->input->post('submissionId');
+        $certificateRecord = $this->certificate_model->getCertificateRecord($submission_id);
+        if($certificateRecord!=null)
+        {
+            echo json_encode($this->certificate_model->deleteCertificateRecord($submission_id));
+        }
+
+    }
 }

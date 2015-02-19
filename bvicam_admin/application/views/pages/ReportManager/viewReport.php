@@ -15,45 +15,47 @@
                 echo "No results found";
             } else {
                 foreach ($fields as $field) {
-
-                    ?>
+            ?>
                     <th class="sort btn-link" data-sort="<?php echo $field; ?>"><?php echo $field; ?></th>
-                <?php
-                }
-            }?>
-            </thead>
-
             <?php
-            if ($results == null) {
-                echo "No results found";
-            } else {
-                foreach ($results as $index => $record_array) {
-                    ?>
-                    <tr>
-                    <?php
-                    foreach ($fields as $index => $field) {
-                        ?>
-                        <td><?php echo $record_array[$field]; ?></td>
-                    <?php
-                    }
                 }
-                ?>
-                </tr>
-            <?php
             }
             ?>
+            </thead>
+            <tbody class="list">
+                <?php
+                if ($results == null) {
+                    echo "No results found";
+                } else {
+                    foreach ($results as $index => $record_array) {
+                        ?>
+                        <tr>
+                        <?php
+                        foreach ($fields as $index => $field) {
+                            ?>
+                            <td class="<?php echo $field; ?>"><?php echo $record_array[$field]; ?></td>
+                        <?php
+                        }
+                    }
+                    ?>
+                    </tr>
+                <?php
+                }
+                ?>
+            </tbody>
         </table>
 
     </div>
 </div>
 <script>
     var options = {
-        values: [
+        valueNames: [
             <?php
             foreach ($fields as $field) {
-                 echo $field;
+                 echo "'$field',";
                 }
             ?>
+            ''
         ]
     };
     var transList = new List('trans-list',options);

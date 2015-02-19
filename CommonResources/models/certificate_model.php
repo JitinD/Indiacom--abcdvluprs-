@@ -59,4 +59,15 @@ class Certificate_model extends CI_Model
             return null;
         return $query->row_array();
     }
+
+    public function deleteCertificateRecord($submission_id)
+    {
+        $sql="Delete from
+            member_certificate_tracker
+            where
+            submission_id=?";
+        $query = $this->db->query($sql, array($submission_id));
+        return $this->db->trans_status();
+
+    }
 }

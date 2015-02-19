@@ -49,4 +49,6 @@ class AttendanceManager extends CI_Controller
         }
 
     }
+
+
 }

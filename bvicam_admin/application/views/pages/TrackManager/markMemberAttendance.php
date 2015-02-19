@@ -22,72 +22,78 @@
                 <th>Certificate Given</th>
             </tr>
             </thead>
+            <?php if ($papers == null) { ?>
+                <tr><td colspan="6" class="h3 text-danger bg-danger"><?php echo "No records found"; ?></td></tr>
             <?php
-            foreach ($papers as $paper) {
-                ?>
-                <tr>
-                    <td data-submission_id="<?php echo $paper->submission_id; ?>"
-                        class="submission_id"><?php echo $paper->paper_code; ?></td>
+            } else {
+                foreach ($papers as $paper) {
+                    ?>
+                    <tr>
+                        <td data-submission_id="<?php echo $paper->submission_id; ?>"
+                            class="submission_id"><?php echo $paper->paper_code; ?></td>
 
-                    <td><?php echo $paper->paper_title; ?></td>
-                    <?php if (isset($attendance[$paper->paper_id]['is_present_on_desk']) && $attendance[$paper->paper_id]['is_present_on_desk'] == 1) {
-                        ?>
-                        <td><?php echo "Present" ?></td>
-                        <td>
-                            <select name="attendance_on_track" class="form-control attendance_on_track">
-                                <?php
-                                $attendance_on_track = array("Absent", "Present");
+                        <td><?php echo $paper->paper_title; ?></td>
+                        <?php if (isset($attendance[$paper->paper_id]['is_present_on_desk']) && $attendance[$paper->paper_id]['is_present_on_desk'] == 1) {
+                            ?>
+                            <td><?php echo "Present" ?></td>
+                            <td>
+                                <select name="attendance_on_track" class="form-control attendance_on_track">
+                                    <?php
+                                    $attendance_on_track = array("Absent", "Present");
 
-                                for ($index = 0; $index < 2; $index++) {
+                                    for ($index = 0; $index < 2; $index++) {
+                                        ?>
+                                        <option value="<?php echo $index; ?>"
+                                            <?php
+                                            if (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == $index)
+                                                echo "selected"
+                                            ?>>
+                                            <?php echo $attendance_on_track[$index]; ?>
+                                        </option>
+                                    <?php
+                                    }
                                     ?>
-                                    <option value="<?php echo $index; ?>"
-                                        <?php
-                                        if (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == $index)
-                                            echo "selected"
-                                        ?>>
-                                        <?php echo $attendance_on_track[$index]; ?>
-                                    </option>
+                                </select>
+
+                                <div class="bg-info attInfo"></div>
+                                <div class="bg-danger attError"></div>
+                            </td>
+                        <?php
+                        } else {
+                            ?>
+                            <td><?php echo "Absent On desk" ?></td>
+                            <td class="attendance_not_marked"><?php $present = 0;
+                                echo "Not marked" ?></td>
+                        <?php
+                        }
+                        ?>
+                        <td><input type="text" class="certificate_outward_number form-control"
+                                   value="<?php if (isset($certificate[$paper->paper_id]['certificate_outward_number'])) {
+                                       echo $certificate[$paper->paper_id]['certificate_outward_number'];
+                                   } ?>">
+
+                            <div class="bg-info attInfo"></div>
+                            <div class="bg-danger attError"></div>
+                        <td>
+                            <input type="checkbox" class="is_certificate_given"
                                 <?php
-                                }
-                                ?>
-                            </select>
+                                if (!isset($certificate[$paper->paper_id]['certificate_outward_number']) ||
+                                    ($certificate[$paper->paper_id]['certificate_outward_number'] == '') ||
+                                    (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 0) || $present == 0
+                                )
+                                    echo "disabled";
+
+                                if (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1))
+                                    echo "checked";
+                                ?>>
 
                             <div class="bg-info attInfo"></div>
                             <div class="bg-danger attError"></div>
                         </td>
-                    <?php
-                    } else {
-                        ?>
-                        <td><?php echo "Absent On desk" ?></td>
-                        <td><?php echo "Not marked" ?></td>
-                    <?php
-                    }
-                    ?>
-                    <td><input type="text" class="certificate_outward_number"
-                               value="<?php if (isset($certificate[$paper->paper_id]['certificate_outward_number'])) {
-                                   echo $certificate[$paper->paper_id]['certificate_outward_number'];
-                               } ?>">
+                    </tr>
 
-                        <div class="bg-info attInfo"></div>
-                        <div class="bg-danger attError"></div>
-                    <td>
-                        <input type="checkbox" class="is_certificate_given"
-                            <?php
-                            if (!isset($certificate[$paper->paper_id]['certificate_outward_number']) ||
-                                $certificate[$paper->paper_id]['certificate_outward_number'] == ''
-                            )
-                                echo "disabled";
-
-                            if (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1))
-                                echo "checked";
-                            ?>>
-
-                        <div class="bg-info attInfo"></div>
-                        <div class="bg-danger attError"></div>
-                    </td>
-                </tr>
-
-            <?php
+                <?php
+                }
             }
             ?>
 
@@ -105,6 +111,7 @@
             var ref_td = $(this).parent();
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
             var outwardNumber = $(this).val();
+            var attendance = $('.attendance_not_marked', ref).text();
             $.ajax({
                 type: "POST",
                 url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markOutwardNumber_AJAX",
@@ -114,13 +121,11 @@
                         $(".attInfo", ref_td).html("Updated");
 
                         if (outwardNumber == "") {
-
-                            var certificateGiven = 0;
                             $('.is_certificate_given', ref).attr("disabled", "disabled");
                             $.ajax({
                                 type: "POST",
-                                url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markCertificateGiven_AJAX",
-                                data: "submissionId=" + submissionId + "&is_certificate_given=" + certificateGiven,
+                                url: "/<?php echo BASEURL; ?>index.php/CertificateManager/removeCertificateRecord_AJAX",
+                                data: "submissionId=" + submissionId,
                                 success: function (msg) {
 
                                     if (msg == "true") {
@@ -136,6 +141,13 @@
                         else {
                             $('.is_certificate_given', ref).removeAttr("disabled");
                             $('.is_certificate_given', ref).prop('checked', false);
+                        }
+
+                        if (attendance == "Not marked") {
+                            $('.is_certificate_given', ref).attr("disabled", "disabled");
+                        }
+                        else {
+                            $('.is_certificate_given', ref).removeAttr("disabled");
                         }
                     }
                     else {
@@ -156,9 +168,8 @@
             else {
                 $(this).val(0);
             }
-            alert(submissionId + " " + $(this).val());
+
             var certificateGiven = $(this).val();
-            alert(certificateGiven);
 
             $.ajax({
                 type: "POST",
@@ -189,8 +200,6 @@
 
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
             var isPresent = $(this).val();
-            alert(submissionId);
-            alert(isPresent);
 
             //$('.attInfo', ref_td).html("Updating");
             $.ajax({

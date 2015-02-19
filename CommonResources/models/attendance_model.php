@@ -24,35 +24,32 @@ class Attendance_model extends CI_Model
         $query = $this->db->query($sql);
 
         $attendance_id_object = $query->row();
-        $attendance_id = $attendance_id_object -> attendance_id;
+        $attendance_id = $attendance_id_object->attendance_id;
 
-        if(!$attendance_id)
+        if (!$attendance_id)
             $attendance_id = 0;
 
         return $attendance_id + 1;
     }
 
 
-    public function markAttendance($attendanceRecord=array())
+    public function markAttendance($attendanceRecord = array())
     {
         $record = $this->getAttendanceRecord($attendanceRecord['submission_id']);
 
-        if($record==null)
-        {
+        if ($record == null) {
             $attendanceRecord['attendance_id'] = $this->assignId();
-            $this -> db -> insert($this -> entity, $attendanceRecord);
-        }
-        else
-        {
-            $this -> db -> where('attendance_id', $record['attendance_id']);
-            $this -> db -> update($this -> entity, $attendanceRecord);
+            $this->db->insert($this->entity, $attendanceRecord);
+        } else {
+            $this->db->where('attendance_id', $record['attendance_id']);
+            $this->db->update($this->entity, $attendanceRecord);
         }
         return $this->db->trans_status();
     }
 
     public function getAttendanceRecord($submission_id)
     {
-        $sql="Select * from
+        $sql = "Select * from
               attendance_master
               where
               submission_id=?
@@ -62,6 +59,8 @@ class Attendance_model extends CI_Model
             return null;
         return $query->row_array();
     }
+
+
 
 
 }
