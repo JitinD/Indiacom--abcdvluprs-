@@ -210,7 +210,12 @@
                             ?>
                         </td>
                         <td>
-                            <select name = "attendance_on_desk" class="form-control attendance_on_desk">
+                            <select name = "attendance_on_desk" class="form-control attendance_on_desk"
+                                <?php
+                                    if(isset($papersInfo[$paper -> paper_id]['pending']) && $papersInfo[$paper -> paper_id]['pending'])
+                                        echo "disabled";
+                                ?>
+                            >
                                 <?php
                                     $attendance_on_desk = array("Absent", "Present");
 

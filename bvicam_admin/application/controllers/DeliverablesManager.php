@@ -75,24 +75,25 @@ class DeliverablesManager extends CI_Controller
         $orig_payments[$brPayheadId] = $this->payment_model->getPayments($memberId, null, $brPayheadId);
         $orig_payments[$prPayheadId] = $this->payment_model->getPayments($memberId, null, $prPayheadId);
 
-        $payments = array();
+        $payments_record = array();
 
-        /*foreach($orig_payments as $payheadId => $payments_array)
+        foreach($orig_payments as $payheadId => $payments_array)
         {
             foreach($payments_array as $index => $payments)
             {
                 $payable_class_amount = $payments -> payable_class_amount;
                 $waiveoff_amount = $payments -> waiveoff_amount;
-                $discount_amount = $payments -> discount_type_amount ? $payments -> discount_type_amount : 0;
-                $pay_amount = $payable_class_amount - ($waiveoff_amount + $discount_amount);
+                $discount_amount = $payments -> discount_type_amount ? ($payments -> discount_type_amount * $payable_class_amount) : 0;
+                $pay_amount = $payable_class_amount - ($waiveoff_amount + $discount_amount );
                 $paid_amount = $payments -> paid_amount;
 
                 $pending_amount = $pay_amount - $paid_amount;
 
                 if($pending_amount == 0)
-                   $payments[$payheadId] = $this->payment_model->getPayments($memberId, null, $payheadId);
+                   $payments_record[$payheadId] = $payments_array;
+
             }
-        }*/
+        }
 
         return $orig_payments;
     }

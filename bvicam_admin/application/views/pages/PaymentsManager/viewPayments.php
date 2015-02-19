@@ -8,7 +8,7 @@
 ?>
 
 <div class="col-sm-10 col-md-10" id="contentPanel">
-    <h3 class="text-theme">Payments</h3>
+    <h1 class="page-header">Payments</h1>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <table class="table table-responsive table-hover">
@@ -39,7 +39,7 @@
                         <tr>
                             <td><?php echo ++$sno; ?></td>
                             <td><?php echo $memberId; ?></td>
-                            <td><?php echo $memberDetails[$memberId]['member_name']; ?></td>
+                            <td class="text-capitalize"><?php echo $memberDetails[$memberId]['member_name']; ?></td>
                             <td>
                                 <table class="table">
                                     <thead>

@@ -1,4 +1,4 @@
-<?php print_r($deliverablesPayments); ?>
+<?php /*print_r($deliverablesPayments); */?>
 
 <div class="col-sm-12 col-md-12 main">
 

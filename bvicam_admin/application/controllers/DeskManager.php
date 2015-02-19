@@ -65,9 +65,17 @@ class DeskManager extends CI_Controller
                 case 'PaperID':
                     redirect('/DeskManager/viewPaperAuthorsPayments/' . $search_value);
                     break;
+
+                case 'MemberName':
+
             }
         }
         $this->index($page);
+    }
+
+    private function getMatchingMembers_AJAX($member_name)
+    {
+        
     }
 
     private function getPaperInfo($paper_id)

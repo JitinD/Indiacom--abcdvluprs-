@@ -6,12 +6,14 @@
  * Time: 10:28 AM
  */
 ?>
-
-<div class="col-sm-10 col-md-10" id="contentPanel">
-    <div class="list-group">
-        <a href="#" class="list-group-item">View payments memberwise</a>
-        <a href="#" class="list-group-item">View payments paperwise</a>
-        <a href="#" class="list-group-item">New payment</a>
-        <a href="#" class="list-group-item">Spot payment</a>
+<div class="col-md-10 col-sm-10" id="contentPanel">
+    <h1 class="page-header">Payments Manager</h1>
+    <div class="col-sm-10 col-md-10 h4" >
+        <div class="list-group">
+            <a href="#" class="list-group-item">View Member-wise Payments </a>
+            <a href="#" class="list-group-item">View Paper-wise Payments </a>
+            <a href="#" class="list-group-item">New Payment</a>
+            <a href="#" class="list-group-item">Spot Payment</a>
+        </div>
     </div>
 </div>
