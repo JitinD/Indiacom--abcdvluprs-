@@ -134,4 +134,16 @@ class Member_model extends CI_Model
         }
         return true;
     }
+
+    public function getMatchingMembers($member_name)
+    {
+        $sql = "Select member_id, member_name From member_master where member_name Like '%$member_name%'";
+
+        $query = $this -> dbCon -> query($sql);
+
+        if($query->num_rows() == 0)
+            return null;
+
+        return $query->result_array();
+    }
 }

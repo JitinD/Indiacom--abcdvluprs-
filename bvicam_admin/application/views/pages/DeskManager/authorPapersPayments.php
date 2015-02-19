@@ -255,9 +255,6 @@
 <script>
     $(document).ready(function () {
 
-        //var pending_ref = $this.parent().parent();
-        //var pending_amount = $('.pending_amount', pending_ref).attr('data-pending_amount');
-
         $(".radio").click(function()
         {
             var val = $(this).siblings().first().val()

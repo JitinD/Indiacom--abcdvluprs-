@@ -49,33 +49,36 @@ class DeskManager extends CI_Controller
 
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('searchvalue', 'Search value', 'required');
+        $this->form_validation->set_rules('searchValue', 'Search value', 'required');
 
         if ($this->form_validation->run()) {
             $this->load->helper('url');
 
-            $search_by = $this->input->post('searchby');
-            $search_value = $this->input->post('searchvalue');
+            $search_by = $this->input->post('searchBy');
+            $search_value = $this->input->post('searchValue');
 
             switch ($search_by) {
-                case 'MemberID':
-                    redirect('/DeskManager/viewAuthorPapersPayments/' . $search_value);
-                    break;
+                case 'MemberID':    redirect('/DeskManager/viewAuthorPapersPayments/' . $search_value);
+                                    break;
 
-                case 'PaperID':
-                    redirect('/DeskManager/viewPaperAuthorsPayments/' . $search_value);
-                    break;
+                case 'PaperID':     redirect('/DeskManager/viewPaperAuthorsPayments/' . $search_value);
+                                    break;
 
-                case 'MemberName':
-
+                case 'MemberName':  $this -> getMatchingMembers_AJAX($search_value);
+                                    return;
             }
         }
+
         $this->index($page);
     }
 
     private function getMatchingMembers_AJAX($member_name)
     {
-        
+        $this -> load -> model('member_model');
+
+        $matchingRecords = $this -> member_model -> getMatchingMembers($member_name);
+
+        echo json_encode($matchingRecords);
     }
 
     private function getPaperInfo($paper_id)
