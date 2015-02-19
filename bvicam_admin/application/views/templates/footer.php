@@ -18,30 +18,7 @@
     }
 
 </style>
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div>
-            <div class="modal-body">
-                <?php
-                for ($i = 0; $i < 10; $i++) {
-                    ?>
-                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
-                        <a href="#" class="thumbnail">
-                            <div class="panel text-muted">
-                                <h3>
-                                    Role Manager
-                                </h3>
-                            </div>
-                        </a>
-                    </div>
-                <?php
-                }
-                ?>
-
-            </div>
-        </div>
-    </div>
-</div>
+<?php include(dirname(__FILE__) . "/../templates/dashLauncher.php"); ?>
 </div>
 <div class="container-fluid">
     <div class=" text-center text-muted footer row">

@@ -7,7 +7,7 @@
  */
 ?>
 
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="col-sm-10 col-md-10" id="contentPanel">
     <h1 class="page-header">New User</h1>
 
     <div class="row">
@@ -15,7 +15,7 @@
             <form class="form-horizontal" role="form" action="#" method="post">
                 <div class="form-group">
                     <label for="userName" class="col-sm-3 control-label">User Name</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <input type="text" class="form-control" name="userName" id="userName" placeholder="Enter user's name">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -25,7 +25,7 @@
 
                 <div class="form-group">
                     <label for="userEmail" class="col-sm-3 control-label">User Email</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <input type="text" class="form-control" name="userEmail" id="userEmail" placeholder="Enter user's email id">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -35,7 +35,7 @@
 
                 <div class="form-group">
                     <label for="userPassword" class="col-sm-3 control-label">User Password</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <input type="text" class="form-control" name="userPassword" id="userPassword" placeholder="Enter user's password">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -44,10 +44,10 @@
                 </div>
                 <div class="form-group">
                     <label for="" class="col-sm-3 control-label">User Roles</label>
-                    <div class="col-sm-9">
+                    <div class="col-sm-6">
                         <div id="eventsRolesList">
                             <div>
-                                <select name="roles[]">
+                                <select name="roles[]" class="form-control">
                                     <option>Select Role</option>
                                     <?php
                                     foreach($roles as $role)
@@ -60,7 +60,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button id="addMore" class="btn btn-primary" type="button"><span class="glyphicon-plus"></span></button>
+                        <button id="addMore" class="btn btn-primary" style="margin-top: 10px;" type="button"><span class="glyphicon-plus"></span></button>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php  ?>

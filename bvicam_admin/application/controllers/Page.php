@@ -28,10 +28,9 @@ class Page extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-        if($page == "home")
-        {
+
             $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
-        }
+
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         $this->load->view('pages/'.$page, $this->data);
@@ -64,19 +63,12 @@ class Page extends CI_Controller
             {
                 $_SESSION['sudo'] = true;
                 $this->load->model('role_model');
-                $_SESSION['sudo'] = true;
-                $this->load->model('application_model');
-                $applications = $this->application_model->getAllApplications();
-                foreach($applications as $app)
-                {
-                    $this->data['applications'][$app->application_id] = $app->application_name;
-                }
                 $roles = array();
                 foreach($_SESSION[APPID]['role_id'] as $roleId)
                 {
                     {
                         $roleDetails = $this->role_model->getRoleDetails($roleId);
-                        if($roleDetails != null)
+                        if($roleDetails != null && $roleDetails->role_application_id."a" == APPID)
                             $roles[] = $roleDetails;
                     }
                 }
@@ -107,6 +99,10 @@ class Page extends CI_Controller
             {
                 redirect('Page/logout');
             }
+        }
+        else
+        {
+            redirect('Page/login');
         }
     }
 

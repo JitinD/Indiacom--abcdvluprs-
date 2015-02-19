@@ -18,6 +18,8 @@ class UserManager extends CI_Controller
         $this->load->model('access_model');
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        $sidebarData['controllerName'] = $controllerName = "UserManager";
+        $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/UserManager/'.$page.'.php'))
         {
             show_404();
@@ -27,12 +29,19 @@ class UserManager extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-
+        $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-        $this->load->view('templates/sidebar');
+        $this->load->view('templates/sidebar', $sidebarData);
         $this->load->view('pages/UserManager/'.$page, $this->data);
         $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+        $links['newUser'] = "Create New User";
+        $links['load'] = "View All Users";
+        return $links;
     }
 
     public function load()

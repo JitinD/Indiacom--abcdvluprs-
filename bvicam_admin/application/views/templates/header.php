@@ -10,11 +10,11 @@
     <meta name="author" content="abcdvluprs">
     <!--<link rel="stylesheet" href= "/<?php /*echo PATH */?>assets/css/bootstrap.css">-->
     <link rel="icon" href="#">
-    <link rel="stylesheet" href= "/<?php echo PATH ?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href= "/<?php echo PATH ?>assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/dashboard.css">
     <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/siteStyle.css">
     <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/textStyle.css">
 <!--    <link rel="stylesheet" href="/--><?php //echo PATH ?><!--assets/css/flat-ui.css">-->
-    <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/dashboard.css">
 <!--    <link rel="stylesheet" href="/--><?php //echo PATH ?><!--assets/css/signin.css">-->
     <script src="/<?php echo PATH ?>assets/js/jquery.min.js"></script>
     <script src="/<?php echo PATH ?>assets/js/bootstrap.min.js"></script>

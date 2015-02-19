@@ -31,7 +31,7 @@
     <script>
         $(document).ready(function (){
             var speed=300;
-            var speedfast=100;
+            var speedfast=0;
             $('#hideSidePanel #hide').show();
             $('#hideSidePanel #show').hide();
             $('#hideSidePanel').click(function()
