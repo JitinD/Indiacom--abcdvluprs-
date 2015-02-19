@@ -1,5 +1,10 @@
 <?php /*print_r($attendance); */?>
 
+<?php
+    if(isset($paperDetails))
+    {
+?>
+
 <div class="col-sm-12 col-md-12 main">
 
     <table class="table table-striped table-hover table-responsive">
@@ -249,9 +254,15 @@
         }
     ?>
     </table>
+
+    <a href = "<?php echo "/".BASEURL."index.php/DeliverablesManager/assignPaperDeliverables/".$paperDetails -> paper_id;; ?>">Assign Deliverables</a>
 </div>
 
-
+<?php
+    }
+    else
+        echo "<h1>Sorry no such paper Id in our database</h1>";
+?>
 <script>
     $(document).ready(function () {
         $(".radio").click(function()

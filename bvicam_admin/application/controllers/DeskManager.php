@@ -73,9 +73,15 @@ class DeskManager extends CI_Controller
     private function getPaperInfo($paper_id)
     {
         $this->data['paperDetails'] = $this->paper_model->getPaperDetails($paper_id);
-        $this->data['subjectDetails'] = $this->subject_model->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
-        $this->data['trackDetails'] = $this->track_model->getTrackDetails($this->data['subjectDetails']->subject_track_id);
-        $this->data['eventDetails'] = $this->event_model->getEventDetails($this->data['trackDetails']->track_event_id);
+
+        if(isset($this->data['paperDetails']))
+            $this->data['subjectDetails'] = $this->subject_model->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
+
+        if(isset($this->data['subjectDetails']))
+            $this->data['trackDetails'] = $this->track_model->getTrackDetails($this->data['subjectDetails']->subject_track_id);
+
+        if(isset($this->data['trackDetails']))
+            $this->data['eventDetails'] = $this->event_model->getEventDetails($this->data['trackDetails']->track_event_id);
         $this->data['submissions'] = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paper_id);
 
     }
@@ -96,38 +102,43 @@ class DeskManager extends CI_Controller
 
         $paper_authors_array = $this->submission_model->getAllAuthorsOfPaper($paper_id);
 
-        foreach ($paper_authors_array as $index => $author) {
-            $member_id = $author->submission_member_id;
+        if(isset($paper_authors_array))
+        {
+            foreach ($paper_authors_array as $index => $author)
+            {
+                $member_id = $author->submission_member_id;
 
-            $memberInfo = $this->member_model->getMemberInfo($member_id);
+                $memberInfo = $this->member_model->getMemberInfo($member_id);
 
-            $member_id_name_array[$member_id] = $memberInfo['member_name'];
-            $this->data['member_id_name_array'] = $member_id_name_array;
+                $member_id_name_array[$member_id] = $memberInfo['member_name'];
+                $this->data['member_id_name_array'] = $member_id_name_array;
 
-            if ($memberInfo) {
-                $this->data['registrationCat'][$member_id] = $this->member_model->getMemberCategory($member_id);
-                $this->data['papers'][$member_id] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
-                $this->data['isMemberRegistered'][$member_id] = $this->payment_model->isMemberRegistered($member_id);
+                if ($memberInfo) {
+                    $this->data['registrationCat'][$member_id] = $this->member_model->getMemberCategory($member_id);
+                    $this->data['papers'][$member_id] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
+                    $this->data['isMemberRegistered'][$member_id] = $this->payment_model->isMemberRegistered($member_id);
 
-                $papers = $this->data['papers'][$member_id];
-                foreach ($papers as $index => $paper) {
-                    $this->data['isPaperRegistered'][$paper->paper_id] = $this->payment_model->isPaperRegistered($paper->paper_id);
-                    $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
+                    $papers = $this->data['papers'][$member_id];
+
+                    foreach ($papers as $index => $paper) {
+                        $this->data['isPaperRegistered'][$paper->paper_id] = $this->payment_model->isPaperRegistered($paper->paper_id);
+                        $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
+                    }
+
+                    //$this->data['isPaperRegistered'] = $isPaperRegistered;
+
+                    $paperPayables = $this->payment_model->calculatePayables(
+                        $member_id,
+                        DEFAULT_CURRENCY,
+                        $this->data['registrationCat'][$member_id],
+                        $this->data['papers'][$member_id],
+                        date("Y-m-d")
+                    );
                 }
+                //$paper_authors_payables[$member_id] = $paperPayables;
 
-                //$this->data['isPaperRegistered'] = $isPaperRegistered;
-
-                $paperPayables = $this->payment_model->calculatePayables(
-                    $member_id,
-                    DEFAULT_CURRENCY,
-                    $this->data['registrationCat'][$member_id],
-                    $this->data['papers'][$member_id],
-                    date("Y-m-d")
-                );
+                $this->data['paper_authors_payables'][$member_id] = $paperPayables;
             }
-            //$paper_authors_payables[$member_id] = $paperPayables;
-
-            $this->data['paper_authors_payables'][$member_id] = $paperPayables;
         }
         $this->index($page);
     }
@@ -159,7 +170,8 @@ class DeskManager extends CI_Controller
                 $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
             }
 
-            $this->data['isPaperRegistered'] = $isPaperRegistered;
+            if(isset($isPaperRegistered))
+                $this->data['isPaperRegistered'] = $isPaperRegistered;
 
             $this->data['papersInfo'] = $this->payment_model->calculatePayables(
                 $member_id,

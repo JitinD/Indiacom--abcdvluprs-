@@ -1,4 +1,8 @@
 <?php /*print_r($papersInfo); */?>
+<?php
+    if(isset($memberDetails))
+    {
+?>
 
 <div class="col-sm-12 col-md-12 main">
 
@@ -110,7 +114,7 @@
                                     echo "0";
                             ?>
                         </td>
-                        <td>
+                        <td class = "pending_amount" data-pending_amount = "<?php echo $papersInfo[$paper -> paper_id]['pending']; ?>">
                             <?php
                                 if(isset($papersInfo[$paper -> paper_id]['pending']))
                                     echo $papersInfo[$paper -> paper_id]['pending'];
@@ -238,8 +242,17 @@
     <a href = "<?php echo "/".BASEURL."index.php/DeliverablesManager/assignMemberDeliverables/".$memberDetails['member_id']; ?>">Assign Member Deliverables</a>
 </div>
 
+<?php
+    }
+    else
+        echo "<h1>Sorry no such member Id in our database</h1>";
+?>
 <script>
     $(document).ready(function () {
+
+        //var pending_ref = $this.parent().parent();
+        //var pending_amount = $('.pending_amount', pending_ref).attr('data-pending_amount');
+
         $(".radio").click(function()
         {
             var val = $(this).siblings().first().val()

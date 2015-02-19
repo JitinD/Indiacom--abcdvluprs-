@@ -34,22 +34,23 @@
                                 <?php
                                     if(isset($payments -> submission_paper_id))
                                         echo $payments -> submission_paper_id;
+
                                 ?>
                             </td>
                             <td>
-                                <select name = "deliverables_status" class="form-control attendance_on_desk">
+                                <select name = "deliverables_status" class="form-control deliverables_status">
                                     <?php
                                     $deliverable_status = array("Not assigned", "Assigned");
 
-                                    for($index = 0; $index < 2; $index++)
+                                    for($arr_index = 0; $arr_index < 2; $arr_index++)
                                     {
                                         ?>
-                                        <option value = "<?php echo $index; ?>"
+                                        <option value = "<?php echo $arr_index; ?>"
                                             <?php
-                                                if(isset($deliverablesStatus[$payments -> submission_member_id][$payments -> submission_paper_id]['status']) && $deliverablesStatus[$payments -> submission_member_id][$payments -> submission_paper_id]['status'] == $index)
+                                                if(isset($deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status']) && $deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status'] == $arr_index)
                                                     echo "selected";
                                             ?>>
-                                            <?php echo $deliverable_status[$index]; ?>
+                                            <?php echo $deliverable_status[$arr_index]; ?>
                                         </option>
                                     <?php
                                     }
@@ -77,6 +78,7 @@
             var ref_td = $(this).parent();
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
             var isDeliverablesAssigned = $(this).val();
+
             $('.attInfo', ref_td).html("Updating");
             $.ajax({
                 type: "POST",

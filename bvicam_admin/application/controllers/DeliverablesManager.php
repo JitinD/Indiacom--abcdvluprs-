@@ -48,11 +48,6 @@ class DeliverablesManager extends CI_Controller
         $submission_id = $this->input->post('submissionId');
         $is_deliverables_assigned = $this->input->post('isDeliverablesAssigned');
 
-        if($submission_id)
-            $member_id = null;
-        else
-            $submission_id = null;
-
         $deliverablesStatusRecord = array(
                 'event_id' => EVENT_ID,
                 'member_id' => $member_id,
@@ -68,20 +63,43 @@ class DeliverablesManager extends CI_Controller
     {
         $this->load->model('payment_model');
         $this->load->model('payment_head_model');
+
         $brPayheadId = $this->payment_head_model->getPaymentHeadId("BR");
         $prPayheadId = $this->payment_head_model->getPaymentHeadId("PR");
+
         if($brPayheadId == null || $prPayheadId == null)
         {
             return false;
         }
-        $payments[$brPayheadId] = $this->payment_model->getPayments($memberId, null, $brPayheadId);
-        $payments[$prPayheadId] = $this->payment_model->getPayments($memberId, null, $prPayheadId);
-        return $payments;
+
+        $orig_payments[$brPayheadId] = $this->payment_model->getPayments($memberId, null, $brPayheadId);
+        $orig_payments[$prPayheadId] = $this->payment_model->getPayments($memberId, null, $prPayheadId);
+
+        $payments = array();
+
+        /*foreach($orig_payments as $payheadId => $payments_array)
+        {
+            foreach($payments_array as $index => $payments)
+            {
+                $payable_class_amount = $payments -> payable_class_amount;
+                $waiveoff_amount = $payments -> waiveoff_amount;
+                $discount_amount = $payments -> discount_type_amount ? $payments -> discount_type_amount : 0;
+                $pay_amount = $payable_class_amount - ($waiveoff_amount + $discount_amount);
+                $paid_amount = $payments -> paid_amount;
+
+                $pending_amount = $pay_amount - $paid_amount;
+
+                if($pending_amount == 0)
+                   $payments[$payheadId] = $this->payment_model->getPayments($memberId, null, $payheadId);
+            }
+        }*/
+
+        return $orig_payments;
     }
 
     public function assignMemberDeliverables($member_id)
     {
-        $page = "assignDeliverables";
+        $page = "assignMemberDeliverables";
 
         $this -> load -> model('deliverables_model');
 
@@ -90,7 +108,34 @@ class DeliverablesManager extends CI_Controller
         foreach($this -> data['deliverablesPayments'] as $payheadId => $payments_array)
         {
             foreach($payments_array as $index => $payments)
-                $this -> data['deliverablesStatus'][$payments -> submission_member_id][$payments -> submission_paper_id] = $this -> deliverables_model -> getDeliverablesStatusRecord($payments -> submission_member_id, $payments -> submission_paper_id);
+                $this -> data['deliverablesStatus'][$payments -> submission_member_id][$payments -> payment_submission_id] = $this -> deliverables_model -> getDeliverablesStatusRecord($payments -> submission_member_id, $payments -> payment_submission_id);
+        }
+
+        $this -> index($page);
+
+    }
+
+    public function assignPaperDeliverables($paper_id)
+    {
+        $page = "assignPaperDeliverables";
+
+        $this -> load -> model('submission_model');
+        $this -> load -> model('deliverables_model');
+
+        $paper_authors_array = $this->submission_model->getAllAuthorsOfPaper($paper_id);
+
+        foreach ($paper_authors_array as $index => $author)
+        {
+            $member_id = $author->submission_member_id;
+
+            $this -> data['deliverablesPayments'][$member_id] = $this -> getMemberDeliverablesPayments($member_id);
+
+            foreach($this -> data['deliverablesPayments'][$member_id] as $payheadId => $payments_array)
+            {
+                foreach($payments_array as $index => $payments)
+                    $this -> data['deliverablesStatus'][$payments -> submission_member_id][$payments -> payment_submission_id] = $this -> deliverables_model -> getDeliverablesStatusRecord($payments -> submission_member_id, $payments -> payment_submission_id);
+            }
+
         }
 
         $this -> index($page);

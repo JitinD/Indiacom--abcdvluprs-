@@ -47,14 +47,23 @@ class deliverables_model extends CI_Model
             $this -> db -> where('deliverables_status_id', $record['deliverables_status_id']);
             $this -> db -> update($this -> entity, $deliverablesStatusRecord);
         }
+
         return $this->db->trans_status();
     }
 
     public function getDeliverablesStatusRecord($member_id, $submission_id)
     {
-        $sql = "Select * From deliverables_status Where member_id = ? and submission_id = ? ";
+        $sql =
+                "Select * From deliverables_status
+                 Where
+                    Case
+                        When $submission_id is not null
+                            Then submission_id = ?
+                        Else member_id = ?
+                    End";
 
-        $query = $this->db->query($sql, array($member_id, $submission_id));
+
+        $query = $this->db->query($sql, array($submission_id, $member_id));
 
         if ($query->num_rows() == 0)
             return null;
