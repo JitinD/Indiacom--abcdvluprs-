@@ -1,16 +1,20 @@
 <?php /*print_r($papersInfo); */?>
+
+<div class="col-sm-12 col-md-12 main">
+
+<h3><a href = "<?php echo '/'.BASEURL.'index.php/DeskManager/home/'; ?>">Home</a></h3>
+
 <?php
     if(isset($memberDetails))
     {
 ?>
 
-<div class="col-sm-12 col-md-12 main">
 
     <form id = "searchByForm" class="form-horizontal" enctype="multipart/form-data" method="post">
 
         <div class="form-group">
             <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search
-                Value</label>
+                Member</label>
 
             <div class="col-sm-5">
                 <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"
@@ -99,8 +103,17 @@
                 {
         ?>
                     <tr>
-                        <td class="paper_id" data-paper_id="<?php echo $paper->paper_id; ?>"><?php echo $paper -> paper_code;?></td>
-                        <td><?php echo $paper -> paper_title; ?></td>
+                        <td class="paper_id" data-paper_id="<?php if(isset($paper -> paper_id)) echo $paper->paper_id; ?>">
+                            <?php if(isset($paper -> paper_code))
+                                    echo $paper -> paper_code;
+                            ?>
+                        </td>
+
+                        <td>
+                            <?php if(isset($paper -> paper_title))
+                                echo $paper -> paper_title;
+                            ?>
+                        </td>
                         <td>
                             <?php
                                 if(isset($isPaperRegistered))
@@ -137,7 +150,7 @@
                                     echo "0";
                             ?>
                         </td>
-                        <td class = "pending_amount" data-pending_amount = "<?php echo $papersInfo[$paper -> paper_id]['pending']; ?>">
+                        <td class = "pending_amount" data-pending_amount = " <?php  if(isset($papersInfo[$paper -> paper_id]['pending'])) echo $papersInfo[$paper -> paper_id]['pending']; ?>">
                             <?php
                                 if(isset($papersInfo[$paper -> paper_id]['pending']))
                                     echo $papersInfo[$paper -> paper_id]['pending'];
@@ -235,7 +248,7 @@
                         <td>
                             <select name = "attendance_on_desk" class="form-control attendance_on_desk"
                                 <?php
-                                    if(isset($papersInfo[$paper -> paper_id]['pending']) && $papersInfo[$paper -> paper_id]['pending'])
+                                    if(isset($papersInfo[$paper -> paper_id]['pending']) && $papersInfo[$paper -> paper_id]['pending'] != 0)
                                         echo "disabled";
                                 ?>
                             >
@@ -267,14 +280,42 @@
         </tbody>
     </table>
 
-    <a href = "<?php echo "/".BASEURL."index.php/DeliverablesManager/assignMemberDeliverables/".$memberDetails['member_id']; ?>">Assign Member Deliverables</a>
+    <a href = "<?php if(isset($memberDetails['member_id'])) echo "/".BASEURL."index.php/DeliverablesManager/assignMemberDeliverables/".$memberDetails['member_id']; ?>">Assign Member Deliverables</a>
 </div>
 
 <?php
     }
     else
+    {
         echo "<h1>Sorry no such member Id in our database</h1>";
 ?>
+        <form id = "searchByForm" class="form-horizontal" enctype="multipart/form-data" method="post">
+
+            <div class="form-group">
+                <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search
+                    Member</label>
+
+                <div class="col-sm-5">
+                    <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"
+                           value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter value">
+                </div>
+                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                    <?php echo form_error('searchValue'); ?>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-6">
+                    <button type="button" id = "submitButton" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        </form>
+<?php
+    }
+?>
+
+
 <script>
     $(document).ready(function () {
 
@@ -315,10 +356,13 @@
         $('#submitButton').click(function()
         {
             url = location.href;
-            var value = url.substring(url.lastIndexOf('/') + 1);
-            url = url.replace(value, $('#searchValue').val());
-            location.href = url;
+            urlArray = url.split('/');
 
+            lastSegment = urlArray.length - 1;
+            urlArray[lastSegment] = $('#searchValue').val();
+
+            url = urlArray.join("/");
+            location.href = url;
         });
 
         $("#searchByForm").keypress(function(e) {
