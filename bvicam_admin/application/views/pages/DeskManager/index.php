@@ -83,19 +83,11 @@
 
 <script>
    $(document).ready(function () {
-        /*var options = {
-            valueNames: [
-                'memberId',
-                'memberName'
-            ]
-        };
 
-        var transList = new List('memberList', options);
-        transList.add({memberId: '1212', memberName: 'Jitin'});
-*/
        $('#memberList').hide();
+       $("input:radio[value = MemberID]").prop('checked', 'checked');
 
-        $('#submitButton').click(function(){
+       $('#submitButton').click(function(){
 
             if($("input[name=searchBy]:checked").val() == "MemberName")
             {
@@ -113,10 +105,10 @@
                             var obj = jQuery.parseJSON(records);
 
                             $.each(obj, function(key,value) {
-                                $("#matchingMemberRecords").find('tbody').append($('<tr>').append($('<td>').text(value.member_id)).append($('<td>').text(value.member_name)));
-
+                                $("#matchingMemberRecords").find('tbody').append($('<tr>').append($('<td  class = "member">').text(value.member_id)).append($('<td>').text(value.member_name)));
 
                             });
+
                         }
 
                     }
@@ -127,6 +119,29 @@
                 $('#searchByForm').submit();
             }
         });
+
+       $("#searchByForm").keypress(function(e) {
+           if(e.which == 13)
+           {
+               $("#submitButton").click();
+               event.preventDefault();
+           }
+       });
+
+       $(document).ajaxSuccess(function()
+       {
+            $('.member').click(function()
+            {
+                var member_id = $(this).text();
+
+                $('#searchValue').val(member_id);
+                $("input:radio[value = MemberID]").prop('checked', 'checked');
+                //alert($("input[name=searchBy]:checked").val());
+                $('#searchByForm').submit();
+            });
+       });
+
     });
 
 </script>
+

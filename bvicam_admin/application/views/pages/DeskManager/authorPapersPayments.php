@@ -6,6 +6,29 @@
 
 <div class="col-sm-12 col-md-12 main">
 
+    <form id = "searchByForm" class="form-horizontal" enctype="multipart/form-data" method="post">
+
+        <div class="form-group">
+            <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search
+                Value</label>
+
+            <div class="col-sm-5">
+                <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"
+                       value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter value">
+            </div>
+            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                <?php echo form_error('searchValue'); ?>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-6">
+                <button type="button" id = "submitButton" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+
+    </form>
+
     <table class="table table-striped table-hover table-responsive">
         <tbody>
             <tr>
@@ -287,6 +310,23 @@
                     }
                 }
             });
+        });
+
+        $('#submitButton').click(function()
+        {
+            url = location.href;
+            var value = url.substring(url.lastIndexOf('/') + 1);
+            url = url.replace(value, $('#searchValue').val());
+            location.href = url;
+
+        });
+
+        $("#searchByForm").keypress(function(e) {
+            if(e.which == 13)
+            {
+                $("#submitButton").click();
+                event.preventDefault();
+            }
         });
     });
 </script>
