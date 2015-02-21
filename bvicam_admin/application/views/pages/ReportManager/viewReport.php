@@ -6,10 +6,10 @@
  * Time: 8:25 PM
  */
 ?>
-<div style="padding-top: 120px;"></div>
-<div>
-    <div id="trans-list" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <table class="table table-responsive table-hover">
+<div class="row">
+    <div id="trans-list" class="col-md-12">
+        <h1 class="page-header">Report Generator</h1>
+        <table class="table table-responsive table-hover table-condensed">
             <thead>
             <?php if ($fields == null) {
                 echo "No results found";
