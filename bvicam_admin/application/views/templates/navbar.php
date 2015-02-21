@@ -2,8 +2,9 @@
     <div class="container-fluid">
         <div class="col-md-8 col-sm-8 col-xs-8">
             <a data-toggle="modal" data-target="#myModal">
-                <span class="btn btn-lg">BVICAM Admin System</span>
+                <img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="btn btn-lg" style="height: 60px; ;">
             </a>
+            <span class="btn">BVICAM Admin System</span>
         </div>
         <div class="nav navbar-nav navbar-right">
             <?php

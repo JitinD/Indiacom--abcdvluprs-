@@ -10,7 +10,7 @@
     <h1 class="page-header"><?php if($isUnusedTransactionList) echo "Unused "; ?>Transactions</h1>
     <div class="row">
         <div id="trans-list" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <table class="table table-responsive table-hover">
+            <table class="table table-responsive table-hover table-condensed">
                 <thead>
                 <tr>
                     <th class="sort btn-link" data-sort="sno">#</th>

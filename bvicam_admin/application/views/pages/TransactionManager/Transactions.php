@@ -8,7 +8,7 @@
         }
     ?>
 
-    <table class="table table-hover table-striped body-text">
+    <table class="table table-hover table-striped body-text  table-condensed">
 
         <thead>
             <tr>

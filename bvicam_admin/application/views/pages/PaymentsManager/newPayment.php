@@ -33,7 +33,7 @@
             if (!empty($transDetails)) {
             ?>
                 <div class="col-md-6 col-sm-6">
-                    <table class="table table-responsive table-striped table-hover h4 table-condensed">
+                    <table class="table table-responsive table-striped table-hover h5 table-condensed">
                         <tr>
                             <td>Transaction ID</td>
                             <td>
@@ -156,7 +156,7 @@
                 if (!isset($paymentMemberId) && !empty($transDetails) && $transDetails->transaction_EQINR - $transUsedAmount > 0) {
                 ?>
                     <div class="form-group">
-                        <label class="col-sm-6" for="memberId">Member ID</label>
+                        <label class="col-sm-3" for="memberId">Member ID</label>
                         <div class="col-sm-6">
                             <input id="memberId" name="payment_memberId" type="text" class="form-control">
                         </div>
@@ -241,7 +241,7 @@
                     }
                 }
                 ?>
-                <table class="table table-responsive table-striped table-hover">
+                <table class="table table-responsive table-striped table-hover table-condensed">
                     <thead>
                     <tr>
                         <th>Paper Code</th>

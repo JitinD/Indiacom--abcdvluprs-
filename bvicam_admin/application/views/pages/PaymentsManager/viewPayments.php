@@ -15,7 +15,7 @@
         <h1 class="page-header">Member Payments</h1>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table class="table table-responsive table-hover">
+                <table class="table table-responsive table-hover table-condensed">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -45,7 +45,7 @@
                                 <td><?php echo $memberId; ?></td>
                                 <td class="text-capitalize"><?php echo $memberDetails[$memberId]['member_name']; ?></td>
                                 <td>
-                                    <table class="table">
+                                    <table class="table table-condensed">
                                         <thead>
                                         <tr>
                                             <th>PaperId</th>
@@ -102,7 +102,7 @@
                                             </tr>
                                             <tr style="display: none;">
                                                 <td colspan="10">
-                                                    <table class="table">
+                                                    <table class="table table-condensed">
                                                         <thead>
                                                         <tr>
                                                             <th>Payment Details</th>
@@ -134,7 +134,7 @@
         <h1 class="page-header">Paper Payments</h1>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table class="table table-responsive table-hover">
+                <table class="table table-responsive table-hover table-condensed">
                     <thead>
                     <tr>
                         <th>#</th>
@@ -164,7 +164,7 @@
                                 <td><?php echo $paperDetails[$paperId]->paper_code; ?></td>
                                 <td><?php echo $paperDetails[$paperId]->paper_title; ?></td>
                                 <td>
-                                    <table class="table">
+                                    <table class="table table-condensed table-responsive">
                                         <thead>
                                         <tr>
                                             <th>MemberId</th>

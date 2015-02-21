@@ -7,9 +7,10 @@
 {
     color: #f3f3f3;
 }
-.body-text
+body
 {
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 14px;
+    font-weight: lighter;
+    line-height: 22px;
     font-family: 'Segoe UI', 'wf_segoe-ui', Helvetica, Arial, sans-serif;
 }

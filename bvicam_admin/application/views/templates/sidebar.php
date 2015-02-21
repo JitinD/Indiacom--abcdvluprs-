@@ -7,8 +7,8 @@
  */
 ?>
 <div class="row main">
-    <div class="col-sm-2 col-md-2 main" id="sidebar">
-        <div class="list-group well" style="position: fixed;">
+    <div class="col-sm-2 col-md-2 main" id="sidebar" style="">
+        <div class="list-group well" style="position: fixed;height: 100%;">
             <?php
             if(isset($links))
             {
@@ -22,7 +22,7 @@
             ?>
         </div>
     </div>
-    <div style="position: fixed; z-index: 100; margin: auto 0px;">
+    <div style="position: fixed;  z-index: 100; margin: auto 0px;">
         <button type="button" class="btn btn-sm" style="margin-left: -12px; padding-right: 2px;" id="hideSidePanel" data-state="1">
             <span class="glyphicon glyphicon-chevron-right" id="show"></span>
             <span class="glyphicon glyphicon-chevron-left" id="hide"></span>
