@@ -45,7 +45,7 @@ class DeskManager extends CI_Controller
 
     public function home()
     {
-        $page = "index";
+//        $page = "index";
 
         $this->load->library('form_validation');
 
@@ -58,11 +58,11 @@ class DeskManager extends CI_Controller
             $search_value = $this->input->post('searchValue');
 
             switch ($search_by) {
-                case 'MemberID':    if(isset($search_value) && $search_value)
+                case 'MemberID':    if(isset($search_value))
                                         redirect('/DeskManager/viewAuthorPapersPayments/' . $search_value);
                                     break;
 
-                case 'PaperID':     if(isset($search_value) && $search_value)
+                case 'PaperID':     if(isset($search_value))
                                         redirect('/DeskManager/viewPaperAuthorsPayments/' . $search_value);
                                     break;
 
@@ -71,7 +71,7 @@ class DeskManager extends CI_Controller
             }
         }
 
-        $this->index($page);
+ //       $this->index($page);
     }
 
     private function getMatchingMembers_AJAX($member_name)
@@ -103,18 +103,21 @@ class DeskManager extends CI_Controller
     {
         $page = "paperAuthorsPayments";
 
-        $this->getPaperInfo($paper_id);
+        $this -> home();
 
-        $this->load->model('paper_status_model');
-        $this->load->model('member_categories_model');
-        $this->load->model('member_model');
-        $this->load->model('payment_model');
-        $this->load->model('discount_model');
-        $this->load->model('paper_model');
-        $this->load->model('attendance_model');
-
-        if(isset($paper_id) && $paper_id)
+        if($paper_id)
         {
+            $this->load->model('paper_status_model');
+            $this->load->model('member_categories_model');
+            $this->load->model('member_model');
+            $this->load->model('payment_model');
+            $this->load->model('discount_model');
+            $this->load->model('paper_model');
+            $this->load->model('attendance_model');
+
+            $this->getPaperInfo($paper_id);
+            $this->data['PaperRegistered'] = $this->payment_model->isPaperRegistered($paper_id);
+
             $paper_authors_array = $this->submission_model->getAllAuthorsOfPaper($paper_id);
 
             if(isset($paper_authors_array))
@@ -156,6 +159,10 @@ class DeskManager extends CI_Controller
                 }
             }
         }
+        else
+        {
+            $this->data['paperId'] = false;
+        }
 
         $this->index($page);
     }
@@ -164,7 +171,9 @@ class DeskManager extends CI_Controller
     {
         $page = "authorPapersPayments";
 
-        if(isset($member_id) && $member_id)
+        $this -> home();
+
+        if($member_id)
         {
             $this->load->model('paper_status_model');
             $this->load->model('member_categories_model');
@@ -173,6 +182,7 @@ class DeskManager extends CI_Controller
             $this->load->model('discount_model');
             $this->load->model('paper_model');
             $this->load->model('attendance_model');
+
 
             $this->data['memberDetails'] = $this->member_model->getMemberInfo($member_id);
 
@@ -201,6 +211,11 @@ class DeskManager extends CI_Controller
                 );
             }
         }
+        else
+        {
+            $this->data['memberId'] = false;
+        }
+
         $this->index($page);
     }
 }
