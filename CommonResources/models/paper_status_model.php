@@ -43,7 +43,7 @@ class Paper_status_model extends CI_Model
     }
 
     //Get accepted papers of a track
-    public function getTrackAcceptedPapersInfo($member_id, $track_id)
+    public function getTrackAcceptedPapersInfo($member_id)
     {
         $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id
                 From
@@ -62,15 +62,14 @@ class Paper_status_model extends CI_Model
                 Where
                   submission_member_id = ? And
                   submission_dirty = 0 AND
-                  subject_track_id= ? AND
                   review_result_id = ?";
-        $query = $this->db->query($sql, array($member_id, $track_id, REVIEW_RESULT_ACCEPTED_ID));
+        $query = $this->db->query($sql, array($member_id,REVIEW_RESULT_ACCEPTED_ID));
         if ($query->num_rows() == 0)
             return array();
         return $query->result();
     }
 
-    public function getTrackMemberInfo($paper_id, $track_id)
+    public function getTrackMemberInfo($paper_id)
     {
         $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,member_master.member_name
                 From
@@ -92,9 +91,8 @@ class Paper_status_model extends CI_Model
                 Where
                   paper_master.paper_code = ? And
                   submission_dirty = 0 AND
-                  subject_track_id= ? AND
                   review_result_id = ?";
-        $query = $this->db->query($sql, array($paper_id, $track_id, REVIEW_RESULT_ACCEPTED_ID));
+        $query = $this->db->query($sql, array($paper_id,REVIEW_RESULT_ACCEPTED_ID));
         if ($query->num_rows() == 0)
             return array();
         return $query->result();

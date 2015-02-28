@@ -18,16 +18,14 @@ class TrackManager extends CI_Controller
     private function index($page)
     {
         $this->load->model('access_model');
-        require(dirname(__FILE__).'/../config/privileges.php');
-        require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        require(dirname(__FILE__) . '/../utils/ViewUtils.php');
 
-        if ( ! file_exists(APPPATH.'views/pages/TrackManager/'.$page.'.php'))
-        {
+        if (!file_exists(APPPATH . 'views/pages/TrackManager/' . $page . '.php')) {
             show_404();
             show_404();
         }
-        if(isset($privilege['Page']['TrackManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['TrackManager'][$page]))
-        {
+        if (isset($privilege['Page']['TrackManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['TrackManager'][$page])) {
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
@@ -35,80 +33,104 @@ class TrackManager extends CI_Controller
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         //$this->load->view('templates/sidebar');
-        $this->load->view('pages/TrackManager/'.$page, $this->data);
+        $this->load->view('pages/TrackManager/' . $page, $this->data);
         $this->load->view('templates/footer');
     }
+
     public function home()
     {
-        $page = "selectTrack";
-        $this->load->helper('url');
-        $this->load->model('track_model');
-        $this->data['tracks'] = $this->track_model->getAllTracks(EVENT_ID);
-        $_SESSION[APPID]['track_id']= $this->input->post('track');
-        if ($_SESSION[APPID]['track_id']> 0) {
-            redirect("/TrackManager/search");
-        }
-        $this->index($page);
-    }
-    public function search()
-    {
-        $page = "searchMember";
-
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('searchvalue', 'Search value', 'required');
+        $this->form_validation->set_rules('searchValue', 'Search value', 'required');
 
         if ($this->form_validation->run()) {
             $this->load->helper('url');
 
-            $search_by = $this->input->post('searchby');
-            $search_value = $this->input->post('searchvalue');
+            $search_by = $this->input->post('searchBy');
+            $search_value = $this->input->post('searchValue');
 
             switch ($search_by) {
                 case 'MemberID':
-                    redirect('/TrackManager/markAuthorAttendance/' .$_SESSION[APPID]['track_id'].'/'. $search_value);
+                    if (isset($search_value))
+                        redirect('/TrackManager/markAuthorAttendance/' . $search_value);
                     break;
 
                 case 'PaperID':
-                    redirect('/TrackManager/markPaperAttendance/'.$_SESSION[APPID]['track_id'].'/'. $search_value);
+                    if (isset($search_value))
+                        redirect('/TrackManager/markPaperAttendance/' . $search_value);
                     break;
+
+                case 'MemberName':
+                    $this->getMatchingMembers_AJAX($search_value);
+                    return;
             }
         }
-        $this->index($page);
+
     }
 
-    public function markAuthorAttendance($track_id,$member_id)
+    private function getMatchingMembers_AJAX($member_name)
     {
-        $page="markMemberAttendance";
-        $this->load->model('paper_status_model');
-        $this->load->model('attendance_model');
-        $this->load->model('certificate_model');
-        $this->load->model('submission_model');
-        $this->load->model('certificate_model');
-        $this->data['papers'] = $this->paper_status_model->getTrackAcceptedPapersInfo($member_id, $track_id);
-        foreach ($this->data['papers'] as $paper) {
-            $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
-            $this->data['certificate'][$paper->paper_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
-        }
-        $this->index($page);
+        $this->load->model('member_model');
+
+        $matchingRecords = $this->member_model->getMatchingMembers($member_name);
+
+        echo json_encode($matchingRecords);
     }
 
-    public function markPaperAttendance($track_id,$paper_id)
+    public function markAuthorAttendance($member_id = null)
     {
-        $page="markPaperAttendance";
-        $this->load->helper('url');
-        $this->load->model('paper_status_model');
-        $this->load->model('attendance_model');
-        $this->load->model('certificate_model');
-        $this->load->model('submission_model');
-        $this->load->model('certificate_model');
-        $this->data['members'] = $this->paper_status_model->getTrackMemberInfo($paper_id, $track_id);
-        $member_id=$this->input->post('member_id');
-        if($member_id>0)
+        $this->home();
+        $page = "markAuthorAttendance";
+        if($member_id)
         {
-            redirect('/TrackManager/markAuthorAttendance/' .$_SESSION[APPID]['track_id'].'/'. $member_id);
+            $this->load->model('paper_status_model');
+            $this->load->model('attendance_model');
+            $this->load->model('certificate_model');
+            $this->load->model('submission_model');
+            $this->load->model('certificate_model');
+            $this->data['papers'] = $this->paper_status_model->getTrackAcceptedPapersInfo($member_id);
+            foreach ($this->data['papers'] as $paper) {
+                $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
+                $this->data['certificate'][$paper->paper_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
+            }
         }
+        else
+        {
+            $this->data['memberId'] = false;
+        }
+
+        $this->index($page);
+
+    }
+
+    public function markPaperAttendance($paper_id = null)
+    {
+        $page = "markPaperAttendance";
+
+        $this -> home();
+
+        if($paper_id)
+        {
+            $this->load->helper('url');
+            $this->load->model('paper_status_model');
+            $this->load->model('attendance_model');
+            $this->load->model('certificate_model');
+            $this->load->model('submission_model');
+            $this->load->model('certificate_model');
+            $this->data['members'] = $this->paper_status_model->getTrackMemberInfo($paper_id);
+            $member_id=$this->input->post('member_id');
+            if($member_id>0)
+            {
+                redirect('/TrackManager/markAuthorAttendance/' .$member_id);
+            }
+        }
+        else
+        {
+            $this->data['paperId'] = false;
+        }
+
         $this->index($page);
     }
+
 
 }
