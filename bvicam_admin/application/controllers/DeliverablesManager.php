@@ -45,16 +45,21 @@ class DeliverablesManager extends CI_Controller
         $this->load->model("submission_model");
 
         $member_id = $this->input->post('memberId');
-        $submission_id = $this->input->post('submissionId') == "" ? null : $this->input->post('submissionId');
+        $submission_id = $this->input->post('submissionId');
         $is_deliverables_assigned = $this->input->post('isDeliverablesAssigned');
 
+        if($submission_id != "")
+            $member_id = null;
+        else if($member_id != "")
+            $submission_id = null;
+        else
+            echo "false";
         $deliverablesStatusRecord = array(
                 'event_id' => EVENT_ID,
                 'member_id' => $member_id,
                 'submission_id' => $submission_id,
                 'status' => $is_deliverables_assigned
             );
-
 
         echo json_encode($this->deliverables_model->assignDeliverables($deliverablesStatusRecord));
     }

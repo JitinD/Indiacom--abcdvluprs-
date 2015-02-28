@@ -27,14 +27,14 @@
                     {
             ?>
                         <tr>
-                            <td class ="member_id" data-member_id="
-                                <?php
-                                    if(isset($payment -> payment_member_id))
-                                        echo $payment -> payment_member_id;
-                                    else if(isset($payment -> payment_submission_id))
-                                        echo $payment -> submission_member_id;
-                                ?>
-                            ">
+                            <td class ="member_id" data-member_id=
+                                "<?php
+                                if(isset($payment -> payment_member_id))
+                                    echo $payment -> payment_member_id;
+                                else if(isset($payment -> payment_submission_id))
+                                    echo $payment -> submission_member_id;
+                                ?>"
+                            >
                                 <?php
                                     if(isset($payment -> payment_member_id))
                                         echo $payment -> payment_member_id;

@@ -53,21 +53,31 @@ class deliverables_model extends CI_Model
 
     public function getDeliverablesStatusRecord($member_id, $submission_id)
     {
-        $sql =
+        /*$sql =
                 "Select * From deliverables_status
                  Where
                     Case
                         When submission_id is not null
                             Then submission_id = ?
                         Else member_id = ?
-                    End";
+                    End";*/
+        if($member_id == null)
+        {
+            $sql = "Select * From deliverables_status
+                    Where submission_id = ?";
+            $query = $this->db->query($sql, array($submission_id));
+        }
+        else if($submission_id == null)
+        {
+            $sql = "Select * From deliverables_status
+                    Where member_id = ?";
+            $query = $this->db->query($sql, array($member_id));
+        }
 
-
-        $query = $this->db->query($sql, array($submission_id, $member_id));
-
-        if ($query->num_rows() == 0)
-            return null;
-
-        return $query->row_array();
+        if(isset($query) && $query->num_rows() > 0)
+        {
+            return $query->row_array();
+        }
+        return null;
     }
 } 

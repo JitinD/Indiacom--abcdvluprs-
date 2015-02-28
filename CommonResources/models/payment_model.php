@@ -132,26 +132,41 @@ class Payment_model extends CI_Model
                         Join
                     transaction_master
                         On transaction_id = payment_trans_id
-                " . ($includeRejected ? " " : " Where is_verified != 2 ") .
-                "Group By payment_submission_id, payment_payable_class
+                Where is_verified != 2
+                Group By
+                    Case
+                        When payment_submission_id Is Null
+                        Then payment_member_id
+                        Else payment_submission_id
+                    End, payment_payable_class
             ) As table1
             Left Join
             (/* waiveoff_amount against mid,pid,payhead */
                 Select
                     payment_payable_class,
                     payment_submission_id,
+                    payment_member_id,
                     SUM(payment_amount_paid) as waiveoff_amount
                 From
                     payment_master
                         Join
                     transaction_master
                         On transaction_id = payment_trans_id
-                Where is_waived_off = 1 " . ($includeRejected ? "" : " And is_verified !=2 ") . "
-                Group By payment_submission_id, payment_payable_class
+                Where is_waived_off = 1 And is_verified !=2
+                Group By
+                    Case
+                        When payment_submission_id Is Null
+                        Then payment_member_id
+                        Else payment_submission_id
+                    End, payment_payable_class
             ) As table2
                 On
             table1.payment_payable_class = table2.payment_payable_class And
-            table1.payment_submission_id = table2.payment_submission_id
+            Case
+                When table1.payment_submission_id Is Null And table2.payment_submission_id Is Null
+                Then table1.payment_member_id = table2.payment_member_id
+                Else table1.payment_submission_id = table2.payment_submission_id
+            End
                 Left Join
             submission_master
                 On submission_master.submission_id = table1.payment_submission_id
