@@ -18,7 +18,7 @@
     }
 
 </style>
-<?php include(dirname(__FILE__) . "/../templates/dashLauncher.php"); ?>
+<?php //include(dirname(__FILE__) . "/../templates/dashLauncher.php"); ?>
 </div>
 <div class="container-fluid">
     <div class=" text-center text-muted footer row">

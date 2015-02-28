@@ -29,7 +29,7 @@ class Page extends CI_Controller
             return;
         }
 
-            $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
 
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);

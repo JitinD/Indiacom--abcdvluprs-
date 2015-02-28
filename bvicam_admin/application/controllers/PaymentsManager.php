@@ -31,10 +31,11 @@ class PaymentsManager extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-        $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $this->data);
-        $this->load->view('templates/sidebar', $sidebarData);
+        $this->load->view('templates/header');
+        $this->load->view('templates/navbar', $sidebarData);
+        //$this->load->view('templates/sidebar', $sidebarData);
         $this->load->view('pages/PaymentsManager/'.$page, $this->data);
         $this->load->view('templates/footer');
     }

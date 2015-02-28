@@ -6,12 +6,11 @@
  * Time: 11:47 PM
  */
 ?>
-
 <div id="contentPanel" class="col-sm-10 col-md-10">
     <h1 class="page-header">Roles</h1>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <table class="table table-responsive table-hover">
+            <table class="table table-responsive table-condensed">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -29,30 +28,32 @@
                         <td><?php echo $key+1; ?></td>
                         <td><?php echo $role->role_name; ?></td>
                         <td>
-                            <a class="btn btn-sm btn-default" href="viewRole/<?php echo $role->role_id; ?>">Edit Role</a>
-                            <?php
-                            if($role->role_dirty == 0)
-                            {
+                            <div class="btn-group">
+                                <a class="btn btn-sm btn-warning" href="viewRole/<?php echo $role->role_id; ?>">Edit Role</a>
+                                <?php
+                                if($role->role_dirty == 0)
+                                {
+                                    ?>
+                                    <a class="btn btn-sm btn-default" href="disableRole/<?php echo $role->role_id; ?>">Disable Role</a>
+                                <?php
+                                }
+                                else
+                                {
+                                    ?>
+                                    <a class="btn btn-sm btn-success" href="enableRole/<?php echo $role->role_id; ?>">Enable Role</a>
+                                <?php
+                                }
                                 ?>
-                                <a class="btn btn-sm btn-default" href="disableRole/<?php echo $role->role_id; ?>">Disable Role</a>
-                            <?php
-                            }
-                            else
-                            {
+                                <a class="btn btn-sm btn-danger" href="deleteRole/<?php echo $role->role_id; ?>">Delete Role</a>
+                                <?php
+                                if($_SESSION[APPID]['current_role_id'] != $role->role_id)
+                                {
+                                    ?>
+                                    <a class="btn btn-sm btn-primary" href="refreshRoleDbUser/<?php echo $role->role_id; ?>">Refresh DB User</a>
+                                <?php
+                                }
                                 ?>
-                                <a class="btn btn-sm btn-default" href="enableRole/<?php echo $role->role_id; ?>">Enable Role</a>
-                            <?php
-                            }
-                            ?>
-                            <a class="btn btn-sm btn-default" href="deleteRole/<?php echo $role->role_id; ?>">Delete Role</a>
-                            <?php
-                            if($_SESSION[APPID]['current_role_id'] != $role->role_id)
-                            {
-                            ?>
-                                <a class="btn btn-sm btn-default" href="refreshRoleDbUser/<?php echo $role->role_id; ?>">Refresh DB User</a>
-                            <?php
-                            }
-                            ?>
+                            </div>
                         </td>
                     </tr>
                 <?php

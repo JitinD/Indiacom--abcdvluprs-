@@ -11,74 +11,121 @@
     <h1 class="page-header">Desk Manager</h1>
 
     <div class="row">
-
-        <form id="searchByForm" class="form-horizontal" enctype="multipart/form-data" method="post">
-            <div class="form-group">
-                <label for="searchBy" class="col-sm-3 control-label">Search by</label>
-
-                <div class="col-sm-5">
-                    <?php
-                    $search_parameters = array("MemberID", "PaperID", "MemberName");
-                    ?>
-                    <div class="btn-group" data-toggle="buttons">
+        <div class="col-md-12">
+            <form id="searchByForm" method="post" class="form-inline">
+                <div class="form-group">
+                    <div class="col-sm-8">
                         <?php
-                        foreach ($search_parameters as $parameter) {
-                            ?>
-                            <label class="btn btn-primary">
-                                <input type="radio" class="searchBy" name="searchBy" value="<?php echo $parameter; ?>"
-                                    <?php
-                                    if (isset($parameter) && $parameter == "MemberID")
-                                        echo "checked";
-                                    ?>
-                                    >
-                                <?php echo $parameter; ?>
-                            </label>
-                        <?php
-                        }
+                        $search_parameters = array("MemberID", "PaperID", "MemberName");
                         ?>
+                        <div class="btn-group" data-toggle="buttons">
+                            <?php
+                            foreach ($search_parameters as $parameter) {
+                                ?>
+                                <label class="btn btn-lg btn-primary">
+                                    <input type="radio" class="searchBy" name="searchBy" value="
+                        <?php echo $parameter; ?>"
+                                        <?php
+                                        if (isset($parameter) && $parameter == "MemberID")
+                                            echo "checked";
+                                        ?>
+                                        >
+                                    <?php echo $parameter; ?>
+                                </label>
+                            <?php
+                            }
+                            ?>
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="form-group">
+                            <div class="input-group input-group-lg">
+                                <input type="text" class=" form-control" name="searchValue" placeholder="Search">
+
+                                <div class="input-group-btn">
+                                    <button type="button" id="submitButton" class="btn btn-lg btn-primary">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
-                </div>
-            </div>
+            </form>
+        </div>
 
-            <div class="form-group">
-                <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search
-                    Value</label>
-
-                <div class="col-sm-5">
-                    <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"
-                           value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter value">
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-6">
-                    <button type="button" id="submitButton" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-            <div class="col-sm-8 col-sm-offset-2 bg-danger text-danger h2" id="errorText">
-                <?php echo form_error('searchValue'); ?>
-            </div>
-            <div class="col-sm-8 col-sm-offset-2 text-danger bg-danger h2" id="errorText">
-                <?php echo form_error('searchBy'); ?>
-            </div>
     </div>
+    <!--    <div class="row">-->
+    <!---->
+    <!--        <form id="searchByForm" class="form-horizontal" enctype="multipart/form-data" method="post">-->
+    <!--            <div class="form-group">-->
+    <!--                <label for="searchBy" class="col-sm-3 control-label">Search by</label>-->
+    <!---->
+    <!--                <div class="col-sm-5">-->
+    <!--                    --><?php
+    //                    $search_parameters = array("MemberID", "PaperID", "MemberName");
+    //                    ?>
+    <!--                    <div class="btn-group" data-toggle="buttons">-->
+    <!--                        --><?php
+    //                        foreach ($search_parameters as $parameter) {
+    //                            ?>
+    <!--                            <label class="btn btn-primary">-->
+    <!--                                <input type="radio" class="searchBy" name="searchBy" value="-->
+    <?php //echo $parameter; ?><!--"-->
+    <!--                                    --><?php
+    //                                    if (isset($parameter) && $parameter == "MemberID")
+    //                                        echo "checked";
+    //                                    ?>
+    <!--                                    >-->
+    <!--                                --><?php //echo $parameter; ?>
+    <!--                            </label>-->
+    <!--                        --><?php
+    //                        }
+    //                        ?>
+    <!--                    </div>-->
+    <!---->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!---->
+    <!--            <div class="form-group">-->
+    <!--                <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search-->
+    <!--                    Value</label>-->
+    <!---->
+    <!--                <div class="col-sm-5">-->
+    <!--                    <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"-->
+    <!--                           value="-->
+    <?php //echo set_value('searchValue'); ?><!--" id="searchValue" placeholder="Enter value">-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="form-group">-->
+    <!--                <div class="col-sm-offset-3 col-sm-6">-->
+    <!--                    <button type="button" id="submitButton" class="btn btn-primary">Submit</button>-->
+    <!--                </div>-->
+    <!--            </div>-->
+    <!--            <div class="col-sm-8 col-sm-offset-2 bg-danger text-danger h2" id="errorText">-->
+    <!--                --><?php //echo form_error('searchValue'); ?>
+    <!--            </div>-->
+    <!--            <div class="col-sm-8 col-sm-offset-2 text-danger bg-danger h2" id="errorText">-->
+    <!--                --><?php //echo form_error('searchBy'); ?>
+    <!--            </div>-->
+    <!--        </form>-->
+    <!---->
+    <!--    </div>-->
 
-</div>
 
-</form>
-
-<div id="memberList">
-    <table class="table table-responsive table-hover" id="matchingMemberRecords">
-        <thead>
-        <tr>
-            <th>Member ID</th>
-            <th>Member Name</th>
-        </tr>
-        <tbody>
-        </tbody>
-        </thead>
-    </table>
-</div>
+    <div id="memberList">
+        <table class="table table-responsive table-hover" id="matchingMemberRecords">
+            <thead>
+            <tr>
+                <th>Member ID</th>
+                <th>Member Name</th>
+            </tr>
+            <tbody>
+            </tbody>
+            </thead>
+        </table>
+    </div>
 
 </div>
 

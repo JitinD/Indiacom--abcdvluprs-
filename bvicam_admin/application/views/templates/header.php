@@ -18,14 +18,10 @@
     <script src="/<?php echo PATH ?>assets/js/bootstrap.min.js"></script>
     <script src="/<?php echo PATH ?>assets/js/jasny-bootstrap.min.js"></script>
     <script src="/<?php echo PATH ?>assets/js/list.js"></script>
-    <style type="text/css">
-        .navmenu{
-            width:175px;
-        }
-    </style>
+
 </head>
 <body>
 <div class="container-fluid">
     <?php
-    include(dirname(__FILE__) . "/../templates/navbar.php");
-    ?>
+/*    include(dirname(__FILE__) . "/../templates/navbar.php");
+    */?>

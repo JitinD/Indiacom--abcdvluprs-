@@ -6,7 +6,7 @@
  * Time: 12:06 AM
  */
 ?>
-<div class="row main">
+<!--<div class="row main">
     <div class="col-sm-2 col-md-2 main" id="sidebar" style="">
         <div class="list-group well" style="position: fixed;height: 100%;">
             <?php
@@ -15,7 +15,7 @@
                 foreach($links as $link=>$linkName)
                 {
             ?>
-                    <a href="/<?php echo BASEURL . "index.php/" . $controllerName . "/" . $link; ?>" class="list-group-item"><?php echo $linkName; ?></a>
+                    <a href="/<?php /*echo BASEURL . "index.php/" . $controllerName . "/" . $link; */?>" class="list-group-item"><?php /*echo $linkName; */?></a>
             <?php
                 }
             }
@@ -54,4 +54,4 @@
                 }
             });
         });
-    </script>
+    </script>-->

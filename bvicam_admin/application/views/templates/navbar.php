@@ -1,15 +1,11 @@
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="col-md-8 col-sm-8 col-xs-8">
-            <button type="button" class="btn btn-default navbar-btn" data-toggle="offcanvas" data-target="#myNavmenu"
-                    data-canvas="body">
-                <span class="glyphicon glyphicon-chevron-left"></span>
+            <button type="button" class="btn btn-default navbar-btn" id="show_myNavmenu">
+                <img src="/<?php echo PATH ?>assets/images/hamburger-menu.png" style="height: 20px; ;">
             </button>
-            <a data-toggle="modal" data-target="#myModal">
-                <img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="btn btn-lg" style="height: 60px; ;">
-            </a>
+            <img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" style="height: 50px; ;">
             <span class="btn">BVICAM Admin System</span>
-
         </div>
         <div class="nav navbar-nav navbar-right">
             <?php
@@ -27,19 +23,57 @@
         </div>
     </div>
 </div>
-<nav id="myNavmenu" class="navmenu navmenu-inverse navmenu-fixed-left offcanvas" role="navigation">
+<nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left" style="display: none;" role="navigation">
+    <span class="navmenu-brand" href="#"><?php echo $controllerName; ?></span>
     <ul class="nav navmenu-nav">
-        <li class="active"><a href="#">Link</a></li>
-        <li><a href="#">Link</a></li>
-        <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
-            <ul class="dropdown-menu navmenu-nav" role="menu">
-                <li><a href="sidebar.php">Action</a></li>
-                <li><a href="#">Another action</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li><a href="#">Separated link</a></li>
-                <li><a href="#">One more separated link</a></li>
-            </ul>
-        </li>
+        <?php
+        if (isset($links)) {
+            foreach ($links as $link => $linkName) {
+                ?>
+                <li>
+                    <a href="/<?php echo BASEURL . "index.php/" . $controllerName . "/" . $link; ?>"><?php echo $linkName; ?></a>
+                </li>
+            <?php
+            }
+        }
+        ?>
+    </ul>
+    <hr>
+    <ul class="nav">
+        <?php
+        foreach ($loadableComponents as $component) {
+            ?>
+            <li>
+                <a href="/<?php echo BASEURL; ?>index.php/RoleManager/load">
+                    <?php echo $component; ?>
+                </a>
+            </li>
+        <?php
+        }
+        ?>
     </ul>
 </nav>
+
+<script>
+    $(document).ready(function () {
+        var speed = 100;
+        $("#show_myNavmenu").click(function () {
+            //$("#myNavmenu").removeClass("offcanvas");
+            $("#myNavmenu").show(speed);
+        });
+        $("#hide_myNavmenu").click(function () {
+            //$("#myNavmenu").addClass("offcanvas");
+            $("#myNavmenu").hide(speed);
+        });
+        $("#contentPanel").click(function () {
+            $("#myNavmenu").hide(speed);
+        });
+
+        $(document).keyup(function (e) {
+
+            if (e.keyCode == 27) {
+                $("#myNavmenu").hide(speed);
+            }
+        });
+    });
+</script>
