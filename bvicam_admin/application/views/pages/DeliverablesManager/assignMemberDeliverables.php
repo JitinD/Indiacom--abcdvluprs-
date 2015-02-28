@@ -21,19 +21,35 @@
             <?php
                 }
                 else
-                foreach($deliverablesPayments as $payheadId => $payments_array)
+                foreach($deliverablesPayments as $index => $payment)
                 {
-                    foreach($payments_array as $index => $payments)
+                    //foreach($payments_array as $index => $payments)
                     {
             ?>
                         <tr>
-                            <td class ="member_id" data-member_id="<?php echo $payments -> submission_member_id; ?>">
-                                <?php echo $payments -> submission_member_id; ?>
-                            </td>
-                            <td  class="submission_id" data-submission_id = "<?php echo $payments->payment_submission_id; ?>">
+                            <td class ="member_id" data-member_id="
                                 <?php
-                                    if(isset($payments -> submission_paper_id))
-                                        echo $payments -> submission_paper_id;
+                                    if(isset($payment -> payment_member_id))
+                                        echo $payment -> payment_member_id;
+                                    else if(isset($payment -> payment_submission_id))
+                                        echo $payment -> submission_member_id;
+                                ?>
+                            ">
+                                <?php
+                                    if(isset($payment -> payment_member_id))
+                                        echo $payment -> payment_member_id;
+                                    else if(isset($payment -> payment_submission_id))
+                                        echo $payment -> submission_member_id;
+                                ?>
+                            </td>
+                            <td  class="submission_id" data-submission_id =
+                                "<?php
+                                    echo $payment->payment_submission_id;
+                                ?>"
+                            >
+                                <?php
+                                    if(isset($payment -> submission_paper_id))
+                                        echo $payment -> submission_paper_id;
 
                                 ?>
                             </td>
@@ -47,7 +63,8 @@
                                         ?>
                                         <option value = "<?php echo $arr_index; ?>"
                                             <?php
-                                                if(isset($deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status']) && $deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status'] == $arr_index)
+                                                //if(isset($deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status']) && $deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status'] == $arr_index)
+                                                if($deliverablesStatus[$index]['status'] == $arr_index)
                                                     echo "selected";
                                             ?>>
                                             <?php echo $deliverable_status[$arr_index]; ?>
