@@ -45,7 +45,7 @@ class DeliverablesManager extends CI_Controller
         $this->load->model("submission_model");
 
         $member_id = $this->input->post('memberId');
-        $submission_id = $this->input->post('submissionId');
+        $submission_id = $this->input->post('submissionId') == "" ? null : $this->input->post('submissionId');
         $is_deliverables_assigned = $this->input->post('isDeliverablesAssigned');
 
         $deliverablesStatusRecord = array(
@@ -90,12 +90,11 @@ class DeliverablesManager extends CI_Controller
                 $pending_amount = $pay_amount - $paid_amount;
 
                 if($pending_amount == 0)
-                   $payments_record[$payheadId] = $payments_array;
-
+                   $payments_record[] = $payments;
             }
         }
 
-        return $orig_payments;
+        return $payments_record;
     }
 
     public function assignMemberDeliverables($member_id)
@@ -106,10 +105,11 @@ class DeliverablesManager extends CI_Controller
 
         $this -> data['deliverablesPayments'] = $this -> getMemberDeliverablesPayments($member_id);
 
-        foreach($this -> data['deliverablesPayments'] as $payheadId => $payments_array)
+        foreach($this -> data['deliverablesPayments'] as $payheadId => $payment)
         {
-            foreach($payments_array as $index => $payments)
-                $this -> data['deliverablesStatus'][$payments -> submission_member_id][$payments -> payment_submission_id] = $this -> deliverables_model -> getDeliverablesStatusRecord($payments -> submission_member_id, $payments -> payment_submission_id);
+            //foreach($payments_array as $index => $payments)
+            $this->data['deliverablesStatus'][] = $this -> deliverables_model -> getDeliverablesStatusRecord($payment -> payment_member_id, $payment -> payment_submission_id);
+            //$this -> data['deliverablesStatus'][$payment -> submission_member_id][$payment -> payment_submission_id] = $this -> deliverables_model -> getDeliverablesStatusRecord($payment -> submission_member_id, $payment -> payment_submission_id);
         }
 
         $this -> index($page);

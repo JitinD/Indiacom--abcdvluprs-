@@ -57,7 +57,7 @@ class deliverables_model extends CI_Model
                 "Select * From deliverables_status
                  Where
                     Case
-                        When $submission_id is not null
+                        When submission_id is not null
                             Then submission_id = ?
                         Else member_id = ?
                     End";
