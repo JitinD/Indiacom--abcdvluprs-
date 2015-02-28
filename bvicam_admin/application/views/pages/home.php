@@ -11,11 +11,9 @@
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
                         <a href="/<?php echo BASEURL; ?>index.php/RoleManager/load" class="thumbnail">
-                            <div class="panel text-muted">
-                                <h3>
-                                    Role Manager
-                                </h3>
-                            </div>
+                            <h3>
+                                Role Manager
+                            </h3>
                         </a>
                     </div>
                 <?php
@@ -26,11 +24,9 @@
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
                         <a href="/<?php echo BASEURL; ?>index.php/UserManager/load" class="thumbnail">
-                            <div class="panel text-muted">
                                 <h3>
                                     User Manager
                                 </h3>
-                            </div>
                         </a>
                     </div>
                 <?php
@@ -41,11 +37,10 @@
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
                         <a href="/<?php echo BASEURL; ?>index.php/InitialPaperReviewer" class="thumbnail">
-                            <div class="panel text-muted">
                                 <h3>
                                     Intitial Paper Reviewer
                                 </h3>
-                            </div>
+
                         </a>
                     </div>
                 <?php
@@ -56,11 +51,11 @@
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
                         <a href="/<?php echo BASEURL; ?>index.php/FinalPaperReviewer" class="thumbnail">
-                            <div class="panel text-muted">
+
                                 <h3>
                                     Final Paper Reviewer
                                 </h3>
-                            </div>
+
                         </a>
                     </div>
                 <?php
@@ -71,11 +66,11 @@
                     ?>
                     <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
                         <a href="/<?php echo BASEURL; ?>index.php/NewsManager/load" class="thumbnail">
-                            <div class="panel text-muted">
+
                                 <h3>
                                     News Manager
                                 </h3>
-                            </div>
+
                         </a>
                     </div>
                 <?php

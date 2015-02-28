@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<div class="navbar navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="col-md-8 col-sm-8 col-xs-8">
             <button type="button" class="btn btn-default navbar-btn" id="show_myNavmenu">

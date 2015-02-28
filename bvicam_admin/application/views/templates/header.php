@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/siteStyle.css">
     <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/textStyle.css">
 
+
     <script src="/<?php echo PATH ?>assets/js/jquery.min.js"></script>
     <script src="/<?php echo PATH ?>assets/js/bootstrap.min.js"></script>
     <script src="/<?php echo PATH ?>assets/js/jasny-bootstrap.min.js"></script>
