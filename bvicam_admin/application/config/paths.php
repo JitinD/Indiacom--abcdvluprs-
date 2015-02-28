@@ -7,7 +7,7 @@
  */
 
 //define('SERVER_ROOT', '/home/bvica/public_html/');
-define('SERVER_ROOT', 'D:/wamp/www/');
+define('SERVER_ROOT', 'C:/xampp/htdocs/');
 
 //Upload Folders
 define('UPLOAD_FOLDER', 'uploads/');
@@ -18,6 +18,7 @@ define('COMPLIANCE_REPORT_FOLDER', 'compliance_reports/');
 define('BIODATA_FOLDER', 'biodata/');
 define('NEWS_FOLDER', 'News/');
 define('NEWS_ATTACHMENT_FOLDER', 'Attachments/');
+define('REPORTS_FOLDER','reports/');
 
 //Upload base path
 define('UPLOAD_PATH', 'Indiacom2015/'.UPLOAD_FOLDER);

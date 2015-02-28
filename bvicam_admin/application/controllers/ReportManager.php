@@ -45,7 +45,7 @@ class ReportManager extends CI_Controller
         $sql=rawurldecode($sql1);
         $this->data['fields'] = $this->reports_model->getQueryFields($sql);
         $this->data['results']= $this->reports_model->getQueryReport($sql);
-
+        print_r($this->reports_model->writeToFile($sql));
         $this->index($page);
     }
 
