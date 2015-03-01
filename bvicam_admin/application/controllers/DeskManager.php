@@ -99,12 +99,13 @@ class DeskManager extends CI_Controller
 
     }
 
-    public function viewPaperAuthorsPayments($paper_id = null)
+    public function viewPaperAuthorsPayments($paper_code = null)
     {
         $page = "paperAuthorsPayments";
 
         $this -> home();
-
+        $this->load->model('paper_model');
+        $paper_id=$this->paper_model->getPaperDetails($paper_code)->paper_id;
         if($paper_id)
         {
             $this->load->model('paper_status_model');

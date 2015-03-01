@@ -61,6 +61,12 @@
                         <th>Attendance on Track</th>
                         <th>Certificate Outward Number</th>
                         <th>Certificate Given</th>
+                        <th>Track</th>
+                        <th>Session</th>
+                        <th>Subsession</th>
+                        <th>Venue</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
                     </tr>
                     </thead>
                     <?php
@@ -141,6 +147,12 @@
                                     <div class="bg-info attInfo"></div>
                                     <div class="bg-danger attError"></div>
                                 </td>
+                                <td><?php echo $paper->track_id; ?></td>
+                                <td><?php echo $paper->session_id; ?></td>
+                                <td><?php echo $paper->sub_session_id; ?></td>
+                                <td><?php echo $paper->venue; ?></td>
+                                <td><?php echo $paper->start_time; ?></td>
+                                <td><?php echo $paper->end_time; ?></td>
                             </tr>
 
                         <?php

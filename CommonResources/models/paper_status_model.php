@@ -26,12 +26,30 @@ class Paper_status_model extends CI_Model
 
     public function getMemberAcceptedPapers($memberId)
     {
-        $sql = "Select paper_id, paper_code, paper_title, submission_id
-                From
+        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,schedule_master.track_id,schedule_master.session_id,schedule_master.sub_session_id,schedule_master.venue,schedule_master.start_time,schedule_master.end_time
+                 From
                   paper_latest_version
                     Join
                   submission_master
-                    On paper_id = submission_paper_id
+                    On paper_latest_version.paper_id = submission_master.submission_paper_id
+                    Join
+                    paper_master
+                    On
+                    paper_latest_version.paper_id=paper_master.paper_id
+                    Join
+                    subject_master
+                    On
+                     paper_master.paper_subject_id=subject_master.subject_id
+                     JOIN
+                     track_master
+                     On subject_master.subject_track_id=track_master.track_id
+                     JOIN
+                     paper_schedule_tracker
+                     On paper_latest_version.paper_id=paper_schedule_tracker.paper_id
+                     JOIN
+                     schedule_master
+                     On paper_schedule_tracker.schedule_id=schedule_master.schedule_id
+
                 Where
                   submission_member_id = ? And
                   submission_dirty = 0 AND
@@ -45,7 +63,7 @@ class Paper_status_model extends CI_Model
     //Get accepted papers of a track
     public function getTrackAcceptedPapersInfo($member_id)
     {
-        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id
+        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,schedule_master.track_id,schedule_master.session_id,schedule_master.sub_session_id,schedule_master.venue,schedule_master.start_time,schedule_master.end_time
                 From
                   paper_latest_version
                     Join
@@ -59,6 +77,16 @@ class Paper_status_model extends CI_Model
                     subject_master
                     On
                      paper_master.paper_subject_id=subject_master.subject_id
+                     JOIN
+                     track_master
+                     On subject_master.subject_track_id=track_master.track_id
+                     JOIN
+                     paper_schedule_tracker
+                     On paper_latest_version.paper_id=paper_schedule_tracker.paper_id
+                     JOIN
+                     schedule_master
+                     On paper_schedule_tracker.schedule_id=schedule_master.schedule_id
+
                 Where
                   submission_member_id = ? And
                   submission_dirty = 0 AND
@@ -71,7 +99,7 @@ class Paper_status_model extends CI_Model
 
     public function getTrackMemberInfo($paper_id)
     {
-        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,member_master.member_name
+        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,member_master.member_name,schedule_master.track_id,schedule_master.session_id,schedule_master.sub_session_id,schedule_master.venue,schedule_master.start_time,schedule_master.end_time
                 From
                   paper_latest_version
                     Join
@@ -91,6 +119,12 @@ class Paper_status_model extends CI_Model
                      JOIN
                      track_master
                      On subject_master.subject_track_id=track_master.track_id
+                     JOIN
+                     paper_schedule_tracker
+                     On paper_latest_version.paper_id=paper_schedule_tracker.paper_id
+                     JOIN
+                     schedule_master
+                     On paper_schedule_tracker.schedule_id=schedule_master.schedule_id
                 Where
                   paper_master.paper_code = ? And
                   submission_dirty = 0 AND
