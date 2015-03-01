@@ -8,16 +8,16 @@
 
         </div>
         <div class="col-md-7 col-sm-7 col-xs-10">
-            <span class="navbar-brand">BVICAM Admin System</span>
+            <a href="/<?php echo BASEURL; ?>Page"><span class="navbar-brand">BVICAM Admin System</span></a>
         </div>
         <div class="nav navbar-nav navbar-right">
             <?php
             if (isset($_SESSION) && isset($_SESSION[APPID]['authenticated'])) {
                 ?>
-                <a href="/<?php echo BASEURL; ?>index.php/Page/login" type="submit" class="btn btn-primary navbar-btn">
+                <a href="/<?php echo BASEURL; ?>index.php/Page/login" type="submit" class="btn btn-default navbar-btn">
                     Change Role
                 </a>
-                <a href="/<?php echo BASEURL; ?>index.php/Page/logout" type="submit" class="btn btn-danger navbar-btn">
+                <a href="/<?php echo BASEURL; ?>index.php/Page/logout" type="submit" class="btn btn-default navbar-btn">
                     <span class="glyphicon glyphicon-user"></span> Logout
                 </a>
             <?php
