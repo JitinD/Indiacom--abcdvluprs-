@@ -1,11 +1,13 @@
-<div class="navbar navbar-fixed-top" role="navigation">
+<div class="navbar navbar-default navbar-fixed-top" role="navigation" style="border-bottom: solid #c0c0c0 1px;">
     <div class="container-fluid">
-        <div class="col-md-8 col-sm-8 col-xs-8">
+        <div class="col-md-1 col-sm-1 col-xs-2">
             <button type="button" class="btn btn-default navbar-btn" id="show_myNavmenu">
                 <img src="/<?php echo PATH ?>assets/images/hamburger-menu.png" style="height: 20px; ;">
             </button>
-            <img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" style="height: 50px; ;">
-            <span class="btn">BVICAM Admin System</span>
+
+        </div>
+        <div class="col-md-7 col-sm-7 col-xs-10">
+            <span class="navbar-brand">BVICAM Admin System</span>
         </div>
         <div class="nav navbar-nav navbar-right">
             <?php
@@ -24,7 +26,9 @@
     </div>
 </div>
 <nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left" style="display: none;" role="navigation">
-    <span class="navmenu-brand" href="#"><?php echo $controllerName; ?></span>
+
+    <span class="navmenu-brand" href="#"><a href="#"><?php echo $controllerName; ?></a></span>
+
     <ul class="nav navmenu-nav">
         <?php
         if (isset($links)) {

@@ -10,7 +10,8 @@
     <div class="col-md-12">
         <h1 class="page-header">Reports Manager</h1>
 
-        <p class="lead">Enter a SQL query, and hit Submit
+        <p>
+            Enter a SQL query, and hit Submit.
         </p>
 
         <form class="form-horizontal" enctype="multipart/form-data" method="post">
