@@ -62,122 +62,135 @@
                 <button type="button" id="submitButton" class="btn btn-primary">Submit</button>
             </div>
         </div>
+    </form>
 
 
-
-        <div class="row"></div>
-
-        <table class="table">
-            <?php if (isset($papers)) {
-                ?>
-            <thead>
-            <tr>
-                <th>Paper Code</th>
-                <th>Paper Title</th>
-                <th>Attendance on Desk</th>
-                <th>Attendance on Track</th>
-                <th>Certificate Outward Number</th>
-                <th>Certificate Given</th>
-            </tr>
-            </thead>
-            <?php
-                if (empty($papers)) {
+    <div class="row Info">
+        <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
+            <table class="table">
+                <?php if (isset($papers)) {
                     ?>
+                    <thead>
                     <tr>
-                        <td colspan="8">No Accepted Papers!</td>
+                        <th>Paper Code</th>
+                        <th>Paper Title</th>
+                        <th>Attendance on Desk</th>
+                        <th>Attendance on Track</th>
+                        <th>Certificate Outward Number</th>
+                        <th>Certificate Given</th>
                     </tr>
-                <?php
-                } else {
-                    foreach ($papers as $paper) {
+                    </thead>
+                    <?php
+                    if (empty($papers)) {
                         ?>
                         <tr>
-                            <td data-submission_id="<?php echo $paper->submission_id; ?>"
-                                class="submission_id"><?php echo $paper->paper_code; ?></td>
+                            <td colspan="8">No Accepted Papers!</td>
+                        </tr>
+                    <?php
+                    } else {
+                        foreach ($papers as $paper) {
+                            ?>
+                            <tr>
+                                <td data-submission_id="<?php echo $paper->submission_id; ?>"
+                                    class="submission_id"><?php echo $paper->paper_code; ?></td>
 
-                            <td><?php echo $paper->paper_title; ?></td>
-                            <?php if (isset($attendance[$paper->paper_id]['is_present_on_desk']) && $attendance[$paper->paper_id]['is_present_on_desk'] == 1) {
-                                ?>
-                                <td><?php echo "Present" ?></td>
-                                <td>
-                                    <select name="attendance_on_track" class="form-control attendance_on_track">
-                                        <?php
-                                        $attendance_on_track = array("Absent", "Present");
+                                <td><?php echo $paper->paper_title; ?></td>
+                                <?php if (isset($attendance[$paper->paper_id]['is_present_on_desk']) && $attendance[$paper->paper_id]['is_present_on_desk'] == 1) {
+                                    ?>
+                                    <td><?php echo "Present" ?></td>
+                                    <td>
+                                        <select name="attendance_on_track" class="form-control attendance_on_track">
+                                            <?php
+                                            $attendance_on_track = array("Absent", "Present");
 
-                                        for ($index = 0; $index < 2; $index++) {
+                                            for ($index = 0; $index < 2; $index++) {
+                                                ?>
+                                                <option value="<?php echo $index; ?>"
+                                                    <?php
+                                                    if (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == $index)
+                                                        echo "selected"
+                                                    ?>>
+                                                    <?php echo $attendance_on_track[$index]; ?>
+                                                </option>
+                                            <?php
+                                            }
                                             ?>
-                                            <option value="<?php echo $index; ?>"
-                                                <?php
-                                                if (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == $index)
-                                                    echo "selected"
-                                                ?>>
-                                                <?php echo $attendance_on_track[$index]; ?>
-                                            </option>
+                                        </select>
+
+                                        <div class="bg-info attInfo"></div>
+                                        <div class="bg-danger attError"></div>
+                                    </td>
+                                <?php
+                                } else {
+                                    ?>
+                                    <td><?php echo "Absent On desk" ?></td>
+                                    <td class="attendance_not_marked"><?php $present = 0;
+                                        echo "Not marked" ?></td>
+                                <?php
+                                }
+                                ?>
+                                <td><input type="text" class="certificate_outward_number form-control"
+                                           value="<?php if (isset($certificate[$paper->paper_id]['certificate_outward_number'])) {
+                                               echo $certificate[$paper->paper_id]['certificate_outward_number'];
+                                           }
+                                           ?>">
+
+                                    <div class="bg-info attInfo"></div>
+                                    <div class="bg-danger attError"></div>
+                                <td>
+                                    <input type="checkbox" class="is_certificate_given"
                                         <?php
-                                        }
-                                        ?>
-                                    </select>
+                                        if (!isset($certificate[$paper->paper_id]['certificate_outward_number']) ||
+                                            ($certificate[$paper->paper_id]['certificate_outward_number'] == '') ||
+                                            (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 0) || (isset($present)) && $present == 0
+                                        )
+                                            echo "disabled";
+
+                                        if (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1))
+                                            echo "checked";
+                                        ?>>
 
                                     <div class="bg-info attInfo"></div>
                                     <div class="bg-danger attError"></div>
                                 </td>
-                            <?php
-                            } else {
-                                ?>
-                                <td><?php echo "Absent On desk" ?></td>
-                                <td class="attendance_not_marked"><?php $present = 0;
-                                    echo "Not marked" ?></td>
-                            <?php
-                            }
-                            ?>
-                            <td><input type="text" class="certificate_outward_number form-control"
-                                       value="<?php if (isset($certificate[$paper->paper_id]['certificate_outward_number'])) {
-                                           echo $certificate[$paper->paper_id]['certificate_outward_number'];
-                                       }
-                                       ?>">
+                            </tr>
 
-                                <div class="bg-info attInfo"></div>
-                                <div class="bg-danger attError"></div>
-                            <td>
-                                <input type="checkbox" class="is_certificate_given"
-                                    <?php
-                                    if (!isset($certificate[$paper->paper_id]['certificate_outward_number']) ||
-                                        ($certificate[$paper->paper_id]['certificate_outward_number'] == '') ||
-                                        (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 0) ||(isset($present))&& $present == 0
-                                    )
-                                        echo "disabled";
-
-                                    if (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1))
-                                        echo "checked";
-                                    ?>>
-
-                                <div class="bg-info attInfo"></div>
-                                <div class="bg-danger attError"></div>
-                            </td>
-                        </tr>
-
-                    <?php
+                        <?php
+                        }
                     }
                 }
-            }
-            else
-            {
-            ?>
-            <div class = "Info">
-                <?php
-                if(!isset($memberId))
+                else
                 {
-                    echo "<h1>Sorry no such member Id in our database</h1>";
-                }
-                }
-            ?>
+                ?>
+                <div class="Info">
+                    <?php
+                    if (!isset($memberId)) {
+                        echo "<h1>Sorry no such member Id in our database</h1>";
+                    }
+                    }
+                    ?>
 
-        </table>
+            </table>
 
-    </form>
+        </form>
+    </div>
 </div>
+<div id="memberList">
+    <table class="table table-responsive table-hover" id="matchingMemberRecords">
+        <thead>
+        <tr>
+            <th>Member ID</th>
+            <th>Member Name</th>
+        </tr>
+        <tbody>
+        </tbody>
+        </thead>
+    </table>
+</div>
+
 <script>
     $(document).ready(function () {
-
+        $("#memberList").hide();
 
         $(".certificate_outward_number").change(function () {
             var ref = $(this).parent().parent();

@@ -88,11 +88,15 @@ class Paper_status_model extends CI_Model
                      JOIN
                      member_master
                      On submission_master.submission_member_id=member_master.member_id
+                     JOIN
+                     track_master
+                     On subject_master.subject_track_id=track_master.track_id
                 Where
                   paper_master.paper_code = ? And
                   submission_dirty = 0 AND
+                  track_event_id=? AND
                   review_result_id = ?";
-        $query = $this->db->query($sql, array($paper_id,REVIEW_RESULT_ACCEPTED_ID));
+        $query = $this->db->query($sql, array($paper_id,EVENT_ID,REVIEW_RESULT_ACCEPTED_ID));
         if ($query->num_rows() == 0)
             return array();
         return $query->result();

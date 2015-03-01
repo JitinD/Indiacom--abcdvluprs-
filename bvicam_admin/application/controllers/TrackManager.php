@@ -31,7 +31,7 @@ class TrackManager extends CI_Controller
         }
 
         $this->data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $this->data);
+       $this->load->view('templates/header', $this->data);
         //$this->load->view('templates/sidebar');
         $this->load->view('pages/TrackManager/' . $page, $this->data);
         $this->load->view('templates/footer');
@@ -81,8 +81,7 @@ class TrackManager extends CI_Controller
     {
         $this->home();
         $page = "markAuthorAttendance";
-        if($member_id)
-        {
+        if ($member_id) {
             $this->load->model('paper_status_model');
             $this->load->model('attendance_model');
             $this->load->model('certificate_model');
@@ -93,9 +92,7 @@ class TrackManager extends CI_Controller
                 $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
                 $this->data['certificate'][$paper->paper_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
             }
-        }
-        else
-        {
+        } else {
             $this->data['memberId'] = false;
         }
 
@@ -107,25 +104,33 @@ class TrackManager extends CI_Controller
     {
         $page = "markPaperAttendance";
 
-        $this -> home();
+        $this->home();
 
-        if($paper_id)
-        {
+        if ($paper_id) {
             $this->load->helper('url');
             $this->load->model('paper_status_model');
             $this->load->model('attendance_model');
             $this->load->model('certificate_model');
             $this->load->model('submission_model');
             $this->load->model('certificate_model');
+            $this->load->model('paper_status_model');
+            $this->load->model('attendance_model');
+            $this->load->model('certificate_model');
+            $this->load->model('submission_model');
+            $this->load->model('certificate_model');
             $this->data['members'] = $this->paper_status_model->getTrackMemberInfo($paper_id);
-            $member_id=$this->input->post('member_id');
-            if($member_id>0)
-            {
-                redirect('/TrackManager/markAuthorAttendance/' .$member_id);
+
+            foreach ($this->data['members'] as $index => $member) {
+                $this->data['papers'][$member -> submission_member_id] = $this->paper_status_model->getTrackAcceptedPapersInfo($member->submission_member_id);
+                foreach ($this->data['papers'][$member -> submission_member_id] as $index => $paper) {
+                    if(!isset($this->data['attendance'][$paper->paper_id]))
+                    {
+                        $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
+                    }
+                    $this->data['certificate'][$member -> submission_member_id][$paper->paper_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
+                }
             }
-        }
-        else
-        {
+        } else {
             $this->data['paperId'] = false;
         }
 
