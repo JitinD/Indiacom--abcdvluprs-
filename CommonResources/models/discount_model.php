@@ -100,10 +100,46 @@ class Discount_model extends CI_Model
         if($query->num_rows() == 1)
         {
             $row = $query->row();
-            if($row->number_of_registrations >= BULK_REGISTRATION_MIN_REGISTRATION_VALUE)
+            if($row->number_of_registrations == BULK_REGISTRATION_MIN_REGISTRATION_VALUE)
+            {
+                $this->setBulkRegistrationDiscount($memberInfo['member_organization_id']);
+            }
+            if($row->number_of_registrations >= (BULK_REGISTRATION_MIN_REGISTRATION_VALUE - 1))
                 return true;
         }
         return false;
+    }
+
+    private function setBulkRegistrationDiscount($organizationId)
+    {
+        $sql = "Select
+                    payment_master.payment_id
+                From
+                    payment_master
+                        Join
+                    submission_master
+                        On payment_submission_id = submission_id And
+                            payment_discount_type Is Null
+                        Join
+                    member_master
+                        On member_id = submission_member_id And
+                            member_organization_id = ?
+                        Join
+                    payable_class
+                        On payable_class_id = payment_payable_class And
+                            payable_class_payhead_id = 1";
+        $query = $this->db->query($sql, array($organizationId));
+        if($query->num_rows() == 0)
+            return;
+        $result = $query->result();
+        foreach($result as $row)
+        {
+            $bulkDiscountTypeId = 3;
+            $sql = "Update payment_master
+                    Set payment_discount_type = $bulkDiscountTypeId
+                    Where payment_id = ?";
+            $this->db->query($sql, array($row->payment_id));
+        }
     }
 
     public function isCoAuthorDiscountValid($memberId, $paperId)

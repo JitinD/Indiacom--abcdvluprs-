@@ -51,8 +51,12 @@
                         <td><?php echo $trans->transaction_number; ?></td>
                         <td class="trans_mode">
                             <?php
-                            if($trans->is_waived_off == 0)
+                            if($trans->is_waived_off == 0 && isset($transModes[$trans->transaction_mode]))
                                 echo $transModes[$trans->transaction_mode]->transaction_mode_name;
+                            else if($trans->is_waived_off == 0)
+                            {
+                                echo "Unknown transaction mode. Inform Admin.";
+                            }
                             ?>
                         </td>
                         <td class="trans_amount"><?php echo $trans->transaction_amount; ?></td>

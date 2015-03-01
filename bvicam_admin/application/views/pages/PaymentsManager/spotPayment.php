@@ -10,20 +10,27 @@
     <h3 class="text-theme">New Spot Payment</h3>
     <hr>
     <form class="form-horizontal" method="post">
-        <div class="bg-danger">
-            <?php
-            if(isset($pay_error)) echo $pay_error;
-            ?>
-        </div>
-        <div class="bg-info">
-            <?php
-            if(isset($info))
-            {
+        <?php
+        if(isset($pay_error))
+        {
+        ?>
+            <div class="alert alert-danger text-center">
+                <?php echo $pay_error; ?>
+            </div>
+        <?php
+        }
+        if(isset($info))
+        {
+        ?>
+            <div class="alert alert-success text-center">
+                <?php
                 foreach($info as $i)
-                    echo $i . "<br>";
-            }
-            ?>
-        </div>
+                    echo "<div>$i</div>";
+                ?>
+            </div>
+        <?php
+        }
+        ?>
         <div class="form-group">
             <label class="col-sm-3" for="trans_memberId">Transaction Member ID</label>
             <div class="col-sm-6">

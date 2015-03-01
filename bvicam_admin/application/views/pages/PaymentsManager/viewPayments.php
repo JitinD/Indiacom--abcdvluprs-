@@ -57,6 +57,7 @@
                                             <th>Payable<br>(with waiveoff and discount)</th>
                                             <th>Paid</th>
                                             <th>Outstanding</th>
+                                            <th></th>
                                         </tr>
                                         </thead>
                                         <tbody>
@@ -98,6 +99,9 @@
                                                                 echo "bg-danger";
                                                         ?>">
                                                     Rs. <?php echo $outstanding; ?>/-
+                                                </td>
+                                                <td>
+                                                    <button>Transfer</button>
                                                 </td>
                                             </tr>
                                             <tr style="display: none;">

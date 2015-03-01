@@ -78,8 +78,10 @@
                                 </td>
                                 <td>
                                     <?php
-                                    if ($transDetails->is_waived_off == 0)
+                                    if ($transDetails->is_waived_off == 0 && $transModeDetails != null)
                                         echo $transModeDetails->transaction_mode_name;
+                                    else if($transDetails->is_waived_off == 0)
+                                        echo "Unknown transaction mode. Contact Admin.";
                                     ?>
                                 </td>
                             </tr>
@@ -262,8 +264,8 @@
                         <th>Pending</th>
                         <th>Pay Amount</th>
                         <th>Select Payable</th>
-                        <th>Payment Verified</th>
-                        <th>Remarks</th>
+                        <!--<th>Payment Verified</th>
+                        <th>Remarks</th>-->
                     </tr>
                     </thead>
                     <tbody>

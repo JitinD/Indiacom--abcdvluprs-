@@ -16,6 +16,26 @@
             ?>
         </div>
         <div class="col-md-6">
+            <div class="form-group notForWaiveOff">
+                <label class="col-sm-3" for="paymentMode">Mode of Payment</label>
+                    <div class="col-sm-6">
+                        <select id="paymentMode" name="trans_mode" class="form-control">
+                            <?php
+                            foreach($transaction_modes as $trans_mode)
+                            {
+                            ?>
+                                <option value="<?php echo $trans_mode->transaction_mode_id; ?>" <?php if(set_value('trans_mode')==$trans_mode->transaction_mode_id) echo "selected"; ?>>
+                                    <?php echo $trans_mode->transaction_mode_name; ?>
+                                </option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    <div class="bg-danger"><?php echo form_error('trans_mode'); ?></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
             <div class="form-group">
                 <label class="col-sm-3" for="transno">Amount</label>
 
