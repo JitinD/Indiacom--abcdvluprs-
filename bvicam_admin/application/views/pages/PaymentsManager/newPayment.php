@@ -10,30 +10,40 @@
      xmlns="http://www.w3.org/1999/html">
     <h1 class="page-header">Create New Payment</h1>
 
-    <div class="bg-danger text-danger h4">
-        <?php
-        if (isset($pay_error))
-            echo $pay_error;
-        if (!empty($transDetails) && $transDetails->transaction_EQINR - $transUsedAmount <= 0)
-            echo "This transaction cannot be used for payments since it has been already fully used.";
+    <?php
+    if (isset($pay_error)) {
         ?>
-    </div>
-    <div class="bg-info text-info h4">
-        <?php
-        if (isset($message)) {
+        <div class="alert alert-danger text-center">
+            <?php echo $pay_error; ?>
+        </div>
+    <?php
+    }
+    if (!empty($transDetails) && $transDetails->transaction_EQINR - $transUsedAmount <= 0) {
+        ?>
+        <div class="alert alert-danger text-center">
+            <?php echo "This transaction cannot be used for payments since it has been already fully used."; ?>
+        </div>
+    <?php
+    }
+    if (isset($message)) {
+    ?>
+        <div class="alert alert-success text-center">
+    <?php
             foreach ($message as $msg) {
                 echo "<div>$msg</div>";
             }
-        }
-        ?>
-    </div>
+    ?>
+        </div>
+    <?php
+    }
+    ?>
     <form class="form-horizontal" method="post">
         <div class="row">
             <?php
             if (!empty($transDetails)) {
             ?>
                 <div class="col-md-6 col-sm-6">
-                    <table class="table table-responsive table-striped table-hover h5 table-condensed">
+                    <table class="table table-responsive table-striped table-condensed">
                         <tr>
                             <td>Transaction ID</td>
                             <td>
@@ -128,7 +138,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <a class="btn btn-primary"
+                                <a class="btn btn-block btn-default"
                                    href="<?php echo "/" . BASEURL . "index.php/TransactionManager/loadUnusedTransactions"; ?>">Change
                                     Transaction
                                 </a>
@@ -166,7 +176,7 @@
                 else if (!empty($transDetails) && isset($memberDetails) && $memberDetails != null)
                 {
                 ?>
-                    <table class="table table-responsive table-striped table-hover table-condensed">
+                    <table class="table table-responsive table-striped table-condensed">
                         <tr>
                             <td>Member ID</td>
                             <td>
@@ -211,7 +221,7 @@
                         </tr>
                         <tr>
                             <td colspan="2">
-                                <a class="btn btn-primary"
+                                <a class="btn btn-block btn-default"
                                    href="<?php echo "/" . BASEURL . "index.php/PaymentsManager/newPayment/" . $transDetails->transaction_id; ?>">Change
                                     Member
                                 </a>
@@ -424,8 +434,8 @@
             }
             ?>
             <div class="form-group contentBlock-top">
-                <div class="col-sm-4 col-sm-offset-4">
-                    <input type="submit" class="btn btn-block btn-success">
+                <div class="col-sm-12">
+                    <input type="submit" class="btn btn-block btn-default">
                 </div>
             </div>
         </div>

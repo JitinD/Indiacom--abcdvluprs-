@@ -15,7 +15,7 @@
         <h1 class="page-header">Member Payments</h1>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <table class="table table-responsive table-hover table-condensed">
+                <table class="table table-hover table-condensed">
                     <thead>
                     <tr>
                         <th>#</th>
