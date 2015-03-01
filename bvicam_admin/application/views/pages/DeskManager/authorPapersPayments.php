@@ -2,9 +2,10 @@
 
 <div class="col-sm-12 col-md-12">
     <div class="row">
-
-        <form id="searchByForm" class="form-inline" enctype="multipart/form-data" method="post">
-                <label for="searchBy" class="col-sm-3 control-label">Search by</label>
+        <div class="col-md-12">
+            <h1 class="page-header">Desk Manager</h1>
+            <form id="searchByForm" class="form-inline" enctype="multipart/form-data" method="post">
+                <label for="searchBy">Search</label>
                 <?php
                 $search_parameters = array("MemberID", "PaperID", "MemberName");
                 ?>
@@ -12,7 +13,7 @@
                     <?php
                     foreach ($search_parameters as $parameter) {
                         ?>
-                        <label class="btn btn-primary
+                        <label class="btn btn-default
                         <?php
                         if (isset($parameter) && $parameter == "MemberID")
                             echo "active";
@@ -30,29 +31,19 @@
                     }
                     ?>
                 </div>
-            <div class="form-group">
-                <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search
-                    Value</label>
-
-                <div class="col-sm-4">
-                    <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"
-                           value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter value">
+                <div class="input-group">
+                    <input type="text" class="searchValue form-control" name="searchValue" maxlength="10"
+                           value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter Search value">
+                    <span class="input-group-btn">
+                        <button type="button" id="submitButton" class="btn btn-default"><span
+                                class="glyphicon glyphicon-search"></span></button>
+                    </span>
                 </div>
-                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                    <?php echo form_error('searchValue'); ?>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-6">
-                    <button type="button" id="submitButton" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-
-        </form>
+            </form>
+        </div>
     </div>
     <hr>
-    <h1 class="text-center">Member Profile</h1>
+    <h3 class="text-center">Member Profile</h3>
     <?php
     if (isset($memberDetails))
     {
@@ -95,11 +86,11 @@
                             <?php
                             if ($isMemberRegistered) {
                                 ?>
-                                <span class="alert-success"><?php echo "Yes";?></span>
+                                <span class="alert-success"><?php echo "Yes"; ?></span>
                             <?php
                             } else {
                                 ?>
-                                <span class="alert-danger"><?php echo "No";?></span>
+                                <span class="alert-danger"><?php echo "No"; ?></span>
                             <?php
                             }
                             ?>
@@ -109,6 +100,10 @@
                 </tbody>
             </table>
 
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-default btn-lg" href="<?php echo "/" . BASEURL . "index.php/DeliverablesManager/assignMemberDeliverables/" . $memberDetails['member_id']; ?>">Assign
+                Member Deliverables</a>
         </div>
 
         <table class="table table-responsive table-condensed table-hover table-striped">
@@ -308,8 +303,7 @@
             ?>
             </tbody>
         </table>
-        <a href="<?php if (isset($memberDetails['member_id'])) echo "/" . BASEURL . "index.php/DeliverablesManager/assignMemberDeliverables/" . $memberDetails['member_id']; ?>">Assign
-            Member Deliverables</a>
+
     </div>
 
 </div>

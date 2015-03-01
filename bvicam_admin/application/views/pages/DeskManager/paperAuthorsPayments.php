@@ -1,13 +1,11 @@
 <?php /*print_r($attendance); */?>
 
-<div class="col-sm-12 col-md-12 main">
-
-    <form id = "searchByForm" class="form-horizontal" enctype="multipart/form-data" method="post">
-
-        <div class="form-group">
-            <label for="searchBy" class="col-sm-3 control-label">Search by</label>
-
-            <div class="col-sm-5">
+<div class="col-sm-12 col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="page-header">Desk Manager</h1>
+            <form id="searchByForm" class="form-inline" enctype="multipart/form-data" method="post">
+                <label for="searchBy">Search</label>
                 <?php
                 $search_parameters = array("MemberID", "PaperID", "MemberName");
                 ?>
@@ -15,109 +13,118 @@
                     <?php
                     foreach ($search_parameters as $parameter) {
                         ?>
-                        <label class="btn btn-primary
-                            <?php
-                        if (isset($parameter) && $parameter == "PaperID")
+                        <label class="btn btn-default
+                        <?php
+                        if (isset($parameter) && $parameter == "MemberID")
                             echo "active";
                         ?>"
-                        >
+                            >
                             <input type="radio" class="searchBy" name="searchBy" value="<?php echo $parameter; ?>"
                                 <?php
-                                if (isset($parameter) && $parameter == "PaperID")
+                                if (isset($parameter) && $parameter == "MemberID")
                                     echo "checked";
                                 ?>
-                            >
+                                >
                             <?php echo $parameter; ?>
                         </label>
                     <?php
                     }
                     ?>
                 </div>
-
-            </div>
+                <div class="input-group">
+                    <input type="text" class="searchValue form-control" name="searchValue" maxlength="10"
+                           value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter Search value">
+                    <span class="input-group-btn">
+                        <button type="button" id="submitButton" class="btn btn-default"><span
+                                class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                </div>
+            </form>
         </div>
-
-        <div class="form-group">
-            <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search
-                Value</label>
-
-            <div class="col-sm-5">
-                <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"
-                       value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter value">
-            </div>
-            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                <?php echo form_error('searchValue'); ?>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-6">
-                <button type="button" id = "submitButton" class="btn btn-primary">Submit</button>
-            </div>
-        </div>
-
-    </form>
-
+    </div>
+    <hr>
 <?php
     if(isset($paperDetails))
     {
 ?>
     <div class = "Info">
-        <table class="table table-striped table-hover table-responsive">
-            <tr>
-                <td>Paper Code</td>
-                <td>
-                    <?php
-                        if(isset($paperDetails->paper_code))
-                            echo $paperDetails->paper_code; ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Paper Title</td>
-                <td>
-                    <?php
-                        if(isset($paperDetails->paper_title))
-                            echo $paperDetails->paper_title;
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Event</td>
-                <td>
-                    <?php
-                        if(isset($eventDetails->event_name))
-                            echo $eventDetails->event_name;
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Track</td>
-                <td>Track
-                    <?php
-                        if(isset($trackDetails->track_number) && isset($trackDetails->track_name))
-                            echo $trackDetails->track_number . " : " . $trackDetails->track_name;
-                    ?>
-                </td>
-            </tr>
-            <tr>
-                <td>Subject</td>
-                <td><?php
-                    if(isset($subjectDetails->subject_name))
-                        echo $subjectDetails->subject_name; ?></td>
-            </tr>
-            <tr>
-                <td>Is Paper Registered</td>
-                <td>
-                    <?php
-                    if(isset($PaperRegistered))
-                        echo $PaperRegistered ? "Yes" : "No";
-                    ?>
-                </td>
-            </tr>
+        <h3 class="text-center">Paper Details</h3>
+        <div class="col-md-6">
+            <table class="table table-condensed table-hover table-responsive">
+                <tr>
+                    <td>Paper Code</td>
+                    <td>
+                        <strong>
+                            <?php
+                            if(isset($paperDetails->paper_code))
+                                echo $paperDetails->paper_code; ?>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Paper Title</td>
+                    <td>
+                        <strong>
+                            <?php
+                            if(isset($paperDetails->paper_title))
+                                echo $paperDetails->paper_title;
+                            ?>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Event</td>
+                    <td>
+                        <strong>
+                            <?php
+                            if(isset($eventDetails->event_name))
+                                echo $eventDetails->event_name;
+                            ?>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Track</td>
+                    <td>
+                        <strong>
+                            Track
+                            <?php
+                            if(isset($trackDetails->track_number) && isset($trackDetails->track_name))
+                                echo $trackDetails->track_number . " : " . $trackDetails->track_name;
+                            ?>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Subject</td>
+                    <td>
+                        <strong>
+                            <?php
+                            if(isset($subjectDetails->subject_name))
+                                echo $subjectDetails->subject_name; ?>
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Is Paper Registered</td>
+                    <td>
+                        <strong>
+                            <?php
+                            if(isset($PaperRegistered))
+                                echo $PaperRegistered ? "Yes" : "No";
+                            ?>
+                        </strong>
+                    </td>
+                </tr>
 
-        </table>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <a class="btn btn-lg btn-default" href = "<?php echo "/".BASEURL."index.php/DeliverablesManager/assignPaperDeliverables/".$paperDetails -> paper_id; ?>">Assign Deliverables</a>
+        </div>
 
-        <table class="table table-striped table-hover table-responsive">
+
+        <table class="table table-striped table-responsive table-condensed">
                 <thead>
                     <tr>
                         <th>Member ID</th>
@@ -362,7 +369,7 @@
             }
         ?>
         </table>
-        <a href = "<?php if(isset($paperDetails -> paper_id)) echo "/".BASEURL."index.php/DeliverablesManager/assignPaperDeliverables/".$paperDetails -> paper_id; ?>">Assign Deliverables</a>
+
     </div>
 </div>
 
@@ -374,8 +381,9 @@ else
 <div class = "Info">
     <?php
     if(!isset($paperId))
-    {
-        echo "<h1>Sorry no such paper Id in our database</h1>";
+    {?>
+        <div class="alert alert-danger text-center">Sorry, No Paper Found</div>
+    <?php
     }
     }
     ?>
