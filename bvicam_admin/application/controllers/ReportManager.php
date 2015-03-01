@@ -37,15 +37,25 @@ class ReportManager extends CI_Controller
         $this->load->view('templates/footer');
     }
 
+    public function downloadReport()
+    {
+        $this->load-> helper ('download');
+        $data=file_get_contents(SERVER_ROOT.INDIACOM.'reports/report.csv');
+        $name = date("Y/m/d").".csv";
+        force_download ($name, $data);
+
+    }
     public function getReport($sql1)
     {
         $page = "viewReport";
         $this->load->helper('url');
         $this->load->model('reports_model');
-        $sql=rawurldecode($sql1);
+        $sql = rawurldecode($sql1);
         $this->data['fields'] = $this->reports_model->getQueryFields($sql);
-        $this->data['results']= $this->reports_model->getQueryReport($sql);
-        //print_r($this->reports_model->writeToFile($sql));
+        $this->data['results'] = $this->reports_model->getQueryReport($sql);
+        $this->reports_model->writeToFile($sql);
+
+
         $this->index($page);
     }
 
@@ -55,12 +65,15 @@ class ReportManager extends CI_Controller
         $this->load->helper('url');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('query', 'Query Field', 'required');
-        $sql= $this->input->post("query");
-        $isValid = strpos($sql, 'insert');
-        if($sql!=null)
-        {
-            redirect('/ReportManager/getReport/'.$sql);
+        $sql = $this->input->post("query");
 
+        if ((strpos($sql, 'insert') === FALSE) && (strpos($sql, 'Insert') === FALSE)&&(strpos($sql, 'INSERT') === FALSE)&&(strpos($sql, 'update') === FALSE) && (strpos($sql, 'Update') === FALSE)&&(strpos($sql, 'UPDATE') === FALSE)&& (strpos($sql, 'delete') === FALSE)&&(strpos($sql, 'Delete') === FALSE)&&(strpos($sql, 'DELETE') === FALSE)) {
+            if ($sql != null) {
+                redirect('/ReportManager/getReport/' . $sql);
+
+            }
+        } else {
+            $this->data['error'] = 0;
         }
 
         $this->index($page);

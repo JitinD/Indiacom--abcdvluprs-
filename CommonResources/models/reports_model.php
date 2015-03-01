@@ -17,18 +17,29 @@ class reports_model extends CI_Model
     {
 
         $query = $this->db->query($sql);
+        if($this->db->trans_status()==true)
+        {
+            if ($query->num_rows() == 0)
+                return null;
+            return $query->list_fields();
+        }
+        else
+            return 1;
 
-        if ($query->num_rows() == 0)
-            return null;
-        return $query->list_fields();
     }
 
     public function getQueryReport($sql)
     {
         $query = $this->db->query($sql);
-        if ($query->num_rows() == 0)
-            return null;
-        return $query->result_array();
+        if($this->db->trans_status() == true)
+        {
+            if ($query->num_rows() == 0)
+                return null;
+            return $query->result_array();
+        }
+        else
+            return 1;
+
     }
 
     public function writeToFile($sql)
@@ -38,15 +49,22 @@ class reports_model extends CI_Model
         $delimiter = ',';
         $newline = "\n";
         $report =$query = $this->db->query($sql);
-        $new_report = $this->dbutil->csv_from_result($report, $delimiter, $newline);
-        if (!write_file('reports/report.csv',utf8_encode($new_report)))
+        if($this->db->trans_status()==true)
         {
-            return false;
+            $new_report = $this->dbutil->csv_from_result($report, $delimiter, $newline);
+            if (!write_file('reports/report.csv',utf8_encode($new_report)))
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         else
-        {
-           return true;
-        }
+            return 1;
+
+
     }
 }
 

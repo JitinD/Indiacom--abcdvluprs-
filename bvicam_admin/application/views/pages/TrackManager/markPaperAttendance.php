@@ -105,7 +105,8 @@
                                                             {
                                                                 ?>
                                                                 <tr>
-                                                                    <td><?php echo $member_paper->paper_code; ?></td>
+                                                                    <td data-submission_id="<?php echo $member_paper->submission_id; ?>"
+                                                                    class="submission_id"><?php echo $member_paper->paper_code; ?></td>
 
                                                                     <td><?php echo $member_paper->paper_title; ?></td>
                                                                     <?php if (isset($attendance[$member_paper->paper_id]['is_present_on_desk']) && $attendance[$member_paper->paper_id]['is_present_on_desk'] == 1) {
@@ -157,13 +158,13 @@
                                                                         <input type="checkbox"
                                                                                class="is_certificate_given"
                                                                             <?php
-                                                                            if (!isset($certificate[$member_paper->submission_id]['certificate_outward_number']) ||
-                                                                                ($certificate[$member_paper->submission_id]['certificate_outward_number'] == '') ||
-                                                                                (isset($attendance[$member_paper->submission_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == 0) || $present == 0
+                                                                            if (!isset($certificate[$member->submission_id][$member_paper->paper_id]['certificate_outward_number']) ||
+                                                                                ($certificate[$member->submission_id][$member_paper->paper_id]['certificate_outward_number'] == '') ||
+                                                                                (isset($attendance[$member_paper->paper_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == 0) || isset($present)&& $present == 0
                                                                             )
                                                                                 echo "disabled";
 
-                                                                            if (isset($certificate[$member_paper->submission_id]['is_certificate_given']) && ($certificate[$member_paper->submission_id]['is_certificate_given'] == 1))
+                                                                            if (isset($certificate[$member->submission_id][$member_paper->paper_id]['is_certificate_given']) && ($certificate[$member->submission_id][$member_paper->paper_id]['is_certificate_given'] == 1))
                                                                                 echo "checked";
                                                                             ?>>
 
@@ -386,12 +387,12 @@
             }
         });
 
-//        $("#searchByForm").keypress(function (e) {
-//            if (e.which == 13) {
-//                $("#submitButton").click();
-//                event.preventDefault();
-//            }
-//        });
+        $("#searchByForm").keypress(function (e) {
+            if (e.which == 13) {
+                $("#submitButton").click();
+                event.preventDefault();
+            }
+        });
 
         $(document).ajaxSuccess(function () {
             $('.member').click(function () {

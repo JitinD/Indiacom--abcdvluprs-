@@ -29,10 +29,18 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
 
+
             </div>
         </form>
 
     </div>
-</div>
 
+</div>
+<div>
+
+    <?php if (isset($error)&&$error == 0) {
+        echo "Only select queries allowed";
+    }
+    ?>
+</div>
 </div>

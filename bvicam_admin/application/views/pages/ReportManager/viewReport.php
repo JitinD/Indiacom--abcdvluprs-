@@ -16,13 +16,27 @@
             <button id="font_dec" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-font"></span><span
                     class="glyphicon glyphicon-minus"></span></button>
         </div>
-        <button class="btn btn-primary"><span class="glyphicon glyphicon-download"></span> Download as .CSV</button>
+        <?php
+        if(file_exists(SERVER_ROOT.INDIACOM.'reports/report.csv'))
+        {
+            ?>
+            <div class="col-sm-4">
+                <a title="Click to download" class="btn btn-primary btn-block" href="<?php echo base_url() ?>ReportManager/downloadReport" target="_blank" >Download <span class="glyphicon glyphicon-cloud-download"></span> </a>
+            </div>
+        <?php
+        }
+        ?>
         <hr>
         <table id="report_table" class="table table-responsive table-hover table-condensed">
             <thead>
             <?php if ($fields == null) {
                 echo "No results found";
-            } else {
+            }
+            else if($fields==1)
+            {
+                echo "Invalid query";
+            }
+            else{
                 foreach ($fields as $field) {
                     ?>
                     <th class="sort btn-link text-uppercase"
@@ -36,7 +50,13 @@
             <?php
             if ($results == null) {
                 echo "No results found";
-            } else {
+            }
+            else if($results==1)
+            {
+                echo " ";
+            }
+            else
+             {
                 foreach ($results as $index => $record_array) {
                     ?>
                     <tr>
