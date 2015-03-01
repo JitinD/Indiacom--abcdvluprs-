@@ -1,3 +1,4 @@
+<?php include(dirname(__FILE__) . "/../../config/links.php"); ?>
 <div class="navbar navbar-default navbar-fixed-top" role="navigation" style="border-bottom: solid #c0c0c0 1px;">
     <div class="container-fluid">
         <div class="col-md-1 col-sm-1 col-xs-2">
@@ -48,7 +49,7 @@
         foreach ($loadableComponents as $component) {
             ?>
             <li>
-                <a href="/<?php echo BASEURL; ?>index.php/RoleManager/load">
+                <a href="/<?php echo BASEURL . "index.php/" . $ControllerDefaultLink[$component]; ?>">
                     <?php echo $component; ?>
                 </a>
             </li>

@@ -56,6 +56,7 @@ class ReportManager extends CI_Controller
         $this->load->library('form_validation');
         $this->form_validation->set_rules('query', 'Query Field', 'required');
         $sql= $this->input->post("query");
+        $isValid = strpos($sql, 'insert');
         if($sql!=null)
         {
             redirect('/ReportManager/getReport/'.$sql);

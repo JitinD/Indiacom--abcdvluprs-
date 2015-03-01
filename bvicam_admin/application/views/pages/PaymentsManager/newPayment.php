@@ -6,7 +6,7 @@
  * Time: 1:38 PM
  */
 ?>
-<div class="col-md-10 col-sm-10" id="contentPanel" xmlns="http://www.w3.org/1999/html"
+<div class="col-md-12 col-sm-12" id="contentPanel" xmlns="http://www.w3.org/1999/html"
      xmlns="http://www.w3.org/1999/html">
     <h1 class="page-header">Create New Payment</h1>
 
@@ -166,7 +166,7 @@
                 else if (!empty($transDetails) && isset($memberDetails) && $memberDetails != null)
                 {
                 ?>
-                    <table class="table table-responsive table-striped table-hover table-condensed h4">
+                    <table class="table table-responsive table-striped table-hover table-condensed">
                         <tr>
                             <td>Member ID</td>
                             <td>
@@ -241,7 +241,7 @@
                     }
                 }
                 ?>
-                <table class="table table-responsive table-striped table-hover table-condensed">
+                <table class="table table-responsive table-striped table-condensed">
                     <thead>
                     <tr>
                         <th>Paper Code</th>
