@@ -9,69 +9,52 @@
 <div class="col-sm-12 col-md-12 main">
     <h1 class="page-header">Track Manager</h1>
 
-    <form id="searchByForm" class="form-horizontal" enctype="multipart/form-data" method="post">
-
-        <div class="form-group">
-            <label for="searchBy" class="col-sm-3 control-label"> Search by </label>
-
-            <div class="col-sm-5">
-                <?php
-                $search_parameters = array("MemberID", "PaperID", "MemberName");
+    <form id="searchByForm" class="form-inline" enctype="multipart/form-data" method="post">
+        <label for="searchBy">Search</label>
+        <?php
+        $search_parameters = array("MemberID", "PaperID", "MemberName");
+        ?>
+        <div class="btn-group" data-toggle="buttons">
+            <?php
+            foreach ($search_parameters as $parameter) {
                 ?>
-                <div class="btn-group" data-toggle="buttons">
-                    <?php
-                    foreach ($search_parameters as $parameter) {
-                        ?>
-                        <label class="btn btn-primary
+                <label class="btn btn-default
+                        <?php
+                if (isset($parameter) && $parameter == "MemberID")
+                    echo "active";
+                ?>"
+                    >
+                    <input type="radio" class="searchBy" name="searchBy" value="<?php echo $parameter; ?>"
                         <?php
                         if (isset($parameter) && $parameter == "MemberID")
-                            echo "active";
-                        ?>"
-                            >
-                            <input type="radio" class="searchBy" name="searchBy" value="<?php echo $parameter; ?>"
-                                <?php
-                                if (isset($parameter) && $parameter == "MemberID")
-                                    echo "checked";
-                                ?>
-                                >
-                            <?php echo $parameter; ?>
-                        </label>
-                    <?php
-                    }
-                    ?>
-                </div>
-
-            </div>
+                            echo "checked";
+                        ?>
+                        >
+                    <?php echo $parameter; ?>
+                </label>
+            <?php
+            }
+            ?>
         </div>
-
-        <div class="form-group">
-            <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search
-                Value</label>
-
-            <div class="col-sm-5">
-                <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"
-                       value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter value">
-            </div>
-            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                <?php echo form_error('searchValue'); ?>
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-6">
-                <button type="button" id="submitButton" class="btn btn-primary">Submit</button>
-            </div>
+        <div class="input-group">
+            <input type="text" class="searchValue form-control" name="searchValue" maxlength="10"
+                   value="<?php echo set_value('searchValue'); ?>" id="searchValue"
+                   placeholder="Enter Search value">
+                    <span class="input-group-btn">
+                        <button type="button" id="submitButton" class="btn btn-default"><span
+                                class="glyphicon glyphicon-search"></span></button>
+                    </span>
         </div>
     </form>
-
-
+    <hr>
     <div class="row Info">
         <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
-            <table class="table">
+            <table class="table table-condensed">
                 <?php if (isset($papers)) {
                     ?>
                     <thead>
                     <tr>
+                        <th>Member ID</th>
                         <th>Paper Code</th>
                         <th>Paper Title</th>
                         <th>Attendance on Desk</th>
@@ -84,13 +67,18 @@
                     if (empty($papers)) {
                         ?>
                         <tr>
-                            <td colspan="8">No Accepted Papers!</td>
+                            <td colspan="9" class="text-center">
+                                <div class="alert alert-danger">No Accepted Papers!</div>
+                            </td>
                         </tr>
                     <?php
                     } else {
                         foreach ($papers as $paper) {
                             ?>
                             <tr>
+                                <td>
+                                    <?php echo $paper->submission_member_id; ?>
+                                </td>
                                 <td data-submission_id="<?php echo $paper->submission_id; ?>"
                                     class="submission_id"><?php echo $paper->paper_code; ?></td>
 

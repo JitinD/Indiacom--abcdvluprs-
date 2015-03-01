@@ -1,5 +1,4 @@
-<?php print_r($attendance);
-
+<?php
 /**
  * Created by PhpStorm.
  * User: Pavithra
@@ -7,232 +6,217 @@
  * Time: 8:48 PM
  */
 ?>
-<div class="col-sm-12 col-md-12 main">
-<h1 class="page-header">Track Manager </h1>
+<div class="col-sm-12 col-md-12">
 
-<form id="searchByForm" class="form-horizontal" enctype="multipart/form-data" method="post">
+    <h1 class="page-header">Track Manager </h1>
 
-    <div class="form-group">
-        <label for="searchBy" class="col-sm-3 control-label"> Search by </label>
-
-        <div class="col-sm-5">
+    <form id="searchByForm" class="form-inline" enctype="multipart/form-data" method="post">
+        <label for="searchBy">Search</label>
+        <?php
+        $search_parameters = array("MemberID", "PaperID", "MemberName");
+        ?>
+        <div class="btn-group" data-toggle="buttons">
             <?php
-            $search_parameters = array("MemberID", "PaperID", "MemberName");
-            ?>
-            <div class="btn-group" data-toggle="buttons">
-                <?php
-                foreach ($search_parameters as $parameter) {
-                    ?>
-                    <label class="btn btn-primary
-                        <?php
-                    if (isset($parameter) && $parameter == "MemberID")
-                        echo "active";
-                    ?>"
-                        >
-                        <input type="radio" class="searchBy" name="searchBy" value="<?php echo $parameter; ?>"
-                            <?php
-                            if (isset($parameter) && $parameter == "MemberID")
-                                echo "checked";
-                            ?>
-                            >
-                        <?php echo $parameter; ?>
-                    </label>
-                <?php
-                }
+            foreach ($search_parameters as $parameter) {
                 ?>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="form-group">
-        <label for="searchValue" class="col-sm-3 control-label"><span class="glyphicon "></span> Search
-            Value</label>
-
-        <div class="col-sm-5">
-            <input type="text" class="searchValue form-control" name="searchValue" maxlength="50"
-                   value="<?php echo set_value('searchValue'); ?>" id="searchValue" placeholder="Enter value">
-        </div>
-        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-            <?php echo form_error('searchValue'); ?>
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div class="col-sm-offset-3 col-sm-6">
-            <button type="button" id="submitButton" class="btn btn-primary">Submit</button>
-        </div>
-    </div>
-</form>
-
-<div class="row Info">
-    <div class="col-md-12 col-sm-12">
-        <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
-            <table class="table table-responsive table-striped">
-                <?php if (isset($members)) {
-                    ?>
-                    <thead>
-                    <tr>
-                        <th>Member ID</th>
-                        <th>Member Name</th>
-
-                    </tr>
-                    </thead>
-                    <?php
-                    if (empty($members)) {
+                <label class="btn btn-default
+                        <?php
+                if (isset($parameter) && $parameter == "MemberID")
+                    echo "active";
+                ?>"
+                    >
+                    <input type="radio" class="searchBy" name="searchBy" value="<?php echo $parameter; ?>"
+                        <?php
+                        if (isset($parameter) && $parameter == "MemberID")
+                            echo "checked";
                         ?>
+                        >
+                    <?php echo $parameter; ?>
+                </label>
+            <?php
+            }
+            ?>
+        </div>
+        <div class="input-group">
+            <input type="text" class="searchValue form-control" name="searchValue" maxlength="10"
+                   value="<?php echo set_value('searchValue'); ?>" id="searchValue"
+                   placeholder="Enter Search value">
+                    <span class="input-group-btn">
+                        <button type="button" id="submitButton" class="btn btn-default"><span
+                                class="glyphicon glyphicon-search"></span></button>
+                    </span>
+        </div>
+    </form>
+    <hr>
+    <div class="row Info">
+        <div class="col-md-12 col-sm-12">
+            <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
+                <table class="table table-responsive table-striped">
+                    <?php if (isset($members)) {
+                        ?>
+                        <thead>
                         <tr>
-                            <td colspan="8">No Accepted Papers!</td>
+                            <th>Member ID</th>
+                            <th>Member Name</th>
+
                         </tr>
-                    <?php
-                    } else {
-                        foreach ($members as $member) {
+                        </thead>
+                        <?php
+                        if (empty($members)) {
                             ?>
-                            <label>
-                                <tr>
-                                    <!--                                                <td><input type="radio" name="member_id" id="member_id"-->
-                                    <!--                                                           value="-->
-                                    <?php //echo $member->submission_member_id ?><!--"></td>-->
-                                    <td><?php echo $member->submission_member_id; ?></td>
-                                    <td><?php echo $member->member_name; ?></td>
-                                    <td>
-                                        <table class="table">
-                                            <?php if (isset($papers[$member->submission_member_id])) {
-                                                ?>
-                                                <thead>
-                                                <tr>
-                                                    <th>Paper Code</th>
-                                                    <th>Paper Title</th>
-                                                    <th>Attendance on Desk</th>
-                                                    <th>Attendance on Track</th>
-                                                    <th>Certificate Outward Number</th>
-                                                    <th>Certificate Given</th>
-                                                </tr>
-                                                </thead>
-                                                <?php
-                                                if (empty($papers[$member->submission_member_id])) {
+                            <tr>
+                                <td colspan="8">No Accepted Papers!</td>
+                            </tr>
+                        <?php
+                        } else {
+                            foreach ($members as $member) {
+                                ?>
+                                <label>
+                                    <tr>
+                                        <!--                                                <td><input type="radio" name="member_id" id="member_id"-->
+                                        <!--                                                           value="-->
+                                        <?php //echo $member->submission_member_id ?><!--"></td>-->
+                                        <td><?php echo $member->submission_member_id; ?></td>
+                                        <td><?php echo $member->member_name; ?></td>
+                                        <td>
+                                            <table class="table">
+                                                <?php if (isset($papers[$member->submission_member_id])) {
                                                     ?>
+                                                    <thead>
                                                     <tr>
-                                                        <td colspan="8">No Accepted Papers!</td>
+                                                        <th>Paper Code</th>
+                                                        <th>Paper Title</th>
+                                                        <th>Attendance on Desk</th>
+                                                        <th>Attendance on Track</th>
+                                                        <th>Certificate Outward Number</th>
+                                                        <th>Certificate Given</th>
                                                     </tr>
-                                                <?php
-                                                } else {
-                                                    foreach ($papers[$member->submission_member_id] as $member_paper) {
-                                                        //foreach($member_papers as $index => $paper)
-                                                        {
-                                                            ?>
-                                                            <tr>
-                                                                <td><?php echo $member_paper->paper_code; ?></td>
+                                                    </thead>
+                                                    <?php
+                                                    if (empty($papers[$member->submission_member_id])) {
+                                                        ?>
+                                                        <tr>
+                                                            <td colspan="9" class="text-center"><div class="alert alert-danger">No Accepted Papers!</div> </td>
+                                                        </tr>
+                                                    <?php
+                                                    } else {
+                                                        foreach ($papers[$member->submission_member_id] as $member_paper) {
+                                                            //foreach($member_papers as $index => $paper)
+                                                            {
+                                                                ?>
+                                                                <tr>
+                                                                    <td><?php echo $member_paper->paper_code; ?></td>
 
-                                                                <td><?php echo $member_paper->paper_title; ?></td>
-                                                                <?php if (isset($attendance[$member_paper->paper_id]['is_present_on_desk']) && $attendance[$member_paper->paper_id]['is_present_on_desk'] == 1) {
-                                                                    ?>
-                                                                    <td><?php echo "Present" ?></td>
-                                                                    <td>
-                                                                        <select name="attendance_on_track"
-                                                                                class="form-control attendance_on_track">
-                                                                            <?php
-                                                                            $attendance_on_track = array("Absent", "Present");
+                                                                    <td><?php echo $member_paper->paper_title; ?></td>
+                                                                    <?php if (isset($attendance[$member_paper->paper_id]['is_present_on_desk']) && $attendance[$member_paper->paper_id]['is_present_on_desk'] == 1) {
+                                                                        ?>
+                                                                        <td><?php echo "Present" ?></td>
+                                                                        <td>
+                                                                            <select name="attendance_on_track"
+                                                                                    class="form-control attendance_on_track">
+                                                                                <?php
+                                                                                $attendance_on_track = array("Absent", "Present");
 
-                                                                            for ($index = 0; $index < 2; $index++) {
+                                                                                for ($index = 0; $index < 2; $index++) {
+                                                                                    ?>
+                                                                                    <option
+                                                                                        value="<?php echo $index; ?>"
+                                                                                        <?php
+                                                                                        if (isset($attendance[$member_paper->paper_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == $index)
+                                                                                            echo "selected"
+                                                                                        ?>>
+                                                                                        <?php echo $attendance_on_track[$index]; ?>
+                                                                                    </option>
+                                                                                <?php
+                                                                                }
                                                                                 ?>
-                                                                                <option value="<?php echo $index; ?>"
-                                                                                    <?php
-                                                                                    if (isset($attendance[$member_paper->paper_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == $index)
-                                                                                        echo "selected"
-                                                                                    ?>>
-                                                                                    <?php echo $attendance_on_track[$index]; ?>
-                                                                                </option>
+                                                                            </select>
+
+                                                                            <div class="bg-info attInfo"></div>
+                                                                            <div class="bg-danger attError"></div>
+                                                                        </td>
+                                                                    <?php
+                                                                    } else {
+                                                                        ?>
+                                                                        <td><?php echo "Absent On desk" ?></td>
+                                                                        <td class="attendance_not_marked"><?php $present = 0;
+                                                                            echo "Not marked" ?></td>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+                                                                    <td><input type="text"
+                                                                               class="certificate_outward_number form-control"
+                                                                               value="<?php if (isset($certificate[$member->submission_member_id][$member_paper->paper_id]['certificate_outward_number'])) {
+                                                                                   echo $certificate[$member->submission_member_id][$member_paper->paper_id]['certificate_outward_number'];
+                                                                               }
+                                                                               ?>">
+
+                                                                        <div class="bg-info attInfo"></div>
+                                                                        <div class="bg-danger attError"></div>
+                                                                    <td>
+                                                                        <input type="checkbox"
+                                                                               class="is_certificate_given"
                                                                             <?php
-                                                                            }
-                                                                            ?>
-                                                                        </select>
+                                                                            if (!isset($certificate[$member_paper->submission_id]['certificate_outward_number']) ||
+                                                                                ($certificate[$member_paper->submission_id]['certificate_outward_number'] == '') ||
+                                                                                (isset($attendance[$member_paper->submission_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == 0) || $present == 0
+                                                                            )
+                                                                                echo "disabled";
+
+                                                                            if (isset($certificate[$member_paper->submission_id]['is_certificate_given']) && ($certificate[$member_paper->submission_id]['is_certificate_given'] == 1))
+                                                                                echo "checked";
+                                                                            ?>>
 
                                                                         <div class="bg-info attInfo"></div>
                                                                         <div class="bg-danger attError"></div>
                                                                     </td>
-                                                                <?php
-                                                                } else {
-                                                                    ?>
-                                                                    <td><?php echo "Absent On desk" ?></td>
-                                                                    <td class="attendance_not_marked"><?php $present = 0;
-                                                                        echo "Not marked" ?></td>
-                                                                <?php
-                                                                }
-                                                                ?>
-                                                                <td><input type="text"
-                                                                           class="certificate_outward_number form-control"
-                                                                           value="<?php if (isset($certificate[$member->submission_member_id][$member_paper->paper_id]['certificate_outward_number'])) {
-                                                                               echo $certificate[$member->submission_member_id][$member_paper->paper_id]['certificate_outward_number'];
-                                                                           }
-                                                                           ?>">
 
-                                                                    <div class="bg-info attInfo"></div>
-                                                                    <div class="bg-danger attError"></div>
-                                                                <td>
-                                                                    <input type="checkbox" class="is_certificate_given"
-                                                                        <?php
-                                                                        if (!isset($certificate[$member_paper->submission_id]['certificate_outward_number']) ||
-                                                                            ($certificate[$member_paper->submission_id]['certificate_outward_number'] == '') ||
-                                                                            (isset($attendance[$member_paper->submission_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == 0) || $present == 0
-                                                                        )
-                                                                            echo "disabled";
+                                                                </tr>
 
-                                                                        if (isset($certificate[$member_paper->submission_id]['is_certificate_given']) && ($certificate[$member_paper->submission_id]['is_certificate_given'] == 1))
-                                                                            echo "checked";
-                                                                        ?>>
-
-                                                                    <div class="bg-info attInfo"></div>
-                                                                    <div class="bg-danger attError"></div>
-                                                                </td>
-
-                                                            </tr>
-
-                                                        <?php
+                                                            <?php
+                                                            }
                                                         }
                                                     }
                                                 }
-                                            }
-                                            else
-                                            {
-                                            ?>
-                                            <div class="Info">
-                                                <?php
-                                                if (!isset($memberId)) {
-                                                    echo "<h1>Sorry no such member Id in our database</h1>";
-                                                }
-                                                }
+                                                else
+                                                {
                                                 ?>
+                                                <div class="Info">
+                                                    <?php
+                                                    if (!isset($memberId)) {
+                                                        echo "<h1>Sorry no such member Id in our database</h1>";
+                                                    }
+                                                    }
+                                                    ?>
 
-                                        </table>
-                                    </td>
-                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
 
-                            </label>
+                                </label>
 
 
-                        <?php
-                        }
-                    }?>
+                            <?php
+                            }
+                        } ?>
 
-                <?php
-                }
-                else
-                {
-                ?>
-                <div class="Info">
                     <?php
-                    if (!isset($paperId)) {
-                        echo "<h1>Sorry no such paper Id in our database</h1>";
                     }
-                    }
+                    else
+                    {
                     ?>
+                    <div class="Info">
+                        <?php
+                        if (!isset($paperId)) {
+                            echo "<h1>Sorry no such paper Id in our database</h1>";
+                        }
+                        }
+                        ?>
 
-            </table>
+                </table>
 
+        </div>
     </div>
-</div>
-</form>
 </div>
 
 <div id="memberList">
@@ -244,7 +228,7 @@
         </tr>
         <tbody>
         </tbody>
-        </thead>
+
     </table>
 </div>
 

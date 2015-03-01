@@ -122,8 +122,7 @@
         <div class="col-md-6">
             <a class="btn btn-lg btn-default" href = "<?php echo "/".BASEURL."index.php/DeliverablesManager/assignPaperDeliverables/".$paperDetails -> paper_id; ?>">Assign Deliverables</a>
         </div>
-
-
+        <hr>
         <table class="table table-striped table-responsive table-condensed">
                 <thead>
                     <tr>
@@ -180,7 +179,11 @@
                                     if(empty($papers[$author_id]))
                                     {
                                         ?>
-                                        <tr><td colspan="8">No Accepted Papers!</td></tr>
+                                        <tr>
+                                            <td colspan="9" class="text-center">
+                                                <div class="alert alert-danger">No Accepted Papers!</div>
+                                            </td>
+                                        </tr>
                                     <?php
                                     }
                                     else

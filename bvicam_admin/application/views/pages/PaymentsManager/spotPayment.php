@@ -99,7 +99,7 @@
                         <tr>
                             <th>Paper Code</th>
                             <th>Paper Title</th>
-                            <th>Op</th>
+                            <th></th>
                         </tr>
                         <?php
                         foreach($papers as $paper)
