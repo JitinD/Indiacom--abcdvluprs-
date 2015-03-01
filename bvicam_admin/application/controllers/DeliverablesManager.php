@@ -14,7 +14,6 @@ class DeliverablesManager extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-
     }
 
     private function index($page)
@@ -64,6 +63,7 @@ class DeliverablesManager extends CI_Controller
         echo json_encode($this->deliverables_model->assignDeliverables($deliverablesStatusRecord));
     }
 
+    //Get deliverable payments (br or pr) for memberId.
     private function getMemberDeliverablesPayments($memberId)
     {
         $this->load->model('payment_model');
@@ -102,6 +102,7 @@ class DeliverablesManager extends CI_Controller
         return $payments_record;
     }
 
+    //show assign deliverables page for a member
     public function assignMemberDeliverables($member_id)
     {
         $page = "assignMemberDeliverables";
@@ -116,11 +117,10 @@ class DeliverablesManager extends CI_Controller
             $this->data['deliverablesStatus'][] = $this -> deliverables_model -> getDeliverablesStatusRecord($payment -> payment_member_id, $payment -> payment_submission_id);
             //$this -> data['deliverablesStatus'][$payment -> submission_member_id][$payment -> payment_submission_id] = $this -> deliverables_model -> getDeliverablesStatusRecord($payment -> submission_member_id, $payment -> payment_submission_id);
         }
-
         $this -> index($page);
-
     }
 
+    //show assign deliverables page containing all authors of a paper
     public function assignPaperDeliverables($paper_id)
     {
         $page = "assignPaperDeliverables";
@@ -136,15 +136,13 @@ class DeliverablesManager extends CI_Controller
 
             $this -> data['deliverablesPayments'][$member_id] = $this -> getMemberDeliverablesPayments($member_id);
 
-            foreach($this -> data['deliverablesPayments'][$member_id] as $payheadId => $payments_array)
+            foreach($this -> data['deliverablesPayments'][$member_id] as $payheadId => $payment)
             {
-                foreach($payments_array as $index => $payments)
-                    $this -> data['deliverablesStatus'][$payments -> submission_member_id][$payments -> payment_submission_id] = $this -> deliverables_model -> getDeliverablesStatusRecord($payments -> submission_member_id, $payments -> payment_submission_id);
+                $this->data['deliverablesStatus'][$member_id][] = $this -> deliverables_model -> getDeliverablesStatusRecord($payment -> payment_member_id, $payment -> payment_submission_id);
+                //foreach($payments_array as $index => $payments)
+                    //$this -> data['deliverablesStatus'][$payments -> submission_member_id][$payments -> payment_submission_id] = $this -> deliverables_model -> getDeliverablesStatusRecord($payments -> submission_member_id, $payments -> payment_submission_id);
             }
-
         }
-
         $this -> index($page);
-
     }
 } 

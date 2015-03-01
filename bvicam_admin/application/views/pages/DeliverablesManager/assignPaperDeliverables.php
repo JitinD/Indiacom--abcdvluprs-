@@ -20,63 +20,62 @@
                 }
             else
             {
-                foreach($deliverablesPayments as $author_id => $paymentRecords)
+                foreach($deliverablesPayments as $author_id => $memberPaymentRecords)
                 {
             ?>
                     <tr>
                         <td class = "member_id" data-member_id = "<?php echo $author_id; ?>"><?php echo $author_id; ?></td>
                         <td>
                             <table class = "table table-responsive">
-                                <thead
+                                <thead>
                                     <tr>
                                         <th>PID</th>
                                         <th>Deliverables Status</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+                                    <?php
+                                    foreach($memberPaymentRecords as $index => $payment)
+                                    {
+                                        //foreach($payments_array as $index => $payments)
+                                        {
+                                    ?>
+                                            <tr>
+                                                <td class = "submission_id" data-submission_id = "<?php echo $payment -> payment_submission_id; ?>">
+                                                    <?php
+                                                    if(isset($payment -> submission_paper_id))
+                                                        echo $payment -> submission_paper_id;
 
-                        </td>
-            <?php
-                        foreach($paymentRecords as $payheadId => $payments_array)
-                        {
-                            foreach($payments_array as $index => $payments)
-                            {
-            ?>                  <tbody>
-                                    <tr>
-                                        <td class = "submission_id" data-submission_id = "<?php echo $payments -> payment_submission_id; ?>">
-                                            <?php
-                                                if(isset($payments -> submission_paper_id))
-                                                    echo $payments -> submission_paper_id;
-
-                                            ?>
-                                        </td>
-
-                                        <td>
-                                            <select name = "deliverables_status" class="form-control deliverables_status">
-                                                <?php
-                                                $deliverable_status = array("Not assigned", "Assigned");
-
-                                                for($arr_index = 0; $arr_index < 2; $arr_index++)
-                                                {
                                                     ?>
-                                                    <option value = "<?php echo $arr_index; ?>"
+                                                </td>
+                                                <td>
+                                                    <select name = "deliverables_status" class="form-control deliverables_status">
                                                         <?php
-                                                        if(isset($deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status']) && $deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status'] == $arr_index)
-                                                            echo "selected";
-                                                        ?>>
-                                                        <?php echo $deliverable_status[$arr_index]; ?>
-                                                    </option>
-                                                <?php
-                                                }
-                                                ?>
-                                            </select>
-                                            <div class="bg-info attInfo"></div>
-                                            <div class="bg-danger attError"></div>
-                                        </td>
-                                    </tr>
-            <?php
-                            }
-                        }
-            ?>
+                                                        $deliverable_status = array("Not assigned", "Assigned");
+
+                                                        for($arr_index = 0; $arr_index < 2; $arr_index++)
+                                                        {
+                                                            ?>
+                                                            <option value = "<?php echo $arr_index; ?>"
+                                                                <?php
+                                                                //if(isset($deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status']) && $deliverablesStatus[$payments -> submission_member_id][$payments -> payment_submission_id]['status'] == $arr_index)
+                                                                if($deliverablesStatus[$author_id][$index]['status'] == $arr_index)
+                                                                    echo "selected";
+                                                                ?>>
+                                                                <?php echo $deliverable_status[$arr_index]; ?>
+                                                            </option>
+                                                        <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                    <div class="bg-info attInfo"></div>
+                                                    <div class="bg-danger attError"></div>
+                                                </td>
+                                            </tr>
+                                        <?php
+                                        }
+                                    }
+                                    ?>
                                 </tbody>
                             </table>
             <?php
