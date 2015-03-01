@@ -31,10 +31,11 @@ class TransactionManager extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-        $this->load->view('templates/sidebar', $sidebarData);
+        $this->load->view('templates/navbar', $sidebarData);
+        //$this->load->view('templates/sidebar', $sidebarData);
         $this->load->view('pages/TransactionManager/'.$page, $this->data);
         $this->load->view('templates/footer');
     }
@@ -97,7 +98,7 @@ class TransactionManager extends CI_Controller
             }
             if($this->transaction_model->newTransaction($transDetails))
             {
-                //$_SESSION[APPID]['transId'] = $transDetails['transaction_id'];
+                $transId = $transDetails['transaction_id'];
                 return true;
             }
             else

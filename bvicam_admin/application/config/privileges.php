@@ -208,3 +208,7 @@ $privilege['Page']['FinalPaperReviewer']['setReviewerAssigned'] = array(46);
 */
 
 $privilege['Page']['FinalPaperReviewer']['paperInfo'] = array(49, 17, 9, 73, 13, 45, 46, 43, 44, 41, 25, 29, 1);
+
+$privilege['Page']['PaymentsManager'][] = array();
+
+$privilege['Page']['TransactionManager'][] = array();

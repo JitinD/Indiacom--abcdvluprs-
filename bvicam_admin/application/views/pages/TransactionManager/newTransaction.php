@@ -6,7 +6,7 @@
  * Time: 1:04 PM
  */
 ?>
-<div class="col-md-10 col-sm-10" id="contentPanel" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<div class="col-md-12 col-sm-12" id="contentPanel" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <h3 class="text-theme">Create New Transaction</h3>
     <hr>
     <form class="form-horizontal" method="post">

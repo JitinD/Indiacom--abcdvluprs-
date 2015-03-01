@@ -12,3 +12,5 @@ $ControllerDefaultLink['RoleManager'] = "RoleManager/load";
 $ControllerDefaultLink['UserManager'] = "UserManager/load";
 $ControllerDefaultLink['InitialPaperReviewer'] = "InitialPaperReviewer";
 $ControllerDefaultLink['FinalPaperReviewer'] = "FinalPaperReviewer";
+$ControllerDefaultLink['PaymentsManager'] = "PaymentsManager/newPayment";
+$ControllerDefaultLink['TransactionManager'] = "TransactionManager/load";

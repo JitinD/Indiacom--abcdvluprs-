@@ -138,6 +138,7 @@ class PaymentsManager extends CI_Controller
                     ))
                     {
                         $this->data['transUsedAmount'] = $this->transaction_model->getTransactionUsedAmount($transId);
+                        $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($memberId, $this->data['papers']);
                     }
                     $this->data['papersInfo'] = $this->payment_model->calculatePayables(
                         $memberId,

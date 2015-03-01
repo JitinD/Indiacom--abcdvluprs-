@@ -1,4 +1,4 @@
-<div class="col-sm-10 col-md-10" id="contentPanel">
+<div class="col-sm-12 col-md-12" id="contentPanel">
     <span class="h2 text-theme">Transactions</span><br/>
 
     <?php
