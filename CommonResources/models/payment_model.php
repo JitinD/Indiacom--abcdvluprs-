@@ -132,8 +132,8 @@ class Payment_model extends CI_Model
                         Join
                     transaction_master
                         On transaction_id = payment_trans_id
-                Where is_verified != 2
-                Group By
+                " . ($includeRejected ? " " : " Where is_verified != 2 ") .
+                "Group By
                     Case
                         When payment_submission_id Is Null
                         Then payment_member_id
@@ -152,7 +152,7 @@ class Payment_model extends CI_Model
                         Join
                     transaction_master
                         On transaction_id = payment_trans_id
-                Where is_waived_off = 1 And is_verified !=2
+                Where is_waived_off = 1 " . ($includeRejected ? "" : " And is_verified !=2 ") . "
                 Group By
                     Case
                         When payment_submission_id Is Null
