@@ -352,7 +352,7 @@
                                                         ?>
                                                             <option value = "<?php echo $index; ?>"
                                                                 <?php
-                                                                if (isset($attendance[$paper->submission_id]->is_present_on_desk) && $attendance[$paper->submission_id]->is_present_on_desk == $index)
+                                                                if (isset($attendance[$paper->submission_id]['is_present_on_desk']) && $attendance[$paper->submission_id]['is_present_on_desk'] == $index)
                                                                     echo "selected"
                                                                 ?>>
                                                                 <?php echo $attendance_on_desk[$index]; ?>

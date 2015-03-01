@@ -108,219 +108,219 @@
                href="<?php echo "/" . BASEURL . "index.php/DeliverablesManager/assignMemberDeliverables/" . $memberDetails['member_id']; ?>">Assign
                 Member Deliverables</a>
         </div>
-    </div>
-    <table class="table table-responsive table-condensed table-hover table-striped">
-        <thead>
-        <tr>
-            <th>Paper Code</th>
-            <th>Paper Title</th>
-            <th>Is Registered</th>
-            <th>Payable</th>
-            <th>Waived off</th>
-            <th>Paid</th>
-            <th>Pending</th>
-            <th>Select Payable</th>
-            <th>Mark attendance</th>
-            <th>Track</th>
-            <th>Session</th>
-            <th>Subsession</th>
-            <th>Venue</th>
-            <th>Start Time</th>
-            <th>End Time</th>
-        </tr>
-        </thead>
-        <tbody>
 
-        <?php
-        if (empty($papers)) {
-            ?>
+        <table class="table table-responsive table-condensed table-hover table-striped">
+            <thead>
             <tr>
-                <td colspan="9" class="text-center">
-                    <div class="alert alert-danger">No Accepted Papers!</div>
-                </td>
+                <th>Paper Code</th>
+                <th>Paper Title</th>
+                <th>Is Registered</th>
+                <th>Payable</th>
+                <th>Waived off</th>
+                <th>Paid</th>
+                <th>Pending</th>
+                <th>Select Payable</th>
+                <th>Mark attendance</th>
+                <th>Track</th>
+                <th>Session</th>
+                <th>Subsession</th>
+                <th>Venue</th>
+                <th>Start Time</th>
+                <th>End Time</th>
             </tr>
-        <?php
-        } else {
-            foreach ($papers as $index => $paper) {
+            </thead>
+            <tbody>
+
+            <?php
+            if (empty($papers)) {
                 ?>
                 <tr>
-                    <td class="paper_id"
-                        data-paper_id="<?php if (isset($paper->paper_id)) echo $paper->paper_id; ?>">
-                        <?php if (isset($paper->paper_code))
-                            echo $paper->paper_code;
-                        ?>
+                    <td colspan="9" class="text-center">
+                        <div class="alert alert-danger">No Accepted Papers!</div>
                     </td>
+                </tr>
+            <?php
+            } else {
+                foreach ($papers as $index => $paper) {
+                    ?>
+                    <tr>
+                        <td class="paper_id"
+                            data-paper_id="<?php if (isset($paper->paper_id)) echo $paper->paper_id; ?>">
+                            <?php if (isset($paper->paper_code))
+                                echo $paper->paper_code;
+                            ?>
+                        </td>
 
-                    <td>
-                        <?php if (isset($paper->paper_title))
-                            echo $paper->paper_title;
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        if (isset($isPaperRegistered)) {
-                            if ($isPaperRegistered[$paper->paper_id])
-                                echo "Yes";
+                        <td>
+                            <?php if (isset($paper->paper_title))
+                                echo $paper->paper_title;
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            if (isset($isPaperRegistered)) {
+                                if ($isPaperRegistered[$paper->paper_id])
+                                    echo "Yes";
+                                else
+                                    echo "No";
+                            } else
+                                echo "-";
+                            ?>
+                        </td>
+                        <td><?php
+                            if (isset($papersInfo[$paper->paper_id]['br']) && !isset($papersInfo[$paper->paper_id]['ep']))
+                                echo $papersInfo[$paper->paper_id]['br'];
+                            else if (!isset($papersInfo[$paper->paper_id]['br']) && isset($papersInfo[$paper->paper_id]['ep']))
+                                echo $papersInfo[$paper->paper_id]['ep'];
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            if (isset($papersInfo[$paper->paper_id]['waiveOff']))
+                                echo $papersInfo[$paper->paper_id]['waiveOff'];
                             else
-                                echo "No";
-                        } else
-                            echo "-";
-                        ?>
-                    </td>
-                    <td><?php
-                        if (isset($papersInfo[$paper->paper_id]['br']) && !isset($papersInfo[$paper->paper_id]['ep']))
-                            echo $papersInfo[$paper->paper_id]['br'];
-                        else if (!isset($papersInfo[$paper->paper_id]['br']) && isset($papersInfo[$paper->paper_id]['ep']))
-                            echo $papersInfo[$paper->paper_id]['ep'];
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        if (isset($papersInfo[$paper->paper_id]['waiveOff']))
-                            echo $papersInfo[$paper->paper_id]['waiveOff'];
-                        else
-                            echo "0";
-                        ?>
-                    </td>
-                    <td>
-                        <?php
-                        if (isset($papersInfo[$paper->paper_id]['paid']))
-                            echo $papersInfo[$paper->paper_id]['paid'];
-                        else
-                            echo "0";
-                        ?>
-                    </td>
-                    <td class="pending_amount"
-                        data-pending_amount=" <?php if (isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>">
-                        <?php
-                        if (isset($papersInfo[$paper->paper_id]['pending']))
-                            echo $papersInfo[$paper->paper_id]['pending'];
-                        else
-                            echo "-";
-                        ?>
-                    </td>
+                                echo "0";
+                            ?>
+                        </td>
+                        <td>
+                            <?php
+                            if (isset($papersInfo[$paper->paper_id]['paid']))
+                                echo $papersInfo[$paper->paper_id]['paid'];
+                            else
+                                echo "0";
+                            ?>
+                        </td>
+                        <td class="pending_amount"
+                            data-pending_amount=" <?php if (isset($papersInfo[$paper->paper_id]['pending'])) echo $papersInfo[$paper->paper_id]['pending']; ?>">
+                            <?php
+                            if (isset($papersInfo[$paper->paper_id]['pending']))
+                                echo $papersInfo[$paper->paper_id]['pending'];
+                            else
+                                echo "-";
+                            ?>
+                        </td>
 
-                    <td>
-                        <?php
-                        if (isset($papersInfo[$paper->paper_id]['br'])) {
-                            $payableTypes = array();
-                            if (isset($papersInfo[$paper->paper_id]['paid'])) {
-                                if (isset($papersInfo[$paper->paper_id]['discountType'])) {
-                                    $discountDetails = $papersInfo[$paper->paper_id]['discountType'];
-                                    $typeName = "Basic Registration with {$discountDetails->discount_type_name} Discount";
-                                    $payableTypes[$typeName] = array();
+                        <td>
+                            <?php
+                            if (isset($papersInfo[$paper->paper_id]['br'])) {
+                                $payableTypes = array();
+                                if (isset($papersInfo[$paper->paper_id]['paid'])) {
+                                    if (isset($papersInfo[$paper->paper_id]['discountType'])) {
+                                        $discountDetails = $papersInfo[$paper->paper_id]['discountType'];
+                                        $typeName = "Basic Registration with {$discountDetails->discount_type_name} Discount";
+                                        $payableTypes[$typeName] = array();
+                                    } else {
+                                        $typeName = "Basic Registration";
+                                        $payable = $papersInfo[$paper->paper_id]['br'];
+                                        $payableTypes[$typeName] = array("payableAmount" => $payable);
+                                    }
                                 } else {
-                                    $typeName = "Basic Registration";
-                                    $payable = $papersInfo[$paper->paper_id]['br'];
-                                    $payableTypes[$typeName] = array("payableAmount" => $payable);
-                                }
-                            } else {
-                                if (!empty($globalDiscount)) {
-                                    foreach ($globalDiscount as $discount) {
-                                        $typeName = "Basic Registration with {$discount->discount_type_name} Discount";
-                                        $discountAmount = $discount->discount_type_amount * $papersInfo[$paper->paper_id]['br'];
-                                        $payable = $papersInfo[$paper->paper_id]['br'] - $discountAmount;
-                                        $discountTypeId = "_{$discount->discount_type_id}";
-                                        $payableTypes[$typeName] = array("payableAmount" => $payable, "discountTypeId" => $discountTypeId, "isGlobal" => true);
+                                    if (!empty($globalDiscount)) {
+                                        foreach ($globalDiscount as $discount) {
+                                            $typeName = "Basic Registration with {$discount->discount_type_name} Discount";
+                                            $discountAmount = $discount->discount_type_amount * $papersInfo[$paper->paper_id]['br'];
+                                            $payable = $papersInfo[$paper->paper_id]['br'] - $discountAmount;
+                                            $discountTypeId = "_{$discount->discount_type_id}";
+                                            $payableTypes[$typeName] = array("payableAmount" => $payable, "discountTypeId" => $discountTypeId, "isGlobal" => true);
+                                        }
+                                    }
+                                    if (!empty($paperWiseDiscount[$paper->paper_id])) {
+                                        foreach ($paperWiseDiscount[$paper->paper_id] as $paperDiscount) {
+                                            $typeName = "Basic Registration with {$paperDiscount->discount_type_name} Discount";
+                                            $discountAmount = $paperDiscount->discount_type_amount * $papersInfo[$paper->paper_id]['br'];
+                                            $payable = $papersInfo[$paper->paper_id]['br'] - $discountAmount;
+                                            $discountTypeId = "_{$paperDiscount->discount_type_id}";
+                                            $payableTypes[$typeName] = array("payableAmount" => $payable, "discountTypeId" => $discountTypeId);
+                                        }
+                                    }
+                                    if (empty($globalDiscount) && empty($paperWiseDiscount[$paper->paper_id])) {
+                                        $typeName = "Basic Registration";
+                                        $payable = $papersInfo[$paper->paper_id]['br'];
+                                        $payableTypes[$typeName] = array("payableAmount" => $payable);
                                     }
                                 }
-                                if (!empty($paperWiseDiscount[$paper->paper_id])) {
-                                    foreach ($paperWiseDiscount[$paper->paper_id] as $paperDiscount) {
-                                        $typeName = "Basic Registration with {$paperDiscount->discount_type_name} Discount";
-                                        $discountAmount = $paperDiscount->discount_type_amount * $papersInfo[$paper->paper_id]['br'];
-                                        $payable = $papersInfo[$paper->paper_id]['br'] - $discountAmount;
-                                        $discountTypeId = "_{$paperDiscount->discount_type_id}";
-                                        $payableTypes[$typeName] = array("payableAmount" => $payable, "discountTypeId" => $discountTypeId);
-                                    }
-                                }
-                                if (empty($globalDiscount) && empty($paperWiseDiscount[$paper->paper_id])) {
-                                    $typeName = "Basic Registration";
-                                    $payable = $papersInfo[$paper->paper_id]['br'];
-                                    $payableTypes[$typeName] = array("payableAmount" => $payable);
+                                foreach ($payableTypes as $type => $details) {
+                                    ?>
+                                    <span>
+                                                    <input type="radio" class="radio"
+                                                           name="<?php echo $paper->submission_id; ?>_payheadAndDiscount" <?php if (!isset($papersInfo[$paper->paper_id]['ep'])) echo "checked"; ?>
+                                                           value="BR<?php if (isset($details['discountTypeId'])) echo $details['discountTypeId']; ?>"
+                                                           isGlobal="<?php echo (isset($details['isGlobal'])) ? "true" : "false"; ?>"
+                                                           class="radio"
+                                                        <?php
+                                                        if (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] == 0)
+                                                            echo "disabled";
+                                                        ?>>
+                                        <?php echo $type; ?>
+                                        <input type="hidden"
+                                               value="<?php if (isset($details['payableAmount'])) echo $details["payableAmount"]; ?>">
+                                                </span>
+                                <?php
                                 }
                             }
-                            foreach ($payableTypes as $type => $details) {
+                            ?>
+                            <?php
+                            if (isset($papersInfo[$paper->paper_id]['ep'])) {
                                 ?>
                                 <span>
-                                                <input type="radio" class="radio"
-                                                       name="<?php echo $paper->submission_id; ?>_payheadAndDiscount" <?php if (!isset($papersInfo[$paper->paper_id]['ep'])) echo "checked"; ?>
-                                                       value="BR<?php if (isset($details['discountTypeId'])) echo $details['discountTypeId']; ?>"
-                                                       isGlobal="<?php echo (isset($details['isGlobal'])) ? "true" : "false"; ?>"
+                                                <input type="radio"
+                                                       name="<?php echo $paper->submission_id; ?>_payheadAndDiscount"
+                                                    <?php if (!isset($papersInfo[$paper->paper_id]['br'])) echo "checked"; ?>
+                                                       value="EP"
                                                        class="radio"
                                                     <?php
                                                     if (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] == 0)
                                                         echo "disabled";
-                                                    ?>>
-                                    <?php echo $type; ?>
-                                    <input type="hidden"
-                                           value="<?php if (isset($details['payableAmount'])) echo $details["payableAmount"]; ?>">
+                                                    ?> >
+                                                Extra Paper
+                                                <input type="hidden"
+                                                       value="<?php echo $papersInfo[$paper->paper_id]['ep']; ?>">
                                             </span>
                             <?php
                             }
-                        }
-                        ?>
-                        <?php
-                        if (isset($papersInfo[$paper->paper_id]['ep'])) {
                             ?>
-                            <span>
-                                            <input type="radio"
-                                                   name="<?php echo $paper->submission_id; ?>_payheadAndDiscount"
-                                                <?php if (!isset($papersInfo[$paper->paper_id]['br'])) echo "checked"; ?>
-                                                   value="EP"
-                                                   class="radio"
-                                                <?php
-                                                if (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] == 0)
-                                                    echo "disabled";
-                                                ?> >
-                                            Extra Paper
-                                            <input type="hidden"
-                                                   value="<?php echo $papersInfo[$paper->paper_id]['ep']; ?>">
-                                        </span>
-                        <?php
-                        }
-                        ?>
-                    </td>
-                    <td>
-                        <select name="attendance_on_desk" class="form-control attendance_on_desk"
-                            <?php
-                            if (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] != 0)
-                                echo "disabled";
-                            ?>
-                            >
-                            <?php
-                            $attendance_on_desk = array("Absent", "Present");
-
-                            for ($index = 0; $index < 2; $index++) {
+                        </td>
+                        <td>
+                            <select name="attendance_on_desk" class="form-control attendance_on_desk"
+                                <?php
+                                if (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] != 0)
+                                    echo "disabled";
                                 ?>
-                                <option value="<?php echo $index; ?>"
-                                    <?php
-                                    if (isset($attendance[$paper->submission_id]['is_present_on_desk']) && $attendance[$paper->submission_id]['is_present_on_desk'] == $index)
-                                        echo "selected"
-                                    ?>>
-                                    <?php echo $attendance_on_desk[$index]; ?>
-                                </option>
-                            <?php
-                            }
-                            ?>
-                        </select>
+                                >
+                                <?php
+                                $attendance_on_desk = array("Absent", "Present");
 
-                        <div class="bg-info attInfo"></div>
-                        <div class="bg-danger attError"></div>
-                    </td>
-                    <td><?php echo $paper->track_id; ?></td>
-                    <td><?php echo $paper->session_id; ?></td>
-                    <td><?php echo $paper->sub_session_id; ?></td>
-                    <td><?php echo $paper->venue; ?></td>
-                    <td><?php echo $paper->start_time; ?></td>
-                    <td><?php echo $paper->end_time; ?></td>
-                </tr>
-            <?php
+                                for ($index = 0; $index < 2; $index++) {
+                                    ?>
+                                    <option value="<?php echo $index; ?>"
+                                        <?php
+                                        if (isset($attendance[$paper->submission_id]['is_present_on_desk']) && $attendance[$paper->submission_id]['is_present_on_desk'] == $index)
+                                            echo "selected"
+                                        ?>>
+                                        <?php echo $attendance_on_desk[$index]; ?>
+                                    </option>
+                                <?php
+                                }
+                                ?>
+                            </select>
+
+                            <div class="bg-info attInfo"></div>
+                            <div class="bg-danger attError"></div>
+                        </td>
+                        <td><?php echo $paper->track_id; ?></td>
+                        <td><?php echo $paper->session_id; ?></td>
+                        <td><?php echo $paper->sub_session_id; ?></td>
+                        <td><?php echo $paper->venue; ?></td>
+                        <td><?php echo $paper->start_time; ?></td>
+                        <td><?php echo $paper->end_time; ?></td>
+                    </tr>
+                <?php
+                }
             }
-        }
-        ?>
-        </tbody>
-    </table>
-
+            ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 
@@ -372,6 +372,7 @@ else
             var ref_td = $(this).parent();
             var paperId = $('.paper_id', ref).attr('data-paper_id');
             var isPresent = $(this).val();
+            //a lert(memberId+"-"+paperId+";"+isPresent);
             $('.attInfo', ref_td).html("Updating");
             $.ajax({
                 type: "POST",
