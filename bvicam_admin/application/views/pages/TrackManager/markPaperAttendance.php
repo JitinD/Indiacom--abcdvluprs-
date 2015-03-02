@@ -117,7 +117,7 @@
                                                                     <td><?php echo $member_paper->paper_title; ?></td>
                                                                     <?php if (isset($attendance[$member_paper->paper_id]['is_present_on_desk']) && $attendance[$member_paper->paper_id]['is_present_on_desk'] == 1) {
                                                                         ?>
-                                                                        <td><?php echo "Present" ?></td>
+                                                                        <td class = "deskAttendance" data-value = 1><?php echo "Present" ?></td>
                                                                         <td>
                                                                             <select name="attendance_on_track"
                                                                                     class="form-control attendance_on_track">
@@ -146,7 +146,7 @@
                                                                     } else {
                                                                         ?>
                                                                         <td><?php echo "Absent On desk" ?></td>
-                                                                        <td class="attendance_not_marked"><?php $present = 0;
+                                                                        <td class="attendance_not_marked deskAttendance" data-value = 0><?php $present = 0;
                                                                             echo "Not marked" ?></td>
                                                                     <?php
                                                                     }
@@ -168,7 +168,7 @@
                                                                                 ($certificate[$member->submission_id][$member_paper->paper_id]['certificate_outward_number'] == '') ||
                                                                                 (isset($attendance[$member_paper->paper_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == 0) || isset($present)&& $present == 0
                                                                             )
-                                                                                echo "disabled";
+                                                                                echo "disabled ";
 
                                                                             if (isset($certificate[$member->submission_id][$member_paper->paper_id]['is_certificate_given']) && ($certificate[$member->submission_id][$member_paper->paper_id]['is_certificate_given'] == 1))
                                                                                 echo "checked";
@@ -247,14 +247,17 @@
 
 <script>
     $(document).ready(function () {
-
         $("#memberList").hide();
+
         $(".certificate_outward_number").change(function () {
             var ref = $(this).parent().parent();
             var ref_td = $(this).parent();
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
             var outwardNumber = $(this).val();
             var attendance = $('.attendance_not_marked', ref).text();
+            var deskAttendance = $('.deskAttendance', ref).attr('data-value');
+            var trackAttendance = $(".attendance_on_track", ref).val();
+
             $.ajax({
                 type: "POST",
                 url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markOutwardNumber_AJAX",
@@ -263,8 +266,8 @@
                     if (msg == "true") {
                         $(".attInfo", ref_td).html("Updated");
 
-                        if (outwardNumber == "") {
-                            $('.is_certificate_given', ref).attr("disabled", "disabled");
+                        if (outwardNumber == "")
+                        {
                             $.ajax({
                                 type: "POST",
                                 url: "/<?php echo BASEURL; ?>index.php/CertificateManager/removeCertificateRecord_AJAX",
@@ -273,6 +276,7 @@
 
                                     if (msg == "true") {
                                         $(".attInfo", ref_td).html("Updated");
+                                        $('.is_certificate_given', ref).prop('disabled',true);
                                     }
                                     else {
                                         $(".attInfo", ref_td).html("");
@@ -281,17 +285,14 @@
                                 }
                             });
                         }
-                        else {
-                            $('.is_certificate_given', ref).removeAttr("disabled");
+                        else
                             $('.is_certificate_given', ref).prop('checked', false);
-                        }
 
-                        if (attendance == "Not marked") {
+                        if (deskAttendance == 0 || trackAttendance == 0)
                             $('.is_certificate_given', ref).attr("disabled", "disabled");
-                        }
-                        else {
+                        else
                             $('.is_certificate_given', ref).removeAttr("disabled");
-                        }
+
                     }
                     else {
                         $(".attInfo", ref_td).html("");
@@ -302,8 +303,10 @@
         });
 
 
+
         $(".is_certificate_given").click(function () {
             var ref = $(this).parent().parent();
+            var ref_td = $(this).parent();
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
             if ($(this).is(":checked")) {
                 $(this).val(1);
@@ -313,7 +316,7 @@
             }
 
             var certificateGiven = $(this).val();
-
+            //alert(submissionId+" - "+certificateGiven)
             $.ajax({
                 type: "POST",
                 url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markCertificateGiven_AJAX",
@@ -344,7 +347,7 @@
 
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
             var isPresent = $(this).val();
-
+            //alert(submissionId+"-"+isPresent);
             //$('.attInfo', ref_td).html("Updating");
             $.ajax({
                 type: "POST",

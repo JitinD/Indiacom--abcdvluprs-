@@ -122,7 +122,7 @@
                                 } else {
                                     ?>
                                     <td><?php echo "Absent On desk" ?></td>
-                                    <td class="attendance_not_marked deskAttendance" data-value = 0><?php //$present = 0;
+                                    <td class="attendance_not_marked deskAttendance" data-value = 0><?php $present = 0;
                                         echo "Not marked" ?>
                                     </td>
                                 <?php
@@ -196,6 +196,7 @@
 </div>
 
 <script>
+
     $(document).ready(function () {
         $("#memberList").hide();
 
@@ -206,6 +207,7 @@
             var outwardNumber = $(this).val();
             var attendance = $('.attendance_not_marked', ref).text();
             var deskAttendance = $('.deskAttendance', ref).attr('data-value');
+            var trackAttendance = $(".attendance_on_track", ref).val();
 
             $.ajax({
                 type: "POST",
@@ -237,7 +239,7 @@
                         else
                             $('.is_certificate_given', ref).prop('checked', false);
 
-                        if (deskAttendance == 0)
+                        if (deskAttendance == 0 || trackAttendance == 0)
                             $('.is_certificate_given', ref).attr("disabled", "disabled");
                         else
                             $('.is_certificate_given', ref).removeAttr("disabled");
