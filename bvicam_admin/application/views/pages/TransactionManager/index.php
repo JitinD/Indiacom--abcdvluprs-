@@ -10,6 +10,20 @@
     <h1 class="page-header"><?php if($isUnusedTransactionList) echo "Unused "; ?>Transactions</h1>
     <div class="row">
         <div id="trans-list" class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-group">
+                        <input type="text" class="searchValue form-control search" name="searchValue" maxlength="10"
+                               value="" id="searchValue"
+                               placeholder="Search">
+                    <span class="input-group-btn">
+                        <button type="button" id="submitButton" class="btn btn-default"><span
+                                class="glyphicon glyphicon-search"></span></button>
+                    </span>
+                    </div>
+                </div>
+            </div>
+            <hr/>
             <table class="table table-responsive table-hover table-condensed">
                 <thead>
                 <tr>
@@ -117,7 +131,8 @@
             'trans_waivedoff',
             'trans_verified',
             'trans_unused_amount'
-        ]
+        ],
+        page: 750
     };
 
     var transList = new List('trans-list', options);

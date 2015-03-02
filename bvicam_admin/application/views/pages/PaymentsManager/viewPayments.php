@@ -101,7 +101,7 @@
                                                     Rs. <?php echo $outstanding; ?>/-
                                                 </td>
                                                 <td>
-                                                    <button>Transfer</button>
+                                                    <button class="btn btn-sm btn-default">Transfer</button>
                                                 </td>
                                             </tr>
                                             <tr style="display: none;">
@@ -221,6 +221,9 @@
                                                                 echo "bg-danger";
                                                             ?>">
                                                     Rs. <?php echo $outstanding; ?>/-
+                                                </td>
+                                                <td>
+                                                    <button class="btn btn-sm btn-default">Transfer</button>
                                                 </td>
                                             </tr>
                                             <tr style="display: none;">

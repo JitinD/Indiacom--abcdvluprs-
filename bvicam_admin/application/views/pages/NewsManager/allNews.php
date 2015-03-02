@@ -9,7 +9,7 @@
         xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"></script>
 <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/AJAXstyle.css">
 
-<div class="col-sm-12 col-md-12">
+<div class="col-sm-12 col-md-12" id="contentPanel">
     <h1 class="page-header">News</h1>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">

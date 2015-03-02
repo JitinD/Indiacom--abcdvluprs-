@@ -212,3 +212,5 @@ $privilege['Page']['FinalPaperReviewer']['paperInfo'] = array(49, 17, 9, 73, 13,
 $privilege['Page']['PaymentsManager'][] = array();
 
 $privilege['Page']['TransactionManager'][] = array();
+
+$privilege['Page']['ReportManager'][] = array();

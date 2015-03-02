@@ -93,7 +93,7 @@ class Discount_model extends CI_Model
                     member_master
                         On submission_member_id = member_id
                 Where
-                    total_amount_paid >= (payable_class_amount - discount_amount)And
+                    total_amount_paid >= 0/*(payable_class_amount - discount_amount)*/ And
                     member_organization_id = ?
                 Group By member_organization_id";
         $query = $this->db->query($sql, array($memberInfo['member_organization_id']));

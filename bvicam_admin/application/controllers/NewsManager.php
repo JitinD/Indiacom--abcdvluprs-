@@ -20,6 +20,8 @@ class NewsManager extends CI_Controller
         $folder = "NewsManager/";
         require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
+        $sidebarData['controllerName'] = $controllerName = "PaymentsManager";
+        $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . "views/pages/$folder" . $page . '.php')) {
             show_404();
         }
@@ -28,10 +30,20 @@ class NewsManager extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-
-        $this->load->view('templates/header', $this->data);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $this->load->view('templates/header');
+        $this->load->view('templates/navbar', $sidebarData);
         $this->load->view("pages/{$folder}$page", $this->data);
         $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+        $links['viewPaymentsMemberWise'] = "View payments memberwise";
+        $links['viewPaymentsPaperWise'] = "View payments paperwise";
+        $links['newPayment'] = "New payment";
+        $links['spotPayments'] = "Spot payment";
+        return $links;
     }
 
     public function load($appId = -1)
