@@ -22,7 +22,8 @@ class ReportManager extends CI_Controller
         $this->load->model('access_model');
         require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
-
+        $sidebarData['controllerName'] = $controllerName = "ReportManager";
+        $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . 'views/pages/ReportManager/' . $page . '.php')) {
             show_404();
         }
@@ -30,11 +31,17 @@ class ReportManager extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $this->data);
+        $this->load->view('templates/header');
+        $this->load->view('templates/navbar', $sidebarData);
         $this->load->view('pages/ReportManager/' . $page, $this->data);
         $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+
     }
 
     public function downloadReport()
