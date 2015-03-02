@@ -123,11 +123,13 @@ class TrackManager extends CI_Controller
             foreach ($this->data['members'] as $index => $member) {
                 $this->data['papers'][$member -> submission_member_id] = $this->paper_status_model->getTrackAcceptedPapersInfo($member->submission_member_id);
                 foreach ($this->data['papers'][$member -> submission_member_id] as $index => $paper) {
-                    if(!isset($this->data['attendance'][$paper->paper_id]))
+                    if(!isset($this->data['attendance'][$paper->submission_id]))
                     {
-                        $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
+                        $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
+
                     }
-                    $this->data['certificate'][$member -> submission_member_id][$paper->paper_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
+                    $this->data['certificate'][$paper->submission_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
+
                 }
             }
         } else {

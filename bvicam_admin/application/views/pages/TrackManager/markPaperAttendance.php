@@ -115,7 +115,7 @@
                                                                     class="submission_id"><?php echo $member_paper->paper_code; ?></td>
 
                                                                     <td><?php echo $member_paper->paper_title; ?></td>
-                                                                    <?php if (isset($attendance[$member_paper->paper_id]['is_present_on_desk']) && $attendance[$member_paper->paper_id]['is_present_on_desk'] == 1) {
+                                                                    <?php if (isset($attendance[$member_paper->submission_id]['is_present_on_desk']) && $attendance[$member_paper->submission_id]['is_present_on_desk'] == 1) {
                                                                         ?>
                                                                         <td class = "deskAttendance" data-value = 1><?php echo "Present" ?></td>
                                                                         <td>
@@ -129,7 +129,7 @@
                                                                                     <option
                                                                                         value="<?php echo $index; ?>"
                                                                                         <?php
-                                                                                        if (isset($attendance[$member_paper->paper_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == $index)
+                                                                                        if (isset($attendance[$member_paper->submission_id]['is_present_in_hall']) && $attendance[$member_paper->submission_id]['is_present_in_hall'] == $index)
                                                                                             echo "selected"
                                                                                         ?>>
                                                                                         <?php echo $attendance_on_track[$index]; ?>
@@ -153,8 +153,8 @@
                                                                     ?>
                                                                     <td><input type="text"
                                                                                class="certificate_outward_number form-control"
-                                                                               value="<?php if (isset($certificate[$member->submission_member_id][$member_paper->paper_id]['certificate_outward_number'])) {
-                                                                                   echo $certificate[$member->submission_member_id][$member_paper->paper_id]['certificate_outward_number'];
+                                                                               value="<?php if (isset($certificate[$member_paper->submission_id]['certificate_outward_number'])) {
+                                                                                   echo $certificate[$member_paper->submission_id]['certificate_outward_number'];
                                                                                }
                                                                                ?>">
 
@@ -164,25 +164,25 @@
                                                                         <input type="checkbox"
                                                                                class="is_certificate_given"
                                                                             <?php
-                                                                            if (!isset($certificate[$member->submission_id][$member_paper->paper_id]['certificate_outward_number']) ||
-                                                                                ($certificate[$member->submission_id][$member_paper->paper_id]['certificate_outward_number'] == '') ||
-                                                                                (isset($attendance[$member_paper->paper_id]['is_present_in_hall']) && $attendance[$member_paper->paper_id]['is_present_in_hall'] == 0) || isset($present)&& $present == 0
+                                                                            if (!isset($certificate[$member_paper->submission_id]['certificate_outward_number']) ||
+                                                                                ($certificate[$member_paper->submission_id]['certificate_outward_number'] == '') ||
+                                                                                (isset($attendance[$member_paper->submission_id]['is_present_in_hall']) && $attendance[$member_paper->submission_id]['is_present_in_hall'] == 0) || isset($present)&& $present == 0
                                                                             )
                                                                                 echo "disabled ";
 
-                                                                            if (isset($certificate[$member->submission_id][$member_paper->paper_id]['is_certificate_given']) && ($certificate[$member->submission_id][$member_paper->paper_id]['is_certificate_given'] == 1))
+                                                                            if (isset($certificate[$member_paper->submission_id]['is_certificate_given']) && ($certificate[$member_paper->submission_id]['is_certificate_given'] == 1))
                                                                                 echo "checked";
                                                                             ?>>
 
                                                                         <div class="bg-info attInfo"></div>
                                                                         <div class="bg-danger attError"></div>
                                                                     </td>
-                                                                    <td><?php echo $member->track_id; ?></td>
-                                                                    <td><?php echo $member->session_id; ?></td>
-                                                                    <td><?php echo $member->sub_session_id; ?></td>
-                                                                    <td><?php echo $member->venue; ?></td>
-                                                                    <td><?php echo $member->start_time; ?></td>
-                                                                    <td><?php echo $member->end_time; ?></td>
+                                                                    <td><?php echo $member_paper->track_id; ?></td>
+                                                                    <td><?php echo $member_paper->session_id; ?></td>
+                                                                    <td><?php echo $member_paper->sub_session_id; ?></td>
+                                                                    <td><?php echo $member_paper->venue; ?></td>
+                                                                    <td><?php echo $member_paper->start_time; ?></td>
+                                                                    <td><?php echo $member_paper->end_time; ?></td>
 
                                                                 </tr>
 
