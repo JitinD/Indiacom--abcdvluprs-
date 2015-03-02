@@ -55,7 +55,27 @@ class Paper_model extends CI_Model
     public function getPaperDetails($paperId)
     {
         $sql = "Select * From paper_master Where paper_id = ?";
+        //print_r($paperId);
+        //die();
         $query = $this->db->query($sql, array($paperId));
+        if($query->num_rows() == 0)
+            return null;
+        return $query->row();
+    }
+
+    public function getPaperID($paperCode)
+    {
+        $sql = "Select paper_master.paper_id From
+        paper_master  JOIN
+        subject_master
+        on paper_master.paper_subject_id=subject_master.subject_id
+        JOIN
+        track_master
+        on subject_master.subject_track_id=track_master.track_id
+        Where paper_master.paper_code = ? AND
+        track_master.track_event_id=?";
+
+        $query = $this->db->query($sql, array($paperCode,EVENT_ID));
         if($query->num_rows() == 0)
             return null;
         return $query->row();

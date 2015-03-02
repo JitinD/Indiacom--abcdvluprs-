@@ -105,8 +105,12 @@ class DeskManager extends CI_Controller
 
         $this -> home();
         $this->load->model('paper_model');
-        $paper_id=$this->paper_model->getPaperDetails($paper_code)->paper_id;
-        if($paper_id)
+        $paper_id_obj=$this->paper_model->getPaperID($paper_code);
+
+        if(isset($paper_id_obj))
+            $paper_id = $paper_id_obj -> paper_id;
+
+        if(isset($paper_id) && $paper_id)
         {
             $this->load->model('paper_status_model');
             $this->load->model('member_categories_model');

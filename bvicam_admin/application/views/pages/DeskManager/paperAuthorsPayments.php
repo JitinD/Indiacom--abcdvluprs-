@@ -395,7 +395,7 @@ else
 ?>
 <div class = "Info">
     <?php
-    if(!isset($paperId))
+    if(isset($paperId))
     {?>
         <div class="alert alert-danger text-center">Sorry, No Paper Found</div>
     <?php
