@@ -45,12 +45,12 @@
         </div>
     </div>
     <hr>
-    <h3 class="text-center">Member Profile</h3>
+
     <?php
     if (isset($memberDetails))
     {
     ?>
-
+    <h3 class="text-center Info">Member Profile</h3>
     <div class="Info">
         <div class="col-md-6">
             <table class="table table-condensed">
