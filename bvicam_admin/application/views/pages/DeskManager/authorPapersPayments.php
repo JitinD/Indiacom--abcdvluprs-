@@ -283,7 +283,7 @@
                         <td>
                             <select name="attendance_on_desk" class="form-control attendance_on_desk"
                                 <?php
-                                if (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] != 0)
+                                if ( !isset($papersInfo[$paper->paper_id]['pending']) || (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] != 0))
                                     echo "disabled";
                                 ?>
                                 >

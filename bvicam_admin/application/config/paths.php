@@ -6,9 +6,9 @@
  * Time: 12:21 AM
  */
 
-//define('SERVER_ROOT', '/home/bvica/public_html/');
+define('SERVER_ROOT', '/home/bvica/public_html/');
 //define('SERVER_ROOT', 'C:/xampp/htdocs/');
-define('SERVER_ROOT', 'C:/wamp/www/');
+//define('SERVER_ROOT', 'C:/wamp/www/');
 
 //Upload Folders
 define('UPLOAD_FOLDER', 'uploads/');
@@ -22,5 +22,5 @@ define('NEWS_ATTACHMENT_FOLDER', 'Attachments/');
 define('REPORTS_FOLDER','reports/');
 
 //Upload base path
-define('UPLOAD_PATH', 'Indiacom2015/'.UPLOAD_FOLDER);
-//define('UPLOAD_PATH', 'indiacom2015/'.UPLOAD_FOLDER);
+//define('UPLOAD_PATH', 'Indiacom2015/'.UPLOAD_FOLDER);
+define('UPLOAD_PATH', 'indiacom2015/'.UPLOAD_FOLDER);
