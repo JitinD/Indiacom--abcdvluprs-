@@ -214,3 +214,7 @@ $privilege['Page']['PaymentsManager'][] = array();
 $privilege['Page']['TransactionManager'][] = array();
 
 $privilege['Page']['ReportManager'][] = array();
+
+$privilege['Page']['DeskManager'][] = array();
+
+$privilege['Page']['TrackManager'][] = array();

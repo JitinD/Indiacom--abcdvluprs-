@@ -27,7 +27,8 @@ class DeskManager extends CI_Controller
         $this->load->model('access_model');
         require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
-
+        $sidebarData['controllerName'] = $controllerName = "PaymentsManager";
+        $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . 'views/pages/DeskManager/' . $page . '.php')) {
             show_404();
         }
@@ -35,12 +36,22 @@ class DeskManager extends CI_Controller
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $this->data);
+        $this->load->view('templates/header');
+        $this->load->view('templates/navbar', $sidebarData);
         //$this->load->view('templates/sidebar');
         $this->load->view('pages/DeskManager/' . $page, $this->data);
         $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+        $links['viewPaymentsMemberWise'] = "View payments memberwise";
+        $links['viewPaymentsPaperWise'] = "View payments paperwise";
+        $links['newPayment'] = "New payment";
+        $links['spotPayments'] = "Spot payment";
+        return $links;
     }
 
     public function home()

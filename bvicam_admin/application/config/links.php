@@ -15,3 +15,5 @@ $ControllerDefaultLink['FinalPaperReviewer'] = "FinalPaperReviewer";
 $ControllerDefaultLink['PaymentsManager'] = "PaymentsManager/newPayment";
 $ControllerDefaultLink['TransactionManager'] = "TransactionManager/load";
 $ControllerDefaultLink['ReportManager'] = "ReportManager/home";
+$ControllerDefaultLink['DeskManager'] = "DeskManager/viewAuthorPapersPayments";
+$ControllerDefaultLink['TrackManager'] = "TrackManager/markAuthorAttendance";
