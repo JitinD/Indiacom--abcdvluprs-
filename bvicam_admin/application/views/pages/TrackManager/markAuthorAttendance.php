@@ -55,6 +55,7 @@
                     <thead>
                     <tr>
                         <th>Member ID</th>
+                        <th>Member Name</th>
                         <th>Paper Code</th>
                         <th>Paper Title</th>
                         <th>Attendance on Desk</th>
@@ -84,6 +85,9 @@
                             <tr>
                                 <td>
                                     <?php echo $paper->submission_member_id; ?>
+                                </td>
+                                <td>
+                                    <?php echo $paper->member_name; ?>
                                 </td>
                                 <td data-submission_id="<?php echo $paper->submission_id; ?>"
                                     class="submission_id"><?php echo $paper->paper_code; ?></td>

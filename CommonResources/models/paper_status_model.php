@@ -63,7 +63,7 @@ class Paper_status_model extends CI_Model
     //Get accepted papers of a track
     public function getTrackAcceptedPapersInfo($member_id)
     {
-        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,schedule_master.track_id,schedule_master.session_id,schedule_master.sub_session_id,schedule_master.venue,schedule_master.start_time,schedule_master.end_time
+        $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,schedule_master.track_id,schedule_master.session_id,schedule_master.sub_session_id,schedule_master.venue,schedule_master.start_time,schedule_master.end_time,member_master.member_name
                 From
                   paper_latest_version
                     Join
@@ -86,6 +86,9 @@ class Paper_status_model extends CI_Model
                      JOIN
                      schedule_master
                      On paper_schedule_tracker.schedule_id=schedule_master.schedule_id
+                     JOIN
+                     member_master
+                     On submission_master.submission_member_id=member_master.member_id
 
                 Where
                   submission_member_id = ? And
