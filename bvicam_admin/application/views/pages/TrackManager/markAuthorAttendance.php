@@ -219,6 +219,7 @@
 
                         if (outwardNumber == "")
                         {
+                            $('.is_certificate_given', ref).prop('checked', false);
                             $.ajax({
                                 type: "POST",
                                 url: "/<?php echo BASEURL; ?>index.php/CertificateManager/removeCertificateRecord_AJAX",
@@ -307,8 +308,22 @@
                 success: function (msg) {
                     if (msg == "true") {
                         $(".attInfo", ref_td).html("Updated");
+
                         if (isPresent == 0 || outwardNumber == "") {
                             $('.is_certificate_given', ref).attr("disabled", "disabled");
+                            $('.is_certificate_given', ref).prop('checked', false);
+
+                            if($('.is_certificate_given').val())
+                            {
+                                var certificateGiven = 0;
+
+                                $.ajax({
+                                    type: "POST",
+                                    url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markCertificateGiven_AJAX",
+                                    data: "submissionId=" + submissionId + "&is_certificate_given=" + certificateGiven,
+                                    success: function (msg) {}
+                                });
+                            }
                         }
                         else {
                             $('.is_certificate_given', ref).removeAttr("disabled");

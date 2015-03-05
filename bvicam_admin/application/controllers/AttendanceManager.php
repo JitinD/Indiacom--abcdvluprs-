@@ -21,6 +21,7 @@ class AttendanceManager extends CI_Controller
 
         $this->load->model('member_model');
         $this->load->model('paper_status_model');
+        $this->load->model('payment_model');
 
         $member_id = $this->input->post('memberId');
         $paper_id = $this->input->post('paperId');
