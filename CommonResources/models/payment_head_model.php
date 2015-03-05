@@ -46,4 +46,15 @@ class Payment_head_model extends CI_Model
         $row = $query->row();
         return $row->payment_head_id;
     }
+
+    public function getAllPayheadsAsAssocArray()
+    {
+        $payheads = $this->getAllPayheadDetails();
+        $payheadsArray = array();
+        foreach($payheads as $payhead)
+        {
+            $payheadsArray[$payhead->payment_head_id] = $payhead;
+        }
+        return $payheadsArray;
+    }
 }

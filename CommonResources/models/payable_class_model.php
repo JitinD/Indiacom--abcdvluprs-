@@ -92,4 +92,24 @@ class Payable_class_model extends CI_Model
     {
         return $this->getPayableClass(2, $isGeneral, $regCat, $currency, $transDate);
     }
+
+    public function getDateGroups($payheadId)
+    {
+        $sql = "
+        Select
+            Distinct (
+                Case
+                    When start_date Is Null
+                    Then Concat('upto ',end_date)
+                    Else Concat(start_date, ' to ', end_date)
+                End
+            ) as dates
+        From
+            payable_class
+        Where payable_class_payhead_id = ?";
+        $query = $this->db->query($sql, array($payheadId));
+        if($query->num_rows() == 0)
+            return array();
+        return $query->result();
+    }
 }

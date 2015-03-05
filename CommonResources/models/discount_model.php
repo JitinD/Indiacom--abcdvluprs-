@@ -60,6 +60,8 @@ class Discount_model extends CI_Model
          * 10% discount will be given on three or more registrations from one organization in General Category only.
          */
         $this->load->model('member_model');
+        if($this->member_model->isProfBodyMember($memberId))
+            return false;
         $memberInfo = $this->member_model->getMemberInfo($memberId);
         $sql = "Select
                   member_organization_id,

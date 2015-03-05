@@ -35,7 +35,6 @@ class PaymentsManager extends CI_Controller
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header');
         $this->load->view('templates/navbar', $sidebarData);
-        //$this->load->view('templates/sidebar', $sidebarData);
         $this->load->view('pages/PaymentsManager/'.$page, $this->data);
         $this->load->view('templates/footer');
     }
@@ -244,9 +243,75 @@ class PaymentsManager extends CI_Controller
         return false;
     }
 
-    public function paymentBreakup($mid, $pid, $payhead)
+    public function paymentBreakup($submissionId, $payheadId)
     {
+        $page = "viewPaymentBreakup";
+        $this->load->model('payment_model');
+        $this->load->library('form_validation');
+        $this->load->helper('url');
+        $this->data['paymentBreakups'] = $this->payment_model->getPaymentBreakup($submissionId, $payheadId);
+        $this->form_validation->set_rules('transfer_amount', '', 'required');
+        $this->form_validation->set_rules('transaction_id', '', 'required');
+        $this->form_validation->set_rules('payment_id', '', 'required');
+        if($this->form_validation->run())
+        {
+            $this->payment_model->transferPaymentAmount($this->input->post('payment_id'), $this->input->post('transfer_amount'));
+            redirect('PaymentsManager/newPayment/' . $this->input->post('transaction_id'));
+        }
+        $this->index($page);
+    }
 
+    public function changePayableClass($submissionId, $payableClassId)
+    {
+        $page = "changePayableClass";
+        $this->load->model('payable_class_model');
+        $this->load->model('member_categories_model');
+        $this->load->model('nationality_model');
+        $this->load->model('payment_head_model');
+        $this->data['memCats'] = $this->member_categories_model->getMemberCategoriesAsAssocArray();
+        $this->data['nationalities'] = $this->nationality_model->getAllNationalitiesAsAssocArray();
+        $this->data['paymentHeads'] = $this->payment_head_model->getAllPayheadsAsAssocArray();
+        $this->data['payableClassId'] = $payableClassId;
+        $allPayableClasses = $this->payable_class_model->getAllPayableClassDetails();
+        $classesArray = array();
+        foreach($allPayableClasses as $payableClass)
+        {
+            if(!isset($dateGroup[$payableClass->payable_class_payhead_id]))
+            {
+                $dateGroup[$payableClass->payable_class_payhead_id] = $this->payable_class_model->getDateGroups($payableClass->payable_class_payhead_id);
+            }
+            if($payableClass->start_date == null)
+                $date = "upto " . $payableClass->end_date;
+            else
+                $date = $payableClass->start_date . " to " . $payableClass->end_date;
+            $classesArray
+                [$payableClass->payable_class_payhead_id]
+                [$payableClass->payable_class_nationality]
+                [$payableClass->payable_class_registration_category]
+                [$date]
+                [$payableClass->is_general] = array("id" => $payableClass->payable_class_id, "amount" => $payableClass->payable_class_amount);
+        }
+        $this->data['dateGroups'] = $dateGroup;
+        $this->data['payableClasses'] = $classesArray;
+        if($this->changePayableClassSubmitHandle($submissionId, $payableClassId, $newPayableClassId))
+        {
+            $this->data['message'][] = "Payable class has been updated";
+            $this->data['payableClassId'] = $newPayableClassId;
+        }
+        $this->index($page);
+    }
+
+    private function changePayableClassSubmitHandle($submissionId, $payableClassId, &$newPayableClassId)
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('payableClass', "", "required");
+        if($this->form_validation->run())
+        {
+            $this->load->model('payment_model');
+            $newPayableClassId = $this->input->post('payableClass');
+            return $this->payment_model->updatePayableClass($submissionId, $payableClassId, $newPayableClassId);
+        }
+        return false;
     }
 
     public function spotPayments()

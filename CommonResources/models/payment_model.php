@@ -50,6 +50,30 @@ class Payment_model extends CI_Model
         return $noofPayments;
     }
 
+    public function updatePayableClass($submission_id, $payableClassId, $newPayableClassId)
+    {
+        $sql = "Update payment_master
+                Set payment_payable_class = ?
+                Where payment_submission_id=? And payment_payable_class=?";
+        $this->dbCon->query($sql, array($newPayableClassId, $submission_id, $payableClassId));
+        return $this->dbCon->trans_status();
+    }
+
+    public function transferPaymentAmount($paymentId, $transferAmount)
+    {
+        $paymentDetails = $this->getPaymentDetails($paymentId);
+        $newAmount = $paymentDetails->payment_amount_paid - $transferAmount;
+        if($newAmount >= 0 && $newAmount < $paymentDetails->payment_amount_paid)
+        {
+            $sql = "Update payment_master
+                    Set payment_amount_paid=?
+                    Where payment_id=?";
+            $this->dbCon->query($sql, array($newAmount, $paymentId));
+            return $this->dbCon->trans_status();
+        }
+        return false;
+    }
+
     public function quickWaiveOff()
     {
 
@@ -202,27 +226,29 @@ class Payment_model extends CI_Model
         return $query->result();
     }
 
-    public function getPaymentBreakup($mid, $pid, $payhead)
+    public function getPaymentBreakup($submissionId, $payhead)
     {
         $sql = "
         Select
+            payment_id,
+            payment_trans_id,
+            transaction_EQINR,
+            transaction_date,
+            is_verified,
+            is_waived_off,
             payment_amount_paid,
-            transaction_date
+            payment_remarks
         From
             payment_master
                 Join
-            transaction_master
-                On
-                  payment_trans_id = transaction_id
+            payable_class
+                On payment_payable_class = payable_class_id
                 Join
-            submission_master
-                On submission_master.submission_id = payment_master.payment_submission_id
-        Where
-            submission_member_id = ? And
-            submission_paper_id = ? And
-            payment_head = ?
-        Order By transaction_date";
-        $query = $this->dbCon->query($sql, array($mid, $pid, $payhead));
+            transaction_master
+                On transaction_id = payment_trans_id
+        Where payment_submission_id = ? And
+              payable_class_payhead_id = ?";
+        $query = $this->dbCon->query($sql, array($submissionId, $payhead));
         if($query->num_rows() == 0)
             return array();
         return $query->result();
@@ -313,12 +339,19 @@ class Payment_model extends CI_Model
         $sql = "
         Select
             SUM(payment_amount_paid) as total_amount_paid,
+            Case
+                When discount_type_amount is Null
+                Then 0
+                Else floor(discount_type_amount * payable_class_amount)
+            End As discount_amount,
             payable_class_amount
         From payment_master
             Join payable_class
                 On payment_payable_class = payable_class_id
             Join submission_master
                 On submission_master.submission_id = payment_master.payment_submission_id
+            Left Join discount_type_master
+                On discount_type_id = payment_discount_type
             Join transaction_master
 		        On transaction_id = payment_trans_id And is_verified = 1
         Where
@@ -331,7 +364,7 @@ class Payment_model extends CI_Model
         $result = $query->result();
         foreach($result as $row)
         {
-            if($row->total_amount_paid >= $row->payable_class_amount)
+            if($row->total_amount_paid >= $row->payable_class_amount - $row->discount_amount)
                 return true;
         }
         return false;
@@ -460,8 +493,8 @@ class Payment_model extends CI_Model
                     $isPaperRegistered,
                     $isAuthorRegistered,
                     $noofPapers,
-                    $brPayableClass->payable_class_amount,
-                    $epPayableClass->payable_class_amount,
+                    $brPayableClass,
+                    $epPayableClass,
                     $papersInfo[$paper->paper_id]
                 );
             }
@@ -474,6 +507,7 @@ class Payment_model extends CI_Model
         //$this->load->model('payment_model');
         $this->load->model('payable_class_model');
         $this->load->model('discount_model');
+        $this->load->model('payment_head_model');
         $payments = $this->getPayments($mid, $paper->paper_id);
         if(!empty($payments))
         {
@@ -490,14 +524,21 @@ class Payment_model extends CI_Model
                 $discountAmount = ($discountTypeDetails == null) ? 0 : floor($discountTypeDetails->discount_type_amount * $paymentClassDetails->payable_class_amount);
                 $paperInfo['discountType'] = $discountTypeDetails;
             }
+            $payheadDetails = $this->payment_head_model->getPayheadDetails($paymentClassDetails->payable_class_payhead_id);
+            $paperInfo['payable'] = $paymentClassDetails->payable_class_amount - $discountAmount - $paperInfo['waiveOff'];
+            $paperInfo['payhead'] = $payheadDetails;
+            $paperInfo['payableClass'] = $paymentClassDetails;
+            $paperInfo['pending'] = $paperInfo['payable'] - $paperInfo['paid'];
             switch($paymentClassDetails->payable_class_payhead_id)
             {
                 case 1: //BR
                     $paperInfo['br'] = $paymentClassDetails->payable_class_amount - $discountAmount;
+                    //$paperInfo['brPayableClass'] = $paymentClassDetails;
                     $paperInfo['pending'] = $paperInfo['br'] - $paperInfo['paid'] - $paperInfo['waiveOff'];
                     break;
                 case 2: //EP
                     $paperInfo['ep'] = $paymentClassDetails->payable_class_amount - $discountAmount;
+                    //$paperInfo['epPayableClass'] = $paymentClassDetails;
                     $paperInfo['pending'] = $paperInfo['ep'] - $paperInfo['paid'] - $paperInfo['waiveOff'];
                     break;
             }
@@ -506,13 +547,17 @@ class Payment_model extends CI_Model
         return false;
     }
 
-    private function setPayablePayments($mid, $paper, $isPaperRegistered, $isAuthorRegistered, $noofPapers, $brPayable, $epPayable, &$paperInfo = array())
+    private function setPayablePayments($mid, $paper, $isPaperRegistered, $isAuthorRegistered, $noofPapers, $brPayableClass, $epPayableClass, &$paperInfo = array())
     {
+        $this->load->model('payment_head_model');
         if($noofPapers == 1)
         {
             if(!$isAuthorRegistered)
             {
-                $paperInfo['br'] = $brPayable;
+                $paperInfo['br'] = $brPayableClass->payable_class_amount;
+                //$paperInfo['payable'] = $paperInfo['pending'] =  $brPayableClass->payable_class_amount;
+                $paperInfo['payhead'] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
+                $paperInfo['payableClass'] = $brPayableClass;
             }
         }
         else
@@ -520,224 +565,48 @@ class Payment_model extends CI_Model
             $noofAuthors = count($this->submission_model->getAllAuthorsOfPaper($paper->paper_id));
             if($noofAuthors == 1)
             {
-                $paperInfo['br'] = $brPayable;
+                $paperInfo['br'] = $brPayableClass->payable_class_amount;
+                //$paperInfo['payable'] = $paperInfo['pending'] =  $brPayableClass->payable_class_amount;
+                $paperInfo['payhead'] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
+                $paperInfo['payableClass'] = $brPayableClass;
             }
             else
             {
                 $noofEps = $this->noofEps($paper->paper_id);
                 if($noofEps == $noofAuthors - 1)
                 {
-                    $paperInfo['br'] = $brPayable;
+                    $paperInfo['br'] = $brPayableClass->payable_class_amount;
+                    //$paperInfo['payable'] = $paperInfo['pending'] =  $brPayableClass->payable_class_amount;
+                    $paperInfo['payhead'] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
+                    $paperInfo['payableClass'] = $brPayableClass;
                 }
                 else if($noofEps < $noofAuthors - 1)
                 {
                     if($isPaperRegistered && $isAuthorRegistered)
                     {
-                        $paperInfo['ep'] = $epPayable;
+                        $paperInfo['ep'] = $epPayableClass->payable_class_amount;
+                        //$paperInfo['payable'] = $paperInfo['pending'] =  $epPayableClass->payable_class_amount;
+                        $paperInfo['payhead'] = $this->payment_head_model->getPayheadDetails($epPayableClass->payable_class_payhead_id);
+                        $paperInfo['payableClass'] = $epPayableClass;
                     }
                     else
                     {
-                        $paperInfo['ep'] = $epPayable;
-                        $paperInfo['br'] = $brPayable;
+                        $paperInfo['ep'] = $epPayableClass->payable_class_amount;
+                        $paperInfo['br'] = $brPayableClass->payable_class_amount;
+                        //$paperInfo['payable'][] = $paperInfo['pending'][] =  $brPayableClass->payable_class_amount;
+                        $paperInfo['payhead'][] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
+                        $paperInfo['payableClass'][] = $brPayableClass;
+                        //$paperInfo['payable'][] = $paperInfo['pending'][] =  $epPayableClass->payable_class_amount;
+                        $paperInfo['payhead'][] = $this->payment_head_model->getPayheadDetails($epPayableClass->payable_class_payhead_id);
+                        $paperInfo['payableClass'][] = $epPayableClass;
                     }
                 }
                 else
                 {
+                    die("System Logic Error. All EPs against paper. Contact Admin");
                     //Payment error. All eps received against paper.
                 }
             }
         }
-    }
-
-
-
-
-    //Function to get the organizations under bulk registration
-    public function getBulkRegistration()
-    {
-        $this -> dbCon -> select('member_organization_id');
-        $this -> dbCon -> from('paper_latest_version');
-        $this -> dbCon -> join('submission_master','paper_latest_version.paper_id=submission_master.submission_paper_id');
-        $this -> dbCon -> join('member_master','submission_master.submission_member_id=member_master.member_id');
-        $this -> dbCon-> where('review_result_type_name','Accepted');
-        $this ->dbCon ->  group_by('member_organization_id');
-        $this -> dbCon -> having('count(member_organization_id)=3');
-        $this -> dbCon -> or_having('count(member_organization_id)>3');
-        $query = $this -> dbCon -> get();
-        //return $query -> result_array();
-        return $query -> row();
-    }
-
-    //Check if one basic registration paid under a member registration
-    public function  isMemberBRPaid($memberID)
-    {
-        $this -> dbCon -> select ('*');
-        $this -> dbCon -> from ('payment_master');
-        $this -> dbCon -> join ('payment_head_master','payment_master.payment_head=payment_head_master.payment_head_id');
-        $this -> dbCon -> where('payment_member_id',$memberID);
-        $this -> dbCon -> where('payment_head_name','BR');
-        $query = $this -> dbCon -> get();
-        if($query -> num_rows() > 0)
-            return $query -> row();
-        //return $query->row_array();
-        else
-            return false;
-    }
-
-    //Check if extra paper charges paid
-    public function checkEPPaid($memberID,$paperID)
-    {
-        $this -> dbCon -> select ('*');
-        $this -> dbCon -> from ('payment_master');
-        $this -> dbCon -> join ('payment_head_master','payment_master.payment_head=payment_head_master.payment_head_id');
-        $this -> dbCon -> where('payment_member_id',$memberID);
-        $this -> dbCon -> where('payment_paper_id',$paperID);
-        $this -> dbCon -> where('payment_head_name','EP');
-        $query = $this -> dbCon -> get();
-        if($query -> num_rows() > 0)
-            return true;
-        else
-            return false;
-    }
-
-    //Check if paper has been registered
-    public function checkPaperRegistered($paperID)
-    {
-        $this -> dbCon -> select ('payment_member_id');
-        $this -> dbCon -> from ('payment_master');
-        $this -> dbCon -> join ('payment_head_master','payment_master.payment_head=payment_head_master.payment_head_id');
-        $this -> dbCon -> where('payment_paper_id',$paperID);
-        $this -> dbCon -> where('payment_head_name','BR');
-        $query = $this -> dbCon -> get();
-        if($query -> num_rows() > 0)
-            return $query -> row();
-        //return $query->row_array();
-
-        else
-            return false;
-    }
-
-    //Check if extra Pages charges is valid for the paper
-    public function  checkOLPCValid($paperID)
-    {
-        $this->dbCon->select('extra_pages');
-        $this->dbCon->from('olpc_master');
-        $this->dbCon->where('overlength_paper_id',$paperID);
-        $query=$this->dbCon->get();
-        if($query->num_rows>0)
-            return true;
-        else
-            return false;
-    }
-
-    //Check if extra pages charges has been paid
-    public function checkOLPCPaid($paperID)
-    {
-        if($this->checkOLPCValid($paperID))
-        {
-            $this -> dbCon -> select ('*');
-            $this -> dbCon -> from ('payment_master');
-            $this -> dbCon -> join ('payment_head_master','payment_master.payment_head=payment_head_master.payment_head_id');
-            $this -> dbCon -> where('payment_member_id',$paperID);
-            $this -> dbCon -> where('payment_head_name','OLPC');
-            $query = $this -> dbCon -> get();
-            if($query -> num_rows() > 0)
-                return true;
-            else
-                return false;
-        }
-        return true;
-    }
-
-    //Check if co-author discount is valid
-    public function isCoauthorDiscountValid($memberID,$paperID)
-    {
-        $this->load->model('paper_model');
-        if($this->paper_model->checkMainAuthor($memberID))
-            return false;
-        if($this->checkPaperRegistered($paperID))
-            return true;
-        else
-            return false;
-    }
-
-    //Check if the author is an alumni
-    public function isAlumni($memberID)
-    {
-
-    }
-
-    //check if bulk registration discount is valid
-    public function isBulkRegistration($memberID)
-    {
-        $this->load->model('member_model');
-        $bulkRegistrations=$this->getBulkRegistration();
-        foreach($bulkRegistrations as $bulkRegistration)
-        {
-            if($bulkRegistration->member_organization_id==$this->member_model->getMemberOrganization($memberID))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    //Get the payable BR for a paper
-    public function getBRCharges($member_id,$nationality,$memberCategory)
-    {
-        $this->load->model('member_model');
-        $isGeneral=$this->member_model->calculateIsGeneral($member_id);
-        $isGeneral=0;
-        $current_date=date('y-m-d');
-
-        $this->dbCon->select('payable_class_amount');
-        $this->dbCon->from('payable_class');
-        $this->dbCon->join('payment_head_master','payable_class.payable_class_payhead_id=payment_head_master.payment_head_id');
-        $this->dbCon->where('payment_head_name','BR');
-        $this->dbCon->where('payable_class_registration_category',$memberCategory);
-        $this->dbCon->where('payable_class_nationality',$nationality);
-        $this->dbCon->where('start_date <=',$current_date);
-        $this->dbCon->where('end_date >=',$current_date);
-        $this->dbCon->where('is_general',$isGeneral);
-        $query=$this->dbCon->get();
-
-        if($query->num_rows()==0)
-            return null;
-
-        /*$row = $query->row();
-
-        return $row->payable_class_amount;
-        */
-
-        //return $query->result_array();
-        return $query -> row();
-    }
-
-    //Get the payable EP for a paper
-    public function getEPCharges()
-    {
-        $this->dbCon->select('payable_class_amount');
-        $this->dbCon->from('payable_class');
-        $this->dbCon->join('payment_head_master','payable_class.payable_class_payhead_id=payment_head_master.payment_head_id');
-        $this->dbCon->where('payment_head_name','EP');
-        $this->dbCon->where('payable_class_nationality',1);
-        $query=$this->dbCon->get();
-        if($query->num_rows()>0)
-            //return $query->result_array();
-            return $query -> row();
-
-    }
-
-    //Get the payable OLPC charges for a paper
-    public function getOLPCCharges()
-    {
-        $this->dbCon->select('payable_class_amount');
-        $this->dbCon->from('payable_class');
-        $this->dbCon->join('payment_head_master','payable_class.payable_class_payhead_id=payment_head_master.payment_head_id');
-        $this->dbCon->where('payment_head_name','OLPC');
-        $query=$this->dbCon->get();
-        if($query->num_rows()>0)
-            // return $query->row_array();
-            return $query -> row();
     }
 }
