@@ -9,11 +9,12 @@
 <div class="row">
     <div id="trans-list" class="col-md-12">
         <h1 class="page-header">Report Generator</h1>
-
+        Text Size &raquo;
         <div class="btn-group" role="group" aria-label="...">
-            <button id="font_inc" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-font"></span><span
+
+            <button id="font_inc" class="btn btn-sm btn-default"><span
                     class="glyphicon glyphicon-plus"></span></button>
-            <button id="font_dec" class="btn btn-sm btn-default"><span class="glyphicon glyphicon-font"></span><span
+            <button id="font_dec" class="btn btn-sm btn-default"><span
                     class="glyphicon glyphicon-minus"></span></button>
         </div>
         <?php
