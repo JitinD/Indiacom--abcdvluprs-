@@ -314,6 +314,38 @@ class PaymentsManager extends CI_Controller
         return false;
     }
 
+    public function changeDiscountType($submissionId, $payableClassId)
+    {
+        $page = "changeDiscountType";
+        $this->load->model('payment_model');
+        $this->load->model('discount_model');
+        $this->load->model('payable_class_model');
+        if($this->changeDiscountTypeSubmitHandle($submissionId, $payableClassId))
+        {
+            $this->data['message'][] = "Discount Type has been updated";
+        }
+        $this->data['discountType'] = $this->payment_model->getPaymentDiscountType($submissionId, $payableClassId);
+        $this->data['discounts'] = $this->discount_model->getAllDiscountsAsAssocArray();
+        $payableClassDetails = $this->payable_class_model->getPayableClassDetails($payableClassId);
+        $this->data['payheadId'] = $payableClassDetails->payable_class_payhead_id;
+        $this->index($page);
+    }
+
+    private function changeDiscountTypeSubmitHandle($submissionId, $payableClassId)
+    {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('discountType', 'Discount Type', 'required');
+        if($this->form_validation->run())
+        {
+            $this->load->model('payment_model');
+            $newDiscountType = $this->input->post('discountType');
+            if($newDiscountType == "null")
+                $newDiscountType = null;
+            return $this->payment_model->updateDiscountType($submissionId, $payableClassId, $newDiscountType);
+        }
+        return false;
+    }
+
     public function spotPayments()
     {
         $page = "spotPayment";

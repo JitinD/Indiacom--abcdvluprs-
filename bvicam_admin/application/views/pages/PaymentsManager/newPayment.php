@@ -298,6 +298,8 @@
                                     data-payheadId="<?php if(isset($papersInfo[$paper->paper_id]['paid'])) echo $papersInfo[$paper->paper_id]['payableClass']->payable_class_payhead_id; ?>"><?php
                                     if(isset($papersInfo[$paper->paper_id]['payable']))
                                         echo $papersInfo[$paper->paper_id]['payable'];
+                                    //else if(!is_array($papersInfo[$paper->paper_id]['payableClass']))
+                                      //  echo $papersInfo[$paper->paper_id]['payableClass']->payable_class_amount;
                                 ?></td>
                                 <td class="waive_off">
                                     <span>
@@ -323,6 +325,8 @@
                                     <span><?php
                                         if(isset($papersInfo[$paper->paper_id]['pending']))
                                             echo $papersInfo[$paper->paper_id]['pending'];
+                                        //else if(!is_array($papersInfo[$paper->paper_id]['payableClass']))
+                                          //  echo $papersInfo[$paper->paper_id]['payableClass']->payable_class_amount;
                                     ?></span>
                                 </td>
                                 <td class="pay_amount">
@@ -350,7 +354,7 @@
                                     $payableClasses = (is_array($papersInfo[$paper->paper_id]['payableClass'])) ? $papersInfo[$paper->paper_id]['payableClass'] : array($papersInfo[$paper->paper_id]['payableClass']);
                                     foreach($payHeads as $index=>$paymentHead)
                                     {
-                                        if(!empty($validDiscounts) && (isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id]) || isset($validDiscounts['global'][$paymentHead->payment_head_id])))
+                                        if(!empty($validDiscounts) && (isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id][$paper->paper_id]) || isset($validDiscounts['global'][$paymentHead->payment_head_id])))
                                         {
                                             $discountArray = array();
                                             if(isset($papersInfo[$paper->paper_id]['discountType']))
@@ -424,7 +428,7 @@
                                     ?>
                                         <a class="btn btn-default" href="/<?php echo BASEURL."PaymentsManager/paymentBreakup/{$paper->submission_id}/{$papersInfo[$paper->paper_id]['payableClass']->payable_class_payhead_id}"; ?>" target="new">Payment Breakup/Transfer</a>
                                         <a class="btn btn-default" href="/<?php echo BASEURL."PaymentsManager/changePayableClass/{$paper->submission_id}/{$papersInfo[$paper->paper_id]['payableClass']->payable_class_id}"; ?>" target="new">Change Payable Class</a>
-                                        <a class="btn btn-default" >Change Discount Type</a>
+                                        <a class="btn btn-default" href="/<?php echo BASEURL."PaymentsManager/changeDiscountType/{$paper->submission_id}/{$papersInfo[$paper->paper_id]['payableClass']->payable_class_id}"; ?>" target="new">Change Discount Type</a>
                                     <?php
                                     }
                                     ?>
@@ -435,6 +439,10 @@
                     }
                     ?>
                     </tbody>
+                </table>
+                <h4>Misc. Payments</h4>
+                <table>
+
                 </table>
             <?php
             } else if (empty($transDetails)) {

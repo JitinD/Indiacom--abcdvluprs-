@@ -271,7 +271,7 @@
                                                     $payableClasses = (is_array($paperPayables[$paper->paper_id]['payableClass'])) ? $paperPayables[$paper->paper_id]['payableClass'] : array($paperPayables[$paper->paper_id]['payableClass']);
                                                     foreach($payHeads as $index=>$paymentHead)
                                                     {
-                                                        if(!empty($validDiscounts) && (isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id]) || isset($validDiscounts['global'][$paymentHead->payment_head_id])))
+                                                        if(!empty($validDiscounts) && (isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id][$paper->paper_id]) || isset($validDiscounts['global'][$paymentHead->payment_head_id])))
                                                         {
                                                             $discountArray = array();
                                                             if(isset($paperPayables[$paper->paper_id]['discountType']))

@@ -50,12 +50,21 @@ class Payment_model extends CI_Model
         return $noofPayments;
     }
 
-    public function updatePayableClass($submission_id, $payableClassId, $newPayableClassId)
+    public function updatePayableClass($submissionId, $payableClassId, $newPayableClassId)
     {
         $sql = "Update payment_master
                 Set payment_payable_class = ?
                 Where payment_submission_id=? And payment_payable_class=?";
-        $this->dbCon->query($sql, array($newPayableClassId, $submission_id, $payableClassId));
+        $this->dbCon->query($sql, array($newPayableClassId, $submissionId, $payableClassId));
+        return $this->dbCon->trans_status();
+    }
+
+    public function updateDiscountType($submissionId, $payableClassId, $newDiscountType)
+    {
+        $sql = "Update payment_master
+                Set payment_discount_type = ?
+                Where payment_submission_id=? And payment_payable_class=?";
+        $this->dbCon->query($sql, array($newDiscountType, $submissionId, $payableClassId));
         return $this->dbCon->trans_status();
     }
 
@@ -260,6 +269,20 @@ class Payment_model extends CI_Model
         $query = $this->dbCon->query($sql, array($paymentId));
         if($query->num_rows() == 1)
             return $query->row();
+        return null;
+    }
+
+    public function getPaymentDiscountType($submissionId, $payableClassId)
+    {
+        $sql = "Select payment_discount_type
+                From payment_master
+                Where payment_submission_id=? And payment_payable_class=?";
+        $query = $this->dbCon->query($sql, array($submissionId, $payableClassId));
+        if($query->num_rows() == 1)
+        {
+            $row = $query->row();
+            return $row->payment_discount_type;
+        }
         return null;
     }
 
