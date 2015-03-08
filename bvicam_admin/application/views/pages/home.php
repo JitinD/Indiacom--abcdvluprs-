@@ -9,7 +9,7 @@
                 <?php
                 foreach ($loadableComponents as $component) {
                     ?>
-                    <div class="col-lg-3 col-md-3 col-sm-4 col-xs-12 text-center">
+                    <div class="col-lg-3 col-md-4 col-sm-6 col-xs-12 text-center">
                         <a href="/<?php echo BASEURL . "index.php/" . $ControllerDefaultLink[$component]; ?>" class="thumbnail">
                             <h5>
                                 <?php echo $component; ?>

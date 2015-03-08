@@ -60,7 +60,7 @@
                                 </select>
                             </div>
                         </div>
-                        <button id="addMore" class="btn btn-primary" style="margin-top: 10px;" type="button"><span class="glyphicon-plus"></span></button>
+                        <button id="addMore" class="btn btn-default" style="margin-top: 10px;" type="button"><span class="glyphicon-plus"></span> Add More</button>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php  ?>
@@ -69,7 +69,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-6">
-                        <button type="submit" name="submit" value="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" name="submit" value="submit" class="btn btn-default btn-lg btn-block">Submit</button>
                     </div>
                 </div>
             </form>
@@ -83,7 +83,7 @@
         $("#addMore").click(function()
         {
             var html =  "<div>" +
-                            "<select name=\"roles[]\">" +
+                            "<select name=\"roles[]\" class=\"form-control\">" +
                                 "<option>Select Role</option>" +
                                 <?php
                                 foreach($roles as $role)
