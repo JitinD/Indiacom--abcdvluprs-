@@ -66,17 +66,21 @@
                                         {
                                             ?>
                                             <tr>
+                                                <?php $currency = $currencyDetails[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency]->currency_name; ?>
                                                 <td><?php echo $memberPayment->submission_paper_id; ?></td>
                                                 <td><?php echo $payheadDetails[$memberPayment->payable_class_payhead_id]; ?></td>
-                                                <td>Rs. <?php echo $payableAmt = $memberPayment->payable_class_amount; ?>/-</td>
+                                                <td>
+                                                    <?php echo $currency; ?>
+                                                    <?php echo $payableAmt = $memberPayment->payable_class_amount; ?>/-
+                                                </td>
                                                 <td class="<?php if(($waiveOffAmt = $memberPayment->waiveoff_amount) > 0) echo "bg-info"; ?>">
-                                                    Rs. <?php echo $waiveOffAmt; ?>/-
+                                                    <?php echo $currency; ?> <?php echo $waiveOffAmt; ?>/-
                                                 </td>
                                                 <td class="<?php
                                                             if(($discountAmt = floor($memberPayment->payable_class_amount * $memberPayment->discount_type_amount)) > 0)
                                                                 echo "bg-silver";
                                                             ?>">
-                                                    Rs. <?php echo $discountAmt; ?>/-
+                                                    <?php echo $currency; ?> <?php echo $discountAmt; ?>/-
                                                 </td>
                                                 <td>
                                                     <?php
@@ -86,10 +90,10 @@
                                                         echo "N.A.";
                                                     ?>
                                                 </td>
-                                                <td>Rs. <?php echo $actualPayable = $payableAmt - ($waiveOffAmt + $discountAmt); ?>/-</td>
+                                                <td><?php echo $currency; ?> <?php echo $actualPayable = $payableAmt - ($waiveOffAmt + $discountAmt); ?>/-</td>
                                                 <td>
                                                     <button class="btn btn-link">
-                                                        Rs. <?php echo $paidAmt = $memberPayment->paid_amount; ?>/-
+                                                        <?php echo $currency; ?> <?php echo $paidAmt = $memberPayment->paid_amount / $exchangeRate[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency]; ?>/-
                                                     </button>
                                                 </td>
                                                 <td class="<?php
@@ -98,21 +102,10 @@
                                                             else if($outstanding < 0)
                                                                 echo "bg-danger";
                                                         ?>">
-                                                    Rs. <?php echo $outstanding; ?>/-
+                                                    <?php echo $currency; ?> <?php echo $outstanding; ?>/-
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-default">Transfer</button>
-                                                </td>
-                                            </tr>
-                                            <tr style="display: none;">
-                                                <td colspan="10">
-                                                    <table class="table table-condensed">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Payment Details</th>
-                                                        </tr>
-                                                        </thead>
-                                                    </table>
                                                 </td>
                                             </tr>
                                         <?php
@@ -188,17 +181,18 @@
                                         {
                                             ?>
                                             <tr>
+                                                <?php $currency = $currencyDetails[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency]->currency_name; ?>
                                                 <td><?php echo $paperPayment->submission_member_id; ?></td>
                                                 <td><?php echo $payheadDetails[$paperPayment->payable_class_payhead_id]; ?></td>
-                                                <td>Rs. <?php echo $payableAmt = $paperPayment->payable_class_amount; ?>/-</td>
+                                                <td><?php echo $currency; ?> <?php echo $payableAmt = $paperPayment->payable_class_amount; ?>/-</td>
                                                 <td class="<?php if(($waiveOffAmt = $paperPayment->waiveoff_amount) > 0) echo "bg-info"; ?>">
-                                                    Rs. <?php echo $waiveOffAmt; ?>/-
+                                                    <?php echo $currency; ?> <?php echo $waiveOffAmt; ?>/-
                                                 </td>
                                                 <td class="<?php
                                                             if(($discountAmt = floor($paperPayment->payable_class_amount * $paperPayment->discount_type_amount)) > 0)
                                                                 echo "bg-silver";
                                                             ?>">
-                                                    Rs. <?php echo $discountAmt; ?>/-
+                                                    <?php echo $currency; ?> <?php echo $discountAmt; ?>/-
                                                 </td>
                                                 <td>
                                                     <?php
@@ -208,10 +202,10 @@
                                                         echo "N.A.";
                                                     ?>
                                                 </td>
-                                                <td>Rs. <?php echo $actualPayable = $payableAmt - ($waiveOffAmt + $discountAmt); ?>/-</td>
+                                                <td><?php echo $currency; ?> <?php echo $actualPayable = $payableAmt - ($waiveOffAmt + $discountAmt); ?>/-</td>
                                                 <td>
                                                     <button class="btn btn-link">
-                                                        Rs. <?php echo $paidAmt = $paperPayment->paid_amount; ?>/-
+                                                        <?php echo $currency; ?> <?php echo $paidAmt = $paperPayment->paid_amount / $exchangeRate[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency]; ?>/-
                                                     </button>
                                                 </td>
                                                 <td class="<?php
@@ -220,21 +214,10 @@
                                                             else if($outstanding < 0)
                                                                 echo "bg-danger";
                                                             ?>">
-                                                    Rs. <?php echo $outstanding; ?>/-
+                                                    <?php echo $currency; ?> <?php echo $outstanding; ?>/-
                                                 </td>
                                                 <td>
                                                     <button class="btn btn-sm btn-default">Transfer</button>
-                                                </td>
-                                            </tr>
-                                            <tr style="display: none;">
-                                                <td colspan="10">
-                                                    <table class="table">
-                                                        <thead>
-                                                        <tr>
-                                                            <th>Payment Details</th>
-                                                        </tr>
-                                                        </thead>
-                                                    </table>
                                                 </td>
                                             </tr>
                                         <?php

@@ -54,15 +54,11 @@ class Discount_model extends CI_Model
         return false;
     }
 
-    public function isBulkRegistrationDiscountValid($memberId)
+    public function isBulkRegistrationDiscountValid($organisationId, &$noofRegistrations)
     {
         /*
          * 10% discount will be given on three or more registrations from one organization in General Category only.
          */
-        $this->load->model('member_model');
-        if($this->member_model->isProfBodyMember($memberId))
-            return false;
-        $memberInfo = $this->member_model->getMemberInfo($memberId);
         $sql = "Select
                   member_organization_id,
                   Count(submission_member_id) as number_of_registrations
@@ -98,21 +94,19 @@ class Discount_model extends CI_Model
                     total_amount_paid >= 0/*(payable_class_amount - discount_amount)*/ And
                     member_organization_id = ?
                 Group By member_organization_id";
-        $query = $this->db->query($sql, array($memberInfo['member_organization_id']));
+        $query = $this->db->query($sql, array($organisationId));
+        $noofRegistrations = 0;
         if($query->num_rows() == 1)
         {
             $row = $query->row();
-            if($row->number_of_registrations == BULK_REGISTRATION_MIN_REGISTRATION_VALUE)
-            {
-                $this->setBulkRegistrationDiscount($memberInfo['member_organization_id']);
-            }
+            $noofRegistrations = $row->number_of_registrations;
             if($row->number_of_registrations >= (BULK_REGISTRATION_MIN_REGISTRATION_VALUE - 1))
                 return true;
         }
         return false;
     }
 
-    private function setBulkRegistrationDiscount($organizationId)
+    public function setBulkRegistrationDiscount($organizationId)
     {
         $sql = "Select
                     payment_master.payment_id
@@ -186,7 +180,9 @@ class Discount_model extends CI_Model
                     }
                     break;
                 case "Bulk Registration":
-                    if($this->isBulkRegistrationDiscountValid($memberId))
+                    $this->load->model('member_model');
+                    $memberInfo = $this->member_model->getMemberInfo($memberId);
+                    if(!$this->member_model->isProfBodyMember($memberId) && $this->isBulkRegistrationDiscountValid($memberInfo['member_organization_id'], $noofRegistrations))
                     {
                         $discounts[$discountType->discount_type_id] = $discountType;
                     }

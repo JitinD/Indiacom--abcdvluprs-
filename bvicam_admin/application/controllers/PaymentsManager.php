@@ -61,10 +61,19 @@ class PaymentsManager extends CI_Controller
         $this->load->model('payment_model');
         $this->load->model('member_model');
         $this->load->model('discount_model');
+        $this->load->model('currency_model');
+        $this->load->model('nationality_model');
 
         $members = $this->payment_model->getAllPayingMembers();
         $this->data['payheadDetails'] = $this->payheadNamesAsAssocArray();
         $this->data['discountTypes'] = $this->discount_model->getAllDiscountsAsAssocArray();
+        $this->data['nationalities'] = $this->nationality_model->getAllNationalitiesAsAssocArray();
+        $currencies = $this->currency_model->getAllCurrencies();
+        foreach($currencies as $currency)
+        {
+            $this->data['exchangeRate'][$currency->currency_id] = $this->currency_model->getCurrencyExchangeRateInINR($currency->currency_id);
+            $this->data['currencyDetails'][$currency->currency_id] = $currency;
+        }
         $this->data['viewBy'] = "members";
         $this->data['membersPayments'] = array();
         foreach($members as $member)
@@ -81,8 +90,17 @@ class PaymentsManager extends CI_Controller
         $this->load->model('payment_model');
         $this->load->model('paper_model');
         $this->load->model('discount_model');
+        $this->load->model('currency_model');
+        $this->load->model('nationality_model');
 
         $papers = $this->payment_model->getAllPayingPapers();
+        $this->data['nationalities'] = $this->nationality_model->getAllNationalitiesAsAssocArray();
+        $currencies = $this->currency_model->getAllCurrencies();
+        foreach($currencies as $currency)
+        {
+            $this->data['exchangeRate'][$currency->currency_id] = $this->currency_model->getCurrencyExchangeRateInINR($currency->currency_id);
+            $this->data['currencyDetails'][$currency->currency_id] = $currency;
+        }
         $this->data['payheadDetails'] = $this->payheadNamesAsAssocArray();
         $this->data['discountTypes'] = $this->discount_model->getAllDiscountsAsAssocArray();
         $this->data['viewBy'] = "papers";
@@ -181,6 +199,7 @@ class PaymentsManager extends CI_Controller
         $this->load->model('submission_model');
         $this->load->model('transaction_model');
         $this->load->model('member_model');
+        $this->load->model('currency_model');
 
         $this->form_validation->set_rules('paymentForMemberId', 'Member Id', 'required');
 
@@ -221,6 +240,7 @@ class PaymentsManager extends CI_Controller
                     $this->data['pay_error'] = "One or more pay amount is greater than payable amount.";
                     return false;
                 }
+                $payAmount *= $this->currency_model->getCurrencyExchangeRateInINR($currency);
                 $totalPayAmount += $payAmount;
                 $paymentsDetails[] = array(
                     "payment_submission_id" => $submission,

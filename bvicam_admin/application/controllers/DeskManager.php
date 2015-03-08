@@ -152,7 +152,7 @@ class DeskManager extends CI_Controller
                         $this->data['registrationCat'][$member_id] = $this->member_model->getMemberCategory($member_id);
                         $this->data['papers'][$member_id] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
                         $this->data['isMemberRegistered'][$member_id] = $this->payment_model->isMemberRegistered($member_id);
-                        $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($member_id, $this->data['papers'][$member_id]);
+                        $this->data['discounts'][$member_id] = $this->discount_model->getMemberEligibleDiscounts($member_id, $this->data['papers'][$member_id]);
                         if($this->discount_model->error != null)
                             die($this->discount_model->error);
                         $papers = $this->data['papers'][$member_id];

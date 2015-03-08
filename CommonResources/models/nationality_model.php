@@ -48,4 +48,17 @@ class Nationality_model extends CI_Model
         }
         return $nations;
     }
+
+    public function getNationalityDetails($nationalityId)
+    {
+        $sql = "Select *
+                From nationality_master
+                Where Nationality_id = ?";
+        $query = $this->dbCon->query($sql, array($nationalityId));
+        if($query->num_rows() == 1)
+        {
+            return $query->row();
+        }
+        return null;
+    }
 }
