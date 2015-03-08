@@ -64,12 +64,14 @@ class AttendanceManager extends CI_Controller
         $this->load->model("attendance_model");
         $submission_id = $this->input->post('submissionId');
         $is_present = $this->input->post('isPresent');
-        $attendanceRecord = $this->attendance_model->getAttendanceRecord($submission_id);
-        if($attendanceRecord!=null)
-        {
-            $attendanceRecord['is_present_in_hall'] = $is_present;
-            echo json_encode($this->attendance_model->markAttendance($attendanceRecord));
-        }
+
+        $attendanceRecord = array(
+            'event_id' => EVENT_ID,
+            'submission_id' => $submission_id,
+            'is_present_in_hall' => $is_present
+        );
+
+        echo json_encode($this->attendance_model->markAttendance($attendanceRecord));
 
     }
 

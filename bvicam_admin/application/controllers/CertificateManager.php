@@ -39,7 +39,7 @@ class CertificateManager extends CI_Controller
         $certificateRecord = $this->certificate_model->getCertificateRecord($submission_id);
         $attendanceRecord = $this->attendance_model->getAttendanceRecord($submission_id);
 
-        if(!isset($attendanceRecord) || (isset($attendanceRecord) && !$attendanceRecord['is_present_in_hall']) || !isset($certificateRecord['certificate_outward_number']))
+        if(!isset($attendanceRecord) || (isset($attendanceRecord) && !$attendanceRecord['is_present_in_hall']) || (isset($attendanceRecord) && !$attendanceRecord['is_present_on_desk']) || !isset($certificateRecord['certificate_outward_number']))
             echo json_encode(false);
 
         if ($certificateRecord != null)

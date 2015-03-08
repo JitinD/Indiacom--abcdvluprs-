@@ -87,6 +87,8 @@
                                                         <th>Paper Code</th>
                                                         <th>Paper Title</th>
                                                         <th>Attendance on Desk</th>
+                                                        <th>Pending amount</th>
+                                                        <th>Select Payable</th>
                                                         <th>Attendance on Track</th>
                                                         <th>Certificate Outward Number</th>
                                                         <th>Certificate Given</th>
@@ -115,9 +117,107 @@
                                                                     class="submission_id"><?php echo $member_paper->paper_code; ?></td>
 
                                                                     <td><?php echo $member_paper->paper_title; ?></td>
-                                                                    <?php if (isset($attendance[$member_paper->submission_id]['is_present_on_desk']) && $attendance[$member_paper->submission_id]['is_present_on_desk'] == 1) {
+
+                                                                    <?php
+                                                                    if(isset($attendance[$member_paper->submission_id]['is_present_on_desk']) && $attendance[$member_paper->submission_id]['is_present_on_desk'])
+                                                                    {
+                                                                        $present = 1;
                                                                         ?>
-                                                                        <td class = "deskAttendance" data-value = 1><?php echo "Present" ?></td>
+                                                                        <td class = "deskAttendance" data-value = 1>Present</td>
+                                                                    <?php
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        $present = 0;
+                                                                        ?>
+                                                                        <td class = "deskAttendance" data-value = 0>Absent</td>
+                                                                    <?php
+                                                                    }
+                                                                    ?>
+
+
+                                                                        <td class="pending">
+                                                                            <?php
+                                                                            if(isset($paperPayables[$member_paper -> paper_id]['pending']))
+                                                                                echo $paperPayables[$member_paper -> paper_id]['pending'];
+                                                                            else
+                                                                                echo "-";
+                                                                            ?>
+                                                                        </td>
+
+                                                                        <td class="payhead_discount">
+                                                                            <?php
+                                                                            if(isset($paperPayables[$member_paper->paper_id]['payable']))
+                                                                                $payableAmount = $paperPayables[$member_paper->paper_id]['payable'];
+                                                                            $payHeads = (is_array($paperPayables[$member_paper->paper_id]['payhead'])) ? $paperPayables[$member_paper->paper_id]['payhead'] : array($paperPayables[$member_paper->paper_id]['payhead']);
+                                                                            $payableClasses = (is_array($paperPayables[$member_paper->paper_id]['payableClass'])) ? $paperPayables[$member_paper->paper_id]['payableClass'] : array($paperPayables[$member_paper->paper_id]['payableClass']);
+                                                                            foreach($payHeads as $index=>$paymentHead)
+                                                                            {
+                                                                                if(!empty($validDiscounts) && (isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id][$member_paper->paper_id]) || isset($validDiscounts['global'][$paymentHead->payment_head_id])))
+                                                                                {
+                                                                                    $discountArray = array();
+                                                                                    if(isset($paperPayables[$member_paper->paper_id]['discountType']))
+                                                                                    {
+                                                                                        $discountArray[] = array($paperPayables[$member_paper->paper_id]['discountType']);
+                                                                                    }
+                                                                                    else
+                                                                                    {
+                                                                                        if(isset($validDiscounts['global'][$paymentHead->payment_head_id]))
+                                                                                        {
+                                                                                            $discountArray[] = $validDiscounts['global'][$paymentHead->payment_head_id];
+                                                                                        }
+                                                                                        if(isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id][$member_paper->paper_id]))
+                                                                                        {
+                                                                                            $discountArray[] = $validDiscounts['paperSpecific'][$paymentHead->payment_head_id][$member_paper->paper_id];
+                                                                                        }
+                                                                                    }
+                                                                                    foreach($discountArray as $discounts)
+                                                                                    {
+                                                                                        foreach($discounts as $discount)
+                                                                                        {
+                                                                                            if(isset($paperPayables[$member_paper->paper_id]['payable']))
+                                                                                                $payableAmount = $paperPayables[$member_paper->paper_id]['payable'];
+                                                                                            else
+                                                                                                $payableAmount = $payableClasses[$index]->payable_class_amount - ($discount->discount_type_amount * $payableClasses[$index]->payable_class_amount);
+                                                                                            ?>
+                                                                                            <input type="radio" class="radio"
+                                                                                                   name="<?php echo $member_paper->submission_id; ?>_payheadAndDiscount"
+                                                                                                   value="<?php echo $paymentHead->payment_head_name."_".$discount->discount_type_id; ?>"
+                                                                                                   data-payable="<?php echo $payableAmount; ?>"
+                                                                                                   data-payheadId="<?php echo $payableClasses[$index]->payable_class_payhead_id; ?>"
+                                                                                                <?php
+                                                                                                if (isset($paperPayables[$member_paper->paper_id]['pending']) && $paperPayables[$member_paper->paper_id]['pending'] <= 0)
+                                                                                                    echo "disabled";
+                                                                                                ?>>
+                                                                                            <?php echo $paymentHead->payment_head_name." with ".$discount->discount_type_name; ?>
+                                                                                        <?php
+                                                                                        }
+                                                                                    }
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    ?>
+                                                                                    <input type="radio" class="radio"
+                                                                                           name="<?php echo $member_paper->submission_id; ?>_payheadAndDiscount"
+                                                                                           value="<?php echo $paymentHead->payment_head_name ?>"
+                                                                                           data-payable="<?php
+                                                                                           if(isset($paperPayables[$member_paper->paper_id]['payable']))
+                                                                                               echo $paperPayables[$member_paper->paper_id]['payable'];
+                                                                                           else
+                                                                                               echo $payableClasses[$index]->payable_class_amount;
+                                                                                           ?>"
+                                                                                           data-payheadId="<?php echo $payableClasses[$index]->payable_class_payhead_id; ?>"
+                                                                                        <?php
+                                                                                        if (isset($paperPayables[$member_paper->paper_id]['pending']) && $paperPayables[$member_paper->paper_id]['pending'] <= 0)
+                                                                                            echo "disabled";
+                                                                                        ?>>
+                                                                                    <?php echo $paymentHead->payment_head_name; ?>
+                                                                                <?php
+                                                                                }
+                                                                            }
+                                                                            ?>
+                                                                        </td>
+
                                                                         <td>
                                                                             <select name="attendance_on_track"
                                                                                     class="form-control attendance_on_track">
@@ -142,15 +242,7 @@
                                                                             <div class="bg-info attInfo"></div>
                                                                             <div class="bg-danger attError"></div>
                                                                         </td>
-                                                                    <?php
-                                                                    } else {
-                                                                        ?>
-                                                                        <td><?php echo "Absent On desk" ?></td>
-                                                                        <td class="attendance_not_marked deskAttendance" data-value = 0><?php $present = 0;
-                                                                            echo "Not marked" ?></td>
-                                                                    <?php
-                                                                    }
-                                                                    ?>
+
                                                                     <td><input type="text"
                                                                                class="certificate_outward_number form-control"
                                                                                value="<?php if (isset($certificate[$member_paper->submission_id]['certificate_outward_number'])) {

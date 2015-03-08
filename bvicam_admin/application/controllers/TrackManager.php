@@ -88,13 +88,34 @@ class TrackManager extends CI_Controller
     {
         $this->home();
         $page = "markAuthorAttendance";
+
         if ($member_id) {
             $this->load->model('paper_status_model');
             $this->load->model('attendance_model');
             $this->load->model('certificate_model');
             $this->load->model('submission_model');
             $this->load->model('certificate_model');
+            $this->load->model('member_model');
+            $this->load->model('discount_model');
+            $this->load->model('payment_model');
+
             $this->data['papers'] = $this->paper_status_model->getTrackAcceptedPapersInfo($member_id);
+
+            $this->data['registrationCat'] = $this->member_model->getMemberCategory($member_id);
+            //$papers = $this->paper_status_model->getMemberAcceptedPapers($member_id);
+
+            $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($member_id, $this->data['papers']);
+            if($this->discount_model->error != null)
+                die($this->discount_model->error);
+
+            $this->data['papersInfo'] = $this->payment_model->calculatePayables(
+                $member_id,
+                DEFAULT_CURRENCY,
+                $this->data['registrationCat'],
+                $this->data['papers'],
+                date("Y-m-d")
+            );
+
             foreach ($this->data['papers'] as $paper) {
                 $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
                 $this->data['certificate'][$paper->paper_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
@@ -125,16 +146,38 @@ class TrackManager extends CI_Controller
             $this->load->model('certificate_model');
             $this->load->model('submission_model');
             $this->load->model('certificate_model');
+            $this->load->model('payment_model');
+            $this->load->model('discount_model');
+
             $this->data['members'] = $this->paper_status_model->getTrackMemberInfo($paper_id);
 
             foreach ($this->data['members'] as $index => $member) {
                 $this->data['papers'][$member -> submission_member_id] = $this->paper_status_model->getTrackAcceptedPapersInfo($member->submission_member_id);
+
                 foreach ($this->data['papers'][$member -> submission_member_id] as $index => $paper) {
                     if(!isset($this->data['attendance'][$paper->submission_id]))
                     {
                         $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
 
                     }
+
+                    $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($member -> submission_member_id, $this->data['papers'][$member -> submission_member_id]);
+
+                    if($this->discount_model->error != null)
+                        die($this->discount_model->error);
+
+                    $this->data['registrationCat'][$member -> submission_member_id] = $this->member_model->getMemberCategory($member -> submission_member_id);
+
+                    $paperPayables = $this->payment_model->calculatePayables(
+                        $member -> submission_member_id,
+                        DEFAULT_CURRENCY,
+                        $this->data['registrationCat'][$member -> submission_member_id],
+                        $this->data['papers'][$member -> submission_member_id],
+                        date("Y-m-d")
+                    );
+
+                    $this->data['paper_authors_payables'][$member -> submission_member_id] = $paperPayables;
+
                     $this->data['certificate'][$paper->submission_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
 
                 }
