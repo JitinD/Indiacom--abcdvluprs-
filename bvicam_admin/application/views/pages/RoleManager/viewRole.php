@@ -90,7 +90,7 @@
             foreach($entities as $entity)
             {
             ?>
-            entityOptions += "<option value=\"<?php echo $entity; ?>\"><?php echo $entity; ?></option>";
+            entityOptions += "<option value=\"<?php echo $entity->table_name; ?>\"><?php echo $entity->table_name; ?></option>";
             <?php
             }
             ?>

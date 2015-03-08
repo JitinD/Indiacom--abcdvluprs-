@@ -9,32 +9,6 @@
 class RoleManager extends CI_Controller
 {
     private $data = array();
-    private $entities = array(
-        "application_master",
-        "database_user",
-        "event_master",
-        "indiacom_news_attachments",
-        "indiacom_news_master",
-        "member_category_master",
-        "member_master",
-        "news_master",
-        "organization_master",
-        "paper_latest_version",
-        "paper_master",
-        "paper_version_master",
-        "paper_version_review",
-        "privilege_master",
-        "privilege_role_mapper",
-        "reviewer_master",
-        "review_result_master",
-        "role_master",
-        "subject_master",
-        "submission_master",
-        "temp_member_master",
-        "track_master",
-        "user_event_role_mapper",
-        "user_master"
-    );
     public function __construct()
     {
         parent::__construct();
@@ -76,8 +50,9 @@ class RoleManager extends CI_Controller
         $this->load->model('role_model');
         $this->load->model('privilege_model');
         $this->load->model('application_model');
+        $this->load->model('information_schema_model');
         $this->data['editRole'] = false;
-        $this->data['entities'] = $this->entities;
+        $this->data['entities'] = $this->information_schema_model->getAllTableNames();
         $this->data['applications'] = $this->application_model->getAllApplications();
         $this->load->library('form_validation');
         $this->form_validation->set_rules('role_name', "Role Name", "required");
@@ -121,8 +96,9 @@ class RoleManager extends CI_Controller
         $page = "viewRole";
         $this->load->model('role_model');
         $this->load->model('privilege_model');
+        $this->load->model('information_schema_model');
         $this->data['roleInfo'] = $this->role_model->getRoleDetails($roleId);
-        $this->data['entities'] = $this->entities;
+        $this->data['entities'] = $this->information_schema_model->getAllTableNames();
         $this->load->library('form_validation');
         $this->form_validation->set_rules('entity', 'Entity', 'required');
         $this->form_validation->set_rules('operation', 'Operation', 'required');

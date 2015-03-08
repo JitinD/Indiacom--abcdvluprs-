@@ -52,7 +52,7 @@
                             foreach($entities as $entity)
                             {
                                 ?>
-                                <option value="<?php echo $entity; ?>"><?php echo $entity; ?></option>
+                                <option value="<?php echo $entity->table_name; ?>"><?php echo $entity->table_name; ?></option>
                             <?php
                             }
                             ?>
