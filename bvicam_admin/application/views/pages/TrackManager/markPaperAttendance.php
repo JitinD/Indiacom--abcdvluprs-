@@ -87,8 +87,8 @@
                                                         <th>Paper Code</th>
                                                         <th>Paper Title</th>
                                                         <th>Attendance on Desk</th>
-                                                        <th>Pending amount</th>
-                                                        <th>Select Payable</th>
+                                                        <!--th>Pending amount</th>
+                                                        <!--th>Select Payable</th-->
                                                         <th>Attendance on Track</th>
                                                         <th>Certificate Outward Number</th>
                                                         <th>Certificate Given</th>
@@ -136,18 +136,18 @@
                                                                     ?>
 
 
-                                                                        <td class="pending">
+                                                                        <!--td class="pending">
                                                                             <?php
-                                                                            if(isset($paperPayables[$member_paper -> paper_id]['pending']))
+                                                                            /*if(isset($paperPayables[$member_paper -> paper_id]['pending']))
                                                                                 echo $paperPayables[$member_paper -> paper_id]['pending'];
                                                                             else
-                                                                                echo "-";
+                                                                                echo "-";*/
                                                                             ?>
-                                                                        </td>
+                                                                        </td -->
 
-                                                                        <td class="payhead_discount">
+                                                                        <!--td class="payhead_discount">
                                                                             <?php
-                                                                            if(isset($paperPayables[$member_paper->paper_id]['payable']))
+                                                                            /*if(isset($paperPayables[$member_paper->paper_id]['payable']))
                                                                                 $payableAmount = $paperPayables[$member_paper->paper_id]['payable'];
                                                                             $payHeads = (is_array($paperPayables[$member_paper->paper_id]['payhead'])) ? $paperPayables[$member_paper->paper_id]['payhead'] : array($paperPayables[$member_paper->paper_id]['payhead']);
                                                                             $payableClasses = (is_array($paperPayables[$member_paper->paper_id]['payableClass'])) ? $paperPayables[$member_paper->paper_id]['payableClass'] : array($paperPayables[$member_paper->paper_id]['payableClass']);
@@ -214,9 +214,9 @@
                                                                                     <?php echo $paymentHead->payment_head_name; ?>
                                                                                 <?php
                                                                                 }
-                                                                            }
+                                                                            }*/
                                                                             ?>
-                                                                        </td>
+                                                                        </td -->
 
                                                                         <td>
                                                                             <select name="attendance_on_track"

@@ -125,6 +125,8 @@
             }
         }
         ?>
+		<div class="col-md-12">
+		
         <table class="table table-responsive table-condensed table-hover table-striped">
             <thead>
             <tr>
@@ -350,6 +352,7 @@
             ?>
             </tbody>
         </table>
+		</div>
     </div>
 </div>
 

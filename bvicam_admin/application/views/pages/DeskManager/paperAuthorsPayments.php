@@ -123,6 +123,7 @@
             <a class="btn btn-lg btn-default" href = "<?php echo "/".BASEURL."index.php/DeliverablesManager/assignPaperDeliverables/".$paperDetails -> paper_id; ?>">Assign Deliverables</a>
         </div>
         <hr>
+		<div class="col-md-12">
         <table class="table table-striped table-responsive table-condensed">
                 <thead>
                     <tr>
@@ -409,7 +410,7 @@
             }
         ?>
         </table>
-
+		</div>
     </div>
 </div>
 
