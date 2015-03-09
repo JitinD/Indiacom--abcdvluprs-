@@ -41,7 +41,8 @@ class ReportManager extends CI_Controller
 
     private function setSidebarLinks()
     {
-
+        $links['paymentsReport'] = "Payment Report";
+        return $links;
     }
 
     public function downloadReport()
@@ -85,6 +86,41 @@ class ReportManager extends CI_Controller
 
         $this->index($page);
     }
-}
 
+    public function paymentsReport()
+    {
+        $page = "paymentReport";
+        $this->load->model('paper_status_model');
+        $this->load->model('member_model');
+        $this->load->model('submission_model');
+        $this->load->model('payment_model');
+        $this->load->model('member_categories_model');
+        $this->load->model('transaction_model');
+        $this->load->model('transaction_mode_model');
+        $submissions = $this->data['submissions'] = $this->paper_status_model->getAcceptedPapersMembers();
+        $this->data['memCategories'] = $this->member_categories_model->getMemberCategoriesAsAssocArray();
+        $this->data['transModes'] = $this->transaction_mode_model->getAllTransactionModesAsAssocArray();
+        $membersInfo = array();
+        foreach($submissions as $submission)
+        {
+            if(!isset($membersInfo[$submission->member_id]['memberBasicInfo']))
+            {
+                $membersInfo[$submission->member_id]['memberBasicInfo'] = $this->member_model->getMemberInfo($submission->member_id);
+                $membersInfo[$submission->member_id]['isProfBodyMember'] = $this->member_model->isProfBodyMember($submission->member_id);
+                $membersInfo[$submission->member_id]['transactions'] = $this->transaction_model->getMemberPaymentsTransactions($submission->member_id);
+                $payables[$submission->member_id] = $this->payment_model->calculatePayables(
+                    $submission->member_id,
+                    DEFAULT_CURRENCY,
+                    $this->member_model->getMemberCategory($submission->member_id),
+                    $this->paper_status_model->getMemberAcceptedPapers($submission->member_id),
+                    date("Y-m-d")
+                );
+            }
+        }
+        $this->data['membersInfo'] = $membersInfo;
+        $this->data['payables'] = $payables;
+
+        $this->index($page);
+    }
+}
 ?>

@@ -236,30 +236,49 @@
                                                         echo "-";
                                                     ?>
                                                 </td>
+                                                <?php
+                                                $payheads = $paperPayables[$paper->paper_id]['payhead'];
+                                                $payableClasses = $paperPayables[$paper->paper_id]['payableClass'];
+                                                foreach($payheads as $index=>$payhead)
+                                                {
+                                                    if($payhead->payment_head_name == "BR" || $payhead->payment_head_name == "EP")
+                                                    {
+                                                        if(isset($paperPayables[$paper->paper_id]['paid']))
+                                                        {
+                                                            $payable = $paperPayables[$paper->paper_id]['payable'][$index];
+                                                            $payheadId = $payhead->payment_head_id;
+                                                            $payableClass = $paperPayables[$paper->paper_id]['payableClass'][$index];
+                                                            $waiveOffAmount = $paperPayables[$paper->paper_id]['waiveOff'][$index];
+                                                            $paidAmount = $paperPayables[$paper->paper_id]['paid'][$index];
+                                                            $pendingAmount = $paperPayables[$paper->paper_id]['pending'][$index];
+                                                        }
+                                                    }
+                                                }
+                                                ?>
                                                 <td class="payable"><?php
-                                                    if(isset($paperPayables[$paper->paper_id]['payable']))
-                                                        echo $paperPayables[$paper->paper_id]['payable'];
+                                                    if(isset($paperPayables[$paper->paper_id]['paid']))
+                                                        echo $payable;
                                                 ?></td>
                                                 <td class="waive_off">
                                                     <?php
-                                                    if(isset($paperPayables[$paper -> paper_id]['waiveOff']))
-                                                        echo $paperPayables[$paper -> paper_id]['waiveOff'];
+                                                    if(isset($paperPayables[$paper->paper_id]['paid']))
+                                                        echo $waiveOffAmount;
                                                     else
-                                                        echo "0";
+                                                        echo 0;
                                                     ?>
                                                 </td>
                                                 <td class="paid">
                                                     <?php
-                                                    if(isset($paperPayables[$paper -> paper_id]['paid']))
-                                                        echo $paperPayables[$paper -> paper_id]['paid'];
+                                                    if (isset($paperPayables[$paper->paper_id]['paid']))
+                                                        echo $paidAmount;
                                                     else
-                                                        echo "0";
+                                                        echo 0;
                                                     ?>
                                                 </td>
                                                 <td class="pending">
                                                     <?php
-                                                    if(isset($paperPayables[$paper -> paper_id]['pending']))
-                                                        echo $paperPayables[$paper -> paper_id]['pending'];
+                                                    if(isset($paperPayables[$paper->paper_id]['paid']))
+                                                        echo $pendingAmount;
                                                     else
                                                         echo "-";
                                                     ?>
@@ -269,10 +288,12 @@
                                                     <?php
                                                     if(isset($paperPayables[$paper->paper_id]['payable']))
                                                         $payableAmount = $paperPayables[$paper->paper_id]['payable'];
-                                                    $payHeads = (is_array($paperPayables[$paper->paper_id]['payhead'])) ? $paperPayables[$paper->paper_id]['payhead'] : array($paperPayables[$paper->paper_id]['payhead']);
-                                                    $payableClasses = (is_array($paperPayables[$paper->paper_id]['payableClass'])) ? $paperPayables[$paper->paper_id]['payableClass'] : array($paperPayables[$paper->paper_id]['payableClass']);
+                                                    $payHeads = $paperPayables[$paper->paper_id]['payhead'];
+                                                    $payableClasses = $paperPayables[$paper->paper_id]['payableClass'];
                                                     foreach($payHeads as $index=>$paymentHead)
                                                     {
+                                                        if($paymentHead->payment_head_name == "OLPC")
+                                                            continue;
                                                         if(
                                                             (
                                                                 isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id][$paper->paper_id])
@@ -288,7 +309,7 @@
                                                         {
                                                             $discountArray = array();
                                                             if(isset($paperPayables[$paper->paper_id]['discountType']))
-                                                                $discountArray[] = array($paperPayables[$paper->paper_id]['discountType']);
+                                                                $discountArray[] = $paperPayables[$paper->paper_id]['discountType'];
                                                             else
                                                             {
                                                                 if(isset($validDiscounts['global'][$paymentHead->payment_head_id]))
@@ -304,10 +325,10 @@
                                                             {
                                                                 foreach($discounts_ as $discount)
                                                                 {
-                                                                    if(isset($paperPayables[$paper->paper_id]['payable']))
+                                                                    if(isset($paperPayables[$paper->paper_id]['paid']))
                                                                     {
-                                                                        $payableAmount = $paperPayables[$paper->paper_id]['payable'];
-                                                                        $pendingAmount = $paperPayables[$paper->paper_id]['pending'];
+                                                                        $payableAmount = $payable;
+                                                                        $pendingAmount = $pendingAmount;
                                                                     }
                                                                     else
                                                                     {
@@ -322,7 +343,7 @@
                                                                            data-pending="<?php echo $pendingAmount; ?>"
                                                                            data-payheadId="<?php echo $payableClasses[$index]->payable_class_payhead_id; ?>"
                                                                         <?php
-                                                                        if (isset($paperPayables[$paper->paper_id]['pending']) && $paperPayables[$paper->paper_id]['pending'] <= 0)
+                                                                        if (isset($paperPayables[$paper->paper_id]['paid']) && $pendingAmount <= 0)
                                                                             echo "disabled";
                                                                         if(isset($paperPayables[$paper->paper_id]['paid']))
                                                                             echo " checked";
@@ -339,20 +360,20 @@
                                                                    name="<?php echo $paper->submission_id; ?>_payheadAndDiscount"
                                                                    value="<?php echo $paymentHead->payment_head_name ?>"
                                                                    data-payable="<?php
-                                                                   if(isset($paperPayables[$paper->paper_id]['payable']))
-                                                                       echo $paperPayables[$paper->paper_id]['payable'];
+                                                                   if(isset($paperPayables[$paper->paper_id]['paid']))
+                                                                       echo $payable;
                                                                    else
                                                                        echo $payableClasses[$index]->payable_class_amount;
                                                                    ?>"
                                                                    data-pending="<?php
-                                                                   if(isset($paperPayables[$paper->paper_id]['pending']))
-                                                                       echo $paperPayables[$paper->paper_id]['pending'];
+                                                                   if(isset($paperPayables[$paper->paper_id]['paid']))
+                                                                       echo $pendingAmount;
                                                                    else
                                                                        echo $payableClasses[$index]->payable_class_amount;
                                                                    ?>"
                                                                    data-payheadId="<?php echo $payableClasses[$index]->payable_class_payhead_id; ?>"
                                                                 <?php
-                                                                if (isset($paperPayables[$paper->paper_id]['pending']) && $paperPayables[$paper->paper_id]['pending'] <= 0)
+                                                                if (isset($paperPayables[$paper->paper_id]['paid']) && $pendingAmount <= 0)
                                                                     echo "disabled";
                                                                 if(isset($paperPayables[$paper->paper_id]['paid']))
                                                                     echo " checked";
