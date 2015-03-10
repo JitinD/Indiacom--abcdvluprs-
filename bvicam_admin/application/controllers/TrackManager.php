@@ -128,7 +128,10 @@ class TrackManager extends CI_Controller
                 $this->data['certificate'][$paper->paper_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
             }
         } else {
-            $this->data['memberId'] = false;
+            if($member_id == null)
+                $this->data['memberId'] = null;
+            else
+                $this->data['memberId'] = false;
         }
 
         $this->index($page);

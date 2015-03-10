@@ -321,6 +321,8 @@
     }
     else
     {
+        if (isset($memberId))
+        {
     ?>
     <div class="Info">
         <div class="alert alert-danger text-center">
@@ -329,6 +331,7 @@
 
     </div>
     <?php
+        }
     }
     ?>
 </div>
