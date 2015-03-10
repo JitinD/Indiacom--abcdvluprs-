@@ -146,6 +146,7 @@
                 <th>Paid</th>
                 <th>Pending</th>
                 <th>Select Payable</th>
+                <th></th>
                 <th>Mark attendance</th>
                 <th>Track</th>
                 <th>Session</th>
@@ -241,7 +242,7 @@
                             ?>
                         </td>
 
-                        <td>
+                        <td class="payable_selection">
                             <?php
                             if(isset($papersInfo[$paper->paper_id]['payable']))
                                 $payableAmount = $papersInfo[$paper->paper_id]['payable'];
@@ -299,6 +300,7 @@
                                                    data-payable="<?php echo $payableAmount; ?>"
                                                    data-pending="<?php echo $pendingAmount; ?>"
                                                    data-payheadId="<?php echo $payableClasses[$index]->payable_class_payhead_id; ?>"
+                                                   data-discountTypeId="<?php echo $discount->discount_type_id; ?>"
                                                 <?php
                                                 if (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount <= 0)
                                                     echo "disabled";
@@ -340,6 +342,15 @@
                                 }
                             }
                             ?>
+                        </td>
+                        <td>
+                            <button class="btn btn-default waiveOffBut"
+                                    data-memberId="<?php echo $memberDetails['member_id']; ?>"
+                                    data-paperId="<?php echo $paper->paper_id; ?>">
+                                Waive Off
+                            </button>
+                            <div class="bg-info"></div>
+                            <div class="bg-danger"></div>
                         </td>
                         <td>
                             <select name="attendance_on_desk" class="form-control attendance_on_desk"
@@ -453,6 +464,47 @@ else
                     }
                 }
             });
+        });
+
+        $(".waiveOffBut").click(function() {
+            var memberId = $(this).attr("data-memberId");
+            var paperId = $(this).attr("data-paperId");
+            var ref = $(this).parent().parent();
+            var butRef = $(this);
+            var payheadId = $(".payable_selection input[type='radio']:checked", ref).attr("data-payheadId");
+            var discountTypeId = $(".payable_selection input[type='radio']:checked", ref).attr("data-discountTypeId");
+            var amount = $(".pending_amount", ref).text();
+            if(payheadId != null)
+            {
+                var data = "payheadId=" + payheadId + "&amount=" + amount + "&memberId=" + memberId;
+                if(paperId != null)
+                    data += "&paperId=" + paperId;
+                if(discountTypeId != null)
+                    data += "&discountType=" + discountTypeId
+                $(".bg-danger", $(butRef).parent()).html("");
+                $(".bg-info", $(butRef).parent()).html("Updating...");
+                $.ajax({
+                    type: "POST",
+                    url: "/<?php echo BASEURL; ?>index.php/PaymentsManager/paymentWaiveOff_AJAX",
+                    data: data,
+                    success: function (msg) {
+                        if(msg == "true")
+                        {
+                            $(".bg-info", $(butRef).parent()).html("Waived Off. Reloading...");
+                            location.reload();
+                        }
+                        else
+                        {
+                            $(".bg-info", $(butRef).parent()).html("");
+                            $(".bg-danger", $(butRef).parent()).html("Waive Off unsuccessful");
+                        }
+                    }
+                });
+            }
+            else
+            {
+                $(".bg-danger", $(butRef).parent()).html("Select payable!");
+            }
         });
 
         /*$('#submitButton').click(function()

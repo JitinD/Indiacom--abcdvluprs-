@@ -567,7 +567,11 @@ class Payment_model extends CI_Model
                 $paymentDiscountType = $payment->payment_discount_type;
                 $paymentClassDetails = $this->payable_class_model->getPayableClassDetails($paymentClass);
                 $nationalityDetails = $this->nationality_model->getNationalityDetails($paymentClassDetails->payable_class_nationality);
-                $paid = $paperInfo['paid'][] = $payment->paid_amount / $this->currency_model->getCurrencyExchangeRateInINR($nationalityDetails->Nationality_currency);
+                if($nationalityDetails == null)
+                    $currency = DEFAULT_CURRENCY;
+                else
+                    $currency = $nationalityDetails->Nationality_currency;
+                $paid = $paperInfo['paid'][] = $payment->paid_amount / $this->currency_model->getCurrencyExchangeRateInINR($currency);
                 $waiveOff = $paperInfo['waiveOff'][] = $payment->waiveoff_amount;
 
                 $discountAmount = 0;

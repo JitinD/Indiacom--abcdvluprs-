@@ -366,9 +366,95 @@ class PaymentsManager extends CI_Controller
         return false;
     }
 
-    public function paymentWaiveOff($memberId, $paperId, $payheadId)
+    public function paymentWaiveOff_AJAX()
     {
+        $this->load->library('form_validation');
+        $this->form_validation->set_rules('payheadId', '', 'required');
+        $this->form_validation->set_rules('amount', '', 'required');
+        $this->form_validation->set_rules('memberId', '', 'required');
+        if($this->form_validation->run())
+        {
+            $payheadId = trim($this->input->post('payheadId'));
+            $amount = trim($this->input->post('amount'));
+            $memberId = trim($this->input->post('memberId'));
+            $paperId = trim(($this->input->post('paperId') == "") ? null : $this->input->post('paperId'));
+            $discountType = trim(($this->input->post('discountType') == "") ? null : $this->input->post('discountType'));
+            //echo "$payheadId $amount $memberId $paperId $discountType";
+            echo json_encode($this->paymentWaiveOff($payheadId, $amount, $memberId, $paperId, $discountType));
+        }
+        else
+        {
+            echo json_encode(false);
+        }
+    }
 
+    private function paymentWaiveOff($payheadId, $amount, $memberId, $paperId=null, $discountType=null)
+    {
+        $this->load->model('transaction_model');
+        $this->load->model('payment_model');
+        $this->load->database();
+        if($amount <= 0)
+            return false."A";
+        $transDetails = array(
+            "transaction_member_id" => $memberId,
+            "transaction_bank" => "",
+            "transaction_number" => "",
+            "transaction_amount" => $amount,
+            "transaction_date" => Date("Y-m-d"),
+            "transaction_currency" => DEFAULT_CURRENCY,
+            "is_waived_off" => 1,
+            "is_verified" => 1
+        );
+        $this->db->trans_begin();
+        if(!$this->transaction_model->newTransaction($transDetails))
+        {
+            $this->db->trans_commit();
+            return false."B";
+        }
+        $payments = $this->payment_model->getPayments($memberId, $paperId, $payheadId);
+        if(empty($payments))
+        {
+            $this->load->model('member_model');
+            $this->load->model('payable_class_model');
+            $this->load->model('submission_model');
+            $regCat = $this->member_model->getMemberCategory($memberId);
+            $payableClass = $this->payable_class_model->getPayableClass(
+                $payheadId,
+                !$this->member_model->isProfBodyMember($memberId),
+                $regCat->member_category_id,
+                $transDetails['transaction_currency'],
+                $transDetails['transaction_date']
+            );
+            $paymentDetails = array(
+                "payment_trans_id" => $transDetails['transaction_id'],
+                "payment_amount_paid" => $amount,
+                "payment_payable_class" => $payableClass->payable_class_id
+            );
+            if($paperId == null)
+                $paymentDetails['payment_member_id'] = $memberId;
+            else
+                $paymentDetails['payment_submission_id'] = $this->submission_model->getSubmissionID($memberId, $paperId);
+            if($discountType != null)
+                $paymentDetails['payment_discount_type'] = $discountType;
+        }
+        else
+        {
+            $paymentDetails = array(
+                "payment_trans_id" => $transDetails['transaction_id'],
+                "payment_submission_id" => $payments[0]->payment_submission_id,
+                "payment_member_id" => $payments[0]->payment_member_id,
+                "payment_amount_paid" => $amount,
+                "payment_payable_class" => $payments[0]->payment_payable_class,
+                "payment_discount_type" => $payments[0]->payment_discount_type
+            );
+        }
+        if(!$this->payment_model->addNewPayment($paymentDetails))
+        {
+            $this->db->trans_rollback();
+            return false;
+        }
+        $this->db->trans_commit();
+        return true;
     }
 
     public function spotPayments()
