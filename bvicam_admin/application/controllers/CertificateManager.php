@@ -33,13 +33,33 @@ class CertificateManager extends CI_Controller
     {
         $this->load->model("certificate_model");
         $this->load->model('attendance_model');
+        $this->load->model('submission_model');
+        $this->load->model('paper_status_model');
+        $this->load->model('payment_model');
+        $this->load->model('member_model');
 
         $submission_id = $this->input->post('submissionId');
         $is_certificate_given = $this->input->post('is_certificate_given');
         $certificateRecord = $this->certificate_model->getCertificateRecord($submission_id);
         $attendanceRecord = $this->attendance_model->getAttendanceRecord($submission_id);
 
-        if(!isset($attendanceRecord) || (isset($attendanceRecord) && !$attendanceRecord['is_present_in_hall']) || (isset($attendanceRecord) && !$attendanceRecord['is_present_on_desk']) || !isset($certificateRecord['certificate_outward_number']))
+        $member_id = $this->submission_model->getMemberID($submission_id);
+        $paper_id = $this->submission_model->getPaperID($submission_id);
+
+        $papers = $this->paper_status_model->getTrackAcceptedPapersInfo($member_id);
+
+        $registrationCat = $this->member_model->getMemberCategory($member_id);
+
+        if(isset($registrationCat) && isset($papers))
+            $papersInfo = $this->payment_model->calculatePayables(
+                $member_id,
+                DEFAULT_CURRENCY,
+                $registrationCat,
+                $papers,
+                date("Y-m-d")
+            );
+
+        if(!isset($attendanceRecord) || (isset($attendanceRecord) && !$attendanceRecord['is_present_in_hall']) || !isset($certificateRecord['certificate_outward_number']) || !isset($papersInfo) || (!isset($papersInfo[$paper_id]['pending'])) || (isset($papersInfo[$paper_id]['pending']) && $papersInfo[$paper_id]['pending'] != 0))
             echo json_encode(false);
 
         if ($certificateRecord != null)

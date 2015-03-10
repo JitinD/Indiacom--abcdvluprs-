@@ -112,4 +112,36 @@ class Submission_model extends CI_Model
         return $row->submission_id;
     }
 
+    public function getMemberID($submission_id)
+    {
+        $sql = "Select submission_member_id
+                From submission_master
+                Where
+                  submission_id = ?";
+
+        $query = $this->db->query($sql, array($submission_id));
+
+        if ($query->num_rows() == 0)
+            return null;
+        $row = $query->row();
+
+        return $row->submission_member_id;
+    }
+
+    public function getPaperID($submission_id)
+    {
+        $sql = "Select submission_paper_id
+                From submission_master
+                Where
+                  submission_id = ?";
+
+        $query = $this->db->query($sql, array($submission_id));
+
+        if ($query->num_rows() == 0)
+            return null;
+        $row = $query->row();
+
+        return $row->submission_paper_id;
+    }
+
 }

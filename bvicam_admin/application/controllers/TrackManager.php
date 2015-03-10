@@ -99,22 +99,29 @@ class TrackManager extends CI_Controller
             $this->load->model('discount_model');
             $this->load->model('payment_model');
 
+            $this->data['memberId'] = true;
+
             $this->data['papers'] = $this->paper_status_model->getTrackAcceptedPapersInfo($member_id);
 
             $this->data['registrationCat'] = $this->member_model->getMemberCategory($member_id);
             //$papers = $this->paper_status_model->getMemberAcceptedPapers($member_id);
 
+            if(!isset($this->data['registrationCat']))
+                $this->data['memberId'] = false;
+
             $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($member_id, $this->data['papers']);
+
             if($this->discount_model->error != null)
                 die($this->discount_model->error);
 
-            $this->data['papersInfo'] = $this->payment_model->calculatePayables(
-                $member_id,
-                DEFAULT_CURRENCY,
-                $this->data['registrationCat'],
-                $this->data['papers'],
-                date("Y-m-d")
-            );
+            if(isset($this->data['registrationCat']) && isset($this->data['papers']))
+                $this->data['papersInfo'] = $this->payment_model->calculatePayables(
+                    $member_id,
+                    DEFAULT_CURRENCY,
+                    $this->data['registrationCat'],
+                    $this->data['papers'],
+                    date("Y-m-d")
+                );
 
             foreach ($this->data['papers'] as $paper) {
                 $this->data['attendance'][$paper->paper_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);

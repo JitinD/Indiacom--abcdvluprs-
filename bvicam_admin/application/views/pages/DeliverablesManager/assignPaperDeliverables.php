@@ -31,6 +31,7 @@
                                     <tr>
                                         <th>PID</th>
                                         <th>Deliverables Status</th>
+                                        <th>Deliverables</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -71,6 +72,24 @@
                                                     <div class="bg-info attInfo"></div>
                                                     <div class="bg-danger attError"></div>
                                                 </td>
+                                                <td>
+                                                    <?php
+                                                    $deliverables = array("Object A", "Object B");
+
+                                                    for($arr_index = 0; $arr_index < 2; $arr_index++)
+                                                    {
+                                                        ?>
+                                                        <input type = "checkbox" class = "deliverables" value = "<?php echo $arr_index + 1; ?>"
+                                                            <?php
+                                                            if(($deliverablesStatus[$author_id][$index]['status'] == 1) && ($deliverablesStatus[$author_id][$index]['deliverables_id'] == ($arr_index + 1) || $deliverablesStatus[$author_id][$index]['deliverables_id'] == 3))
+                                                                echo "checked";
+                                                            ?>
+                                                            >
+                                                        <?php echo $deliverables[$arr_index]; ?><br/>
+                                                    <?php
+                                                    }
+                                                    ?>
+                                                </td>
                                             </tr>
                                         <?php
                                         }
@@ -89,21 +108,29 @@
 <script>
     $(document).ready(function () {
 
-        $(".deliverables_status").change(function () {
+        var deliverables_id = null;
 
+        $(".deliverables_status").change(function () {
             var ref_member = $(this).parent().parent().parent().parent().parent().parent();
             var ref = $(this).parent().parent();
             var ref_td = $(this).parent();
 
             var memberId = $('.member_id', ref_member).attr('data-member_id');
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
+
+            if($(this).val() == 0)
+                $('.deliverables:checked', ref).prop('checked', false);
+
+            if ($('.deliverables:checked', ref).length == 0)
+                $(this).val(0);
+
             var isDeliverablesAssigned = $(this).val();
 
             $('.attInfo', ref_td).html("Updating");
             $.ajax({
                 type: "POST",
                 url: "/<?php echo BASEURL; ?>index.php/DeliverablesManager/assignDeliverables_AJAX",
-                data: "memberId=" + memberId + "&submissionId=" + submissionId + "&isDeliverablesAssigned=" + isDeliverablesAssigned,
+                data: "memberId=" + memberId + "&submissionId=" + submissionId + "&isDeliverablesAssigned=" + isDeliverablesAssigned + "&deliverables_id="+deliverables_id,
                 success: function(msg)
                 {
                     if(msg == "true")
@@ -116,6 +143,22 @@
                         $(".attError", ref_td).html("Could not update");
                     }
                 }
+            });
+
+            $(".deliverables").change(function()
+            {
+                var ref = $(this).parent().parent();
+
+                if ($('.deliverables:checked', ref).length == 2)
+                    deliverables_id = 3;
+                else if ($('.deliverables:checked', ref).length == 0)
+                    deliverables_id = null;
+                else if($('.deliverables:checked', ref).val())
+                    deliverables_id = $('.deliverables:checked', ref).val();
+
+                if($(".deliverables_status", ref).val() == 1)
+                    $(".deliverables_status", ref).change();
+
             });
         });
     });
