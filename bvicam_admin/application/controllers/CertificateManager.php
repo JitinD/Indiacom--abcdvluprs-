@@ -59,7 +59,19 @@ class CertificateManager extends CI_Controller
                 date("Y-m-d")
             );
 
-        if(!isset($attendanceRecord) || (isset($attendanceRecord) && !$attendanceRecord['is_present_in_hall']) || !isset($certificateRecord['certificate_outward_number']) || !isset($papersInfo) || (!isset($papersInfo[$paper_id]['pending'])) || (isset($papersInfo[$paper_id]['pending']) && $papersInfo[$paper_id]['pending'] != 0))
+        $payheads = $papersInfo[$paper_id]['payhead'];
+
+        foreach($payheads as $index=>$payhead)
+        {
+            if($payhead->payment_head_name == "BR" || $payhead->payment_head_name == "EP")
+            {
+                if(isset($papersInfo[$paper_id]['paid']))
+                    $pendingAmount = $papersInfo[$paper_id]['pending'][$index];
+
+            }
+        }
+
+        if(!isset($attendanceRecord) || (isset($attendanceRecord) && !$attendanceRecord['is_present_in_hall']) || !isset($certificateRecord['certificate_outward_number']) || (!isset($papersInfo[$paper_id]['paid'])) || (isset($papersInfo[$paper_id]['paid']) && $pendingAmount != 0))
             echo json_encode(false);
 
         if ($certificateRecord != null)

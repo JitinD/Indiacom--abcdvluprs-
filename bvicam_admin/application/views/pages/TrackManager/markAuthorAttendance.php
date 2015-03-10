@@ -5,6 +5,7 @@
  * Date: 2/28/15
  * Time: 7:53 PM
  */
+/*print_r($papersInfo);*/
 ?>
 <div class="col-sm-12 col-md-12 main">
     <h1 class="page-header">Track Manager</h1>
@@ -47,6 +48,11 @@
         </div>
     </form>
     <hr>
+    <?php
+    if (isset($memberId))
+    {
+    ?>
+
     <div class="row Info">
         <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
             <table class="table table-condensed">
@@ -276,14 +282,16 @@
                                 <td>
                                     <input type="checkbox" class="is_certificate_given"
                                         <?php
+
                                         if ((!isset($certificate[$paper->paper_id]['certificate_outward_number'])) ||
                                             ($certificate[$paper->paper_id]['certificate_outward_number'] == '') ||
-                                            (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 0) || (isset($present) && $present == 0) || (!isset($papersInfo[$paper->paper_id]['pending'])) || (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] != 0))
+                                            (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 0) || (!isset($papersInfo[$paper->paper_id]['paid'])) || (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount != 0))
                                             echo "disabled ";
+
                                         if (isset($certificate[$paper->paper_id]['certificate_outward_number']) &&
                                             ($certificate[$paper->paper_id]['certificate_outward_number'] != '') &&
-                                            (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 1) && (isset($present) && $present == 1) &&
-                                        (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1)) && (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] == 0))
+                                            (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 1) && (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] == 0) &&
+                                            (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1)) && (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount == 0))
                                             echo "checked";
                                         ?>
                                     >
@@ -303,22 +311,28 @@
                         }
                     }
                 }
-                else
-                {
-                ?>
-                <div class="Info">
-                    <?php
-                    if (!isset($memberId)) {
-                        echo "<h1>Sorry no such member Id in our database</h1>";
-                    }
-                    }
-                    ?>
-
+            ?>
             </table>
 
         </form>
     </div>
+
+    <?php
+    }
+    else
+    {
+    ?>
+    <div class="Info">
+        <div class="alert alert-danger text-center">
+            Sorry, Member ID Not Found
+        </div>
+
+    </div>
+    <?php
+    }
+    ?>
 </div>
+
 <div id="memberList">
     <table class="table table-responsive table-hover" id="matchingMemberRecords">
         <thead>
@@ -383,7 +397,7 @@
                         }
                         else
                             $('.is_certificate_given', ref).prop('checked', false);
-                        if (deskAttendance == 0 || pendingAmount != 0)
+                        if (pendingAmount != 0)
                             $('.is_certificate_given', ref).attr("disabled", "disabled");
                         else
                             $('.is_certificate_given', ref).removeAttr("disabled");
@@ -482,7 +496,7 @@
                             $("#matchingMemberRecords").find('tbody').empty();
                             var obj = jQuery.parseJSON(records);
                             $.each(obj, function (key, value) {
-                                $("#matchingMemberRecords").find('tbody').append($('<tr>').append($('<td  class = "member" style = "cursor: pointer; cursor: hand;" >').text(value.member_id)).append($('<td>').text(value.member_name)));
+                                $("#matchingMemberRecords").find('tbody').append($('<tr class = "member" style = "cursor: pointer; cursor: hand;">').append($('<td >').text(value.member_id)).append($('<td>').text(value.member_name)));
                             });
                         }
                     }
