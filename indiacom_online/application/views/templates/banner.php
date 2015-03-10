@@ -25,16 +25,16 @@
     }
 </style>
 
-<div class="container-fluid topBlock" style="padding-top: 100px;">
+<div class="container-fluid topBlock">
     <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
             <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage"></center>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 heroHeading text-center">
-            INDIACom - 2015
+            INDIACom - 2016
             <div class="row heroText">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    9<sup>th</sup> INDIACom; 2015 2<sup>nd</sup> International Conference on Computing for Sustainable Global Development
+                    9<sup>th</sup> INDIACom; 2016 2<sup>nd</sup> International Conference on Computing for Sustainable Global Development
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="row">

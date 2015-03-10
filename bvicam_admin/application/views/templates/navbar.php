@@ -77,7 +77,7 @@
         $(document).keyup(function (e) {
 
             if (e.keyCode == 27) {
-                $("#myNavmenu").hide(speed);
+                $("#myNavmenu").toggle(speed);
             }
         });
     });
