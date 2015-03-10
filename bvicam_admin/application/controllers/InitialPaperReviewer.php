@@ -43,11 +43,13 @@ class InitialPaperReviewer extends CI_Controller
     {
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        $this->load->model('access_model');
+        $sidebarData['controllerName'] = $controllerName = "FinalPaperReviewer";
+        $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {
             show_404();
         }
-        $this->load->model('access_model');
         if(isset($privilege['Page']['InitialPaperReviewer'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['InitialPaperReviewer'][$page]))
         {
             $this->load->view('pages/unauthorizedAccess');
@@ -58,11 +60,17 @@ class InitialPaperReviewer extends CI_Controller
         $this -> data['user_id'] = $_SESSION[APPID]['user_id'];
 
         $this -> data['papers'] = $this -> paper_version_review_model -> getReviewerAssignedPapers($this -> data['user_id']);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-        $this->load->view('templates/sidebar');
+        $this->load->view('templates/navbar', $sidebarData);
         $this->load->view('pages/'.$page, $this->data);
         $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+
     }
 
     public function reviewPaperInfo($paper_id, $paper_version_review_id)

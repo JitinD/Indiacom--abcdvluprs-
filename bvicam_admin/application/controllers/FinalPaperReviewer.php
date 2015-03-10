@@ -85,6 +85,8 @@
             require(dirname(__FILE__).'/../config/privileges.php');
             require(dirname(__FILE__).'/../utils/ViewUtils.php');
             $this->load->model('access_model');
+            $sidebarData['controllerName'] = $controllerName = "FinalPaperReviewer";
+            $sidebarData['links'] = $this->setSidebarLinks();
             if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
             {
                 show_404();
@@ -104,12 +106,17 @@
             $this -> data['reviewed_papers'] = $this -> paper_version_model -> getReviewedPapers($this -> data['user_id']);
             $this -> data['not_reviewed_papers'] = $this -> paper_version_model -> getNotReviewedPapers($this -> data['user_id']);
             $this -> data['convener_reviewed_papers'] = $this -> paper_version_model -> getConvenerReviewedPapers($this -> data['user_id']);
-
+            $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
             $this->data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this->data);
-            $this->load->view('templates/sidebar');
+            $this->load->view('templates/navbar', $sidebarData);
             $this->load->view('pages/'.$page, $this->data);
             $this->load->view('templates/footer');
+        }
+
+        private function setSidebarLinks()
+        {
+
         }
 
         public function setReviewerAssigned($paper_version_id, $value)
