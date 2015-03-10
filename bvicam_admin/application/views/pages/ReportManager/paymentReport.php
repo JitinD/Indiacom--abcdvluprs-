@@ -91,7 +91,7 @@
                 </td>
                 <td class="pay_mode">
                     <?php
-                    if(isset($payables[$submission->member_id][$submission->paper_id]['paid']))
+                    if(isset($payables[$submission->member_id][$submission->paper_id]['paid']) && isset($membersInfo[$submission->member_id]['transactions'][0]->transaction_mode))
                         echo $transModes[$membersInfo[$submission->member_id]['transactions'][0]->transaction_mode]->transaction_mode_name;
                     ?>
                 </td>
@@ -244,7 +244,7 @@
                     <?php
                     if(isset($payables[$submission->member_id][$submission->paper_id]['paid']))
                     {
-                        echo ($brpayable + $eppayable + $olpcpayable + $prpayable) - ($paidAmt);
+                        echo ($brpayable + $eppayable + $olpcpayable + $prpayable) - ($paidAmt + $waiveOffAmt);
                     }
                     ?>
                 </td>

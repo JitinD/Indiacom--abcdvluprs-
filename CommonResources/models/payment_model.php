@@ -578,10 +578,10 @@ class Payment_model extends CI_Model
                     $paperInfo['discountType'][] = $discountTypeDetails;
                 }
                 $payheadDetails = $this->payment_head_model->getPayheadDetails($paymentClassDetails->payable_class_payhead_id);
-                $payable = $paperInfo['payable'][] = $paymentClassDetails->payable_class_amount - $discountAmount - $waiveOff;
+                $payable = $paperInfo['payable'][] = $paymentClassDetails->payable_class_amount - $discountAmount;
                 $paperInfo['payhead'][] = $payheadDetails;
                 $paperInfo['payableClass'][] = $paymentClassDetails;
-                $paperInfo['pending'][] = $payable - $paid;
+                $paperInfo['pending'][] = $payable - $paid - $waiveOff;
             }
             return true;
         }

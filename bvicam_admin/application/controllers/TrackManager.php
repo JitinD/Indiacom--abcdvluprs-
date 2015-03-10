@@ -20,7 +20,7 @@ class TrackManager extends CI_Controller
         $this->load->model('access_model');
         require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "PaymentsManager";
+        $sidebarData['controllerName'] = $controllerName = "TrackManager";
         $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . 'views/pages/TrackManager/' . $page . '.php')) {
             show_404();

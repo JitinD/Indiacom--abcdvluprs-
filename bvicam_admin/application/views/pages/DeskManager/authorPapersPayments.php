@@ -427,7 +427,7 @@ else
             var payheadId = $(this).attr("data-payheadId");
             $(".payable", $(this).parent().parent()).html(payable);
             $(".payable", $(this).parent().parent()).attr("data-payheadId", payheadId);
-            $(".pending", $(this).parent().parent()).html(pending);
+            $(".pending_amount", $(this).parent().parent()).html(pending);
 
         });
 

@@ -366,6 +366,11 @@ class PaymentsManager extends CI_Controller
         return false;
     }
 
+    public function paymentWaiveOff($memberId, $paperId, $payheadId)
+    {
+
+    }
+
     public function spotPayments()
     {
         $page = "spotPayment";
