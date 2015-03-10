@@ -81,6 +81,23 @@
         </div>
 
         <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
+            <?php
+            $validDiscounts = array();
+            foreach($discounts as $discount)
+            {
+                if(is_array($discount))
+                {
+                    foreach($discount as $paperId => $paperDiscount)
+                    {
+                        $validDiscounts['paperSpecific'][$paperDiscount->discount_type_payhead][$paperId][] = $paperDiscount;
+                    }
+                }
+                else
+                {
+                    $validDiscounts['global'][$discount->discount_type_payhead][] = $discount;
+                }
+            }
+            ?>
             <table class="table table-condensed">
                 <?php if (isset($papers)) {
                     ?>
@@ -379,14 +396,20 @@
     $(document).ready(function () {
         $("#memberList").hide();
         $(".radio").click(function () {
+            /*var payable = $(this).attr("data-payable");
+             var payheadId = $(this).attr("data-payheadId");
+             $(".payable", $(this).parent().parent()).html(payable);
+             $(".payable", $(this).parent().parent()).attr("data-payheadId", payheadId);
+             $(".pending_amount", $(this).parent().parent()).html(payable);
+             $(".pay_amount input", $(this).parent().parent()).attr("disabled", false);
+             $(".pay_amount input", $(this).parent().parent()).attr("max", payable);
+             $(".pay_amount input", $(this).parent().parent()).val(payable);*/
             var payable = $(this).attr("data-payable");
+            var pending = $(this).attr("data-pending");
             var payheadId = $(this).attr("data-payheadId");
             $(".payable", $(this).parent().parent()).html(payable);
             $(".payable", $(this).parent().parent()).attr("data-payheadId", payheadId);
-            $(".pending_amount", $(this).parent().parent()).html(payable);
-            $(".pay_amount input", $(this).parent().parent()).attr("disabled", false);
-            $(".pay_amount input", $(this).parent().parent()).attr("max", payable);
-            $(".pay_amount input", $(this).parent().parent()).val(payable);
+            $(".pending_amount", $(this).parent().parent()).html(pending);
         });
         $(".certificate_outward_number").change(function () {
             var ref = $(this).parent().parent();
