@@ -232,7 +232,7 @@ class Payment_model extends CI_Model
                 Left Join
             discount_type_master
                 On discount_type_id = table1.payment_discount_type
-                Join
+                Left Join
             nationality_master
                 On payable_class_nationality = Nationality_id";
         $where = " Where ";
@@ -561,25 +561,28 @@ class Payment_model extends CI_Model
         $payments = $this->getPayments($mid, $paper->paper_id);
         if(!empty($payments))
         {
-            $paymentClass = $payments[0]->payment_payable_class;
-            $paymentDiscountType = $payments[0]->payment_discount_type;
-            $paymentClassDetails = $this->payable_class_model->getPayableClassDetails($paymentClass);
-            $nationalityDetails = $this->nationality_model->getNationalityDetails($paymentClassDetails->payable_class_nationality);
-            $paperInfo['paid'] = $payments[0]->paid_amount / $this->currency_model->getCurrencyExchangeRateInINR($nationalityDetails->Nationality_currency);
-            $paperInfo['waiveOff'] = $payments[0]->waiveoff_amount;
-
-            $discountAmount = 0;
-            if($paymentDiscountType != null)
+            foreach($payments as $payment)
             {
-                $discountTypeDetails = $this->discount_model->getDiscountDetails($paymentDiscountType);
-                $discountAmount = ($discountTypeDetails == null) ? 0 : floor($discountTypeDetails->discount_type_amount * $paymentClassDetails->payable_class_amount);
-                $paperInfo['discountType'] = $discountTypeDetails;
+                $paymentClass = $payment->payment_payable_class;
+                $paymentDiscountType = $payment->payment_discount_type;
+                $paymentClassDetails = $this->payable_class_model->getPayableClassDetails($paymentClass);
+                $nationalityDetails = $this->nationality_model->getNationalityDetails($paymentClassDetails->payable_class_nationality);
+                $paid = $paperInfo['paid'][] = $payment->paid_amount / $this->currency_model->getCurrencyExchangeRateInINR($nationalityDetails->Nationality_currency);
+                $waiveOff = $paperInfo['waiveOff'][] = $payment->waiveoff_amount;
+
+                $discountAmount = 0;
+                if($paymentDiscountType != null)
+                {
+                    $discountTypeDetails = $this->discount_model->getDiscountDetails($paymentDiscountType);
+                    $discountAmount = ($discountTypeDetails == null) ? 0 : floor($discountTypeDetails->discount_type_amount * $paymentClassDetails->payable_class_amount);
+                    $paperInfo['discountType'][] = $discountTypeDetails;
+                }
+                $payheadDetails = $this->payment_head_model->getPayheadDetails($paymentClassDetails->payable_class_payhead_id);
+                $payable = $paperInfo['payable'][] = $paymentClassDetails->payable_class_amount - $discountAmount - $waiveOff;
+                $paperInfo['payhead'][] = $payheadDetails;
+                $paperInfo['payableClass'][] = $paymentClassDetails;
+                $paperInfo['pending'][] = $payable - $paid;
             }
-            $payheadDetails = $this->payment_head_model->getPayheadDetails($paymentClassDetails->payable_class_payhead_id);
-            $paperInfo['payable'] = $paymentClassDetails->payable_class_amount - $discountAmount - $paperInfo['waiveOff'];
-            $paperInfo['payhead'] = $payheadDetails;
-            $paperInfo['payableClass'] = $paymentClassDetails;
-            $paperInfo['pending'] = $paperInfo['payable'] - $paperInfo['paid'];
             return true;
         }
         return false;
@@ -594,8 +597,8 @@ class Payment_model extends CI_Model
             {
                 //$paperInfo['br'] = $brPayableClass->payable_class_amount;
                 //$paperInfo['payable'] = $paperInfo['pending'] =  $brPayableClass->payable_class_amount;
-                $paperInfo['payhead'] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
-                $paperInfo['payableClass'] = $brPayableClass;
+                $paperInfo['payhead'][] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
+                $paperInfo['payableClass'][] = $brPayableClass;
             }
         }
         else
@@ -605,8 +608,8 @@ class Payment_model extends CI_Model
             {
                 //$paperInfo['br'] = $brPayableClass->payable_class_amount;
                 //$paperInfo['payable'] = $paperInfo['pending'] =  $brPayableClass->payable_class_amount;
-                $paperInfo['payhead'] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
-                $paperInfo['payableClass'] = $brPayableClass;
+                $paperInfo['payhead'][] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
+                $paperInfo['payableClass'][] = $brPayableClass;
             }
             else
             {
@@ -615,8 +618,8 @@ class Payment_model extends CI_Model
                 {
                     //$paperInfo['br'] = $brPayableClass->payable_class_amount;
                     //$paperInfo['payable'] = $paperInfo['pending'] =  $brPayableClass->payable_class_amount;
-                    $paperInfo['payhead'] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
-                    $paperInfo['payableClass'] = $brPayableClass;
+                    $paperInfo['payhead'][] = $this->payment_head_model->getPayheadDetails($brPayableClass->payable_class_payhead_id);
+                    $paperInfo['payableClass'][] = $brPayableClass;
                 }
                 else if($noofEps < $noofAuthors - 1)
                 {
@@ -624,8 +627,8 @@ class Payment_model extends CI_Model
                     {
                         //$paperInfo['ep'] = $epPayableClass->payable_class_amount;
                         //$paperInfo['payable'] = $paperInfo['pending'] =  $epPayableClass->payable_class_amount;
-                        $paperInfo['payhead'] = $this->payment_head_model->getPayheadDetails($epPayableClass->payable_class_payhead_id);
-                        $paperInfo['payableClass'] = $epPayableClass;
+                        $paperInfo['payhead'][] = $this->payment_head_model->getPayheadDetails($epPayableClass->payable_class_payhead_id);
+                        $paperInfo['payableClass'][] = $epPayableClass;
                     }
                     else
                     {

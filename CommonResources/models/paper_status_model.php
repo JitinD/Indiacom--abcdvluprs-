@@ -43,10 +43,10 @@ class Paper_status_model extends CI_Model
                      JOIN
                      track_master
                      On subject_master.subject_track_id=track_master.track_id
-                     JOIN
+                     Left JOIN
                      paper_schedule_tracker
                      On paper_latest_version.paper_id=paper_schedule_tracker.paper_id
-                     JOIN
+                     Left JOIN
                      schedule_master
                      On paper_schedule_tracker.schedule_id=schedule_master.schedule_id
 
@@ -139,5 +139,33 @@ class Paper_status_model extends CI_Model
         return $query->result();
     }
 
-
+    public function getAcceptedPapersMembers()
+    {
+        $sql = "
+        Select
+            Cast(submission_member_id as Unsigned) as member_id,
+            paper_latest_version.paper_code,
+            paper_latest_version.paper_id,
+            schedule_master.*
+        From
+            paper_latest_version
+                Join
+            submission_master
+                On paper_latest_version.paper_id = submission_master.submission_paper_id
+                Left Join
+            paper_schedule_tracker
+                On paper_schedule_tracker.paper_id = paper_latest_version.paper_id
+                Left Join
+            schedule_master
+                On schedule_master.schedule_id = paper_schedule_tracker.schedule_id
+        Where
+            review_result_id = ?
+        Order By member_id";
+        $query = $this->db->query($sql, array(REVIEW_RESULT_ACCEPTED_ID));
+        if($query->num_rows() == 0)
+        {
+            return array();
+        }
+        return $query->result();
+    }
 }
