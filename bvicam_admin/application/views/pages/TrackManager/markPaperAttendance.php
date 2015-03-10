@@ -535,10 +535,18 @@
             }
         });
 
-        $("#searchByForm").keypress(function (e) {
-            if (e.which == 13) {
+        $("#searchByForm").keypress(function (event) {
+            if (event.which == 13) {
                 $("#submitButton").click();
-                event.preventDefault();
+                //event.preventDefault();
+				
+				if(event.preventDefault)
+						{ event.preventDefault()}
+					else
+						{event.stop()};
+
+					event.returnValue = false;
+					event.stopPropagation();  
             }
         });
 

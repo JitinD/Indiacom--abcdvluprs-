@@ -499,7 +499,7 @@ else
         $("#searchByForm").keypress(function (e) {
             if (e.which == 13) {
                 $("#submitButton").click();
-                event.preventDefault();
+                //event.preventDefault();
             }
         });
 
