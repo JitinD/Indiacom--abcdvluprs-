@@ -82,7 +82,7 @@
                     if (empty($papers)) {
                         ?>
                         <tr>
-                            <td colspan="9" class="text-center">
+                            <td colspan="16" class="text-center">
                                 <div class="alert alert-danger">No Accepted Papers!</div>
                             </td>
                         </tr>
@@ -390,7 +390,7 @@
                                     }
                                     else {
                                         $(".attInfo", ref_td).html("");
-                                        $(".attError", ref_td).html("Could not update");
+                                         $(".attError", ref_td).html("Could not update");
                                     }
                                 }
                             });
@@ -496,7 +496,7 @@
                             $("#matchingMemberRecords").find('tbody').empty();
                             var obj = jQuery.parseJSON(records);
                             $.each(obj, function (key, value) {
-                                $("#matchingMemberRecords").find('tbody').append($('<tr class = "member" style = "cursor: pointer; cursor: hand;">').append($('<td >').text(value.member_id)).append($('<td>').text(value.member_name)));
+                                $("#matchingMemberRecords").find('tbody').append($('<tr>').append($('<td  class = "member" style = "cursor: pointer; cursor: hand;">').text(value.member_id)).append($('<td>').text(value.member_name)));
                             });
                         }
                     }

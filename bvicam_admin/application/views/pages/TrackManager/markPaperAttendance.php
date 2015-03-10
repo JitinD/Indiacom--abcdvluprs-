@@ -50,10 +50,65 @@
     <hr>
     <div class="row Info">
         <div class="col-md-12 col-sm-12">
-            <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
-                <table class="table table-responsive table-striped">
-                    <?php if (isset($members)) {
+
+            <table class="table table-responsive table-striped">
+                <thead>
+                    <tr>
+                        <th>Member ID</th>
+                        <th>Member Name</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <?php
+                        if(empty($members))
+                        {
+                    ?>
+                    <tr>
+                        <td colspan="8">No members!</td>
+                    </tr>
+                    <?php
+                        }
+                        else
+                        {
+                            foreach ($members as $member)
+                            {
                         ?>
+                                <tr class = "authors" style = "cursor: pointer; cursor: hand;">
+                                    <td class = "author"><?php echo $member->submission_member_id; ?></td>
+                                    <td><?php echo $member->member_name; ?></td>
+                                </tr>
+                        <?php
+                            }
+
+                        }
+                    ?>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+    <div id="memberList">
+        <table class="table table-responsive table-hover" id="matchingMemberRecords">
+            <thead>
+            <tr>
+                <th>Member ID</th>
+                <th>Member Name</th>
+            </tr>
+            <tbody>
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
+
+
+            <!--form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">-->
+                <!--<table class="table table-responsive table-striped">
+                    <?php /*if (isset($members)) {
+                        */?>
                         <thead>
                         <tr>
                             <th>Member ID</th>
@@ -62,33 +117,33 @@
                         </tr>
                         </thead>
                         <?php
-                        if (empty($members)) {
-                            ?>
+/*                        if (empty($members)) {
+                            */?>
                             <tr>
                                 <td colspan="8">No Accepted Papers!</td>
                             </tr>
                         <?php
-                        } else {
+/*                        } else {
                             foreach ($members as $member) {
-                                ?>
+                                */?>
                                 <label>
                                     <tr>
                                         <!--                                                <td><input type="radio" name="member_id" id="member_id"-->
                                         <!--                                                           value="-->
-                                        <?php //echo $member->submission_member_id ?><!--"></td>-->
-                                        <td><?php echo $member->submission_member_id; ?></td>
-                                        <td><?php echo $member->member_name; ?></td>
+                                        <?php /*//echo $member->submission_member_id */?><!--"></td>-->
+                                        <td><?php /*echo $member->submission_member_id; */?></td>
+                                        <td><?php /*echo $member->member_name; */?></td>
                                         <td>
                                             <table class="table">
-                                                <?php if (isset($papers[$member->submission_member_id])) {
-                                                    ?>
+                                                <?php /*if (isset($papers[$member->submission_member_id])) {
+                                                    */?>
                                                     <thead>
-                                                    <tr>
+                                                    <!--tr>
                                                         <th>Paper Code</th>
                                                         <th>Paper Title</th>
                                                         <th>Attendance on Desk</th>
                                                         <!--th>Pending amount</th>
-                                                        <!--th>Select Payable</th-->
+                                                        <!--th>Select Payable</th>
                                                         <th>Attendance on Track</th>
                                                         <th>Certificate Outward Number</th>
                                                         <th>Certificate Given</th>
@@ -98,47 +153,47 @@
                                                         <th>Venue</th>
                                                         <th>Start Time</th>
                                                         <th>End Time</th>
-                                                    </tr>
+                                                    </tr-->
                                                     </thead>
                                                     <?php
-                                                    if (empty($papers[$member->submission_member_id])) {
-                                                        ?>
-                                                        <tr>
+/*                                                    if (empty($papers[$member->submission_member_id])) {
+                                                        */?>
+                                                        <!--tr>
                                                             <td colspan="9" class="text-center"><div class="alert alert-danger">No Accepted Papers!</div> </td>
                                                         </tr>
                                                     <?php
-                                                    } else {
+/*                                                    } else {
                                                         foreach ($papers[$member->submission_member_id] as $member_paper) {
                                                             //foreach($member_papers as $index => $paper)
                                                             {
-                                                                ?>
+                                                                */?>
                                                                 <tr>
-                                                                    <td data-submission_id="<?php echo $member_paper->submission_id; ?>"
-                                                                    class="submission_id"><?php echo $member_paper->paper_code; ?></td>
+                                                                    <td data-submission_id="<?php /*echo $member_paper->submission_id; */?>"
+                                                                    class="submission_id"><?php /*echo $member_paper->paper_code; */?></td>
 
-                                                                    <td><?php echo $member_paper->paper_title; ?></td>
+                                                                    <td><?php /*echo $member_paper->paper_title; */?></td>
 
                                                                     <?php
-                                                                    if(isset($attendance[$member_paper->submission_id]['is_present_on_desk']) && $attendance[$member_paper->submission_id]['is_present_on_desk'])
+/*                                                                    if(isset($attendance[$member_paper->submission_id]['is_present_on_desk']) && $attendance[$member_paper->submission_id]['is_present_on_desk'])
                                                                     {
                                                                         $present = 1;
-                                                                        ?>
-                                                                        <td class = "deskAttendance" data-value = 1>Present</td>
+                                                                        */?>
+                                                                        <!--<td class = "deskAttendance" data-value = 1>Present</td>-->
                                                                     <?php
-                                                                    }
+/*                                                                    }
                                                                     else
                                                                     {
                                                                         $present = 0;
-                                                                        ?>
-                                                                        <td class = "deskAttendance" data-value = 0>Absent</td>
+                                                                        */?>
+                                                                        <!--<td class = "deskAttendance" data-value = 0>Absent</td>-->
                                                                     <?php
-                                                                    }
-                                                                    ?>
+/*                                                                    }
+                                                                    */?>
 
 
                                                                         <!--td class="pending">
                                                                             <?php
-                                                                            /*if(isset($paperPayables[$member_paper -> paper_id]['pending']))
+/*                                                                            /*if(isset($paperPayables[$member_paper -> paper_id]['pending']))
                                                                                 echo $paperPayables[$member_paper -> paper_id]['pending'];
                                                                             else
                                                                                 echo "-";*/
@@ -147,7 +202,7 @@
 
                                                                         <!--td class="payhead_discount">
                                                                             <?php
-                                                                            /*if(isset($paperPayables[$member_paper->paper_id]['payable']))
+/*                                                                            /*if(isset($paperPayables[$member_paper->paper_id]['payable']))
                                                                                 $payableAmount = $paperPayables[$member_paper->paper_id]['payable'];
                                                                             $payHeads = (is_array($paperPayables[$member_paper->paper_id]['payhead'])) ? $paperPayables[$member_paper->paper_id]['payhead'] : array($paperPayables[$member_paper->paper_id]['payhead']);
                                                                             $payableClasses = (is_array($paperPayables[$member_paper->paper_id]['payableClass'])) ? $paperPayables[$member_paper->paper_id]['payableClass'] : array($paperPayables[$member_paper->paper_id]['payableClass']);
@@ -218,45 +273,45 @@
                                                                             ?>
                                                                         </td -->
 
-                                                                        <td>
+                                                                        <!--td>
                                                                             <select name="attendance_on_track"
                                                                                     class="form-control attendance_on_track">
                                                                                 <?php
-                                                                                $attendance_on_track = array("Absent", "Present");
+/*                                                                                $attendance_on_track = array("Absent", "Present");
 
                                                                                 for ($index = 0; $index < 2; $index++) {
-                                                                                    ?>
+                                                                                    */?>
                                                                                     <option
-                                                                                        value="<?php echo $index; ?>"
+                                                                                        value="<?php /*echo $index; */?>"
                                                                                         <?php
-                                                                                        if (isset($attendance[$member_paper->submission_id]['is_present_in_hall']) && $attendance[$member_paper->submission_id]['is_present_in_hall'] == $index)
+/*                                                                                        if (isset($attendance[$member_paper->submission_id]['is_present_in_hall']) && $attendance[$member_paper->submission_id]['is_present_in_hall'] == $index)
                                                                                             echo "selected"
-                                                                                        ?>>
-                                                                                        <?php echo $attendance_on_track[$index]; ?>
+                                                                                        */?>>
+                                                                                        <?php /*echo $attendance_on_track[$index]; */?>
                                                                                     </option>
                                                                                 <?php
-                                                                                }
-                                                                                ?>
+/*                                                                                }
+                                                                                */?>
                                                                             </select>
 
                                                                             <div class="bg-info attInfo"></div>
                                                                             <div class="bg-danger attError"></div>
-                                                                        </td>
+                                                                        </td-->
 
-                                                                    <td><input type="text"
+                                                                    <!--td><input type="text"
                                                                                class="certificate_outward_number form-control"
-                                                                               value="<?php if (isset($certificate[$member_paper->submission_id]['certificate_outward_number'])) {
+                                                                               value="<?php /*if (isset($certificate[$member_paper->submission_id]['certificate_outward_number'])) {
                                                                                    echo $certificate[$member_paper->submission_id]['certificate_outward_number'];
                                                                                }
-                                                                               ?>">
+                                                                               */?>">
 
                                                                         <div class="bg-info attInfo"></div>
                                                                         <div class="bg-danger attError"></div>
-                                                                    <td>
-                                                                        <input type="checkbox"
+                                                                    <td-->
+                                                                        <!--input type="checkbox"
                                                                                class="is_certificate_given"
                                                                             <?php
-                                                                            if (!isset($certificate[$member_paper->submission_id]['certificate_outward_number']) ||
+/*                                                                            if (!isset($certificate[$member_paper->submission_id]['certificate_outward_number']) ||
                                                                                 ($certificate[$member_paper->submission_id]['certificate_outward_number'] == '') ||
                                                                                 (isset($attendance[$member_paper->submission_id]['is_present_in_hall']) && $attendance[$member_paper->submission_id]['is_present_in_hall'] == 0) || isset($present)&& $present == 0
                                                                             )
@@ -264,35 +319,35 @@
 
                                                                             if (isset($certificate[$member_paper->submission_id]['is_certificate_given']) && ($certificate[$member_paper->submission_id]['is_certificate_given'] == 1))
                                                                                 echo "checked";
-                                                                            ?>>
+                                                                            */?>>
 
                                                                         <div class="bg-info attInfo"></div>
                                                                         <div class="bg-danger attError"></div>
                                                                     </td>
-                                                                    <td><?php echo $member_paper->track_id; ?></td>
-                                                                    <td><?php echo $member_paper->session_id; ?></td>
-                                                                    <td><?php echo $member_paper->sub_session_id; ?></td>
-                                                                    <td><?php echo $member_paper->venue; ?></td>
-                                                                    <td><?php echo $member_paper->start_time; ?></td>
-                                                                    <td><?php echo $member_paper->end_time; ?></td>
+                                                                    <td><?php /*echo $member_paper->track_id; */?></td>
+                                                                    <td><?php /*echo $member_paper->session_id; */?></td>
+                                                                    <td><?php /*echo $member_paper->sub_session_id; */?></td>
+                                                                    <td><?php /*echo $member_paper->venue; */?></td>
+                                                                    <td><?php /*echo $member_paper->start_time; */?></td>
+                                                                    <td><?php /*echo $member_paper->end_time; */?></td>
 
                                                                 </tr>
 
                                                             <?php
-                                                            }
+/*                                                            }
                                                         }
                                                     }
                                                 }
                                                 else
                                                 {
-                                                ?>
+                                                */?>
                                                 <div class="Info">
                                                     <?php
-                                                    if (!isset($memberId)) {
+/*                                                    if (!isset($memberId)) {
                                                         echo "<h1>Sorry no such member Id in our database</h1>";
                                                     }
                                                     }
-                                                    ?>
+                                                    */?>
 
                                             </table>
                                         </td>
@@ -302,46 +357,32 @@
 
 
                             <?php
-                            }
-                        } ?>
+/*                            }
+                        } */?>
 
                     <?php
-                    }
+/*                    }
                     else
                     {
-                    ?>
+                    */?>
                     <div class="Info">
                         <?php
-                        if (!isset($paperId)) {
+/*                        if (!isset($paperId)) {
                             echo "<h1>Sorry no such paper Id in our database</h1>";
                         }
                         }
-                        ?>
+                        */?>
 
-                </table>
+                </table>-->
 
-        </div>
-    </div>
-</div>
 
-<div id="memberList">
-    <table class="table table-responsive table-hover" id="matchingMemberRecords">
-        <thead>
-        <tr>
-            <th>Member ID</th>
-            <th>Member Name</th>
-        </tr>
-        <tbody>
-        </tbody>
-
-    </table>
-</div>
 
 <script>
     $(document).ready(function () {
+
         $("#memberList").hide();
 
-        $(".certificate_outward_number").change(function () {
+        /*$(".certificate_outward_number").change(function () {
             var ref = $(this).parent().parent();
             var ref_td = $(this).parent();
             var submissionId = $('.submission_id', ref).attr('data-submission_id');
@@ -352,7 +393,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markOutwardNumber_AJAX",
+                url: "/<?php //echo BASEURL; ?>index.php/CertificateManager/markOutwardNumber_AJAX",
                 data: "submissionId=" + submissionId + "&certificate_outward_no=" + outwardNumber,
                 success: function (msg) {
                     if (msg == "true") {
@@ -362,7 +403,7 @@
                         {
                             $.ajax({
                                 type: "POST",
-                                url: "/<?php echo BASEURL; ?>index.php/CertificateManager/removeCertificateRecord_AJAX",
+                                url: "/<?php //echo BASEURL; ?>index.php/CertificateManager/removeCertificateRecord_AJAX",
                                 data: "submissionId=" + submissionId,
                                 success: function (msg) {
 
@@ -411,7 +452,7 @@
             //alert(submissionId+" - "+certificateGiven)
             $.ajax({
                 type: "POST",
-                url: "/<?php echo BASEURL; ?>index.php/CertificateManager/markCertificateGiven_AJAX",
+                url: "/<?php //echo BASEURL; ?>index.php/CertificateManager/markCertificateGiven_AJAX",
                 data: "submissionId=" + submissionId + "&is_certificate_given=" + certificateGiven,
                 success: function (msg) {
                     if (msg == "true") {
@@ -443,7 +484,7 @@
             //$('.attInfo', ref_td).html("Updating");
             $.ajax({
                 type: "POST",
-                url: "/<?php echo BASEURL; ?>index.php/AttendanceManager/markTrackAttendance_AJAX",
+                url: "/<?php //echo BASEURL; ?>index.php/AttendanceManager/markTrackAttendance_AJAX",
                 data: "submissionId=" + submissionId + "&isPresent=" + isPresent,
                 success: function (msg) {
                     if (msg == "true") {
@@ -463,7 +504,7 @@
                 }
             });
 
-        });
+        });*/
         $('#submitButton').click(function () {
 
             if ($("input[name=searchBy]:checked").val() == "MemberName") {
@@ -480,7 +521,7 @@
                             var obj = jQuery.parseJSON(records);
 
                             $.each(obj, function (key, value) {
-                                $("#matchingMemberRecords").find('tbody').append($('<tr>').append($('<td  class = "member" style = "cursor: pointer; cursor: hand;" >').text(value.member_id)).append($('<td>').text(value.member_name)));
+                                $("#matchingMemberRecords").find('tbody').append($('<tr class = "members" style = "cursor: pointer; cursor: hand;">').append($('<td class = "member">').text(value.member_id)).append($('<td>').text(value.member_name)));
 
                             });
 
@@ -502,14 +543,24 @@
         });
 
         $(document).ajaxSuccess(function () {
-            $('.member').click(function () {
-                var member_id = $(this).text();
+            $('.members').click(function () {
+                var member_id = $('.member', $(this)).text();
 
                 $('#searchValue').val(member_id);
                 $("input:radio[value = MemberID]").prop('checked', 'checked');
                 //alert($("input[name=searchBy]:checked").val());
                 $('#searchByForm').submit();
             });
+        });
+
+        $('.authors').click(function () {
+
+            var member_id = $('.author', $(this)).text();
+
+            $('#searchValue').val(member_id);
+            $("input:radio[value = MemberID]").prop('checked', 'checked');
+            //alert($("input[name=searchBy]:checked").val());
+            $('#searchByForm').submit();
         });
     });
 </script>
