@@ -311,13 +311,13 @@
 
                                         if ((!isset($certificate[$paper->paper_id]['certificate_outward_number'])) ||
                                             ($certificate[$paper->paper_id]['certificate_outward_number'] == '') ||
-                                            (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 0) || (!isset($papersInfo[$paper->paper_id]['paid'])) || (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount != 0))
+                                            (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 0) || (!isset($papersInfo[$paper->paper_id]['paid'])) || (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount > 0))
                                             echo "disabled ";
 
                                         if (isset($certificate[$paper->paper_id]['certificate_outward_number']) &&
                                             ($certificate[$paper->paper_id]['certificate_outward_number'] != '') &&
                                             (isset($attendance[$paper->paper_id]['is_present_in_hall']) && $attendance[$paper->paper_id]['is_present_in_hall'] == 1) &&
-                                            (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1)) && (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount == 0))
+                                            (isset($certificate[$paper->paper_id]['is_certificate_given']) && ($certificate[$paper->paper_id]['is_certificate_given'] == 1)) && (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount <= 0))
                                             echo "checked";
                                         ?>
                                     >

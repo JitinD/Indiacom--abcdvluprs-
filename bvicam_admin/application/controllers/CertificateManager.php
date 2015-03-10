@@ -71,7 +71,7 @@ class CertificateManager extends CI_Controller
             }
         }
 
-        if(!isset($attendanceRecord) || (isset($attendanceRecord) && !$attendanceRecord['is_present_in_hall']) || !isset($certificateRecord['certificate_outward_number']) || (!isset($papersInfo[$paper_id]['paid'])) || (isset($papersInfo[$paper_id]['paid']) && $pendingAmount != 0))
+        if(!isset($attendanceRecord) || (isset($attendanceRecord) && !$attendanceRecord['is_present_in_hall']) || !isset($certificateRecord['certificate_outward_number']) || (!isset($papersInfo[$paper_id]['paid'])) || (isset($papersInfo[$paper_id]['paid']) && $pendingAmount > 0))
             echo json_encode(false);
 
         if ($certificateRecord != null)

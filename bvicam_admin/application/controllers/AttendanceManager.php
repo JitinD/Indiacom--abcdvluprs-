@@ -49,7 +49,7 @@ class AttendanceManager extends CI_Controller
             }
         }
 
-        if ((!isset($papersInfo[$paper_id]['paid'])) || (isset($papersInfo[$paper_id]['paid']) && $pendingAmount != 0))//(!isset($papersInfo[$paper_id]['pending']) || (isset($papersInfo[$paper_id]['pending']) && $papersInfo[$paper_id]['pending'] != 0))
+        if ((!isset($papersInfo[$paper_id]['paid'])) || (isset($papersInfo[$paper_id]['paid']) && $pendingAmount > 0))//(!isset($papersInfo[$paper_id]['pending']) || (isset($papersInfo[$paper_id]['pending']) && $papersInfo[$paper_id]['pending'] != 0))
         {
             echo json_encode(false);
         }
