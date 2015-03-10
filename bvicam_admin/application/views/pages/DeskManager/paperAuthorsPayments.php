@@ -442,13 +442,15 @@ else
 ?>
 <div class = "Info">
     <?php
-    if(isset($paperId))
-    {?>
-        <div class="alert alert-danger text-center">Sorry, No Paper Found</div>
-    <?php
-    }
-    }
+        if(isset($paperId))
+        {
     ?>
+            <div class="alert alert-danger text-center">Sorry, PaperID Not Found</div>
+    <?php
+        }
+}
+    ?>
+</div>
 
 <div id="memberList">
     <table class="table table-responsive table-hover" id="matchingMemberRecords">
@@ -539,7 +541,7 @@ else
                             var obj = jQuery.parseJSON(records);
 
                             $.each(obj, function (key, value) {
-                                $("#matchingMemberRecords").find('tbody').append($('<tr>').append($('<td  class = "member" style = "cursor: pointer; cursor: hand;">').text(value.member_id)).append($('<td>').text(value.member_name)));
+                                $("#matchingMemberRecords").find('tbody').append($('<tr class = "members" style = "cursor: pointer; cursor: hand;">').append($('<td class = "member">').text(value.member_id)).append($('<td>').text(value.member_name)));
 
                             });
 
@@ -554,18 +556,26 @@ else
         });
 
 
-        $("#searchByForm").keypress(function(e) {
-            if(e.which == 13)
+        $("#searchByForm").keypress(function(event) {
+            if(event.which == 13)
             {
                 $("#submitButton").click();
-                event.preventDefault();
+                //event.preventDefault();
+
+                if(event.preventDefault)
+                { event.preventDefault()}
+                else
+                {event.stop()};
+
+                event.returnValue = false;
+                event.stopPropagation();
             }
         });
 
 
         $(document).ajaxSuccess(function () {
-            $('.member').click(function () {
-                var member_id = $(this).text();
+            $('.members').click(function () {
+                var member_id = $('.member', $(this)).text();
 
                 $('#searchValue').val(member_id);
                 $("input:radio[value = MemberID]").prop('checked', 'checked');

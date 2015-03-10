@@ -34,12 +34,12 @@
             INDIACom - 2016
             <div class="row heroText">
                 <div class="col-md-12 col-sm-12 col-xs-12">
-                    9<sup>th</sup> INDIACom; 2016 2<sup>nd</sup> International Conference on Computing for Sustainable Global Development
+                    10<sup>th</sup> INDIACom; 2015 3<sup>rd</sup> International Conference on Computing for Sustainable Global Development
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     <div class="row">
                         <div class="col-md-6 col-sm-12 col-xs-12">
-                            <a href="importantdates" ><span class="glyphicon glyphicon-calendar"></span></a>11<sup>th</sup> - 13<sup>th</sup> March, 2015
+                            <a href="importantdates" ><span class="glyphicon glyphicon-calendar"></span></a>11<sup>th</sup> - 13<sup>th</sup> March, 2016
                         </div>
                         <div class="col-md-6 col-sm-12 col-xs-12">
                             <a href="reachingBVICAM" ><span class="glyphicon glyphicon-map-marker"></span></a> Bharati Vidyapeeth, New Delhi, India

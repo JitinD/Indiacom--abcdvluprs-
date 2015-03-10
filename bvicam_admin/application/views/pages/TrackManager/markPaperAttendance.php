@@ -48,61 +48,135 @@
         </div>
     </form>
     <hr>
-    <div class="row Info">
-        <div class="col-md-12 col-sm-12">
 
-            <table class="table table-responsive table-striped">
-                <thead>
+    <?php
+    if(isset($paperDetails))
+    {
+    ?>
+        <div class = "Info">
+            <h3 class="text-center">Paper Details</h3>
+            <div class="col-md-6">
+                <table class="table table-condensed table-hover table-responsive">
                     <tr>
-                        <th>Member ID</th>
-                        <th>Member Name</th>
+                        <td>Paper Code</td>
+                        <td>
+                            <strong>
+                                <?php
+                                if(isset($paperDetails->paper_code))
+                                    echo $paperDetails->paper_code; ?>
+                            </strong>
+                        </td>
                     </tr>
-                </thead>
+                    <tr>
+                        <td>Paper Title</td>
+                        <td>
+                            <strong>
+                                <?php
+                                if(isset($paperDetails->paper_title))
+                                    echo $paperDetails->paper_title;
+                                ?>
+                            </strong>
+                        </td>
+                    </tr>
 
-                <tbody>
-                    <?php
-                        if(empty($members))
-                        {
-                    ?>
                     <tr>
-                        <td colspan="8">No members!</td>
+                        <td>Track</td>
+                        <td>
+                            <strong>
+                                Track
+                                <?php
+                                if(isset($trackDetails->track_number) && isset($trackDetails->track_name))
+                                    echo $trackDetails->track_number . " : " . $trackDetails->track_name;
+                                ?>
+                            </strong>
+                        </td>
                     </tr>
-                    <?php
-                        }
-                        else
-                        {
-                            foreach ($members as $member)
+
+                    <tr>
+                        <td>Is Paper Registered</td>
+                        <td>
+                            <strong>
+                                <?php
+                                if(isset($PaperRegistered))
+                                    echo $PaperRegistered ? "Yes" : "No";
+                                ?>
+                            </strong>
+                        </td>
+                    </tr>
+
+                </table>
+            </div>
+
+            <div class="col-md-12 col-sm-12">
+
+                <table class="table table-responsive table-striped">
+                    <thead>
+                        <tr>
+                            <th>Member ID</th>
+                            <th>Member Name</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <?php
+                            if(empty($members))
                             {
                         ?>
-                                <tr class = "authors" style = "cursor: pointer; cursor: hand;">
-                                    <td class = "author"><?php echo $member->submission_member_id; ?></td>
-                                    <td><?php echo $member->member_name; ?></td>
-                                </tr>
+                        <tr>
+                            <td colspan="8">No members!</td>
+                        </tr>
                         <?php
                             }
+                            else
+                            {
+                                foreach ($members as $member)
+                                {
+                            ?>
+                                    <tr class = "authors" style = "cursor: pointer; cursor: hand;">
+                                        <td class = "author"><?php echo $member->submission_member_id; ?></td>
+                                        <td><?php echo $member->member_name; ?></td>
+                                    </tr>
+                            <?php
+                                }
 
-                        }
-                    ?>
-                </tbody>
-            </table>
+                            }
+                        ?>
+                    </tbody>
+                </table>
 
+            </div>
         </div>
+    <?php
+    }
+    else
+    {
+    ?>
+    <div class = "Info">
+        <?php
+            //if(isset($paperId))
+            {
+        ?>
+                <div class="alert alert-danger text-center">Sorry, PaperID Not Found</div>
+        <?php
+            }
+    }
+        ?>
+
+
+        <div id="memberList">
+            <table class="table table-responsive table-hover" id="matchingMemberRecords">
+                <thead>
+                <tr>
+                    <th>Member ID</th>
+                    <th>Member Name</th>
+                </tr>
+                <tbody>
+                </tbody>
+
+            </table>
+        </div>
+
     </div>
-
-    <div id="memberList">
-        <table class="table table-responsive table-hover" id="matchingMemberRecords">
-            <thead>
-            <tr>
-                <th>Member ID</th>
-                <th>Member Name</th>
-            </tr>
-            <tbody>
-            </tbody>
-
-        </table>
-    </div>
-
-</div>
 
 
             <!--form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">-->

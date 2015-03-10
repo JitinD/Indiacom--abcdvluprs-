@@ -7,28 +7,28 @@
  */
 ?>
 
-<div class="row bg-dark-blue text-light">
+<div class="row">
     <div class="col-md-10 col-sm-10 col-xs-12 text-center contentBlock-top">
         <ul class="list-inline" style="font-size: 16px;">
             <span class="h4 text-muted">Quick Links &raquo;</span
             <li>
-                <a href="/<?php echo INDIACOM; ?>callForPapers" class="text-light">Call For Papers</a>
+                <a href="/<?php echo INDIACOM; ?>callForPapers">Call For Papers</a>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>importantdates" class="text-light">Important Dates</a>
+                <a href="/<?php echo INDIACOM; ?>importantdates">Important Dates</a>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>reachingBVICAM" class="text-light">Reaching BVICAM</a>
+                <a href="/<?php echo INDIACOM; ?>reachingBVICAM">Reaching BVICAM</a>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>accomodation" class="text-light">Accomodation</a>
+                <a href="/<?php echo INDIACOM; ?>accomodation">Accomodation</a>
             </li>
             <?php
             if ( !isset($_SESSION[APPID]['member_id']) )
             {
             ?>
             <li>
-                <a href="/<?php echo INDIACOM; ?>d/Registration/signUp" class="text-light">Register</a>
+                <a href="/<?php echo INDIACOM; ?>d/Registration/signUp">Register</a>
             </li>
             <?php
             }
@@ -46,3 +46,4 @@
         </form>
     </div>
 </div>
+<hr>

@@ -52,8 +52,34 @@
     if (isset($memberId) && $memberId)
     {
     ?>
-
+    <h3 class="text-center Info">Member Profile</h3>
     <div class="row Info">
+
+        <div class="col-md-6">
+            <table class="table table-condensed">
+                <tbody>
+                <tr>
+                    <td>
+                        Member ID
+                    </td>
+                    <td>
+                        <strong><?php echo $memberDetails['member_id']; ?></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Member Name
+                    </td>
+                    <td class="text-capitalize">
+                        <strong><?php echo $memberDetails['member_name']; ?></strong>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+
+        </div>
+
         <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
             <table class="table table-condensed">
                 <?php if (isset($papers)) {
@@ -499,7 +525,7 @@
                             $("#matchingMemberRecords").find('tbody').empty();
                             var obj = jQuery.parseJSON(records);
                             $.each(obj, function (key, value) {
-								$("#matchingMemberRecords").find('tbody').append($('<tr>').append($('<td  class = "member" style = "cursor: pointer; cursor: hand;">').text(value.member_id)).append($('<td>').text(value.member_name)));
+								$("#matchingMemberRecords").find('tbody').append($('<tr class = "members" style = "cursor: pointer; cursor: hand;">').append($('<td class = "member">').text(value.member_id)).append($('<td>').text(value.member_name)));
                             });
                         }
                     }
@@ -525,8 +551,8 @@
             });
 			
         $(document).ajaxSuccess(function () {
-            $('.member').click(function () {
-                var member_id = $(this).text();
+            $('.members').click(function () {
+                var member_id = $('.member', $(this)).text();
                 $('#searchValue').val(member_id);
                 $("input:radio[value = MemberID]").prop('checked', 'checked');
                 //alert($("input[name=searchBy]:checked").val());

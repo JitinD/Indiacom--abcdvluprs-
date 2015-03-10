@@ -1,12 +1,13 @@
-<div class="row contentBlock-top">
+<div class="container-fluid"><div class="row contentBlock-top">
     <div class="col-md-4 col-sm-12 col-xs-12 text-center" style="font-size: 20px;">
         <span class="text-theme h2">Sponsors</span>
         <br>
-        <img src="/<?php echo PATH ?>assets/images/sponsors/iet.jpg" class="sponsorImage">
-        <img src="/<?php echo PATH ?>assets/images/sponsors/csi.png" class="sponsorImage">
+        <img src="/<?php echo PATH ?>assets/images/sponsors/csi-gjlogo.jpg" class="sponsorImage">
+        <img src="/<?php echo PATH ?>assets/images/sponsors/csi.jpg" class="sponsorImage">
         <img src="/<?php echo PATH ?>assets/images/sponsors/iste.jpg" class="sponsorImage">
         <img src="/<?php echo PATH ?>assets/images/sponsors/ipu.jpg" class="sponsorImage">
         <img src="/<?php echo PATH ?>assets/images/sponsors/iete.png" class="sponsorImage">
+        <img src="/<?php echo PATH ?>assets/images/sponsors/iet.jpg" class="sponsorImage" style="width: 150px; height: 70px;">
 
     </div>
     <div class="col-md-5 col-sm-6 col-xs-12">
@@ -94,3 +95,4 @@
     </div>
 
 
+    </div>

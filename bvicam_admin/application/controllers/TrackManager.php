@@ -44,6 +44,28 @@ class TrackManager extends CI_Controller
 
     }
 
+    private function getPaperInfo($paper_id)
+    {
+        $this->load->model('paper_model'); //paper
+        $this->load->model('subject_model'); //subject
+        $this->load->model('track_model'); //track
+        $this->load->model('event_model'); //event
+        $this->load->model('submission_model');
+
+        $this->data['paperDetails'] = $this->paper_model->getPaperDetails($paper_id);
+
+        if(isset($this->data['paperDetails']))
+            $this->data['subjectDetails'] = $this->subject_model->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
+
+        if(isset($this->data['subjectDetails']))
+            $this->data['trackDetails'] = $this->track_model->getTrackDetails($this->data['subjectDetails']->subject_track_id);
+
+        if(isset($this->data['trackDetails']))
+            $this->data['eventDetails'] = $this->event_model->getEventDetails($this->data['trackDetails']->track_event_id);
+        $this->data['submissions'] = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paper_id);
+
+    }
+
     public function home()
     {
         $this->load->library('form_validation');
@@ -100,7 +122,7 @@ class TrackManager extends CI_Controller
             $this->load->model('payment_model');
 
             $this->data['memberId'] = true;
-
+            $this->data['memberDetails'] = $this->member_model->getMemberInfo($member_id);
             $this->data['papers'] = $this->paper_status_model->getTrackAcceptedPapersInfo($member_id);
 
             $this->data['registrationCat'] = $this->member_model->getMemberCategory($member_id);
@@ -144,7 +166,7 @@ class TrackManager extends CI_Controller
 
         $this->home();
 
-        if ($paper_id) {
+        if (isset($paper_id) && $paper_id) {
             $this->load->helper('url');
             $this->load->model('paper_status_model');
             $this->load->model('attendance_model');
@@ -159,6 +181,8 @@ class TrackManager extends CI_Controller
             $this->load->model('payment_model');
             $this->load->model('discount_model');
 
+            $this->getPaperInfo($paper_id);
+            $this->data['PaperRegistered'] = $this->payment_model->isPaperRegistered($paper_id);
             $this->data['members'] = $this->paper_status_model->getTrackMemberInfo($paper_id);
 
             foreach ($this->data['members'] as $index => $member) {

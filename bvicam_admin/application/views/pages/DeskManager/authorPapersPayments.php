@@ -428,6 +428,7 @@ else
             $(".payable", $(this).parent().parent()).html(payable);
             $(".payable", $(this).parent().parent()).attr("data-payheadId", payheadId);
             $(".pending", $(this).parent().parent()).html(pending);
+
         });
 
         $(".attendance_on_desk").change(function () {
@@ -482,7 +483,7 @@ else
                             var obj = jQuery.parseJSON(records);
 
                             $.each(obj, function (key, value) {
-                                $("#matchingMemberRecords").find('tbody').append($('<tr>').append($('<td  class = "member" style = "cursor: pointer; cursor: hand;" >').text(value.member_id)).append($('<td>').text(value.member_name)));
+                                $("#matchingMemberRecords").find('tbody').append($('<tr class = "members" style = "cursor: pointer; cursor: hand;">').append($('<td class = "member">').text(value.member_id)).append($('<td>').text(value.member_name)));
 
                             });
 
@@ -496,16 +497,24 @@ else
             }
         });
 
-        $("#searchByForm").keypress(function (e) {
-            if (e.which == 13) {
+        $("#searchByForm").keypress(function (event) {
+            if (event.which == 13) {
                 $("#submitButton").click();
                 //event.preventDefault();
+
+                if(event.preventDefault)
+                { event.preventDefault()}
+                else
+                {event.stop()};
+
+                event.returnValue = false;
+                event.stopPropagation();
             }
         });
 
         $(document).ajaxSuccess(function () {
-            $('.member').click(function () {
-                var member_id = $(this).text();
+            $('.members').click(function () {
+                var member_id = $('.member', $(this)).text();
 
                 $('#searchValue').val(member_id);
                 $("input:radio[value = MemberID]").prop('checked', 'checked');
