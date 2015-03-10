@@ -426,7 +426,7 @@
                         }
                         else
                             $('.is_certificate_given', ref).prop('checked', false);
-                        if (pendingAmount != 0)
+                        if (pendingAmount > 0)
                             $('.is_certificate_given', ref).attr("disabled", "disabled");
                         else
                             $('.is_certificate_given', ref).removeAttr("disabled");
@@ -487,7 +487,7 @@
                 success: function (msg) {
                     if (msg == "true") {
                         $(".attInfo", ref_td).html("Updated");
-                        if (isPresent == 0 || outwardNumber == "" || pendingAmount != 0) {
+                        if (isPresent == 0 || outwardNumber == "" || pendingAmount > 0) {
                             $('.is_certificate_given', ref).attr("disabled", "disabled");
                             $('.is_certificate_given', ref).prop('checked', false);
                             if($('.is_certificate_given').val())
