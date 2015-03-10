@@ -204,7 +204,7 @@
                                     {
                                         ?>
                                         <tr>
-                                            <td colspan="9" class="text-center">
+                                            <td colspan="15" class="text-center">
                                                 <div class="alert alert-danger">No Accepted Papers!</div>
                                             </td>
                                         </tr>
@@ -387,7 +387,7 @@
                                                 <td>
                                                     <select name = "attendance_on_desk" class="form-control attendance_on_desk"
                                                         <?php
-                                                        if(isset($paperPayables[$paper -> paper_id]['pending']) && $paperPayables[$paper -> paper_id]['pending'] != 0)
+                                                        if((!isset($paperPayables[$paper->paper_id]['paid'])) || (isset($paperPayables[$paper->paper_id]['paid']) && $pendingAmount != 0))//(isset($paperPayables[$paper -> paper_id]['pending']) && $paperPayables[$paper -> paper_id]['pending'] != 0)
                                                             echo "disabled";
                                                         ?>
                                                     >

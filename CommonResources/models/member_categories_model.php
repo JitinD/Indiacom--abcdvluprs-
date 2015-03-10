@@ -39,6 +39,13 @@
             }
             return $cats;
         }
+
+        public function getMemberCategoryName($member_category_id)
+        {
+            $member_category = $this -> getMemberCategoryInfo($member_category_id);
+
+            return $member_category['member_category_name'];
+        }
     }
 
 ?>

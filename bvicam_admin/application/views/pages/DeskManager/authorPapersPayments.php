@@ -1,4 +1,4 @@
-<?php /*print_r($papersInfo); */ ?>
+<?php /*print_r($memberDetails);  */?>
 
 <div class="col-sm-12 col-md-12">
     <div class="row">
@@ -81,6 +81,14 @@
                 </tr>
                 <tr>
                     <td>
+                        Member Category
+                    </td>
+                    <td>
+                        <strong><?php echo $memberDetails['category_name']; ?></strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         Is Member registered?
                     </td>
                     <td>
@@ -153,7 +161,7 @@
             if (empty($papers)) {
                 ?>
                 <tr>
-                    <td colspan="9" class="text-center">
+                    <td colspan="15" class="text-center">
                         <div class="alert alert-danger">No Accepted Papers!</div>
                     </td>
                 </tr>
@@ -336,7 +344,7 @@
                         <td>
                             <select name="attendance_on_desk" class="form-control attendance_on_desk"
                                 <?php
-                                if ( !isset($papersInfo[$paper->paper_id]['pending']) || (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] != 0))
+                                if ((!isset($papersInfo[$paper->paper_id]['paid'])) || (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount != 0))//( !isset($papersInfo[$paper->paper_id]['pending']) || (isset($papersInfo[$paper->paper_id]['pending']) && $papersInfo[$paper->paper_id]['pending'] != 0))
                                     echo "disabled";
                                 ?>
                                 >
