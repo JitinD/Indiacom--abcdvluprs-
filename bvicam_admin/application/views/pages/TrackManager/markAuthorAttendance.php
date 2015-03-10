@@ -49,7 +49,7 @@
     </form>
     <hr>
     <?php
-    if (isset($memberId))
+    if (isset($memberId) && $memberId)
     {
     ?>
 
