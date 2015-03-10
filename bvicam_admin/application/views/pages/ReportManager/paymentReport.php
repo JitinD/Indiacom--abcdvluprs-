@@ -59,7 +59,15 @@
                     <?php
                     if(isset($payables[$submission->member_id][$submission->paper_id]['paid']))
                     {
-                        echo $memCategories[$payables[$submission->member_id][$submission->paper_id]['payableClass'][0]->payable_class_registration_category]['member_category_name'];
+						$payheads = $payables[$submission->member_id][$submission->paper_id]['payhead'];
+						foreach($payheads as $index=>$payhead)
+						{
+							if(isset($payables[$submission->member_id][$submission->paper_id]['payableClass'][$index]->payable_class_registration_category))
+							{
+								echo $memCategories[$payables[$submission->member_id][$submission->paper_id]['payableClass'][$index]->payable_class_registration_category]['member_category_name'];
+								break;
+							}
+						}
                     }
                     else
                     {
@@ -236,7 +244,7 @@
                     <?php
                     if(isset($payables[$submission->member_id][$submission->paper_id]['paid']))
                     {
-                        echo ($brpayable + $eppayable + $olpcpayable + $prpayable) - ($paidAmt + $waiveOffAmt);
+                        echo ($brpayable + $eppayable + $olpcpayable + $prpayable) - ($paidAmt);
                     }
                     ?>
                 </td>

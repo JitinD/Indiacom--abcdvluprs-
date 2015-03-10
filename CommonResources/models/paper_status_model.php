@@ -160,7 +160,7 @@ class Paper_status_model extends CI_Model
                 On schedule_master.schedule_id = paper_schedule_tracker.schedule_id
         Where
             review_result_id = ?
-        Order By member_id";
+        Order By member_id, paper_latest_version.paper_code";
         $query = $this->db->query($sql, array(REVIEW_RESULT_ACCEPTED_ID));
         if($query->num_rows() == 0)
         {
