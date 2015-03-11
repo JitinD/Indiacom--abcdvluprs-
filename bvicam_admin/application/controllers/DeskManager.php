@@ -27,7 +27,7 @@ class DeskManager extends CI_Controller
         $this->load->model('access_model');
         require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "PaymentsManager";
+        $sidebarData['controllerName'] = $controllerName = "DeskManager";
         $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . 'views/pages/DeskManager/' . $page . '.php')) {
             show_404();
@@ -47,11 +47,7 @@ class DeskManager extends CI_Controller
 
     private function setSidebarLinks()
     {
-        $links['viewPaymentsMemberWise'] = "View payments memberwise";
-        $links['viewPaymentsPaperWise'] = "View payments paperwise";
-        $links['newPayment'] = "New payment";
-        $links['spotPayments'] = "Spot payment";
-        return $links;
+        
     }
 
     public function home()

@@ -29,7 +29,7 @@
     define('INDIACOM', 'indiacom2015/indiacom_online/');
     define('DBGROUP', 'OnlineTest');*/
 
-    define('DEFAULT_ROLE', 0);
+    define('DEFAULT_ROLE', 31);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
     define('APPID', '1a');

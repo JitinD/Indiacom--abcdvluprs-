@@ -74,7 +74,7 @@
                                                 </td>
                                                 <td>
                                                     <?php
-                                                    $deliverables = array("Object A", "Object B");
+                                                    $deliverables = array("Kit", "Proceedings");
 
                                                     for($arr_index = 0; $arr_index < 2; $arr_index++)
                                                     {

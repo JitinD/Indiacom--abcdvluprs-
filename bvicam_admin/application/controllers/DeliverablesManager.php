@@ -106,7 +106,7 @@ class DeliverablesManager extends CI_Controller
 
                 $pending_amount = $pay_amount - $paid_amount;
 
-                if($pending_amount == 0)
+                if($pending_amount <= 0)
                    $payments_record[] = $payments;
             }
         }

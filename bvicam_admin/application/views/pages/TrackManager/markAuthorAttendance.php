@@ -52,10 +52,10 @@
     if (isset($memberId) && $memberId)
     {
     ?>
-    <h3 class="text-center Info">Member Profile</h3>
+    <!--h3 class="text-center Info">Member Profile</h3-->
     <div class="row Info">
 
-        <div class="col-md-6">
+        <!--div class="col-md-6">
             <table class="table table-condensed">
                 <tbody>
                 <tr>
@@ -63,7 +63,7 @@
                         Member ID
                     </td>
                     <td>
-                        <strong><?php echo $memberDetails['member_id']; ?></strong>
+                        <strong><?php /*echo $memberDetails['member_id'];*/ ?></strong>
                     </td>
                 </tr>
                 <tr>
@@ -71,14 +71,14 @@
                         Member Name
                     </td>
                     <td class="text-capitalize">
-                        <strong><?php echo $memberDetails['member_name']; ?></strong>
+                        <strong><?php /*echo $memberDetails['member_name'];*/ ?></strong>
                     </td>
                 </tr>
 
                 </tbody>
             </table>
 
-        </div>
+        </div-->
 
         <form id="attendanceForm" class="form-horizontal" enctype="multipart/form-data" method="post">
             <?php
@@ -378,7 +378,8 @@
     }
     ?>
 </div>
-
+<div class="row">
+<div class="col-md-12">
 <div id="memberList">
     <table class="table table-responsive table-hover" id="matchingMemberRecords">
         <thead>
@@ -391,7 +392,8 @@
         </thead>
     </table>
 </div>
-
+</div>
+</div>
 <script>
     $(document).ready(function () {
         $("#memberList").hide();

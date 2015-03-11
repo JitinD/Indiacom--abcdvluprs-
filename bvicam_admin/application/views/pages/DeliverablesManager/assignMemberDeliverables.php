@@ -79,7 +79,7 @@
                             </td>
                             <td>
                                 <?php
-                                    $deliverables = array("Object A", "Object B");
+                                    $deliverables = array("Kit", "Proceedings");
 
                                     for($arr_index = 0; $arr_index < 2; $arr_index++)
                                     {
@@ -126,7 +126,7 @@
             var isDeliverablesAssigned = $(this).val();
 
             $('.attInfo', ref_td).html("Updating");
-
+//alert(memberId + " " + submissionId + " " + isDeliverablesAssigned + " " + deliverables_id);
             $.ajax({
                 type: "POST",
                 url: "/<?php echo BASEURL; ?>index.php/DeliverablesManager/assignDeliverables_AJAX",

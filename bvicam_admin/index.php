@@ -30,7 +30,7 @@
     define('DBGROUP', 'OnlineTest');*/
 
 
-    define('DEFAULT_ROLE', 0);
+    define('DEFAULT_ROLE', 30);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
     define('APPID', '2a');

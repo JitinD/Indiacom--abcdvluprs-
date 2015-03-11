@@ -19,7 +19,7 @@ class deliverables_model extends CI_Model
 
     private function assignId()
     {
-        $sql = "Select Max(deliverables_status_id) As deliverables_status_id From {$this->entity}";
+        $sql = "Select Max(Cast(deliverables_status_id as Unsigned)) As deliverables_status_id From {$this->entity}";
 
         $query = $this->db->query($sql);
 

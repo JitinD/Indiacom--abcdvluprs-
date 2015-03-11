@@ -209,12 +209,25 @@ $privilege['Page']['FinalPaperReviewer']['setReviewerAssigned'] = array(46);
 
 $privilege['Page']['FinalPaperReviewer']['paperInfo'] = array(49, 17, 9, 73, 13, 45, 46, 43, 44, 41, 25, 29, 1);
 
-$privilege['Page']['PaymentsManager']['newPayment'] = array();
+/*$privilege['Page']['PaymentsManager']['viewPayments'] = array(112,13,120,124,116,104,65,21,33,49);
+$privilege['Page']['PaymentsManager']['newPayment'] = array(120,112,65,148,173,69,53,13,49,17,9,96,100,116,104,108,124,21,33,126);
+$privilege['Page']['PaymentsManager']['viewPaymentBreakup'] = array(112,104,120,115,65,148,173,69,53,13,49,17,9,96,100,116,108,124,21,33);
+$privilege['Page']['PaymentsManager']['changePayableClass'] = array(69,108,124,104,115,21,33);
+$privilege['Page']['PaymentsManager']['changeDiscountType'] = array(115,112,116,104,21,33);
+$privilege['Page']['PaymentsManager']['spotPayment'] = array(124,116,21,33,53,13,49,17,9,96,100,122,113,124,65,112,120,104,108);*/
+$privilege['Page']['PaymentsManager'][] = array();
 
-$privilege['Page']['TransactionManager']['newTransaction'] = array();
+$privilege['Page']['TransactionManager'][] = array();
 
-$privilege['Page']['ReportManager'][] = array();
+$privilege['Page']['ReportManager'][] = array(65345);
 
-$privilege['Page']['DeskManager'][] = array();
+$privilege['Page']['DeskManager']['paperAuthorsPayments'] = array(49,17,9,112,104,13,116,120,65,53,96,100,128,108,124,21,33,73);
+$privilege['Page']['DeskManager']['authorPapersPayments'] = array(124,65,69,53,13,49,17,9,96,100,112,104,116,120,128,108,21,33);
 
-$privilege['Page']['TrackManager'][] = array();
+$privilege['Page']['TrackManager']['markAuthorAttendance'] = array(53,13,49,17,9,96,100,65,128,132);
+$privilege['Page']['TrackManager']['markPaperAttendance'] = array(53,13,49,17,9,96,100,65,128,132);
+
+$privilege['Page']['DeliverablesManager']['assignMemberDeliverables'] = array(124,112,120,13,104,116,136,21,33);
+$privilege['Page']['DeliverablesManager']['assignPaperDeliverables'] = array(124,112,120,13,104,116,136,21,33);
+
+$privilege['Page']['Page']['home'] = array(21,33);
