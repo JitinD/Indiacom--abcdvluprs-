@@ -1,7 +1,9 @@
 body
 {
+/*
     font-family: "Segoe UI Light","Segoe UI";
     font: "Segoe UI Light","Segoe UI";
+    */
 }
 .topBlock
 {
@@ -25,7 +27,7 @@ body
 }
 .sponsorImage
 {
-    height: 100px;
+    height: 95px;
     margin-top: 5px;
     margin-bottom: 5px;
     padding-top: 5px;

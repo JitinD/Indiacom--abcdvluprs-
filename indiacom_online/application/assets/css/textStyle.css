@@ -1,7 +1,7 @@
-.text-theme
-{
-    color: #7a2929;
-}
+/*.text-theme*/
+/*{*/
+    /*color: #7a2929;*/
+/*}*/
 
 .text-light
 {
@@ -9,7 +9,8 @@
 }
 .body-text
 {
-    font-size: 16px;
+    font-weight: 900;
+    /*font-size: 16px;
     line-height: 20px;
-    font-family: 'Segoe UI', 'wf_segoe-ui', Helvetica, Arial, sans-serif;
+    font-family: 'Segoe UI', 'wf_segoe-ui', Helvetica, Arial, sans-serif;*/
 }
