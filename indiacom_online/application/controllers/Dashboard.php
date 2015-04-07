@@ -47,7 +47,7 @@ class Dashboard extends CI_Controller
         $page = "dashboardHome";
         if(isset($_SESSION[APPID]['member_id']))
         {
-            $this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
+            $this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id'], EVENT_ID);
             $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         }
         $this->index($page);
@@ -118,8 +118,16 @@ class Dashboard extends CI_Controller
         $this->load->model('submission_model');
         $this->load->model('paper_version_model');
         $page = 'submitpaper';
-        $this->data['events'] = $this->event_model->getAllEvents_deprc();
+        $this->data['events'] = $this->event_model->getAllActiveEvents();
 
+        if($this->submitPaperSubmitHandle())
+                $page = "submitPaperSuccess";
+
+        $this->index($page);
+    }
+
+    private function submitPaperSubmitHandle()
+    {
         $this->load->library('form_validation');
         $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");
         $this->form_validation->set_rules('event', 'Event', 'required');
@@ -137,6 +145,13 @@ class Dashboard extends CI_Controller
                 'paper_contact_author_id' => $this->input->post('main_author')
             );
             $authors = $this->input->post('authors');
+            $eventDetails = $this->event_model->getEventDetails($this->input->post('event'));
+            if($eventDetails->event_paper_submission_start_date > date("Y-m-d") || $eventDetails->event_paper_submission_end_date < date("Y-m-d"))
+            {
+                $this->data['eventDetails'] = $eventDetails;
+                $this->data['submitPaperError'] = "Cannot submit paper to event as paper submission is not active.";
+                return false;
+            }
             $this->load->database();
             $this->db->trans_begin();
             $paperId = $this->paper_model->addPaper($paperDetails, $this->input->post('event'));
@@ -169,12 +184,12 @@ class Dashboard extends CI_Controller
                 else
                 {
                     $this->db->trans_commit();
-                    $page = "submitPaperSuccess";
                     $this->data['paper_code'] = $paperDetails['paper_code'];
+                    return true;
                 }
             }
         }
-        $this->index($page);
+        return false;
     }
 
     public function authorsCheck($authors = array())
@@ -199,10 +214,7 @@ class Dashboard extends CI_Controller
     public function paperTitleCheck($paperTitle)
     {
         $this->load->model('paper_model');
-        //First get all paper details of selected event
-        $this->paper_model->getAllPaperDetails($this->input->post('event'));
-
-        if($this->paper_model->isUniquePaperTitle($paperTitle))
+        if($this->paper_model->isUniquePaperTitle($paperTitle, $this->input->post('event')))
             return true;
         $this->form_validation->set_message('paperTitleCheck', 'Paper title is already used');
         return false;

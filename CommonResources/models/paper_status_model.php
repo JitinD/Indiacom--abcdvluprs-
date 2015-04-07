@@ -13,12 +13,33 @@ class Paper_status_model extends CI_Model
         $this->load->database();
     }
 
-    public function getMemberPapers($member_id)
+    public function getMemberPapers($member_id, $event_id = null)
     {
-        $sql = "Select paper_id, paper_code, paper_title, latest_paper_version_number, review_result_type_name
-                From paper_latest_version join submission_master on paper_id = submission_paper_id
-                Where submission_member_id = ? And submission_dirty = 0";
-        $query = $this->db->query($sql, array($member_id));
+        $sql = "Select
+                  paper_latest_version.paper_id,
+                  paper_latest_version.paper_code,
+                  paper_title,
+                  latest_paper_version_number,
+                  review_result_type_name,
+                  event_id,
+                  event_name
+                From
+                  paper_latest_version
+                    Join
+                  submission_master
+                    On paper_latest_version.paper_id = submission_paper_id
+                    Join
+                  paper_subject_track_event
+                    On paper_latest_version.paper_id = paper_subject_track_event.paper_id
+                Where
+                  submission_member_id = ? And submission_dirty = 0";
+        $params = array($member_id);
+        if($event_id != null)
+        {
+            $sql .= " And event_id = ?";
+            $params[] = $event_id;
+        }
+        $query = $this->db->query($sql, $params);
         if ($query->num_rows() > 0)
             return $query->result();
         return array();

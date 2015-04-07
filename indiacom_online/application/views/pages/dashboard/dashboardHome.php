@@ -8,6 +8,7 @@
             <th>Title</th>
             <th>Latest Version</th>
             <th>Version Status</th>
+            <th>Event</th>
         </tr>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                 <td><?php echo $paper->paper_title; ?></td>
                 <td><?php echo $paper->latest_paper_version_number; ?></td>
                 <td><?php echo $paper->review_result_type_name==""?"Not yet reviewed":$paper->review_result_type_name; ?></td>
+                <td><?php echo $paper->event_name; ?></td>
             </tr>
         <?php
         }

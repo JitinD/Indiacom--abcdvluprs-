@@ -28,7 +28,7 @@ class Event_model extends CI_Model
 
     public function getAllEvents()
     {
-        $sql = "Select event_id, event_name From event_master Where event_dirty = 0";
+        $sql = "Select * From event_master Where event_dirty = 0";
         $query = $this->db->query($sql);
         return $query->result();
     }
