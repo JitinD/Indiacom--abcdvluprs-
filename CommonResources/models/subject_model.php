@@ -34,6 +34,10 @@ class Subject_model extends CI_Model
         Select DISTINCT(event_id)
         From paper_subject_track_event
         Where subject_id = ?";
-
+        $query = $this->db->query($sql, array($subjectId));
+        if($query->num_rows() == 0)
+            return null;
+        $row = $query->row();
+        return $row->event_id;
     }
 }

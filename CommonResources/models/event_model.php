@@ -53,4 +53,12 @@ class Event_model extends CI_Model
         $query = $this->db->query($sql, array($eventId));
         return $query->row();
     }
+
+    public function isPaperSubmissionOpen($eventId)
+    {
+        $eventDetails = $this->getEventDetails($eventId);
+        if($eventDetails->event_paper_submission_start_date > date("Y-m-d") || $eventDetails->event_paper_submission_end_date < date("Y-m-d"))
+            return false;
+        return true;
+    }
 }

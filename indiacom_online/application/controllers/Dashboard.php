@@ -114,9 +114,6 @@ class Dashboard extends CI_Controller
     public function submitPaper()
     {
         $this->load->model('event_model');
-        $this->load->model('paper_model');
-        $this->load->model('submission_model');
-        $this->load->model('paper_version_model');
         $page = 'submitpaper';
         $this->data['events'] = $this->event_model->getAllActiveEvents();
 
@@ -128,6 +125,10 @@ class Dashboard extends CI_Controller
 
     private function submitPaperSubmitHandle()
     {
+        $this->load->model('paper_model');
+        $this->load->model('submission_model');
+        $this->load->model('paper_version_model');
+        $this->load->model('subject_model');
         $this->load->library('form_validation');
         $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");
         $this->form_validation->set_rules('event', 'Event', 'required');
@@ -145,11 +146,15 @@ class Dashboard extends CI_Controller
                 'paper_contact_author_id' => $this->input->post('main_author')
             );
             $authors = $this->input->post('authors');
-            $eventDetails = $this->event_model->getEventDetails($this->input->post('event'));
-            if($eventDetails->event_paper_submission_start_date > date("Y-m-d") || $eventDetails->event_paper_submission_end_date < date("Y-m-d"))
+            $eventId = $this->subject_model->getSubjectEvent($this->input->post('subject'));
+            if($eventId != $this->input->post('event'))
             {
-                $this->data['eventDetails'] = $eventDetails;
-                $this->data['submitPaperError'] = "Cannot submit paper to event as paper submission is not active.";
+                $this->data['submitPaperError'] = "Selected subject does not belong to selected event";
+                return false;
+            }
+            if(!$this->event_model->isPaperSubmissionOpen($eventId))
+            {
+                $this->data['submitPaperError'] = "Cannot submit paper to event as paper submission is not open(or has been closed).";
                 return false;
             }
             $this->load->database();

@@ -8,6 +8,8 @@
 
 class UserManager extends CI_Controller
 {
+    private $data;
+
     public function __construct()
     {
         parent::__construct();
@@ -32,7 +34,7 @@ class UserManager extends CI_Controller
         $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-        $this->load->view('templates/sidebar', $sidebarData);
+        $this->load->view('templates/navbar', $sidebarData);
         $this->load->view('pages/UserManager/'.$page, $this->data);
         $this->load->view('templates/footer');
     }
