@@ -12,7 +12,7 @@ class Role_model extends CI_Model
     public $error;
     public function __construct()
     {
-        if(isset($_SESSION['sudo']))
+        if(false && isset($_SESSION['sudo']))
         {
             $this->dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);

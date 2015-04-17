@@ -33,7 +33,7 @@ class PaymentsManager extends CI_Controller
         }
         $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header');
+        $this->load->view('templates/header', $this->data);
         $this->load->view('templates/navbar', $sidebarData);
         $this->load->view('pages/PaymentsManager/'.$page, $this->data);
         $this->load->view('templates/footer');

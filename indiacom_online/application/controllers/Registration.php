@@ -345,6 +345,7 @@
             $page = "EnterPassword";
 
             $this->load->model('member_model');
+            $this->load->model('login_model');
             $this->load->library('encrypt');
             $this->load->library('form_validation');
             $this->load->library('ftp');
@@ -359,7 +360,8 @@
 
             $this->form_validation->set_rules('password', 'Password', 'required');
             $this->form_validation->set_rules('password2', 'Confirm Password', 'required|callback_validate_confirm_password');
-
+            $this->login_model->setLoginType("LM");
+            $this->login_model->authenticate();
             if($this->form_validation->run())
             {
                 $pass = $this -> input -> post('password');
@@ -379,7 +381,6 @@
                     $member_info["member_is_activated"] = 1;
 
                     $this -> data['member_id'] = $member_info["member_id"];
-
                     if($this -> registration_model -> addMember($member_info))
                     {
                         $message = $this -> load -> view('pages/ListOfServices', $this -> data, true);

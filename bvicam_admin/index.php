@@ -46,7 +46,7 @@
     }
     define('REVIEW_RESULT_ACCEPTED_ID', 8);
     define('BULK_REGISTRATION_MIN_REGISTRATION_VALUE', 3);
-    define('EVENT_ID',1);
+    define('EVENT_ID',2);
     define('FAKE_BANK', "BVICAM");
     define('CASH_MODE_ID', 1);
     define('DEFAULT_CURRENCY', 1);

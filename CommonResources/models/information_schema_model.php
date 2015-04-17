@@ -11,16 +11,8 @@ class Information_schema_model extends CI_Model
     private $dbCon;
     public function __construct()
     {
-        if(isset($_SESSION['sudo']))
-        {
-            $this->dbCon = $this->load->database(DBGROUP, TRUE);
-            unset($_SESSION['sudo']);
-        }
-        else
-        {
-            $this->load->database();
-            $this->dbCon = $this->db;
-        }
+        $this->load->database();
+        $this->dbCon = $this->db;
     }
 
     //Use this function to elevate privilege if $_SESSION['sudo'] method doesn't work
@@ -44,7 +36,7 @@ class Information_schema_model extends CI_Model
             From information_schema.views
             Where table_schema = ?
         )";
-        $query = $this->dbCon->query($sql, array('indiacom', 'indiacom'));
+        $query = $this->dbCon->query($sql, array('u961892577_indcm', 'u961892577_indcm'));
         if($query->num_rows() == 0)
             return array();
         return $query->result();
