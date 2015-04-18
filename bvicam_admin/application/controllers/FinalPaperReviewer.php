@@ -241,11 +241,11 @@
 
             $reviewers = array();
 
-            if($this -> data['Allreviewers'])
+            if(isset($this -> data['Allreviewers']) && $this -> data['Allreviewers'])
             {
                 foreach($this -> data['Allreviewers'] as $index=>$reviewer)
                 {
-                    $reviewers[$reviewer -> reviewer_id] = $reviewer -> user_name;
+                    $reviewers[$reviewer -> user_id] = $reviewer -> user_name;
                 }
             }
 
