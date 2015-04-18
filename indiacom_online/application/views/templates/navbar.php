@@ -153,13 +153,13 @@ function SetActiveNavItem($navItem, $page)
                 <?php
                     }
                 ?>
-                <li>
+                <!--<li>
                     <a>
                     <?php
-                    echo $_SESSION[APPID]['dbUserName'];
-                    ?>
+/*                    echo $_SESSION[APPID]['dbUserName'];
+                    */?>
                         </a>
-                </li>
+                </li>-->
             </ul>
         </div>
     </div>
