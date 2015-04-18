@@ -87,12 +87,12 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="phoneNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Phone Number</label>
+                    <label for="telephoneNumber" class="col-sm-3 control-label"><span class="glyphicon glyphicon-asterisk text-danger"></span>Telephone Number</label>
                     <div class="col-sm-9">
-                        <input type="tel" name = "phoneNumber" maxlength = "20" class="form-control" id="phoneNumber" value="<?php echo set_value('phoneNumber'); ?>" placeholder="Enter Phone Number">
+                        <input type="tel" name = "telephoneNumber" maxlength = "20" class="form-control" id="telephoneNumber" value="<?php echo set_value('telephoneNumber'); ?>" placeholder="Enter Telephone Number">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                        <?php echo form_error('phoneNumber'); ?>
+                        <?php echo form_error('telephoneNumber'); ?>
                     </div>
                 </div>
                 <div class="form-group">
@@ -236,7 +236,7 @@
 
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-6">
-                        <button type="submit" class="btn btn-primary">Sign Up</button><button type="submit" class="btn btn-primary">Sign Up</button>
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
                         <button type="reset" class="btn btn-danger">Reset</button>
                     </div>
                 </div>

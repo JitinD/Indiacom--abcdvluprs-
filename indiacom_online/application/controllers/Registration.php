@@ -93,7 +93,7 @@
             $this->load->library('email');
             $this->email->initialize($config);
 
-            $this->email->from('stevejobs@deadmail.com', 'Indiacom 2015');
+            $this->email->from('conference@bvicam.ac.in', 'Indiacom 2015');
             $this->email->to($email_id);
             $this->email->subject('Indiacom Registration');
             $this->email->message($message);
@@ -229,7 +229,7 @@
             $this->form_validation->set_rules('address', 'Address', 'required');
             $this->form_validation->set_rules('pincode', 'Pincode', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
-            $this->form_validation->set_rules('phoneNumber', 'Phone number', 'required');
+            $this->form_validation->set_rules('telephoneNumber', 'Telephone number', 'required');
             $this->form_validation->set_rules('countryCode', 'Country Code', 'required');
             $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required|callback_validate_mobileNumber');
             $this->form_validation->set_rules('organization', 'Organization', 'required');
@@ -268,7 +268,7 @@
                                             'member_address'        =>   $this -> input -> post('address'),
                                             'member_pincode'        =>   $this -> input -> post('pincode'),
                                             'member_email'          =>   $this -> input -> post('email'),
-                                            'member_phone'          =>   $this -> input -> post('phoneNumber'),
+                                            'member_phone'          =>   $this -> input -> post('telephoneNumber'),
                                             'member_country_code'   =>   $this -> input -> post('countryCode'),
                                             'member_mobile'         =>   $this -> input -> post('mobileNumber'),
                                             'member_fax'            =>   $this -> input -> post('fax'),
