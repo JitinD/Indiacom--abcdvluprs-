@@ -36,7 +36,7 @@ class Information_schema_model extends CI_Model
             From information_schema.views
             Where table_schema = ?
         )";
-        $query = $this->dbCon->query($sql, array('u961892577_indcm', 'u961892577_indcm'));
+        $query = $this->dbCon->query($sql, array('indiacom', 'indiacom'));
         if($query->num_rows() == 0)
             return array();
         return $query->result();

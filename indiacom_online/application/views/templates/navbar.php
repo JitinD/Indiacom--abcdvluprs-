@@ -135,6 +135,7 @@ function SetActiveNavItem($navItem, $page)
                     if(isset($_SESSION) && !isset($_SESSION[APPID]['member_id']))
                     {
                 ?>
+                <li><a href="/<?php echo BASEURL; ?>/Registration/signup">Register</a></li>
                 <li><button class="btn navbar-btn btn-success" data-toggle="modal" data-target="#loginModal">Login</button></li>
                 <?php
                     }
