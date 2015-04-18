@@ -26,15 +26,43 @@ class Reviewer_model extends CI_Model
 
     }
 
-    public function getAllReviewers()
+    private function getReviewerRoleId()
     {
-        $this -> db -> select('*');
-        $this -> db -> from('reviewer_master');
-        $this -> db -> join('user_master', 'reviewer_id = user_id');
+        $role_id = -1;
 
-        $query = $this -> db -> get();
+        $query = $this -> db -> get_where('role_master', array('role_name' => 'Reviewer'));
 
         if($query -> num_rows() > 0)
-            return $query -> result();
+        {
+            $record = $query -> row();
+
+            $role_id = $record -> role_id;
+        }
+
+        return $role_id;
+    }
+
+    public function getAllReviewers()
+    {
+        /*$this -> db -> select('*');
+        $this -> db -> from('reviewer_master');
+        $this -> db -> join('user_master', 'reviewer_id = user_id');*/
+
+        $role_id = $this -> getReviewerRoleId();
+
+        if($role_id > 0)
+        {
+            $this -> db -> select('*');
+            $this -> db -> from('user_event_role_mapper');
+            $this -> db -> join('user_master', 'user_event_role_mapper.user_id = user_master.user_id');
+            $this -> db -> where('role_id', $role_id);
+
+            $query = $this -> db -> get();
+
+            if($query -> num_rows() > 0)
+                return $query -> result();
+        }
+
+        return null;
     }
 }
