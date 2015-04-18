@@ -20,6 +20,45 @@
             $this->load->helper(array('form', 'url'));
         }
 
+        private function sendMail($email_id, $message)
+        {
+            $config = array(
+                'protocol' => 'mail',
+                'smtp_host' => 'p3plcpnl0820.prod.phx3.secureserver.net',
+                'smtp_port' => 465,
+                'smtp_user' => 'info@bvicam.org',
+                'smtp_pass' => 'CPAcc#4012',
+                'charset'   => 'utf-8',
+                'wordwrap'  => true,
+                'wrapchars' => 50
+            );
+
+            /*$config = array(
+                'protocol' => 'smtp',
+                'smtp_host' => 'smtp.gmail.com',
+                'smtp_port' => 587,
+                'smtp_user' => 'indiacom15@gmail.com',
+                'smtp_pass' => '!nd!@c0m',
+                'charset'   => 'utf-8',
+                'mailtype' => 'text',
+                'wordwrap'  => true,
+                'wrapchars' => 50
+            );*/
+
+            $this->load->library('email');
+            $this->email->initialize($config);
+
+            $this->email->from('indiacom15@gmail.com', 'CSI 2015');
+            $this->email->to($email_id);
+            $this->email->subject('CSI Paper Review');
+            $this->email->message($message);
+
+            if($this->email->send())
+                return true;
+
+            return false;
+        }
+
         public function uploadComments($fileElem,$eventId,$paper_version_id)
         {
             //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
@@ -124,7 +163,30 @@
                                             );
 
                         if($this -> paper_version_model -> sendConvenerReview($update_data, $paper_version_id))
-                            $this -> data['message'] = "success";
+                        {
+                            $this -> load -> model('submission_model');
+                            $this -> load -> model('member_model');
+
+                            $message = "hello";
+
+                            $authors = $this -> submission_model -> getAllAuthorsOfPaper($paper_id);
+
+                            foreach($authors as $index => $author)
+                            {
+                                $member_id = $author -> submission_member_id;
+
+                                $member_info = $this -> member_model -> getMemberInfo($member_id);
+
+                                $email_id = $member_info['member_email'];
+
+                                if($this -> sendMail($email_id, $message))
+                                    $this -> data['message'] = "success";
+                                else
+                                    $this -> data['error2'] = "Sorry, there is some problem. Try again later";
+
+                            }
+
+                        }
                         else
                             $this -> data['error2'] = "Sorry, there is some problem. Try again later";
 

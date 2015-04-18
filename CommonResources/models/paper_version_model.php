@@ -152,11 +152,11 @@ class Paper_version_model extends CI_Model
 
     public function getPaperVersionComments($paper_version_id)
     {
-        $this -> db -> select('paper_version_review');
+        /*$this -> db -> select('*');
         $this -> db -> from('paper_version_master');
-        $this -> db -> where('paper_version_id', $paper_version_id);
+        $this -> db -> where('paper_version_id', $paper_version_id);*/
 
-        $query = $this -> db -> get();
+        $query = $this -> db -> get_where('paper_version_master', array("paper_version_id" => $paper_version_id));
 
         if($query -> num_rows() > 0)
             return $query -> result();

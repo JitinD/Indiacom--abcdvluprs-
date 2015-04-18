@@ -229,10 +229,7 @@
 
                         foreach($comments as $index => $comment)
                         {
-                            if($comment -> paper_version_review)
-                                echo "<h4>".$comment -> paper_version_review."</h4>";
-                            else
-                            {
+
                     ?>
                                 <form class="form-horizontal" enctype="multipart/form-data" method = "post">
                                     <div class="form-group">
@@ -250,7 +247,12 @@
                                     <div class="form-group">
                                         <label for="comments" class="col-sm-2 control-label">Comments</label>
                                         <div class="col-sm-8">
-                                            <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>
+                                            <textarea name = 'comments' id="comments" rows="5" class="form-control">
+                                                <?php
+                                                if(isset($comment -> paper_version_review))
+                                                    echo $comment -> paper_version_review;
+                                                ?>
+                                            </textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -261,8 +263,14 @@
                                                 foreach($review_results as $review_result)
                                                 {
                                             ?>
-
-                                            <option value = "<?php echo $review_result -> review_result_id ?>"><?php echo $review_result -> review_result_type_name ?></option>
+                                            <option value = "<?php echo $review_result -> review_result_id ?>"
+                                                <?php
+                                                    if(isset($comment -> paper_version_review_result_id) && $comment -> paper_version_review_result_id == $review_result -> review_result_id)
+                                                        echo "selected";
+                                                ?>
+                                            >
+                                                <?php echo $review_result -> review_result_type_name ?>
+                                            </option>
 
                                             <?php
                                                 }
@@ -287,7 +295,7 @@
                                     </span>
                                 </form>
                     <?php
-                            }
+
                         }
                     ?>
 
