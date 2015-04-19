@@ -264,7 +264,6 @@
 				if(($doc_path = $this->uploadTempBiodata('biodata', $member_id)) == false)
                 {
                     $this->data['uploadError'] = $this->upload->display_errors();
-                    $this->db->trans_rollback();
                 }
 
                 $activation_code  = md5($this -> assignActivationCode());
@@ -290,7 +289,7 @@
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
                                             'member_password'       =>   $activation_code ,
                                             'member_organization_id'=>   $organization_id_array['organization_id'],
-                                            'member_biodata_path'   =>   $doc_path,
+                                            'member_biodata_path'   =>   ($doc_path != false) ? $doc_path : null,
                                             'member_category_id'    =>   $this -> input -> post('category'),
                                             'member_department'     =>   $this -> input -> post('department'),
                                             'member_experience'     =>   $this -> input -> post('experience'),
@@ -384,7 +383,11 @@
 
                 $biodata_url = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
                 $assignedMemberId = $this->registration_model->assignMemberId();
-                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url."{$assignedMemberId}_biodata.pdf");
+                if($member_info['member_biodata_path'] != null)
+                {
+                    rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url."{$assignedMemberId}_biodata.pdf");
+                    $member_info['member_biodata_path'] = UPLOAD_PATH . BIODATA_FOLDER . $assignedMemberId."_biodata.pdf";
+                }
 
                 if($this -> registration_model -> deleteTempMember($member_id))
                 {

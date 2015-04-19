@@ -22,7 +22,7 @@
 
         private function sendMail($email_id, $message)
         {
-            $config = array(
+            /*$config = array(
                 'protocol' => 'mail',
                 'smtp_host' => 'p3plcpnl0820.prod.phx3.secureserver.net',
                 'smtp_port' => 465,
@@ -31,24 +31,25 @@
                 'charset'   => 'utf-8',
                 'wordwrap'  => true,
                 'wrapchars' => 50
-            );
+            );*/
 
-            /*$config = array(
+            $config = array(
                 'protocol' => 'smtp',
-                'smtp_host' => 'smtp.gmail.com',
-                'smtp_port' => 587,
+                'smtp_host' => 'ssl://smtp.gmail.com',
+                'smtp_port' => 465,
                 'smtp_user' => 'indiacom15@gmail.com',
                 'smtp_pass' => '!nd!@c0m',
                 'charset'   => 'utf-8',
-                'mailtype' => 'text',
                 'wordwrap'  => true,
                 'wrapchars' => 50
-            );*/
+
+
+            );
 
             $this->load->library('email');
             $this->email->initialize($config);
 
-            $this->email->from('indiacom15@gmail.com', 'CSI 2015');
+            $this->email->from('conference@bvicam.ac.in', 'CSI 2015');
             $this->email->to($email_id);
             $this->email->subject('CSI Paper Review');
             $this->email->message($message);

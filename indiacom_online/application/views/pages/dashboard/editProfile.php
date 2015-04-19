@@ -95,17 +95,16 @@
                         <div class="form-group">
                             <label for="biodata" class="col-sm-3 control-label">Biodata</label>
                             <div class="col-sm-9">
-
-                                    <?php
-                                    if(file_exists(SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER."1/".$_SESSION[APPID]['member_id']."biodata.pdf"))
-                                    {
-                                    ?>
-                                     <div class="col-sm-4">
-                                    <a title="Click to download" class="btn btn-primary btn-block" href="<?php echo base_url() ?>DashBoard/downloadBiodata" target="_blank" >Download <span class="glyphicon glyphicon-cloud-download"></span> </a>
-                                     </div>
-                                    <?php
-                                    }
-                                    ?>
+                                <?php
+                                if($editProfile['member_biodata_path'] != null)
+                                {
+                                ?>
+                                    <div class="col-sm-4">
+                                        <a title="Download Biodata" class="btn btn-primary btn-block" href="/<?php echo $editProfile['member_biodata_path']; ?>" >Download <span class="glyphicon glyphicon-cloud-download"></span> </a>
+                                    </div>
+                                <?php
+                                }
+                                ?>
                             <div class="col-sm-8">
                                     <input type="file" name = "biodata" class="form-control" id="biodata" placeholder="Choose File">
                                 </div>
