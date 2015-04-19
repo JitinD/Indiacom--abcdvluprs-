@@ -114,11 +114,18 @@
                                 <?php
                                 }
                                 ?>
-                                <tr>
-                                    <td  colspan="10">
-                                        <a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision/<?php echo $paperDetails->paper_id; ?>">Add new version</a>
-                                    </td>
-                                </tr>
+                                <?php
+                                if($canSubmitRevision)
+                                {
+                                ?>
+                                    <tr>
+                                        <td  colspan="10">
+                                            <a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision/<?php echo $paperDetails->paper_id; ?>">Add new version</a>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
                             </table>
                         </td>
                     </tr>

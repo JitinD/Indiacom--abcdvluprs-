@@ -50,7 +50,23 @@
                                         <td><?php echo $paper->paper_title; ?></td>
                                         <td><?php echo $paper->paper_code; ?></td>
                                         <td><?php echo $paper->latest_paper_version_number; ?></td>
-                                        <td><?php echo $paper->review_result_type_name==""?"Not yet reviewed":$paper->review_result_type_name; ?></td>
+                                        <td>
+                                            <?php
+                                                if($paper->review_result_type_name == null)
+                                                {
+                                                    if($paper->paper_version_is_reviewer_assigned == '0')
+                                                    {
+                                                        echo "Not yet reviewed";
+                                                    }
+                                                    else if($paper->paper_version_review_date == null)
+                                                    {
+                                                        echo "Under Review";
+                                                    }
+                                                }
+                                                else
+                                                    echo $paper->review_result_type_name;
+                                            ?>
+                                        </td>
                                         <td>
                                             <?php
                                             if($paperCanRevise[$paper->paper_id])

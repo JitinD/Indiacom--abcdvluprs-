@@ -246,7 +246,7 @@ class Dashboard extends CI_Controller
 
         if(!$this->isValidPaper($paperId) || !$this->canSubmitRevision($paperId))
         {
-            $this->load->view('pages/errorPage', array('page_error' => "Ooops! Where'd you get that link???"));
+            $this->load->view('pages/unauthorizedAccess');
             return;
         }
         $paperDetails = $this->paper_model->getPaperDetails($paperId);

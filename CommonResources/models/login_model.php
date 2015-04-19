@@ -90,7 +90,10 @@ class Login_model extends CI_Model
             }*/
             return true;
         }
-        $this->error = "Incorrect credentials";
+        else if($encrypted_pass == $memberInfo['member_password'] || !$encryption && $memberInfo['member_is_activated'] == 0)
+            $this->error = "This member account is deactivated. Contact admin.";
+        else
+            $this->error = "Incorrect credentials";
         return false;
     }
 
