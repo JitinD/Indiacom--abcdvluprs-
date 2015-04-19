@@ -80,7 +80,7 @@
 
         private function sendMail($email_id, $message)
         {
-            $config = array(
+            /*$config = array(
                     'protocol' => 'mail',
                     'smtp_host' => 'p3plcpnl0820.prod.phx3.secureserver.net',
                     'smtp_port' => 465,
@@ -89,7 +89,20 @@
                     'charset'   => 'utf-8',
                     'wordwrap'  => true,
                     'wrapchars' => 50
-                );
+                );*/
+
+            $config = array(
+                'protocol' => 'smtp',
+                'smtp_host' => 'ssl://smtp.gmail.com',
+                'smtp_port' => 465,
+                'smtp_user' => 'indiacom15@gmail.com',
+                'smtp_pass' => '!nd!@c0m',
+                'charset'   => 'utf-8',
+                'wordwrap'  => true,
+                'wrapchars' => 50
+
+
+            );
             $this->load->library('email');
             $this->email->initialize($config);
 
