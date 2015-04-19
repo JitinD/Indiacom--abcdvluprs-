@@ -63,7 +63,8 @@ class Login extends CI_Controller
         //session_destroy();
         /*$_SESSION[APPID]['dbUserName'] = 'Minimal';
         $_SESSION[APPID]['dbPassword'] = '1234';*/
-        unset($_SESSION[APPID]);
+        $this->load->model('login_model');
+        $this->login_model->logout();
         header('location: /' . INDIACOM . 'index');
     }
 

@@ -6,9 +6,9 @@
  * Time: 12:21 AM
  */
 
-define('SERVER_ROOT', '/home/bvica/public_html/');
+//define('SERVER_ROOT', '/home/bvica/public_html/');
 //define('SERVER_ROOT', 'C:/xampp/htdocs/');
-//define('SERVER_ROOT', 'C:/wamp/www/');
+define('SERVER_ROOT', 'D:/wamp/www/');
 
 //Upload Folders
 define('UPLOAD_FOLDER', 'uploads/');

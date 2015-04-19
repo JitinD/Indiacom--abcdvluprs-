@@ -86,8 +86,6 @@
         </div>
         <div class="col-md-3 col-sm-6 col-xs-12 text-center">
             <span class="text-theme h2">News</span>
-            <button type="button" class="btn btn-labeled btn-default">Right<span class="btn-label btn-label-right"><i
-                        class="glyphicon glyphicon-arrow-right"></i></span></button>
             <br>
             <ul class="list-group text-left h5">
                 <?php

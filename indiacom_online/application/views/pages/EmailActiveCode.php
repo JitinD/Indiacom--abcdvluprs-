@@ -24,7 +24,7 @@
 
         Registration Link
         <br/>
-        <a href = "<?php echo HOST.INDIACOM ?>/d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://<?php echo HOST.INDIACOM ?>/d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
+        <a href = "<?php echo HOST.INDIACOM ?>d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://<?php echo HOST.INDIACOM ?>d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
         <br/>
         Thank you!
 

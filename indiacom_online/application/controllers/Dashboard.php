@@ -44,10 +44,16 @@ class Dashboard extends CI_Controller
     {
         $this->load->model('paper_status_model');
         $this->load->model('member_model');
+        $this->load->model('event_model');
         $page = "dashboardHome";
         if(isset($_SESSION[APPID]['member_id']))
         {
-            $this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id'], EVENT_ID);
+            $this->data['events'] = $this->event_model->getAllActiveEvents();
+            foreach($this->data['events'] as $event)
+            {
+                $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
+            }
+            //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id'], EVENT_ID);
             $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         }
         $this->index($page);
@@ -351,13 +357,19 @@ class Dashboard extends CI_Controller
     private function paperVersionList()
     {
         $this->load->model('paper_status_model');
+        $this->load->model('event_model');
         $page = "submitPaperRevisionList";
-        $this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
-        $this->data['paperCanRevise'][] = array();
-        foreach($this->data['papers'] as $paper)
+        $this->data['events'] = $this->event_model->getAllActiveEvents();
+        $this->data['paperCanRevise'] = array();
+        foreach($this->data['events'] as $event)
         {
-            $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
+            $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
+            foreach($this->data['papers'][$event->event_id] as $paper)
+            {
+                $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
+            }
         }
+        //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
         $this->data['methodName'] = "submitPaperRevision";
         $this->index($page);
     }

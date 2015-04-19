@@ -12,6 +12,10 @@
                             <td><?php echo $paperDetails->paper_code; ?></td>
                         </tr>
                         <tr>
+                            <td>Paper Version Number</td>
+                            <td><?php echo $paperVersionDetails->paper_version_number; ?></td>
+                        </tr>
+                        <tr>
                             <td>Paper Title</td>
                             <td><?php echo $paperDetails->paper_title; ?></td>
                         </tr>
@@ -62,7 +66,23 @@
                                 </a>
                             </td>
                         </tr>
-
+                        <?php
+                        if($paperVersionDetails->paper_version_compliance_report_path != null)
+                        {
+                        ?>
+                            <tr>
+                                <td>
+                                    Compliance Report
+                                </td>
+                                <td>
+                                        <a class="btn btn-sm btn-primary" href="/<?php echo $paperVersionDetails->paper_version_compliance_report_path; ?>">
+                                            <span class="glyphicon glyphicon-cloud-download"></span> Download
+                                        </a>
+                                </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
                     </table>
 
                     <div class="col-md-12 contentBlock-bottom">

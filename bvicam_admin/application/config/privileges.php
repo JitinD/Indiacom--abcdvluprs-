@@ -215,11 +215,11 @@ $privilege['Page']['PaymentsManager']['viewPaymentBreakup'] = array(112,104,120,
 $privilege['Page']['PaymentsManager']['changePayableClass'] = array(69,108,124,104,115,21,33);
 $privilege['Page']['PaymentsManager']['changeDiscountType'] = array(115,112,116,104,21,33);
 $privilege['Page']['PaymentsManager']['spotPayment'] = array(124,116,21,33,53,13,49,17,9,96,100,122,113,124,65,112,120,104,108);*/
-$privilege['Page']['PaymentsManager'][] = array();
+$privilege['Page']['PaymentsManager'][] = array(45435);
 
-$privilege['Page']['TransactionManager'][] = array();
+$privilege['Page']['TransactionManager'][] = array(45435);
 
-$privilege['Page']['ReportManager'][] = array(65345);
+$privilege['Page']['ReportManager'][] = array(435435);
 
 $privilege['Page']['DeskManager']['paperAuthorsPayments'] = array(49,17,9,112,104,13,116,120,65,53,96,100,128,108,124,21,33,73);
 $privilege['Page']['DeskManager']['authorPapersPayments'] = array(124,65,69,53,13,49,17,9,96,100,112,104,116,120,128,108,21,33);

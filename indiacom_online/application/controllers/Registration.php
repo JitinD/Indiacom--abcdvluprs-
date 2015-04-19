@@ -408,8 +408,8 @@
 
                 $page = "signupSuccess";
             }
-
             $this->index($page);
+            $this->login_model->logout();
         }
 
 

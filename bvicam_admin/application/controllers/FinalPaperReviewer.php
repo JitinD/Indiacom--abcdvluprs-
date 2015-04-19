@@ -80,7 +80,7 @@
             //return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
         }
 
-        public function index($page = "ConvenerDashboardHome")
+        private function index($page)
         {
             require(dirname(__FILE__).'/../config/privileges.php');
             require(dirname(__FILE__).'/../utils/ViewUtils.php');
@@ -98,14 +98,6 @@
                 return;
             }
 
-            //$_SESSION[APPID]['user_id'] = 1;
-            $this -> data['user_id'] = $_SESSION[APPID]['user_id'];
-            //$this -> data['papers'] = $this -> paper_version_model -> getAssignedPapers($this -> data['user_id']);
-
-            $this -> data['no_reviewer_papers'] = $this -> paper_version_model -> getNoReviewerPapers($this -> data['user_id']);
-            $this -> data['reviewed_papers'] = $this -> paper_version_model -> getReviewedPapers($this -> data['user_id']);
-            $this -> data['not_reviewed_papers'] = $this -> paper_version_model -> getNotReviewedPapers($this -> data['user_id']);
-            $this -> data['convener_reviewed_papers'] = $this -> paper_version_model -> getConvenerReviewedPapers($this -> data['user_id']);
             $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
             $this->data['navbarItem'] = pageNavbarItem($page);
             $this->load->view('templates/header', $this->data);
@@ -119,6 +111,23 @@
 
         }
 
+        public function load()
+        {
+            $page = "ConvenerDashboardHome";
+            $this->load->model('event_model');
+
+            $this->data['events'] = $this->event_model->getAllActiveEvents();
+            foreach($this->data['events'] as $event)
+            {
+                $this -> data['no_reviewer_papers'][$event->event_id] = $this -> paper_version_model -> getNoReviewerPapers($event->event_id);
+                $this -> data['reviewed_papers'][$event->event_id] = $this -> paper_version_model -> getReviewedPapers($event->event_id);
+                $this -> data['not_reviewed_papers'][$event->event_id] = $this -> paper_version_model -> getNotReviewedPapers($event->event_id);
+                $this -> data['convener_reviewed_papers'][$event->event_id] = $this -> paper_version_model -> getConvenerReviewedPapers($event->event_id);
+            }
+
+            $this->index($page);
+        }
+
         public function setReviewerAssigned($paper_version_id, $value)
         {
             $update_data = array('paper_version_is_reviewer_assigned'   =>  $value);
@@ -129,15 +138,20 @@
                 $this -> data['error1'] = "Sorry, there is some problem. Try again later";
         }
 
-        public function paperInfo($paper_id, $paper_version_id)
+        public function paperInfo($paper_version_id)
         {
             $page = 'paperInfo';
-            $this->data['paperDetails'] = $this->paper_model->getPaperDetails($paper_id);
+            $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
+            if($this->data['paperVersionDetails'] == null)
+            {
+                $this->load->view('pages/unauthorizedAccess');
+                return;
+            }
+            $this->data['paperDetails'] = $this->paper_model->getPaperDetails($this->data['paperVersionDetails']->paper_id);
             $this->data['subjectDetails'] = $this->subject_model->getSubjectDetails($this->data['paperDetails']->paper_subject_id);
             $this->data['trackDetails'] = $this->track_model->getTrackDetails($this->data['subjectDetails']->subject_track_id);
             $this->data['eventDetails'] = $this->event_model->getEventDetails($this->data['trackDetails']->track_event_id);
-            $this->data['submissions'] = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paper_id);
-            $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
+            $this->data['submissions'] = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $this->data['paperVersionDetails']->paper_id);
             $this->load->library('form_validation');
 
             $this->form_validation->set_rules('event', 'Event','');
@@ -176,7 +190,7 @@
 
                             $message = "hello";
 
-                            $authors = $this -> submission_model -> getAllAuthorsOfPaper($paper_id);
+                            $authors = $this -> submission_model -> getAllAuthorsOfPaper($this->data['paperVersionDetails']->paper_id);
 
                             foreach($authors as $index => $author)
                             {
@@ -251,7 +265,7 @@
 
             $this -> data['reviewers'] = $reviewers;
 
-            $this -> data['reviews'] = $this -> paper_version_review_model -> getPaperVersionReviews($paper_version_id);
+            $this -> data['reviews'] = $this -> paper_version_review_model -> getPaperVersionAllReviews($paper_version_id);
 
             if(empty($this -> data['reviews']))
                 $this -> setReviewerAssigned($paper_version_id, 0);

@@ -121,6 +121,11 @@ class Login_model extends CI_Model
         return false;
     }
 
+    public function logout()
+    {
+        unset($_SESSION[APPID]);
+    }
+
     public function adminSetRole($roleId)
     {
         if(isset($_SESSION[APPID]['authenticated']) && $_SESSION[APPID]['authenticated'])
