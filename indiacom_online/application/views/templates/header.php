@@ -23,12 +23,11 @@
 </head>
 <body>
 <div class="container-fluid">
-    <div class="container-fluid">
     <?php
 
     include(dirname(__FILE__) . "/../pages/loginPage.php");
     include(dirname(__FILE__) . "/../templates/banner.php");
     include(dirname(__FILE__) . "/../templates/navbar.php");
-    //include(dirname(__FILE__) . "/../templates/quickLinks.php");
+    include(dirname(__FILE__) . "/../templates/quickLinks.php");
     ?>
     <hr>

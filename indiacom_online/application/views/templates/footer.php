@@ -8,7 +8,6 @@
 ?>
 <style type="text/css">
     .footer {
-        font-size: 14px;
         padding-top: 10px;
         padding-bottom: 10px;
     }
