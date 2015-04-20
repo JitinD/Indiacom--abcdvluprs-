@@ -42,8 +42,6 @@
                 'charset'   => 'utf-8',
                 'wordwrap'  => true,
                 'wrapchars' => 50
-
-
             );
 
             $this->load->library('email');
@@ -62,8 +60,6 @@
 
         public function uploadComments($fileElem,$eventId,$paper_version_id)
         {
-            //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
-            //$config['upload_path'] = dirname(__FILE__)."/../../../uploads/".$eventId.'/convener_reviews';
             $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . CONVENER_REVIEW_FOLDER;
             $config['allowed_types'] = 'pdf|doc|docx';
             $config['file_name'] = $paper_version_id . "reviews";
@@ -78,7 +74,6 @@
             $uploadData = $this->upload->data();
 
             return UPLOAD_PATH . $eventId . "/" . CONVENER_REVIEW_FOLDER . $config['file_name'] . $uploadData['file_ext'];
-            //return $config['upload_path'] . "/" . $config['file_name'] . $uploadData['file_ext'];
         }
 
         private function index($page)
@@ -157,22 +152,25 @@
 
             $this->form_validation->set_rules('event', 'Event','');
 
-            if(($doc_path = $comments_url=$this->uploadComments('comments',$this->data['eventDetails']->event_id,$paper_version_id)) == false)
-            {
-                $this->data['uploadError'] = $this->upload->display_errors();
-            }
-            else
-            {
-                $versionDetails = array(
-                    "paper_version_comments_path" => $doc_path
-                );
-                $this->paper_version_model->sendConvenerReview($versionDetails, $paper_version_id);
-            }
+
 
             if($this -> input -> post('Form2'))
             {
                 if($this->form_validation->run())
                 {
+                    if(($doc_path = $comments_url=$this->uploadComments('comments',$this->data['eventDetails']->event_id,$paper_version_id)) == false)
+                    {
+                        die("Yes");
+                        $this->data['uploadError'] = $this->upload->display_errors();
+                    }
+                    else
+                    {die($doc_path);
+                        $versionDetails = array(
+                            "paper_version_comments_path" => $doc_path
+                        );
+                        $this->paper_version_model->sendConvenerReview($versionDetails, $paper_version_id);
+                    }
+
                     if($this -> input -> post('comments'))
                     {
                         date_default_timezone_set('Asia/Kolkata');
@@ -188,25 +186,18 @@
                         {
                             $this -> load -> model('submission_model');
                             $this -> load -> model('member_model');
+                            $this -> load -> model('paper_model');
 
-                            $message = "hello";
+                            $message =  $this -> load -> view('pages/Email/EmailReview', $this -> data, true);
 
-                            $authors = $this -> submission_model -> getAllAuthorsOfPaper($this->data['paperVersionDetails']->paper_id);
+                            $main_author_id = $this -> paper_model -> getMainAuthor($this->data['paperVersionDetails']->paper_id);
+                            $member_info = $this -> member_model -> getMemberInfo($main_author_id);
+                            $email_id = $member_info['member_email'];
 
-                            foreach($authors as $index => $author)
-                            {
-                                $member_id = $author -> submission_member_id;
-
-                                $member_info = $this -> member_model -> getMemberInfo($member_id);
-
-                                $email_id = $member_info['member_email'];
-
-                                if($this -> sendMail($email_id, $message))
-                                    $this -> data['message'] = "success";
-                                else
-                                    $this -> data['error2'] = "Sorry, there is some problem. Try again later";
-
-                            }
+                            if($this -> sendMail($email_id, $message))
+                                $this -> data['message'] = "success";
+                            else
+                                $this -> data['error2'] = "Sorry, there is some problem. Try again later";
 
                         }
                         else

@@ -100,8 +100,6 @@
                 'charset'   => 'utf-8',
                 'wordwrap'  => true,
                 'wrapchars' => 50
-
-
             );
             $this->load->library('email');
             $this->email->initialize($config);
@@ -234,7 +232,8 @@
         public function signUp()
         {
             $page = "signup";
-
+            $this->load->model('registration_model');
+            $this->load->model('organization_model');
             $this->load->library('session');
             $this->load->library('form_validation');
             $this->form_validation->set_rules('salutation', 'Salutation', 'required');
@@ -258,7 +257,8 @@
 
             if($this->form_validation->run())
             {
-                $organization_id_array = $this -> registration_model -> getOrganizationId($this -> input -> post('organization'));
+                //$organization_id_array = $this -> registration_model -> getOrganizationId($this -> input -> post('organization'));
+                $organization_id = $this->organization_model->getOrganizationId($this->input->post('organization'));
                 $member_id = $this -> registration_model -> assignTempMemberId();
 				
 				if(($doc_path = $this->uploadTempBiodata('biodata', $member_id)) == false)
@@ -271,7 +271,16 @@
                 $this->session->unset_userdata('captcha');
                 $this->session->unset_userdata('image');
 
-                if($organization_id_array)
+                if($organization_id == null)
+                {
+                    $details = array(
+                        "organization_name" => $this->input->post('organization')
+                    );
+                    $this->organization_model->addNewOrganization($details);
+                    $organization_id = $this->organization_model->getOrganizationId($this->input->post('organization'));
+                }
+
+                if($organization_id != null)
                 {
                     $member_record = array(
                                             'member_id'             =>   $member_id,
@@ -288,7 +297,7 @@
                                             'member_csi_mem_no'     =>   $this -> input -> post('csimembershipno'),
                                             'member_iete_mem_no'    =>   $this -> input -> post('ietemembershipno'),
                                             'member_password'       =>   $activation_code ,
-                                            'member_organization_id'=>   $organization_id_array['organization_id'],
+                                            'member_organization_id'=>   $organization_id,
                                             'member_biodata_path'   =>   ($doc_path != false) ? $doc_path : null,
                                             'member_category_id'    =>   $this -> input -> post('category'),
                                             'member_department'     =>   $this -> input -> post('department'),
@@ -391,6 +400,8 @@
 
                 if($this -> registration_model -> deleteTempMember($member_id))
                 {
+                	$this->load->database();
+                	$this->db->trans_begin();
                     $member_info["member_id"] = $this -> registration_model -> assignMemberId();
                     //$member_info["member_biodata_path"]=rename($biodata_url/"biodata.pdf",$biodata_url/$member_info["member_id"]."biodata.pdf");
                     $member_info["member_password"] = $encrypted_password;
@@ -405,6 +416,11 @@
                         {
                             $this -> data['is_verified'] = 1;
                             $this -> data['message'] = "An email has been sent to your registered email id. This mail will let you know about the services that would be provided to you.";
+                            $this->db->trans_commit();
+                        }
+                        else
+                        {
+                        	$this->db->rollback();
                         }
                     }
                 }
@@ -414,8 +430,6 @@
             $this->index($page);
             $this->login_model->logout();
         }
-
-
     }
 
 ?>

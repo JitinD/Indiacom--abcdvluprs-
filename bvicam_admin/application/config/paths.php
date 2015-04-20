@@ -8,7 +8,7 @@
 
 //define('SERVER_ROOT', '/home/bvica/public_html/');
 //define('SERVER_ROOT', 'C:/xampp/htdocs/');
-define('SERVER_ROOT', 'D:/wamp/www/');
+define('SERVER_ROOT', 'C:/wamp/www/');
 
 //Upload Folders
 define('UPLOAD_FOLDER', 'uploads/');

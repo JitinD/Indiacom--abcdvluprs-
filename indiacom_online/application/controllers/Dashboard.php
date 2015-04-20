@@ -129,13 +129,54 @@ class Dashboard extends CI_Controller
         $this->index($page);
     }
 
+    private function sendMail($email_id, $message)
+    {
+        /*$config = array(
+            'protocol' => 'mail',
+            'smtp_host' => 'p3plcpnl0820.prod.phx3.secureserver.net',
+            'smtp_port' => 465,
+            'smtp_user' => 'info@bvicam.org',
+            'smtp_pass' => 'CPAcc#4012',
+            'charset'   => 'utf-8',
+            'wordwrap'  => true,
+            'wrapchars' => 50
+        );*/
+
+        $config = array(
+            'protocol' => 'smtp',
+            'smtp_host' => 'ssl://smtp.gmail.com',
+            'smtp_port' => 465,
+            'smtp_user' => 'indiacom15@gmail.com',
+            'smtp_pass' => '!nd!@c0m',
+            'charset'   => 'utf-8',
+            'wordwrap'  => true,
+            'wrapchars' => 50
+        );
+
+        $this->load->library('email');
+        $this->email->initialize($config);
+
+        $this->email->from('conference@bvicam.ac.in', 'CSI 2015');
+        $this->email->to($email_id);
+        $this->email->subject('CSI Paper Review');
+        $this->email->message($message);
+
+        if($this->email->send())
+            return true;
+
+        return false;
+    }
+
+
     private function submitPaperSubmitHandle()
     {
         $this->load->model('paper_model');
         $this->load->model('submission_model');
         $this->load->model('paper_version_model');
         $this->load->model('subject_model');
+        $this->load->model('member_model');
         $this->load->library('form_validation');
+
         $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");
         $this->form_validation->set_rules('event', 'Event', 'required');
         $this->form_validation->set_rules('track', 'Track', 'required');
@@ -196,6 +237,17 @@ class Dashboard extends CI_Controller
                 {
                     $this->db->trans_commit();
                     $this->data['paper_code'] = $paperDetails['paper_code'];
+                    $message =  $this -> load -> view('pages/Email/EmailPaperSubmission', $this -> data, true);
+                    $main_author_id = $this -> paper_model -> getMainAuthor($versionDetails['paper_id']);
+                    $member_info = $this -> member_model -> getMemberInfo($main_author_id);
+                    $email_id = $member_info['member_email'];
+
+                    if($this -> sendMail($email_id, $message))
+                        $this -> data['message'] = "success";
+                    else
+                        $this -> data['error2'] = "Sorry, there is some problem. Try again later";
+
+
                     return true;
                 }
             }
@@ -236,6 +288,7 @@ class Dashboard extends CI_Controller
         $this->load->model('paper_model');
         $this->load->model('paper_version_model');
         $this->load->model('submission_model');
+        $this->load->model('member_model');
         if(isset($paperId))
             $page = "submitPaperRevision";
         else
@@ -254,6 +307,7 @@ class Dashboard extends CI_Controller
         $this->data['paper_code'] = $paperDetails->paper_code;
         $this->data['paper_main_author'] = $paperDetails->paper_contact_author_id;
         $this->data['paper_version'] = $this->paper_version_model->getLatestPaperVersionNumber($paperId) + 1;
+        $complianceReportReqd = $this->data['complianceReportReqd'] = $this->isComplianceReportReqd($paperId);
         $submissions = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paperId);
         $authors = array();
         foreach($submissions as $key=>$submission)
@@ -287,7 +341,7 @@ class Dashboard extends CI_Controller
                 $this->data['uploadRevisionError'] = $this->upload->display_errors();
                 $this->db->trans_rollback();
             }
-            else if(($report_path = $this->uploadComplianceReport('compliance_report_doc', $eventId, $paperId, $this->data['paper_version'])) == false)
+            else if($complianceReportReqd && ($report_path = $this->uploadComplianceReport('compliance_report_doc', $eventId, $paperId, $this->data['paper_version'])) == false)
             {
                 $this->data['uploadReportError'] = $this->upload->display_errors();
                 $this->db->trans_rollback();
@@ -303,13 +357,28 @@ class Dashboard extends CI_Controller
                 $this->db->trans_off();
                 $versionDetails = array(
                     'paper_id' => $paperId,
-                    'paper_version_document_path' => $doc_path,
-                    'paper_version_compliance_report_path' => $report_path
+                    'paper_version_document_path' => $doc_path
                 );
+                if($complianceReportReqd)
+                {
+                    $versionDetails['paper_version_compliance_report_path'] = $report_path;
+                }
                 $this->db->trans_start();
                 $this->paper_version_model->addPaperVersion($versionDetails);
                 $page .= "Success";
                 $this->db->trans_complete();
+
+                $main_author_id = $this -> paper_model -> getMainAuthor($versionDetails['paper_id']);
+                $member_info = $this -> member_model -> getMemberInfo($main_author_id);
+                $email_id = $member_info['member_email'];
+
+                $message = $this -> load -> view('pages/Email/EmailPaperRevisionSubmission', $this -> data, true);
+
+                if($this -> sendMail($email_id, $message))
+                    $this -> data['message'] = "success";
+                else
+                    $this -> data['error2'] = "Sorry, there is some problem. Try again later";
+
             }
         }
         $this->index($page);
@@ -380,6 +449,17 @@ class Dashboard extends CI_Controller
         $this->load->model('paper_version_model');
         $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
         if($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
+        {
+            return true;
+        }
+        return false;
+    }
+
+    private function isComplianceReportReqd($paperId)
+    {
+        $this->load->model('paper_version_model');
+        $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
+        if($versionDetails->paper_version_is_reviewer_assigned == 1 && $versionDetails->paper_version_review_date != '')
         {
             return true;
         }

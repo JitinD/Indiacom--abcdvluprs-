@@ -23,6 +23,7 @@
 </head>
 <body>
 <div class="container-fluid">
+    <div class="container-fluid">
     <?php
 
     include(dirname(__FILE__) . "/../pages/loginPage.php");

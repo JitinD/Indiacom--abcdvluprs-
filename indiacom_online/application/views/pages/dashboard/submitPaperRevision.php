@@ -59,17 +59,26 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label for="compliance_report_doc" class="col-sm-3 control-label">Compliance Report Path(.pdf)</label>
-                            <div class="col-sm-9">
-                                <input type="file" class="form-control" name="compliance_report_doc" id="compliance_report_doc" placeholder="Choose File">
+                        <?php
+                        if($complianceReportReqd)
+                        {
+                        ?>
+                            <div class="form-group">
+                                <label for="compliance_report_doc" class="col-sm-3 control-label">Compliance Report Path(.pdf)</label>
+
+                                <div class="col-sm-9">
+                                    <input type="file" class="form-control" name="compliance_report_doc"
+                                           id="compliance_report_doc" placeholder="Choose File">
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                    <?php
+                                    if (isset($uploadReportError)) echo $uploadReportError;
+                                    ?>
+                                </div>
                             </div>
-                            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                                <?php
-                                if(isset($uploadReportError)) echo $uploadReportError;
-                                ?>
-                            </div>
-                        </div>
+                        <?php
+                        }
+                        ?>
 
                         <div class="form-group">
                             <label for="authors" class="col-sm-3 control-label">Author Member IDs</label>

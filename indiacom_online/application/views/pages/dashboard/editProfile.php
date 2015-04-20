@@ -105,7 +105,7 @@
                                 <?php
                                 }
                                 ?>
-                            <div class="col-sm-8">
+                                <div class="col-sm-8">
                                     <input type="file" name = "biodata" class="form-control" id="biodata" placeholder="Choose File">
                                 </div>
                             </div>

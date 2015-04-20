@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-12 col-md-12">
             <span class="h2 text-theme">Paper Information</span>
             <div class="row body-text">
                 <div class="col-md-12 text-center contentBlock-bottom">
@@ -186,54 +186,54 @@
                     {
 
                 ?>
-                        <div>
-                            <form method = "post" class="form-horizontal">
-                                <div>
-                                    <span class="h3">Add reviewers</span>
-                                </div>
-                                <div class="form-group">
-                                    <div class="col-sm-8">
-                                        <select multiple id="selectReviewer" name="selectReviewer[]" class="form-control">
+                    <div>
+                        <form method = "post" class="form-horizontal">
+                            <div>
+                                <span class="h3">Add reviewers</span>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-8">
+                                    <select multiple id="selectReviewer" name="selectReviewer[]" class="form-control">
+                                        <?php
+                                        $noReviewer = true;
+                                        foreach($reviewers as $reviewer_id=>$reviewer_name)
+                                        {
+                                        ?>
                                             <?php
-                                            $noReviewer = true;
-                                            foreach($reviewers as $reviewer_id=>$reviewer_name)
+                                            if(!in_array($reviewer_id, $paper_version_reviewers))
                                             {
+                                                $noReviewer = false;
                                             ?>
-                                                <?php
-                                                if(!in_array($reviewer_id, $paper_version_reviewers))
-                                                {
-                                                    $noReviewer = false;
-                                                ?>
-                                                    <div class="form-group">
-                                                        <option value = <?php echo $reviewer_id ;?>><?php echo $reviewer_id." - ".$reviewer_name;  ?></option>
-                                                    </div>
-                                                <?php
-                                                }
-                                                ?>
-                                            <?php
-                                            }
-                                            if($noReviewer)
-                                            {
-                                            ?>
-                                                <option disabled>No reviewers available</option>
+                                                <div class="form-group">
+                                                    <option value = <?php echo $reviewer_id ;?>><?php echo $reviewer_id." - ".$reviewer_name;  ?></option>
+                                                </div>
                                             <?php
                                             }
                                             ?>
-                                        </select>
-                                        <span class="help-block">Hold Ctrl to select more than one reviewer</span>
-                                    </div>
+                                        <?php
+                                        }
+                                        if($noReviewer)
+                                        {
+                                        ?>
+                                            <option disabled>No reviewers available</option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                    <span class="help-block">Hold Ctrl to select more than one reviewer</span>
                                 </div>
-                                <div class="form-group">
-                                    <span class="body-text text-danger">
-                                                <?php
-                                                if(isset($error1))
-                                                    echo $error1;
-                                                ?>
-                                    </span>
-                                </div>
-                                <button name = "Form1" value = "Form1" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Add</button>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="form-group">
+                                <span class="body-text text-danger">
+                                            <?php
+                                            if(isset($error1))
+                                                echo $error1;
+                                            ?>
+                                </span>
+                            </div>
+                            <button name = "Form1" value = "Form1" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                        </form>
+                    </div>
                 <?php
                     }
                     else
@@ -251,69 +251,79 @@
                         {
 
                     ?>
-                                <form class="form-horizontal" enctype="multipart/form-data" method = "post">
-                                    <div class="form-group">
-                                        <label for="comments" class="col-sm-2 control-label">Upload Comments file(.doc,.docx,pdf)</label>
-                                        <div class="col-sm-9">
-                                            <input type="file" name = "comments" class="form-control" id="comments" placeholder="Choose File">
+                        <form class="form-horizontal" enctype="multipart/form-data" method = "post">
+                            <div class="form-group">
+                                <label for="comments" class="col-sm-2 control-label">Upload Comments file(.doc,.docx,pdf)</label>
+                                <div class="col-sm-8">
+                                    <?php
+                                    if($comment->paper_version_comments_path != null)
+                                    {
+                                    ?>
+                                        <div class="col-sm-4">
+                                            <a title="Download Report" class="btn btn-primary btn-block" href="/<?php echo $comment->paper_version_comments_path; ?>">Download <span class="glyphicon glyphicon-cloud-download"></span></a>
                                         </div>
-                                        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                                            <?php
-                                            echo form_error('comments');
-                                            if(isset($uploadError)) echo $uploadError;
-                                            ?>
-                                        </div>
+                                    <?php
+                                    }
+                                    ?>
+                                    <div class="col-sm-8">
+                                        <input type="file" name = "comments" class="form-control" id="comments" placeholder="Choose File">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="comments" class="col-sm-2 control-label">Comments</label>
-                                        <div class="col-sm-8">
-                                            <textarea name = 'comments' id="comments" rows="5" class="form-control">
-                                                <?php
-                                                if(isset($comment -> paper_version_review))
-                                                    echo $comment -> paper_version_review;
-                                                ?>
-                                            </textarea>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="reviewResult" class="col-sm-2 control-label">Review Result</label>
-                                        <div class="col-sm-8">
-                                            <select id="salutation" name="review_result" class="form-control">
-                                            <?php
-                                                foreach($review_results as $review_result)
-                                                {
-                                            ?>
-                                            <option value = "<?php echo $review_result -> review_result_id ?>"
-                                                <?php
-                                                    if(isset($comment -> paper_version_review_result_id) && $comment -> paper_version_review_result_id == $review_result -> review_result_id)
-                                                        echo "selected";
-                                                ?>
-                                            >
-                                                <?php echo $review_result -> review_result_type_name ?>
-                                            </option>
-
-                                            <?php
-                                                }
-                                            ?>
-
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-sm-offset-2 col-sm-10">
-                                            <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Author</button>
-                                        </div>
-                                    </div>
-
-
-                                    <span class="body-text text-danger">
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                    <?php
+                                    echo form_error('comments');
+                                    if(isset($uploadError)) echo $uploadError;
+                                    ?>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comments" class="col-sm-2 control-label">Comments</label>
+                                <div class="col-sm-8">
+                                    <textarea name = 'comments' id="comments" rows="5" class="form-control"><?php
+                                        if(isset($comment -> paper_version_review))
+                                            echo $comment -> paper_version_review;
+                                    ?></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="reviewResult" class="col-sm-2 control-label">Review Result</label>
+                                <div class="col-sm-8">
+                                    <select id="salutation" name="review_result" class="form-control">
+                                    <?php
+                                        foreach($review_results as $review_result)
+                                        {
+                                    ?>
+                                    <option value = "<?php echo $review_result -> review_result_id ?>"
                                         <?php
-                                        if(isset($error2))
-                                            echo $error2;
+                                            if(isset($comment -> paper_version_review_result_id) && $comment -> paper_version_review_result_id == $review_result -> review_result_id)
+                                                echo "selected";
                                         ?>
-                                    </span>
-                                </form>
+                                    >
+                                        <?php echo $review_result -> review_result_type_name ?>
+                                    </option>
+
+                                    <?php
+                                        }
+                                    ?>
+
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-offset-2 col-sm-10">
+                                    <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Author</button>
+                                </div>
+                            </div>
+
+
+                            <span class="body-text text-danger">
+                                <?php
+                                if(isset($error2))
+                                    echo $error2;
+                                ?>
+                            </span>
+                        </form>
                     <?php
 
                         }
