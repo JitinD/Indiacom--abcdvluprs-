@@ -1,4 +1,4 @@
-<div class="row contentBlock-top">
+<div class="row">
     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
         <?php include('aboutIndiacomSidePanel.php'); ?>
     </div>
@@ -9,7 +9,7 @@
             Invited in Last Seven Editions of INDIACom
         (INDIACom - 2007 to INDIACom - 2014)</span>
         <hr>
-        <div class="row body-text">
+        <div class="row">
             <div class="col-md-12">
                 <span class="text-theme">
                     <strong>INDIACom &ndash; 2014</strong>

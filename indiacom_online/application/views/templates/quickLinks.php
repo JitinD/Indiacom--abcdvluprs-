@@ -15,6 +15,9 @@
                 <a href="/<?php echo INDIACOM; ?>callForPapers">Call For Papers</a>
             </li>
             <li>
+                <strong><a href="/<?php echo INDIACOM; ?>specialSessions">Special Sessions</a></strong>
+            </li>
+            <li>
                 <a href="/<?php echo INDIACOM; ?>importantdates">Important Dates</a>
             </li>
             <li>

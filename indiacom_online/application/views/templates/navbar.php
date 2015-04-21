@@ -36,7 +36,7 @@ function SetActiveNavItem($navItem, $page)
                             class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
                         <li><a href="/<?php echo INDIACOM; ?>aboutIndiacom">INDIACom History</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>listofspeakers">Invited Speakers</a></li>
+                        <li><a href="/<?php echo INDIACOM; ?>invitedSpeakers">Invited Speakers</a></li>
                         <li><a href="/<?php echo INDIACOM; ?>sponsors">Sponsors</a></li>
                         <li><a href="/<?php echo INDIACOM; ?>committees">Committees</a></li>
                         <li><a href="/<?php echo INDIACOM; ?>reviewProcess">Review Process, Publication and Indexing</a>

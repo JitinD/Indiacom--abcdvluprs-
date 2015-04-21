@@ -8,6 +8,7 @@
                     <img src="/<?php echo PATH ?>assets/images/developers/pavithragurumurthy.jpg" class="img-circle">
                     <div class="caption">
                         <h3>G. Pavithra</h3>
+                        <h4>MCA, 2013-2016</h4>
                     </div>
                 </div>
             </div>
@@ -16,6 +17,7 @@
                     <img src="/<?php echo PATH ?>assets/images/developers/jitindominic.jpg" class="img-circle">
                     <div class="caption">
                         <h3>Jitin Dominic</h3>
+                        <h4>MCA, 2013-2016</h4>
                     </div>
                 </div>
             </div>
@@ -24,6 +26,7 @@
                     <img src="/<?php echo PATH ?>assets/images/developers/saurabhsharma.jpg" class="img-circle">
                     <div class="caption">
                         <h3>Saurabh Sharma</h3>
+                        <h4>MCA, 2013-2016</h4>
                     </div>
                 </div>
             </div>
@@ -32,6 +35,7 @@
                     <img src="/<?php echo PATH ?>assets/images/developers/sauravdeb.jpg" class="img-circle">
                     <div class="caption">
                         <h3>Saurav Deb P</h3>
+                        <h4>MCA, 2013-2016</h4>
                     </div>
                 </div>
             </div>
