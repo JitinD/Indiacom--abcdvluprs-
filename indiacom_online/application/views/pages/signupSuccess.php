@@ -9,16 +9,16 @@
 
 <div class="container-fluid contentBlock-top">
     <div class="row">
-        <div class="col-lg-10 col-lg-offset-2 col-md-12  col-md-offset-2 col-sm-12  col-sm-offset-2 col-xs-12">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <span class="h1 text-theme">Member Registration</span>
             <hr>
-            <p class="body-text contentBlock-top">
-                <?php
-                if(isset($is_verified) && $is_verified)
-                    echo "Your Member Id is $member_id <br/>";
-                echo $message;
-                ?>
-            </p>
+            <span class="alert alert-success">
+            <?php
+            if (isset($is_verified) && $is_verified)
+                echo "Your Member Id is $member_id <br/>";
+            echo $message;
+            ?>
+            </span>
 
         </div>
     </div>

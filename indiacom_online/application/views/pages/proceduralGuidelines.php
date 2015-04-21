@@ -1,87 +1,105 @@
-<div class="container-fluid">
-    <div class="row contentBlock-top">
-        <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-            <?php include('submitPaperSidePanel.php'); ?>
-            <?php include('importantdatesPanel.php');?>
-        </div>
-        <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
-            <span class="h1 text-theme">Procedural Guidelines</span>
-            <hr>
-            <div class="row body-text">
-                <div class="col-md-12">
-                    <p >Welcome to INDIACom. In order to submit a paper through this website, you
-                        would need to follow a simple 3-step procedure listed below.</p>
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Step 1: Get Membership</h3>
-                        </div>
-                        <div class="panel-body">
-                            <p>
-                                You need to sign up using the <a href="#">Get Membership</a> link.
-                                This allots you a unique <STRONG>Member ID</STRONG> which helps the website to recognize you.
-                                Please skip this step if you are already a member.
-                            </p>
-                            <p>
-                                Email ID provided by you in the membership form is considered as <strong>registered email ID</strong> by us, and the same would be used by us for further
-                                communication with you.
-                            </p>
-                            <p>
-                                To begin with, your <STRONG>Member ID</STRONG> and <STRONG>Password</STRONG> would bemailed to you.
-                                Please mail us, using your registered mail ID, at <a href="mailto:conference@bvicam.ac.in">conference@bvicam.ac.in</a>
-                                in case you don't receive this e-mail.
+<div class="row contentBlock-top">
+    <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
+        <?php include('submitPaperSidePanel.php'); ?>
+        <?php include('importantdatesPanel.php'); ?>
+    </div>
+    <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
+        <span class="h1 text-theme">Procedural Guidelines</span>
+        <hr>
+        <div class="row body-text">
+            <div class="col-md-12">
+                <p>Welcome to INDIACom. In order to submit a paper through this website, you
+                    would need to follow a simple 3-step procedure listed below.</p>
 
-                            </p>
-                            <p>
-                                <strong>Kindly Note that you do not need to re-register in case you had
-                                    registered online as a member for any of the prior events like INDIACom, NSC,
-                                    BIJIT etc. </strong>
-                            </p>
-                        </div>
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Step 1: Get Membership</h3>
                     </div>
+                    <div class="panel-body">
+                        <p>
+                            You need to sign up using the <a href="#">Get Membership</a> link.
+                            This allots you a unique <STRONG>Member ID</STRONG> which helps the website to recognize
+                            you.
+                            Please skip this step if you are already a member.
+                        </p>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Step 2: Log in</h3>
-                        </div>
-                        <div class="panel-body">
-                            <p>
-                                In order to submit a paper you need to log in to the web account using your
-                                <STRONG>Member ID</STRONG> and <STRONG>Password</STRONG>.
-                            </p>
-                        </div>
-                    </div>
+                        <p>
+                            Email ID provided by you in the membership form is considered as <strong>registered email
+                                ID</strong> by us, and the same would be used by us for further
+                            communication with you.
+                        </p>
 
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <h3 class="panel-title">Step 3: Submit the paper</h3>
-                        </div>
-                        <div class="panel-body">
-                            <p>
-                                You can now submit your paper using the <a href="submitPaper">Submit Paper</A> link. Please note that
-                                all your co-authors must be members of this website and while submitting
-                                the paper you would need to provide their member IDs.
-                            </p>
-                            <p>
-                                When you submit a
-                                paper, a <STRONG>Unique Paper ID</STRONG> is allotted to it.
-                                Please use this ID for any queries regarding the paper, in future.</p>
-                        </div>
+                        <p>
+                            To begin with, your <STRONG>Member ID</STRONG> and <STRONG>Password</STRONG> would bemailed
+                            to you.
+                            Please mail us, using your registered mail ID, at <a href="mailto:conference@bvicam.ac.in">conference@bvicam.ac.in</a>
+                            in case you don't receive this e-mail.
+
+                        </p>
+
+                        <p>
+                            <strong>Kindly Note that you do not need to re-register in case you had
+                                registered online as a member for any of the prior events like INDIACom, NSC,
+                                BIJIT etc. </strong>
+                        </p>
                     </div>
-                    <p>
-                        We also wish to inform you that the <strong>papers having plagiarism level above 10% will not be accepted for INDIACom-2015. </strong>The INDIACom team will be checking plagiarism level of all the submitted papers for ensuring the originality of content using Turnitin.
-                    Hence, you are advised in your own interest, to use a tool like Turnitin, iThenticate, Viper, PlagScan etc. to check the plagiarism level of your manuscripts before submission.   The originality report generated by the tool, may also be submitted at the time of paper submission.
-                    </p>
-                    <p>Kindly note that we would carry out direct correspondence with only one author per paper (we name it as <STRONG>Corresponding Author</STRONG>). Thus, if your paper is co-authored
-                    by multiple members, all our e-mails would be sent to the e-mail account of the author nominated by you, as
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Step 2: Log in</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            In order to submit a paper you need to log in to the web account using your
+                            <STRONG>Member ID</STRONG> and <STRONG>Password</STRONG>.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Step 3: Submit the paper</h3>
+                    </div>
+                    <div class="panel-body">
+                        <p>
+                            You can now submit your paper using the <a href="submitPaper">Submit Paper</A> link. Please
+                            note that
+                            all your co-authors must be members of this website and while submitting
+                            the paper you would need to provide their member IDs.
+                        </p>
+
+                        <p>
+                            When you submit a
+                            paper, a <STRONG>Unique Paper ID</STRONG> is allotted to it.
+                            Please use this ID for any queries regarding the paper, in future.</p>
+                    </div>
+                </div>
+                <p>
+                    We also wish to inform you that the <strong>papers having plagiarism level above 10% will not be
+                        accepted for INDIACom-2015. </strong>The INDIACom team will be checking plagiarism level of all
+                    the submitted papers for ensuring the originality of content using Turnitin.
+                    Hence, you are advised in your own interest, to use a tool like Turnitin, iThenticate, Viper,
+                    PlagScan etc. to check the plagiarism level of your manuscripts before submission. The originality
+                    report generated by the tool, may also be submitted at the time of paper submission.
+                </p>
+
+                <p>Kindly note that we would carry out direct correspondence with only one author per paper (we name it
+                    as <STRONG>Corresponding Author</STRONG>). Thus, if your paper is co-authored
+                    by multiple members, all our e-mails would be sent to the e-mail account of the author nominated by
+                    you, as
                     <STRONG>Corresponding Author</STRONG>.&nbsp;While submitting the paper, you
                     can designate one of your co-authors to be responsible for correspondence
                     by&nbsp;selecting his / her ID as the <EM><STRONG>Correspondence ID</STRONG></EM>. To begin with, a
-                    confirmation email along with the paper ID would be sent to him / her. Please mail us using your registered e-mail ID, at <A class=guidelines href="mailto:conference@bvicam.ac.in">conference@bvicam.ac.in</A> in case you don't receive this e-mail.<br>
-                    </p>
-                    <p>
+                    confirmation email along with the paper ID would be sent to him / her. Please mail us using your
+                    registered e-mail ID, at <A class=guidelines href="mailto:conference@bvicam.ac.in">conference@bvicam.ac.in</A>
+                    in case you don't receive this e-mail.<br>
+                </p>
+
+                <p>
                     You can always refer to our <a href="faqs">FAQs</a> page which might be able to answer any
-                    further queries or contact us  using the correspondence details   available  <a href="contactus">here</a>.    </p>
-            </div>
+                    further queries or contact us using the correspondence details available <a
+                        href="contactus">here</a>. </p>
             </div>
         </div>
     </div>

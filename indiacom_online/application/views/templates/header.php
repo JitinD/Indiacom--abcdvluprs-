@@ -31,3 +31,4 @@
     include(dirname(__FILE__) . "/../templates/quickLinks.php");
     ?>
     <hr>
+    <div class="container">

@@ -1,28 +1,36 @@
 <div class="row contentBlock-top">
     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-        <?php include('importantdatesPanel.php');?>
+        <?php include('importantdatesPanel.php'); ?>
     </div>
-    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
+    <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
         <span class="h1 text-theme">Accomodation</span>
         <hr>
-        <div class="row body-text">
+        <div class="row">
             <div class="col-md-12 text-justify">
-                <p>Authors / Delegates are requested to kindly contact the below mentioned hotels directly for booking of accommodation as per their arrival / departure schedule.</p>
-                <p>Request for the <strong>applicable special discount</strong> on behalf of <strong>Bharati Vidyapeeth, New Delhi (INDIA)</strong> on account of <strong>INDIACom -2015</strong>.</p>
-                <p>As a <strong>special case for international participants</strong>, on advance payment basis, accommodation can be provided, by our Local Organizing Committee, at subsidized rates, at India International Centre (IIC), Lodi Road, New Delhi </span>and nearby hotels, based on the request. For more information e-mail us at  <a href="mailto:indiacom2015@gmail.com">indiacom2015@gmail.com</a>.</p>
+                <p>Authors / Delegates are requested to kindly contact the below mentioned hotels directly for booking
+                    of accommodation as per their arrival / departure schedule.</p>
+
+                <p>Request for the <strong>applicable special discount</strong> on behalf of <strong>Bharati Vidyapeeth,
+                        New Delhi (INDIA)</strong> on account of <strong>INDIACom -2015</strong>.</p>
+
+                <p>As a <strong>special case for international participants</strong>, on advance payment basis,
+                    accommodation can be provided, by our Local Organizing Committee, at subsidized rates, at India
+                    International Centre (IIC), Lodi Road, New Delhi </span>and nearby hotels, based on the request. For
+                    more information e-mail us at <a href="mailto:indiacom2015@gmail.com">indiacom2015@gmail.com</a>.
+                </p>
                 <table class="table table-responsive table-hover">
                     <thead>
-                        <tr>
-                            <th>Hotel <br> & Contact Information</th>
-                            <th>Category</th>
-                            <th>Tariff (INR)</th>
-                            <th>Distance from Venue</th>
-                        </tr>
+                    <tr>
+                        <th>Hotel <br> & Contact Information</th>
+                        <th>Category</th>
+                        <th>Tariff (INR)</th>
+                        <th>Distance from Venue</th>
+                    </tr>
                     </thead>
                     <tr>
                         <td>
                             <strong>RADISSON BLU </strong><br>
-                            Plot No.    D, District Centre<br>
+                            Plot No. D, District Centre<br>
                             Outer Ring Road, Paschim Vihar, <br>
                             New Delhi-110063<br>
                             <strong>Ph</strong>: +91-11-46399999<br>
@@ -65,7 +73,8 @@
                             <strong>Mobile</strong>: +91-9716104200<br>
                             <strong>Web</strong>:
                             <a target="_blank" href="http://www.hotelswiftinn.in">www.hotelswiftinn.in</a><br>
-                            <strong>e-mail</strong>: <a href="mailto:hotelswiftinn@yahoo.com">hotelswiftinn@yahoo.com</a>
+                            <strong>e-mail</strong>: <a
+                                href="mailto:hotelswiftinn@yahoo.com">hotelswiftinn@yahoo.com</a>
 
                         </td>
                         <td>3 <span class="glyphicon glyphicon-star"></span></td>
@@ -106,7 +115,8 @@
                             +91-11-25421555<br>
                             <strong>Mobile</strong>: +91-9555104555,<br>
                             +91-9311045777<br>
-                            <strong>Web</strong>: <a href="http://www.hotelamandeluxe.com">www.hotelamandeluxe.com</a><br>
+                            <strong>Web</strong>: <a
+                                href="http://www.hotelamandeluxe.com">www.hotelamandeluxe.com</a><br>
                             <strong>e-mail</strong>:
                             <a href="mailto:hotelamandeluxe@gmail.com">hotelamandeluxe@gmail.com</a>
                         </td>

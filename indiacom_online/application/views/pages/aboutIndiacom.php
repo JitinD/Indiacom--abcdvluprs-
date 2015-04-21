@@ -2,10 +2,10 @@
     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
         <?php include('aboutIndiacomSidePanel.php'); ?>
     </div>
-    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 text-justify">
+    <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12 text-justify">
         <span class="h1 text-theme">INDIACom</span>
         <hr>
-        <div class="row body-text">
+        <div class="row">
             <div class="col-md-12">
                 <p>
                     Since its inception in the year 2007, INDIACom has aimed at developing a strategic plan for balanced growth of  nations' economy through IT in critical areas like e-Governance, e-Commerce, Disaster Management, GIS, Nano-Technology, Intellectual Property Rights, AI and Expert Systems, Networking, Software Engineering and other emerging Technologies.
@@ -16,7 +16,7 @@
 
             </div>
         </div>
-        <div class="row body-text">
+        <div class="row">
             <div class="col-md-12">
                 During the last eight editions of INDIAComs (from INDIACom-2007 to INDIACom-2014), over <strong>180 Keynote and Invited Speakers</strong> were invited. Some of them are:-
                 <table class="table table-responsive table-striped">

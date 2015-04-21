@@ -2,11 +2,11 @@
     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
         <?php include('importantdatesPanel.php');?>
     </div>
-    <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12 text-justify">
+    <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12 text-justify">
         <span class="h1 text-theme">Call For Papers</span>
         <hr>
         <div class="row">
-            <div class="col-md-12 body-text">
+            <div class="col-md-12">
                 <p class="contentBlock-top">
                     <strong>INDIACom-2015</strong> is aimed at inviting original research papers in the field of, primarily, Computer Science and Information Technology and, generally, all interdisciplinary streams of Engineering Sciences, having central focus on sustainable computing applications, which may be of some use in enhancing the quality of life and contribute effectively to realize the nations’ vision of sustainable inclusive development using Computing. INDIACom-2015 is an amalgamation of four different international conferences which will be organized parallel to each other, as parallel tracks. These are listed below:-
                 </p>

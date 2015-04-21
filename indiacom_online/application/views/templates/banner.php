@@ -24,7 +24,7 @@
     }
 </style>
 
-<div class="container-fluid visible-xs">
+<div class="container-fluid visible-xs topBlock">
     <div class="row ">
         <div class="col-xs-6">
             <img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive">
@@ -33,7 +33,7 @@
             <img src="/<?php echo PATH ?>assets/images/sponsors/ieee.png" class="img-responsive">
         </div>
     </div>
-    <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 heroHeading text-center">
+    <div class="col-xs-12 heroHeading text-center">
         INDIACom - 2016
         <div class="row heroText">
             <div class="col-md-12 col-sm-12 col-xs-12">
@@ -59,14 +59,14 @@
 
     </div>
 </div>
-<div class="container-fluid">
-    <div class="row hidden-xs">
+<div class="container-fluid hidden-xs">
+    <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
             <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage">
             </center>
         </div>
-        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 heroHeading text-center">
-            INDIACom - 2016
+        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 text-center">
+            <h1>INDIACom - 2016</h1>
             <div class="row heroText">
                 <div class="col-md-12 col-sm-12 col-xs-12">
                     10<sup>th</sup> INDIACom; 2016 3<sup>rd</sup> International Conference on Computing for Sustainable

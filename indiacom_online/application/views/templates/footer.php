@@ -12,7 +12,7 @@
         padding-bottom: 10px;
     }
 </style>
-
+</div>
 <div class="container-fluid">
     <div class="text-center footer row">
         <div class="col-md-12">
