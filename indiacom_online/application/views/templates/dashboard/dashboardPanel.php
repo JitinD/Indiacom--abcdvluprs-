@@ -15,7 +15,7 @@
 
             </ul>
         </div>
-        <?php include(dirname(__FILE__).'/../../pages/importantdatesPanel.php');?>
+        <?php include(dirname(__FILE__) . '/../../pages/static/importantdatesPanel.php');?>
     </div>
     <div class="col-md-9 col-sm-8 col-xs-12">
         <span class="h1 text-theme">Dashboard</span>

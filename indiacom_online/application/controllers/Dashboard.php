@@ -82,7 +82,6 @@ class Dashboard extends CI_Controller
 
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
-
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . PAPER_FOLDER;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = "Paper_" . $paperId . "v" . $versionNumber;
@@ -120,46 +119,29 @@ class Dashboard extends CI_Controller
     public function submitPaper()
     {
         $this->load->model('event_model');
+        $this->load->helper('url');
         $page = 'submitpaper';
         $this->data['events'] = $this->event_model->getAllActiveEvents();
 
-        if($this->submitPaperSubmitHandle())
-                $page = "submitPaperSuccess";
+        if($this->submitPaperSubmitHandle($paperId))
+                redirect('Dashboard/paperInfo/'.$paperId);
 
         $this->index($page);
     }
 
-    private function sendMail($email_id, $message)
+    private function sendMail($email_id, $message, $attachments = array())
     {
-        /*$config = array(
-            'protocol' => 'mail',
-            'smtp_host' => 'p3plcpnl0820.prod.phx3.secureserver.net',
-            'smtp_port' => 465,
-            'smtp_user' => 'info@bvicam.org',
-            'smtp_pass' => 'CPAcc#4012',
-            'charset'   => 'utf-8',
-            'wordwrap'  => true,
-            'wrapchars' => 50
-        );*/
-
-        $config = array(
-            'protocol' => 'smtp',
-            'smtp_host' => 'ssl://smtp.gmail.com',
-            'smtp_port' => 465,
-            'smtp_user' => 'indiacom15@gmail.com',
-            'smtp_pass' => '!nd!@c0m',
-            'charset'   => 'utf-8',
-            'wordwrap'  => true,
-            'wrapchars' => 50
-        );
-
         $this->load->library('email');
-        $this->email->initialize($config);
 
-        $this->email->from('conference@bvicam.ac.in', 'CSI 2015');
+        $this->email->from('conference@bvicam.ac.in', 'Indiacom');
         $this->email->to($email_id);
-        $this->email->subject('CSI Paper Review');
+        $this->email->reply_to("conference@bvicam.ac.in");
+        $this->email->subject('Indiacom Paper Submission');
         $this->email->message($message);
+        foreach($attachments as $attachment)
+        {
+            $this->email->attach($attachment);
+        }
 
         if($this->email->send())
             return true;
@@ -167,8 +149,7 @@ class Dashboard extends CI_Controller
         return false;
     }
 
-
-    private function submitPaperSubmitHandle()
+    private function submitPaperSubmitHandle(&$paperId)
     {
         $this->load->model('paper_model');
         $this->load->model('submission_model');
@@ -181,7 +162,6 @@ class Dashboard extends CI_Controller
         $this->form_validation->set_rules('event', 'Event', 'required');
         $this->form_validation->set_rules('track', 'Track', 'required');
         $this->form_validation->set_rules('subject', 'Subject', 'required');
-        //$this->form_validation->set_rules('paper_doc', 'Paper', 'required');
         $this->form_validation->set_rules('main_author', 'Main Author', 'required');
         $this->form_validation->set_rules('authors', 'Author Id(s)', 'required|callback_authorsCheck');
 
@@ -236,18 +216,17 @@ class Dashboard extends CI_Controller
                 else
                 {
                     $this->db->trans_commit();
+                    $paperId = $versionDetails['paper_id'];
                     $this->data['paper_code'] = $paperDetails['paper_code'];
-                    $message =  $this -> load -> view('pages/Email/EmailPaperSubmission', $this -> data, true);
-                    $main_author_id = $this -> paper_model -> getMainAuthor($versionDetails['paper_id']);
-                    $member_info = $this -> member_model -> getMemberInfo($main_author_id);
+
+                    $member_info = $this->member_model->getMemberInfo($paperDetails['paper_contact_author_id']);
                     $email_id = $member_info['member_email'];
+                    $message =  $this->load->view('pages/Email/EmailPaperSubmission', array("member_name"=>$member_info['member_name'], "paper_code"=>$paperDetails['paper_code'], "paper_title"=>$paperDetails['paper_title']), true);
 
-                    if($this -> sendMail($email_id, $message))
-                        $this -> data['message'] = "success";
+                    if($this->sendMail($email_id, $message, array(SERVER_ROOT.$doc_path)))
+                        $this->data['message'] = "success";
                     else
-                        $this -> data['error2'] = "Sorry, there is some problem. Try again later";
-
-
+                        $this->data['error2'] = "Sorry, there is some problem. Try again later";
                     return true;
                 }
             }
@@ -355,6 +334,7 @@ class Dashboard extends CI_Controller
                 //table correctly.
                 $this->db->trans_commit();
                 $this->db->trans_off();
+                $attachments = array();
                 $versionDetails = array(
                     'paper_id' => $paperId,
                     'paper_version_document_path' => $doc_path
@@ -362,19 +342,19 @@ class Dashboard extends CI_Controller
                 if($complianceReportReqd)
                 {
                     $versionDetails['paper_version_compliance_report_path'] = $report_path;
+                    $attachments[] = SERVER_ROOT.$report_path;
                 }
                 $this->db->trans_start();
                 $this->paper_version_model->addPaperVersion($versionDetails);
                 $page .= "Success";
                 $this->db->trans_complete();
 
-                $main_author_id = $this -> paper_model -> getMainAuthor($versionDetails['paper_id']);
-                $member_info = $this -> member_model -> getMemberInfo($main_author_id);
+                $member_info = $this -> member_model -> getMemberInfo($paperDetails->paper_contact_author_id);
                 $email_id = $member_info['member_email'];
+                $message = $this -> load -> view('pages/Email/EmailPaperRevisionSubmission', array("member_name"=>$member_info['member_name'], "paper_title"=>$paperDetails->paper_title, "paper_code"=>$paperDetails->paper_code, "complianceReport"=>$complianceReportReqd), true);
 
-                $message = $this -> load -> view('pages/Email/EmailPaperRevisionSubmission', $this -> data, true);
-
-                if($this -> sendMail($email_id, $message))
+                $attachments[] = SERVER_ROOT.$doc_path;
+                if($this -> sendMail($email_id, $message, $attachments))
                     $this -> data['message'] = "success";
                 else
                     $this -> data['error2'] = "Sorry, there is some problem. Try again later";
@@ -418,7 +398,8 @@ class Dashboard extends CI_Controller
         }
         else
         {
-            $this->data['invalidAuthorAccess'] = true;
+            $this->load->view('pages/unauthorizedAccess');
+            return;
         }
         $this->index($page);
     }
@@ -459,7 +440,7 @@ class Dashboard extends CI_Controller
     {
         $this->load->model('paper_version_model');
         $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
-        if($versionDetails->paper_version_is_reviewer_assigned == 1 && $versionDetails->paper_version_review_date != '')
+        if($versionDetails->paper_version_review_date != '')
         {
             return true;
         }
@@ -627,8 +608,7 @@ class Dashboard extends CI_Controller
                     'member_biodata_path' => $doc_path,
                     'member_category_id' => $this->input->post('category'),
                     'member_department' => $this->input->post('department'),
-                    'member_experience' => $this->input->post('experience'),
-                    'member_is_activated' => ""
+                    'member_experience' => $this->input->post('experience')
                 );
 
                 if($this->member_model->updateMemberInfo($member_record, $_SESSION[APPID]['member_id']))
@@ -638,24 +618,6 @@ class Dashboard extends CI_Controller
                 $this -> data['error'] = "No such organization";
         }
                 $this->index($page);
-    }
-
-    private function getOLPCAmount($paperID)
-    {
-        $olpc_amount = 0;
-
-        $this -> load -> model('payment_model');
-
-        if($this -> payment_model -> checkOLPCValid($paperID))
-        {
-            if(!(checkOLPCPaid($paperID)))
-            {
-                $olpc_amount_object = getOLPCCharges();
-                $olpc_amount = $olpc_amount_object -> payable_class_amount;
-            }
-        }
-
-        return $olpc_amount;
     }
 
     public function payment()

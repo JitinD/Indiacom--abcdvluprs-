@@ -1,6 +1,6 @@
 <div class="row contentBlock-top">
     <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-        <?php include(__DIR__."/../importantdatesPanel.php");?>
+        <?php include(__DIR__ . "/../importantdatesPanel.php");?>
     </div>
     <div class="col-lg-9 col-md-8 col-sm-8 col-xs-12">
         <span class="h1 text-theme">News</span>

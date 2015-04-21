@@ -35,11 +35,11 @@ function SetActiveNavItem($navItem, $page)
                     <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span
                             class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/<?php echo INDIACOM; ?>aboutIndiacom">INDIACom History</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>invitedSpeakers">Invited Speakers</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>sponsors">Sponsors</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>committees">Committees</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>reviewProcess">Review Process, Publication and Indexing</a>
+                        <li><a href="/<?php echo BASEURL; ?>aboutIndiacom">INDIACom History</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>invitedSpeakers">Invited Speakers</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>sponsors">Sponsors</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>committees">Committees</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>reviewProcess">Review Process, Publication and Indexing</a>
                         </li>
                     </ul>
                 </li>
@@ -48,9 +48,16 @@ function SetActiveNavItem($navItem, $page)
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Submit Paper<span
                             class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Submit Paper</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/<?php echo INDIACOM; ?>proceduralGuidelines">Paper Submission Guidelines</a></li>
+                        <?php
+                        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id']))
+                        {
+                        ?>
+                            <li><a href="/<?php echo BASEURL; ?>Dashboard/submitPaper">Submit Paper</a></li>
+                            <li class="divider"></li>
+                        <?php
+                        }
+                        ?>
+                        <li><a href="/<?php echo BASEURL; ?>proceduralGuidelines">Paper Submission Guidelines</a></li>
                         <li><a href="#">Paper Formatting Guidelines</a></li>
                         <li><a href="#">Payment Modes</a></li>
                     </ul>
@@ -60,22 +67,22 @@ function SetActiveNavItem($navItem, $page)
                 <li class="dropdown <?php SetActiveNavItem("Downloads", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Downloads <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/<?php echo INDIACOM; ?>downloads">Downloads</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>downloads">Downloads</a></li>
                         <li class="divider"></li>
-                        <li><a href="/<?php echo INDIACOM; ?>proceedings">Proceedings</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>proceedings">Proceedings</a></li>
                     </ul>
                 </li>
                 <!--                <li class="-->
                 <?php //SetActiveNavItem("FAQs", $navbarItem); ?><!--"><a href="#">FAQs</a></li>-->
                 <li class="<?php SetActiveNavItem("Contact Us", $navbarItem); ?>"><a
-                        href="/<?php echo INDIACOM; ?>contactus">Contact Us</a></li>
+                        href="/<?php echo BASEURL; ?>contactus">Contact Us</a></li>
                 <!--                <li class="-->
                 <?php //SetActiveNavItem("Feedback", $navbarItem); ?><!--"><a href="#">Feedback</a></li>-->
                 <?php
                 if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])) {
                     ?>
                     <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a
-                            href="/<?php echo INDIACOM; ?>Dashboard/home">Dashboard</a></li>
+                            href="/<?php echo BASEURL; ?>Dashboard/home">Dashboard</a></li>
                 <?php
                 }
                 if (isset($_SESSION) && !isset($_SESSION[APPID]['member_id'])) {
@@ -93,9 +100,9 @@ function SetActiveNavItem($navItem, $page)
                                 class="glyphicon glyphicon-user"></span> <?php echo $_SESSION[APPID]['member_name'] ?>
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Edit Profile</a></li>
+                            <li><a href="/<?php echo BASEURL; ?>Dashboard/editProfile">Edit Profile</a></li>
                             <li class="divider"></li>
-                            <li><a href="/<?php echo INDIACOM; ?>d/Login/logout" class="bg-danger">Logout</a></li>
+                            <li><a href="/<?php echo BASEURL; ?>d/Login/logout" class="bg-danger">Logout</a></li>
                         </ul>
                     </li>
                 <?php
@@ -134,11 +141,11 @@ function SetActiveNavItem($navItem, $page)
                     <a href="#" class="dropdown-toggle text-light" data-toggle="dropdown">About INDIACom<span
                             class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/<?php echo INDIACOM; ?>aboutIndiacom">INDIACom History</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>listofspeakers">Invited Speakers</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>sponsors">Sponsors</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>committees">Committees</a></li>
-                        <li><a href="/<?php echo INDIACOM; ?>reviewProcess">Review Process, Publication and Indexing</a>
+                        <li><a href="/<?php echo BASEURL; ?>aboutIndiacom">INDIACom History</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>listofspeakers">Invited Speakers</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>sponsors">Sponsors</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>committees">Committees</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>reviewProcess">Review Process, Publication and Indexing</a>
                         </li>
                     </ul>
                 </li>
@@ -147,9 +154,16 @@ function SetActiveNavItem($navItem, $page)
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Submit Paper<span
                             class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="#">Submit Paper</a></li>
-                        <li class="divider"></li>
-                        <li><a href="/<?php echo INDIACOM; ?>proceduralGuidelines">Paper Submission Guidelines</a></li>
+                        <?php
+                        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id']))
+                        {
+                            ?>
+                            <li><a href="/<?php echo BASEURL; ?>Dashboard/submitPaper">Submit Paper</a></li>
+                            <li class="divider"></li>
+                        <?php
+                        }
+                        ?>
+                        <li><a href="/<?php echo BASEURL; ?>proceduralGuidelines">Paper Submission Guidelines</a></li>
                         <li><a href="#">Paper Formatting Guidelines</a></li>
                         <li><a href="#">Payment Modes</a></li>
                     </ul>
@@ -159,22 +173,22 @@ function SetActiveNavItem($navItem, $page)
                 <li class="dropdown <?php SetActiveNavItem("Downloads", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Downloads <span class="caret"></span></a>
                     <ul class="dropdown-menu" role="menu">
-                        <li><a href="/<?php echo INDIACOM; ?>downloads">Downloads</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>downloads">Downloads</a></li>
                         <li class="divider"></li>
-                        <li><a href="/<?php echo INDIACOM; ?>proceedings">Proceedings</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>proceedings">Proceedings</a></li>
                     </ul>
                 </li>
                 <!--                <li class="-->
                 <?php //SetActiveNavItem("FAQs", $navbarItem); ?><!--"><a href="#">FAQs</a></li>-->
                 <li class="<?php SetActiveNavItem("Contact Us", $navbarItem); ?>"><a
-                        href="/<?php echo INDIACOM; ?>contactus">Contact Us</a></li>
+                        href="/<?php echo BASEURL; ?>contactus">Contact Us</a></li>
                 <!--                <li class="-->
                 <?php //SetActiveNavItem("Feedback", $navbarItem); ?><!--"><a href="#">Feedback</a></li>-->
                 <?php
                 if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])) {
                     ?>
                     <li class="<?php SetActiveNavItem("Dashboard", $navbarItem); ?>"><a
-                            href="/<?php echo INDIACOM; ?>Dashboard/home">Dashboard</a></li>
+                            href="/<?php echo BASEURL; ?>Dashboard/home">Dashboard</a></li>
                 <?php
                 }
                 if (isset($_SESSION) && !isset($_SESSION[APPID]['member_id'])) {
@@ -192,9 +206,9 @@ function SetActiveNavItem($navItem, $page)
                                 class="glyphicon glyphicon-user"></span> <?php echo $_SESSION[APPID]['member_name'] ?>
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Edit Profile</a></li>
+                            <li><a href="/<?php echo BASEURL; ?>Dashboard/editProfile">Edit Profile</a></li>
                             <li class="divider"></li>
-                            <li><a href="/<?php echo INDIACOM; ?>d/Login/logout" class="bg-danger">Logout</a></li>
+                            <li><a href="/<?php echo BASEURL; ?>d/Login/logout" class="bg-danger">Logout</a></li>
                         </ul>
                     </li>
                 <?php

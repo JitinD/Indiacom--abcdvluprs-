@@ -7,23 +7,23 @@
  */
 ?>
 <html>
-<head>
-</head>
-
 <body>
-
-<h1> Indiacom 2015 welcomes you! </h1>
-<br/>
-Thank you for signing up.
-
-<br/>
-<br/>
-
-Registration Link
-<br/>
-<a href = "<?php echo HOST.INDIACOM ?>d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://<?php echo HOST.INDIACOM ?>d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
-<br/>
-Thank you!
-
+Dear <?php echo $member_name; ?>,<br/><br/>
+A new version of your paper <strong><?php echo $paper_title; ?></strong> having Paper Code <strong><?php echo $paper_code; ?></strong> has been submitted.<br/><br/>
+<?php
+if($complianceReport)
+{
+?>
+You will find a copy of the new version and the compliance report in the attachments.<br/><br/>
+<?php
+}
+else
+{
+?>
+You will find a copy of the new version in the attachments.<br/><br/>
+<?php
+}
+?>
+Thank You.
 </body>
 </html>

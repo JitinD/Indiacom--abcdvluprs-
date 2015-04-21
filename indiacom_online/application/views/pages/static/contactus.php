@@ -3,10 +3,10 @@
         <?php include('importantdatesPanel.php');?>
     </div>
     <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12 text-justify">
-        <span class="h1 text-theme">Contact Us</span>
+        <span class="h1">Contact Us</span>
         <hr>
-        <div class="row h4">
-            <div class="col-md-12 col-sm-12 col-xs-12 body-text">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
                 <p>All correspondence related to the conference,
                     including registration forms, DDs etc. must be sent  by speed post with the caption &quot;INDIACom-2015&quot;
                     at the top centre of the envelope, to the following address: -</p>
@@ -23,12 +23,12 @@
                 </div>
 
         </div>
-        <div class="row body-text">
+        <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
                 <table class="table table-responsive table-hover">
                     <tr>
                         <td>
-                            <p class="text-theme">For Registration, Payment Status and Accommodation related queries
+                            <p>For Registration, Payment Status and Accommodation related queries
                             <div>
                                 <strong>Shri  Vishal Jain</strong><br>
                                 Publicity Chair, <em>INDIACom-2015</em><br>
@@ -41,7 +41,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <p class="text-theme" style="margin-bottom: 0">For Paper Acceptance Status and Publication related queries
+                            <p style="margin-bottom: 0">For Paper Acceptance Status and Publication related queries
                             <div><b>Smt. Ritika Wason</b><br/>
                                 Publication Co-chair, <em>INDIACom-2015</em><br/>
                                 Tel.: +91-11-25275055<br/>
@@ -53,7 +53,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <p class="text-theme" style="margin-bottom: 0">For Paper Submission related queries
+                            <p style="margin-bottom: 0">For Paper Submission related queries
                             <div><b>Smt. Shalini Singh Jaspal</b><br/>
                                 Web Administration Chair, <em>INDIACom-2015</em><br/>
                                 Tel.: +91-11-25275055<br/>
@@ -64,7 +64,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <p class="text-theme" style="margin-bottom: 0">For Conference Organization related queries
+                            <p style="margin-bottom: 0">For Conference Organization related queries
                             <div><b>Smt. Anukiran Jain </b><br/>
                                 Local Organizing Chair, <em>INDIACom-2015</em><br/>
                                 Tel.: +91-11-25275055<br>

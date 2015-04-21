@@ -20,7 +20,7 @@ class MainController extends CI_Controller
         $this->load->model('indiacom_news_model');
         require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
+        if ( ! file_exists(APPPATH.'views/pages/static/'.$page.'.php'))
         {
             show_404();
         }
@@ -35,7 +35,7 @@ class MainController extends CI_Controller
         $data['nonStickyNews'] = $this->indiacom_news_model->getPublishedNonStickyNews();
         $data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $data);
-        $this->load->view('pages/'.$page, $data);
+        $this->load->view('pages/static/'.$page, $data);
         $this->load->view('templates/footer');
     }
 }

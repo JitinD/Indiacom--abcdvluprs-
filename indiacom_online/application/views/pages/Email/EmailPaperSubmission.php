@@ -7,23 +7,11 @@
  */
 ?>
 <html>
-    <head>
-    </head>
-
-    <body>
-
-        <h1> Indiacom 2015 welcomes you! </h1>
-        <br/>
-        Thank you for signing up.
-
-        <br/>
-        <br/>
-
-        Registration Link
-<br/>
-        <a href = "<?php echo HOST.INDIACOM ?>d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://<?php echo HOST.INDIACOM ?>d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
-<br/>
-Thank you!
-
+<body>
+    Dear <?php echo $member_name; ?>,<br/><br/>
+    Your paper <strong><?php echo $paper_title; ?></strong> has been submitted.<br/><br/>
+    Paper Code for this paper is <strong><?php echo $paper_code; ?></strong><br/><br/>
+    You will find a copy of your paper in the attachments.<br/><br/>
+    Thank You.
 </body>
 </html>

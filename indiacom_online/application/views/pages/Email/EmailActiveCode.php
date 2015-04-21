@@ -14,19 +14,18 @@
     </head>
 
     <body>
-
-        <h1> Indiacom 2015 welcomes you! </h1>
+        <h1> BVICAM welcomes you! </h1>
         <br/>
         Thank you for signing up.
 
         <br/>
         <br/>
 
-        Registration Link
+        To confirm your registration please click on the following link.
         <br/>
         <a href = "<?php echo HOST.INDIACOM ?>d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://<?php echo HOST.INDIACOM ?>d/Registration/EnterPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
-        <br/>
-        Thank you!
-
+        <br/><br/>
+        If you are not able to click on the above link just copy the link and paste it in the address bar of your browser.<br/><br/>
+        Thank you
     </body>
 </html>

@@ -20,37 +20,19 @@
             $this->load->helper(array('form', 'url'));
         }
 
-        private function sendMail($email_id, $message)
+        private function sendMail($email_id, $message, $attachments = array())
         {
-            /*$config = array(
-                'protocol' => 'mail',
-                'smtp_host' => 'p3plcpnl0820.prod.phx3.secureserver.net',
-                'smtp_port' => 465,
-                'smtp_user' => 'info@bvicam.org',
-                'smtp_pass' => 'CPAcc#4012',
-                'charset'   => 'utf-8',
-                'wordwrap'  => true,
-                'wrapchars' => 50
-            );*/
-
-            $config = array(
-                'protocol' => 'smtp',
-                'smtp_host' => 'ssl://smtp.gmail.com',
-                'smtp_port' => 465,
-                'smtp_user' => 'indiacom15@gmail.com',
-                'smtp_pass' => '!nd!@c0m',
-                'charset'   => 'utf-8',
-                'wordwrap'  => true,
-                'wrapchars' => 50
-            );
-
             $this->load->library('email');
-            $this->email->initialize($config);
 
-            $this->email->from('conference@bvicam.ac.in', 'CSI 2015');
+            $this->email->from('conference@bvicam.ac.in', 'Indiacom');
             $this->email->to($email_id);
-            $this->email->subject('CSI Paper Review');
+            $this->email->reply_to("conference@bvicam.ac.in");
+            $this->email->subject('Indiacom Paper Review');
             $this->email->message($message);
+            foreach($attachments as $attachment)
+            {
+                $this->email->attach($attachment);
+            }
 
             if($this->email->send())
                 return true;
@@ -149,22 +131,18 @@
             $this->data['eventDetails'] = $this->event_model->getEventDetails($this->data['trackDetails']->track_event_id);
             $this->data['submissions'] = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $this->data['paperVersionDetails']->paper_id);
             $this->load->library('form_validation');
-
             $this->form_validation->set_rules('event', 'Event','');
-
-
 
             if($this -> input -> post('Form2'))
             {
                 if($this->form_validation->run())
                 {
-                    if(($doc_path = $comments_url=$this->uploadComments('comments',$this->data['eventDetails']->event_id,$paper_version_id)) == false)
+                    if(($doc_path = $comments_url = $this->uploadComments('comments',$this->data['eventDetails']->event_id,$paper_version_id)) == false)
                     {
-                        die("Yes");
                         $this->data['uploadError'] = $this->upload->display_errors();
                     }
                     else
-                    {die($doc_path);
+                    {
                         $versionDetails = array(
                             "paper_version_comments_path" => $doc_path
                         );
@@ -188,13 +166,11 @@
                             $this -> load -> model('member_model');
                             $this -> load -> model('paper_model');
 
-                            $message =  $this -> load -> view('pages/Email/EmailReview', $this -> data, true);
-
-                            $main_author_id = $this -> paper_model -> getMainAuthor($this->data['paperVersionDetails']->paper_id);
-                            $member_info = $this -> member_model -> getMemberInfo($main_author_id);
+                            $member_info = $this -> member_model -> getMemberInfo($this->data['paperDetails']->paper_contact_author_id);
                             $email_id = $member_info['member_email'];
+                            $message =  $this->getReviewMailMessage($update_data['paper_version_review_result_id'], array("member_name"=>$member_info['member_salutation'].". ".$member_info['member_name'], "paper_title"=>$this->data['paperDetails']->paper_title, "paper_code"=>$this->data['paperDetails']->paper_code));
 
-                            if($this -> sendMail($email_id, $message))
+                            if($message != null && $this -> sendMail($email_id, $message, array(SERVER_ROOT.$doc_path)))
                                 $this -> data['message'] = "success";
                             else
                                 $this -> data['error2'] = "Sorry, there is some problem. Try again later";
@@ -263,6 +239,32 @@
                 $this -> setReviewerAssigned($paper_version_id, 0);
 
             $this->index($page);
+        }
+
+        private function getReviewMailMessage($reviewResultId, $messageData = array())
+        {
+            $this->load->model('review_result_model');
+            $reviewResultDetails = $this->review_result_model->getReviewResultDetails($reviewResultId);
+            switch($reviewResultDetails->review_result_acronym)
+            {
+                case "REJ_IR":
+                    return $this->load->view('pages/Email/EmailReview_REJ_IR', $messageData, true);
+                case "REV_IR":
+                    return $this->load->view('pages/Email/EmailReview_REV_IR', $messageData, true);
+                case "SENT_DR":
+                    return $this->load->view('pages/Email/EmailReview_SENT_DR', $messageData, true);
+                case "REJ_DR":
+                    return $this->load->view('pages/Email/EmailReview_REJ_DR', $messageData, true);
+                case "MIN_DR":
+                    return $this->load->view('pages/Email/EmailReview_MIN_DR', $messageData, true);
+                case "MAJ_DR":
+                    return $this->load->view('pages/Email/EmailReview_MAJ_DR', $messageData, true);
+                case "ACC_DR":
+                    return $this->load->view('pages/Email/EmailReview_ACC_DR', $messageData, true);
+                default:
+                    break;
+            }
+            return null;
         }
     }
 ?>

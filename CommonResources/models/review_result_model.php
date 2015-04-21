@@ -37,5 +37,17 @@ class Review_result_model extends CI_Model
             return $query -> result();
     }
 
+    public function getReviewResultDetails($reviewResultId)
+    {
+        $sql = "
+        Select *
+        From review_result_master
+        Where review_result_id = ?";
 
+        $query = $this->db->query($sql, array($reviewResultId));
+        if($query->num_rows() == 1)
+            return $query->row();
+        else
+            return null;
+    }
 }

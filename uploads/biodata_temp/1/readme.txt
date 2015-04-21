@@ -1,1 +1,0 @@
-This folder contains bio datas of members.
