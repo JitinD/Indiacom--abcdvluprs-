@@ -120,7 +120,7 @@
                                 ?>
                                     <tr>
                                         <td  colspan="10">
-                                            <a href="/<?php echo INDIACOM; ?>Dashboard/submitPaperRevision/<?php echo $paperDetails->paper_id; ?>">Add new version</a>
+                                            <a href="/<?php echo BASEURL; ?>Dashboard/submitPaperRevision/<?php echo $paperDetails->paper_id; ?>">Add new version</a>
                                         </td>
                                     </tr>
                                 <?php

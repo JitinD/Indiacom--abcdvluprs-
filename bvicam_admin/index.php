@@ -19,26 +19,18 @@
  *
  */
     session_start();
-    define('HOST', 'localhost/');
+    require_once("../global_config/config.php");
     define('BASEURL', 'Indiacom2015/bvicam_admin/');
-    define('INDIACOM', 'Indiacom2015/bvicam_admin/');
-    define('DBGROUP', 'default');
-
-    /*define('HOST', 'bvicam.org/');
-    define('BASEURL', 'indiacom2015/bvicam_admin/');
-    define('INDIACOM', 'indiacom2015/bvicam_admin/');
-    define('DBGROUP', 'OnlineTest');*/
-
 
     define('DEFAULT_ROLE', 30);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
     define('APPID', '2a');
+
     require_once('application/config/database.php');
+
     if(!isset($_SESSION[APPID]['dbUserName']))
     {
-       /* $_SESSION[APPID]['dbUserName'] = 'root';
-        $_SESSION[APPID]['dbPassword'] = '';*/
         $_SESSION[APPID]['dbUserName'] = $db[$active_group]['username'];
         $_SESSION[APPID]['dbPassword'] = $db[$active_group]['password'];
         $_SESSION[APPID]['current_role_id'] = 30;
@@ -238,3 +230,8 @@ require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
+?>
+
+<script>
+    var baseurl = <?php echo BASEURL; ?>;
+</script>

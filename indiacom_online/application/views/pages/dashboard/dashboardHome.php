@@ -41,7 +41,7 @@
 <!--                            <tr>-->
 <!--                                <td colspan="5">-->
 <!--                                    You haven't submitted any papers yet. <a-->
-<!--                                        href="/--><?php //echo INDIACOM; ?><!--Dashboard/submitPaper">Click here</a> to submit a-->
+<!--                                        href="/--><?php //echo BASEURL; ?><!--Dashboard/submitPaper">Click here</a> to submit a-->
 <!--                                    new paper.-->
 <!--                                </td>-->
 <!--                            </tr>-->
@@ -52,7 +52,7 @@
 //                        foreach ($papers[$event->event_id] as $index => $paper) {
 //                            ?>
 <!--                            <tr style="cursor: pointer;"-->
-<!--                                href="/--><?php //echo INDIACOM; ?><!--Dashboard/paperInfo/--><?php //echo $paper->paper_id; ?><!--">-->
+<!--                                href="/--><?php //echo BASEURL; ?><!--Dashboard/paperInfo/--><?php //echo $paper->paper_id; ?><!--">-->
 <!--                                <td>--><?php //echo $index + 1; ?><!--</td>-->
 <!--                                <td>--><?php //echo $paper->paper_code; ?><!--</td>-->
 <!--                                <td>--><?php //echo $paper->paper_title; ?><!--</td>-->
@@ -110,7 +110,7 @@
                     <tr>
                         <td colspan="5">
                             You haven't submitted any papers yet. <a
-                                href="/<?php echo INDIACOM; ?>Dashboard/submitPaper">Click
+                                href="/<?php echo BASEURL; ?>Dashboard/submitPaper">Click
                                 here</a> to submit a new paper.
                         </td>
                     </tr>
@@ -121,7 +121,7 @@
                 foreach ($papers[$event->event_id] as $index => $paper) {
                     ?>
                     <tr style="cursor: pointer;"
-                        href="/<?php echo INDIACOM; ?>Dashboard/paperInfo/<?php echo $paper->paper_id; ?>">
+                        href="/<?php echo BASEURL; ?>Dashboard/paperInfo/<?php echo $paper->paper_id; ?>">
                         <td><?php echo $index + 1; ?></td>
                         <td><?php echo $paper->paper_code; ?></td>
                         <td><?php echo $paper->paper_title; ?></td>
@@ -152,7 +152,7 @@
 </div>
 <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
     <h3 class="text-theme">Profile
-        <a href="/<?php echo INDIACOM; ?>Dashboard/editProfile" class="btn btn-sm btn-success"><span
+        <a href="/<?php echo BASEURL; ?>Dashboard/editProfile" class="btn btn-sm btn-success"><span
                 class="glyphicon glyphicon-pencil"></span></a>
     </h3>
     <table class="table table-hover table-responsive table-striped">

@@ -21,7 +21,7 @@ function SetActiveNavItem($navItem, $page)
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/<?php echo INDIACOM; ?>index">
+        <a class="navbar-brand" href="/<?php echo BASEURL; ?>index">
             &nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;</a>
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse">
@@ -122,7 +122,7 @@ function SetActiveNavItem($navItem, $page)
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/<?php echo INDIACOM; ?>index">
+        <a class="navbar-brand" href="/<?php echo BASEURL; ?>index">
             &nbsp;<span class="glyphicon glyphicon-home"></span>&nbsp;</a>
     </div>
     <div class="collapse navbar-collapse" id="navbar-collapse">

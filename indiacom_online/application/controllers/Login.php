@@ -25,7 +25,7 @@ class Login extends CI_Controller
             unset($_SESSION['isFormError']);
             unset($_SESSION['usernameError']);
             unset($_SESSION['passwordError']);
-            header('Location: /' . INDIACOM . 'Dashboard/home');
+            header('Location: /' . BASEURL . 'Dashboard/home');
         }
         else
         {
@@ -65,7 +65,7 @@ class Login extends CI_Controller
         $_SESSION[APPID]['dbPassword'] = '1234';*/
         $this->load->model('login_model');
         $this->login_model->logout();
-        header('location: /' . INDIACOM . 'index');
+        header('location: /' . BASEURL . 'index');
     }
 
 }

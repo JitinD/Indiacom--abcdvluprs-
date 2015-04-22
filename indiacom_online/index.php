@@ -19,25 +19,18 @@
  *
  */
     session_start();
-    define('HOST', 'localhost/');
+    require_once("../global_config/config.php");
     define('BASEURL', 'Indiacom2015/indiacom_online/');
-    define('INDIACOM', 'Indiacom2015/indiacom_online/');
-    define('DBGROUP', 'default');
-
-    /*define('HOST', 'bvicam.org/');
-    define('BASEURL', 'indiacom2015/indiacom_online/');
-    define('INDIACOM', 'indiacom2015/indiacom_online/');
-    define('DBGROUP', 'OnlineTest');*/
 
     define('DEFAULT_ROLE', 31);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
     define('APPID', '1a');
+
     require_once('application/config/database.php');
+
     if(!isset($_SESSION[APPID]['dbUserName']))
     {
-        /*$_SESSION[APPID]['dbUserName'] = 'root';
-        $_SESSION[APPID]['dbPassword'] = '';*/
         $_SESSION[APPID]['dbUserName'] = $db[$active_group]['username'];
         $_SESSION[APPID]['dbPassword'] = $db[$active_group]['password'];
         $_SESSION[APPID]['current_role_id'] = 31;
@@ -219,7 +212,7 @@ if (defined('ENVIRONMENT'))
 		define('APPPATH', BASEPATH.$application_folder.'/');
 	}
 
-    define('PATH', INDIACOM.APPPATH);
+    define('PATH', BASEURL.APPPATH);
 
 /*
  * --------------------------------------------------------------------

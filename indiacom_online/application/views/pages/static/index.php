@@ -105,7 +105,7 @@
             <?php
             }
             ?>
-            <a class="btn btn-default btn-block" href="/<?php echo INDIACOM; ?>News/load">All News &raquo;</a>
+            <a class="btn btn-default btn-block" href="/<?php echo BASEURL; ?>News/load">All News &raquo;</a>
         </ul>
     </div>
 

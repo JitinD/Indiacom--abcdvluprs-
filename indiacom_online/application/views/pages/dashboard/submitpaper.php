@@ -161,7 +161,7 @@
             $('#subjects').prop('disabled', true);
             $.ajax({
                 type: "POST",
-                url: "/<?php echo INDIACOM; ?>d/AJAX/tracks",
+                url: "/<?php echo BASEURL; ?>d/AJAX/tracks",
                 data: "eventId="+optionSelected.val(),
                 success: function(msg){
                     if(msg != 0)
@@ -185,7 +185,7 @@
             $('#subjects').prop('disabled', true);
             $.ajax({
                 type: "POST",
-                url: "/<?php echo INDIACOM; ?>d/AJAX/subjects",
+                url: "/<?php echo BASEURL; ?>d/AJAX/subjects",
                 data: "trackId="+optionSelected.val(),
                 success: function(msg){
                     if(msg != 0)

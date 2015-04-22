@@ -35,7 +35,7 @@
                                     ?>
                                     <tr>
                                         <td colspan="5">
-                                            You haven't submitted any papers yet. <a href="/<?php echo INDIACOM; ?>Dashboard/submitPaper">Click here</a> to submit a new paper.
+                                            You haven't submitted any papers yet. <a href="/<?php echo BASEURL; ?>Dashboard/submitPaper">Click here</a> to submit a new paper.
                                         </td>
                                     </tr>
                                 <?php

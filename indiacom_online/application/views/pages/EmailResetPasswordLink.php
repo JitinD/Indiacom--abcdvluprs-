@@ -24,7 +24,7 @@ Thank you for signing up.
 
 Reset password link
 <br/>
-<a href = "<?php echo HOST.INDIACOM ?>/d/Dashboard/ResetPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://<?php echo HOST.INDIACOM ?>/d/Dashboard/ResetPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
+<a href = "<?php echo HOST.BASEURL; ?>/d/Dashboard/ResetPassword/<?php echo $member_id?>/<?php echo $activation_code ?>">http://<?php echo HOST.BASEURL; ?>/d/Dashboard/ResetPassword/<?php echo $member_id?>/<?php echo $activation_code ?></a>
 <br/>
 Thank you!
 

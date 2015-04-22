@@ -19,7 +19,7 @@
             <hr>
             | Developed By <a href="#">Software Consultancy and Development Cell</a>
             &copy <?php date_default_timezone_set('Asia/Kolkata');
-            echo date('Y') ?> BVICAM | <a href="/<?php echo INDIACOM; ?>developers">Developers</a> |
+            echo date('Y') ?> BVICAM | <a href="/<?php echo BASEURL; ?>developers">Developers</a> |
         </div>
     </div>
 </div>

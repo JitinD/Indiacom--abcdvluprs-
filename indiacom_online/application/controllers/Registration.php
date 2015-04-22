@@ -309,7 +309,8 @@ class Registration extends CI_Controller
             $this -> load -> helper('captcha');
             $this -> load -> helper('url');
 
-            $captcha_path = dirname(__FILE__)."/../../../CommonResources/assets/captcha/";
+            //$captcha_path = dirname(__FILE__)."/../../../CommonResources/assets/captcha/";
+            $captcha_path = SERVER_ROOT . BASEURL . "../CommonResources/assets/captcha/";
 
             $str = array_merge(range(1,9), range('a','z'), range('A', 'Z'));
             $str = implode("", $str);
@@ -319,8 +320,8 @@ class Registration extends CI_Controller
             (
                 'word' => $word,
                 'img_path' => $captcha_path,
-                'img_url' => base_url() . '../CommonResources/assets/captcha/',
-                'font_path' => base_url() . '../CommonResources/assets/fonts/impact.ttf',
+                'img_url' => "http://" . HOST . BASEURL . '../CommonResources/assets/captcha/',
+                'font_path' => "http://" . HOST . BASEURL . '../CommonResources/assets/fonts/impact.ttf',
                 'img_width' => '200',
                 'img_height' => 40,
                 'expiration' => 3600
@@ -417,6 +418,7 @@ class Registration extends CI_Controller
             }
 
             $page = "registrationSuccess";
+            $this->data['member_id'] = $member_info['member_id'];
         }
         $this->index($page);
         $this->login_model->logout();

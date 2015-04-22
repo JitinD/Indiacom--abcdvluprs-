@@ -48,7 +48,7 @@ class ReportManager extends CI_Controller
     public function downloadReport()
     {
         $this->load-> helper ('download');
-        $data=file_get_contents(SERVER_ROOT.INDIACOM.'reports/report.csv');
+        $data=file_get_contents(SERVER_ROOT.BASEURL.'reports/report.csv');
         $name = date("Y/m/d").".csv";
         force_download ($name, $data);
 

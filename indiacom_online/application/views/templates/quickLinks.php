@@ -12,26 +12,26 @@
         <ul class="list-inline">
             <span class="h4 text-muted">Quick Links &raquo;</span
             <li>
-                <a href="/<?php echo INDIACOM; ?>callForPapers">Call For Papers</a>
+                <a href="/<?php echo BASEURL; ?>callForPapers">Call For Papers</a>
             </li>
             <li>
-                <strong><a href="/<?php echo INDIACOM; ?>specialSessions">Special Sessions</a></strong>
+                <strong><a href="/<?php echo BASEURL; ?>specialSessions">Special Sessions</a></strong>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>importantdates">Important Dates</a>
+                <a href="/<?php echo BASEURL; ?>importantdates">Important Dates</a>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>reachingBVICAM">Reaching BVICAM</a>
+                <a href="/<?php echo BASEURL; ?>reachingBVICAM">Reaching BVICAM</a>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>accomodation">Accomodation</a>
+                <a href="/<?php echo BASEURL; ?>accomodation">Accomodation</a>
             </li>
             <?php
             if ( !isset($_SESSION[APPID]['member_id']) )
             {
             ?>
             <li>
-                <a href="/<?php echo INDIACOM; ?>d/Registration/signUp">Register</a>
+                <a href="/<?php echo BASEURL; ?>d/Registration/signUp">Register</a>
             </li>
             <?php
             }
