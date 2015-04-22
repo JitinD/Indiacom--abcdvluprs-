@@ -1,5 +1,5 @@
 <div class="row contentBlock-top">
-    <div class="col-md-4 col-sm-12 col-xs-12 text-center">
+    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
         <span class="text-theme h2">Sponsors</span>
         <br>
         <img src="/<?php echo PATH ?>assets/images/sponsors/csi-gjlogo.jpg" class="sponsorImage">
@@ -11,7 +11,7 @@
              style="width: 150px; height: 70px;">
 
     </div>
-    <div class="col-md-5 col-sm-6 col-xs-12">
+    <div class="col-md-6 col-sm-6 col-xs-12">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="2000">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -83,7 +83,7 @@
             </a>
         </div>
     </div>
-    <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+    <div class="col-md-6 col-sm-6 col-xs-12 text-center">
         <span class="text-theme h2">News</span>
         <br>
         <ul class="list-group text-left h5">

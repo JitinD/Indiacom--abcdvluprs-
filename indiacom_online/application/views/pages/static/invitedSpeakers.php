@@ -12,7 +12,7 @@
 
                     <tr>
                         <td valign="top" height="187">
-                            <img width="118" src="images/aashish banati.jpg" height="116"/></td>
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/aashish banati.jpg" height="116"/></td>
                         <td class="generalTxt" height="187" valign="top"><strong>Mr. Aashish Banati </strong>is
                             currently working as
                             Director/Scientist "F" at STQC IT – Delhi Centre, Department of Electronics and Information
@@ -33,7 +33,7 @@
 
                     <tr>
                         <td valign="top" height="171">
-                            <img width="118" src="images/Prof. A. Q. Ansari.jpg" height="116"/></td>
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Prof. A. Q. Ansari.jpg" height="116"/></td>
                         <td class="generalTxt" height="171" valign="top"><b>Prof. Abdul Quaiyum Ansari</b> is a
                             Professor in the Department of Electrical Engineering at Jamia Millia Islamia, New Delhi
                             (INDIA), since 18<sup>th</sup> August 2000. Prof. Ansari is a Fellow of the Institution of
@@ -52,7 +52,7 @@
 
                     <tr>
                         <td valign="top" height="127">
-                            <img width="118" src="images/Alok Vijayant.jpg" height="116"/></td>
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Alok Vijayant.jpg" height="116"/></td>
                         <td class="generalTxt" height="127" valign="top"><b>Mr. Alok Vijayant</b> is Director (IDG),
                             Office of NSA
                             (PMO), Govt. of India. He served RBI for 14 years in various capacities.
@@ -68,7 +68,7 @@
 
                     <tr>
                         <td valign="top" height="155">
-                            <img width="118" src="images/Prof.%20B.%20S.%20Chowdhry.jpg" height="118"/></td>
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20B.%20S.%20Chowdhry.jpg" height="118"/></td>
                         <td class="generalTxt" height="155" valign="top"><b>Prof. B. S. Chowdhry</b> is Dean, Faculty of
                             Electrical Electronics and Computer Engineering and has been serving as
 
@@ -83,7 +83,7 @@
 
                     <tr>
                         <td valign="top" height="155">
-                            <img src="images/Prof.%20B.%20N.%20Mishra.jpg"/></td>
+                            <img src="/<?php echo PATH ?>assets/images/speakers/Prof.%20B.%20N.%20Mishra.jpg"/></td>
                         <td class="generalTxt" height="155" valign="top"><b>Prof. B. N. Mishra</b>
                             is Dean, Faculty of Technology and Chairman, Board of Research Studies,
                             University of Delhi, he facilitated research programs leading to degree
@@ -98,7 +98,7 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="images/Dr.%20Brejesh%20Lall.jpg" height="137"/></td>
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/Dr.%20Brejesh%20Lall.jpg" height="137"/></td>
                         <td class="generalTxt" height="148" valign="top">
                             <b>Dr. Brejesh Lall</b> is an Associate Professor in IIT Delhi. His
                             research Areas include Multiscale Modeling of Stochastic Processing,
@@ -113,7 +113,7 @@
 
                     <tr>
                         <td valign="top" height="146">
-                            <img width="115" src="images/Prof.%20D.%20K.%20Bandyopadhyay.jpg" height="148"/></td>
+                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20D.%20K.%20Bandyopadhyay.jpg" height="148"/></td>
                         <td class="generalTxt" height="146" valign="top"><b>Prof. D. K.
                                 Bandyopadhyay</b> is a visionary leader in India's Management Education
                             community in modern times. He is a Fellow of the All India Management
@@ -146,7 +146,7 @@
                     -->
                     <tr>
                         <td valign="top" height="157">
-                            <img width="116" src="images/Prof.%20Kishor%20S.%20Trivedi.jpg" height="112"/></td>
+                            <img width="116" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Kishor%20S.%20Trivedi.jpg" height="112"/></td>
                         <td class="generalTxt" height="157" valign="top">
                             <b>Prof. Kishor S. Trivedi </b>holds the
                             Hudson Chair in the Department of Electrical and Computer Engineering at
@@ -161,7 +161,7 @@
 
                     <tr>
                         <td valign="top" height="134">
-                            <img width="115" src="images/Prof.%20k.%20K.%20Aggarwal.jpg" height="142"/></td>
+                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20k.%20K.%20Aggarwal.jpg" height="142"/></td>
                         <td class="generalTxt" height="134" valign="top"><b>Prof. K. K. Aggarwal</b>
                             was the founder Vice Chancellor Guru Gobind singh Indraprastha
                             Univeristy, New Delhi (INDIA) for two terms. He is presently the Chancellor of Lingaya's
@@ -177,7 +177,7 @@
 
                     <tr>
                         <td valign="top" height="147">
-                            <img width="115" src="images/Prof.%20M.%20N.%20Doja.jpg" height="113"/></td>
+                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20M.%20N.%20Doja.jpg" height="113"/></td>
                         <td class="generalTxt" height="147" valign="top">
                             <b>Prof. M. N. Doja</b> is a national level
                             quality evaluator for NACC and NBA. He has been the chairman /member of
@@ -196,7 +196,7 @@
 
                     <tr>
                         <td valign="top" height="134">
-                            <img width="115" src="images/Prof.%20M.%20P.%20Gupta.jpg" height="131"/></td>
+                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20M.%20P.%20Gupta.jpg" height="131"/></td>
                         <td class="generalTxt" height="134" valign="top">
                             <b>Prof. M. P. Gupta </b>is a Professor
                             at the Department of Management Studies, IIT Delhi, New Delhi (INDIA).
@@ -211,7 +211,7 @@
 
                     <tr>
                         <td valign="top" height="151">
-                            <img width="112" src="images/Prof.%20Mirza%20Salim%20Beg.jpg" height="111"/></td>
+                            <img width="112" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Mirza%20Salim%20Beg.jpg" height="111"/></td>
                         <td class="generalTxt" height="151" valign="top">
                             <b>Prof. M. Salim Beg </b>is a Professor at
                             the Department of Electrinics Engineering, AMU, Aligarh (INDIA). He
@@ -227,7 +227,7 @@
 
                     <tr>
                         <td valign="top" height="146">
-                            <img width="118" src="images/Prof. Hamada.jpg" height="116"/></td>
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Prof. Hamada.jpg" height="116"/></td>
                         <td class="generalTxt" height="146" valign="top"><b>Prof. Mohamed Hamada</b> is a professor in
                             the Computer
                             Science Department, University of Aizu, Japan. His research interested include Artificial
@@ -242,7 +242,7 @@
 
                     <tr>
                         <td valign="top" height="142">
-                            <img width="116" src="images/Prof.%20O.%20P.%20Vyas.jpg" height="120"/></td>
+                            <img width="116" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20O.%20P.%20Vyas.jpg" height="120"/></td>
                         <td class="generalTxt" height="142" valign="top">
                             <b>Prof. O. P. Vyas</b> is a Professor at
                             IIIT Allahbad, Allahbad (INDIA). He has pursued M.Tech. in Computer
@@ -257,7 +257,7 @@
 
                     <tr>
                         <td valign="top" height="185">
-                            <img width="118" src="images/Om Vyas.jpg" height="116"/></td>
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Om Vyas.jpg" height="116"/></td>
                         <td class="generalTxt" height="185" valign="top"><b>Dr. Om Vikas</b>
                             possesses B Tech(EE), M Tech(EE), Ph.D.(CSE) all from IIT, Kanpur. He was formerly
                             Director/VC, ABV-IIITM
@@ -279,7 +279,7 @@
 
                     <tr>
                         <td valign="top" height="185">
-                            <img width="118" src="images/Rajat M Nag.jpg" height="116"/></td>
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Rajat M Nag.jpg" height="116"/></td>
                         <td class="generalTxt" height="185" valign="top"><b>Mr. Rajat M. Nag</b> holds engineering
                             degrees from the
                             Indian Institute of Technology, Delhi
@@ -302,7 +302,7 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="images/Prof. Sayed Hyder Abbas Musavi.jpg" height="137"/></td>
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/Prof. Sayed Hyder Abbas Musavi.jpg" height="137"/></td>
                         <td class="generalTxt" height="148" valign="top">
                             <b>Prof. Sayed Hyder Abbas Musavi</b> is PhD and ME in Telecommunication Engineering under
                             HEC Scholarship
@@ -323,7 +323,7 @@
 
                     <tr>
                         <td valign="top" height="159">
-                            <img width="115" src="images/Prof.%20S.%20V.%20Raghavan.jpg" height="137"/></td>
+                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20S.%20V.%20Raghavan.jpg" height="137"/></td>
                         <td class="generalTxt" height="159" valign="top">
                             <b>Prof. S. V. Raghavan </b>is the
                             Scientific Secretary in the Office of the Principal Scientific Adviser
@@ -339,7 +339,7 @@
 
                     <tr>
                         <td valign="top" height="155">
-                            <img width="112" src="images/Prof.%20Shiban%20K.%20Koul.jpg" height="143"/></td>
+                            <img width="112" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Shiban%20K.%20Koul.jpg" height="143"/></td>
                         <td class="generalTxt" height="155" valign="top">
                             <b>Prof. Shiban K Koul </b>is a Professor
                             and Deputy Director (Strategy and Planning) at Indian Institute of
@@ -358,7 +358,7 @@
 
                     <tr>
                         <td valign="top" height="134">
-                            <img width="112" src="images/Prof.%20Steven%20Guan.jpg" height="118"/></td>
+                            <img width="112" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Steven%20Guan.jpg" height="118"/></td>
                         <td class="generalTxt" height="134" valign="top">
                             <b>Prof. Steven Sheng-Uei Guan </b>is a
                             Professor in the computer science and software engineering department at
@@ -374,7 +374,7 @@
 
                     <tr>
                         <td valign="top" height="183">
-                            <img width="108" src="images/Prof.%20Subramaniam%20Ganesan.jpg" height="127"/></td>
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Subramaniam%20Ganesan.jpg" height="127"/></td>
                         <td class="generalTxt" height="183" valign="top">
                             <b>Prof. Subramaniam Ganesan</b> is a
                             Professor of Electrical and Computer Engineering, Oakland University,
@@ -391,7 +391,7 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="images/balasundram.jpg" height="137"/></td>
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/balasundram.jpg" height="137"/></td>
                         <td class="generalTxt" height="148" valign="top">
                             <b>Prof. S. Balasundaram</b> is a Professor in the School of Computer &amp;
                             Systems Sciences at Jawaharlal Nehru University, New Delhi.
@@ -403,7 +403,7 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="images/vikas.jpg" height="137"/></td>
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/vikas.jpg" height="137"/></td>
                         <td class="generalTxt" height="148" valign="top">
                             <b>Mr. Vikas </b>is a B.Tech from IIT Delhi with over 15 year of
                             professional experience &amp; is now a successful enterprenuer having have
@@ -419,7 +419,7 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="images/vijay vaishnavi.jpg" height="137"/></td>
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/vijay vaishnavi.jpg" height="137"/></td>
                         <td class="generalTxt" height="148" valign="top">
                             <b>Dr. Vijay Vaishnavi</b> is Emeritus Board of Advisors Professor of Computer Information
                             Systems and
