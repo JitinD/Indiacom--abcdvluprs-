@@ -59,7 +59,7 @@ function SetActiveNavItem($navItem, $page)
                         ?>
                         <li><a href="/<?php echo BASEURL; ?>proceduralGuidelines">Paper Submission Guidelines</a></li>
                         <li><a href="#">Paper Formatting Guidelines</a></li>
-                        <li><a href="#">Payment Modes</a></li>
+                        <li><a href="/<?php echo BASEURL; ?>paymentModes">Payment Modes</a></li>
                     </ul>
                 </li>
                 <!--                <li class="-->

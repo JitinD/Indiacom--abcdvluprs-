@@ -6,7 +6,7 @@
     <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
         <span class="h1 text-theme">Procedural Guidelines</span>
         <hr>
-        <div class="row body-text">
+        <div class="row">
             <div class="col-md-12">
                 <p>Welcome to INDIACom. In order to submit a paper through this website, you
                     would need to follow a simple 3-step procedure listed below.</p>

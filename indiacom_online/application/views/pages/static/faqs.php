@@ -7,7 +7,7 @@
         <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
             <span class="h1 text-theme">Frequently Asked Questions</span>
             <hr>
-            <div class="row body-text text-justify">
+            <div class="row text-justify">
                 <div class="col-md-12">
                     <div class="panel-group" id="accordion">
                         <div class="panel panel-default">
@@ -130,108 +130,6 @@
                                     <p>
                                         Click on the <a href="retrievePassword.asp">Forgot Your Password</a></font>
                                         link that appears on the login page
-
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#q1">
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="q1" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <p>
-
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#q1">
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="q1" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <p>
-
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#q1">
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="q1" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <p>
-
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#q1">
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="q1" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <p>
-
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#q1">
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="q1" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <p>
-
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h4 class="panel-title">
-                                    <a data-toggle="collapse" data-parent="#accordion" href="#q1">
-                                    </a>
-                                </h4>
-                            </div>
-                            <div id="q1" class="panel-collapse collapse">
-                                <div class="panel-body">
-                                    <p>
 
                                     </p>
                                 </div>
