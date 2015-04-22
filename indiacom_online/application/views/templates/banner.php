@@ -27,10 +27,10 @@
 <div class="container-fluid visible-xs topBlock">
     <div class="row ">
         <div class="col-xs-6">
-            <img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive">
+            <a href="http://bvicam.in/"><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive"></a>
         </div>
         <div class="col-xs-6">
-            <img src="/<?php echo PATH ?>assets/images/sponsors/ieee.png" class="img-responsive">
+            <a href="http://www.ewh.ieee.org/r10/delhi/"><img src="/<?php echo PATH ?>assets/images/sponsors/ieee.png" class="img-responsive"></a>
         </div>
     </div>
     <div class="col-xs-12 heroHeading text-center">
@@ -62,8 +62,9 @@
 <div class="container-fluid hidden-xs">
     <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-            <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage">
-            </center>
+            <a href="http://bvicam.in/">
+                <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage"></center>
+            </a>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 text-center">
             <h1>INDIACom - 2016</h1>
@@ -89,7 +90,9 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-            <center><img src="/<?php echo PATH ?>assets/images/sponsors/ieee.png" class="sponsorImage"></center>
+            <a href="http://www.ewh.ieee.org/r10/delhi/">
+                <center><img src="/<?php echo PATH ?>assets/images/sponsors/ieee.png" class="sponsorImage"></center>
+            </a>
         </div>
     </div>
 </div>
