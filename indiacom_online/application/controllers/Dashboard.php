@@ -116,19 +116,6 @@ class Dashboard extends CI_Controller
         return UPLOAD_PATH . $eventId . "/" . COMPLIANCE_REPORT_FOLDER . $config['file_name'] . $uploadData['file_ext'];
     }
 
-    public function submitPaper()
-    {
-        $this->load->model('event_model');
-        $this->load->helper('url');
-        $page = 'submitpaper';
-        $this->data['events'] = $this->event_model->getAllActiveEvents();
-
-        if($this->submitPaperSubmitHandle($paperId))
-                redirect('Dashboard/paperInfo/'.$paperId);
-
-        $this->index($page);
-    }
-
     private function sendMail($email_id, $message, $attachments = array())
     {
         $this->load->library('email');
@@ -147,6 +134,22 @@ class Dashboard extends CI_Controller
             return true;
 
         return false;
+    }
+
+    public function submitPaper()
+    {
+        $this->load->model('event_model');
+        $this->load->helper('url');
+        $page = 'submitpaper';
+        $this->data['events'] = $this->event_model->getAllActiveEvents();
+
+        if($this->submitPaperSubmitHandle($paperId))
+        {
+            $_SESSION[APPID]['messages'][] = "Paper added succesfully.";
+            redirect('Dashboard/paperInfo/'.$paperId);
+        }
+
+        $this->index($page);
     }
 
     private function submitPaperSubmitHandle(&$paperId)
@@ -346,7 +349,7 @@ class Dashboard extends CI_Controller
                 }
                 $this->db->trans_start();
                 $this->paper_version_model->addPaperVersion($versionDetails);
-                $page .= "Success";
+                //$page .= "Success";
                 $this->db->trans_complete();
 
                 $member_info = $this -> member_model -> getMemberInfo($paperDetails->paper_contact_author_id);
@@ -358,22 +361,12 @@ class Dashboard extends CI_Controller
                     $this -> data['message'] = "success";
                 else
                     $this -> data['error2'] = "Sorry, there is some problem. Try again later";
-
+                $_SESSION[APPID]['messages'][] = "Paper version added successfully.";
+                redirect('Dashboard/paperInfo/'.$versionDetails['paper_id']);
             }
         }
         $this->index($page);
     }
-    /*public function payment($page)
-    {
-        $this->load->model('payment_model');
-        $this->load->model('paper_model');
-        $this->data['paperDetails']=$this->paper_model->getAllPapers($_SESSION[APPID]['member_id']);
-        $this->data['brcharges']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
-        $this->data['eps']=$this->payment_model->getEPCharges();
-        $this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
-        $this->index($page);
-    }*/
-
 
     public function paperInfo($paperId)
     {
@@ -428,8 +421,12 @@ class Dashboard extends CI_Controller
     private function canSubmitRevision($paperId)
     {
         $this->load->model('paper_version_model');
+        $this->load->model('review_result_model');
         $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
-        if($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
+        $reviewResultDetails = $this->review_result_model->getReviewResultDetails($versionDetails->paper_version_review_result_id);
+        if(($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
+            && ($reviewResultDetails != null && $reviewResultDetails->is_final_review == 1 || $reviewResultDetails == null)
+        )
         {
             return true;
         }

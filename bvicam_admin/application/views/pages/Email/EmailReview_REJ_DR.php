@@ -29,4 +29,5 @@ Tel.: +91 – 11 – 25275055; Fax: +91 – 11 – 25255056<br/>
 E-Mail: conference@bvicam.ac.in  Visit us at: www.bvicam.ac.in/indiacom<br/><br/>
 
 Comments:<br/>
-The consolidated comments, of the Board of Referees (BoR), for your paper, are given hereunder:-
+The consolidated comments, of the Board of Referees (BoR), for your paper, are given hereunder:-<br/>
+<?php echo $comments; ?>

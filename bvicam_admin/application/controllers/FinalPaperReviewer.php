@@ -168,7 +168,15 @@
 
                             $member_info = $this -> member_model -> getMemberInfo($this->data['paperDetails']->paper_contact_author_id);
                             $email_id = $member_info['member_email'];
-                            $message =  $this->getReviewMailMessage($update_data['paper_version_review_result_id'], array("member_name"=>$member_info['member_salutation'].". ".$member_info['member_name'], "paper_title"=>$this->data['paperDetails']->paper_title, "paper_code"=>$this->data['paperDetails']->paper_code));
+                            $message =  $this->getReviewMailMessage(
+                                $update_data['paper_version_review_result_id'],
+                                array(
+                                    "member_name"=>$member_info['member_salutation'].". ".$member_info['member_name'],
+                                    "paper_title"=>$this->data['paperDetails']->paper_title,
+                                    "paper_code"=>$this->data['paperDetails']->paper_code,
+                                    "comments"=>$this->input->post('comments')
+                                )
+                            );
 
                             if($message != null && $this -> sendMail($email_id, $message, array(SERVER_ROOT.$doc_path)))
                                 $this -> data['message'] = "success";

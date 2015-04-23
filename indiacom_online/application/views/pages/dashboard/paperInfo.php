@@ -2,6 +2,23 @@
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <span class="h2 text-theme">Paper Information</span>
+            <?php
+            if(isset($_SESSION[APPID]['messages']))
+            {
+                foreach($_SESSION[APPID]['messages'] as $key=>$message)
+                {
+                ?>
+                    <div class="alert alert-success alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <?php
+                        echo $message;
+                        unset($_SESSION[APPID]['messages'][$key]);
+                        ?>
+                    </div>
+                <?php
+                }
+            }
+            ?>
             <div class="row body-text">
                 <div class="col-md-12 text-center contentBlock-bottom">
                     <span class="h2" style="text-decoration: underline;">Paper: <?php echo $paperDetails->paper_title; ?></span>
