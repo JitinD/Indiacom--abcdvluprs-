@@ -2,12 +2,12 @@
     <div class="col-md-12 col-sm-12 col-xs-12 text-center">
         <span class="text-theme h2">Sponsors</span>
         <br>
-        <a href="http://www.csi-india.org/"><img src="/<?php echo PATH ?>assets/images/sponsors/csi-gjlogo.jpg" class="sponsorImage"></a>
-        <a href="http://www.csi-india.org/"><img src="/<?php echo PATH ?>assets/images/sponsors/csi.jpg" class="sponsorImage"></a>
-        <a href="http://isteonline.in/"><img src="/<?php echo PATH ?>assets/images/sponsors/iste.jpg" class="sponsorImage"></a>
-        <a href="http://www.ipu.ac.in/"><img src="/<?php echo PATH ?>assets/images/sponsors/ipu.jpg" class="sponsorImage"></a>
-        <a href="http://iete.org/"><img src="/<?php echo PATH ?>assets/images/sponsors/iete.png" class="sponsorImage"></a>
-        <a href="http://www.theiet.org/"><img src="/<?php echo PATH ?>assets/images/sponsors/iet.jpg" class="sponsorImage"
+        <a href="http://www.csi-india.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/csi-gjlogo.jpg" class="sponsorImage"></a>
+        <a href="http://www.csi-india.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/csi.jpg" class="sponsorImage"></a>
+        <a href="http://isteonline.in/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iste.jpg" class="sponsorImage"></a>
+        <a href="http://www.ipu.ac.in/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/ipu.jpg" class="sponsorImage"></a>
+        <a href="http://iete.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iete.png" class="sponsorImage"></a>
+        <a href="http://www.theiet.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iet.jpg" class="sponsorImage"
              style="width: 150px; height: 70px;"></a>
 
     </div>

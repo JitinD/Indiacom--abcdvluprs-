@@ -62,7 +62,7 @@
 <div class="container-fluid hidden-xs">
     <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-            <a href="http://bvicam.in/">
+            <a href="http://bvicam.in/" target="_blank">
                 <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage"></center>
             </a>
         </div>
@@ -90,7 +90,7 @@
             </div>
         </div>
         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
-            <a href="http://www.ewh.ieee.org/r10/delhi/">
+            <a href="http://www.ewh.ieee.org/r10/delhi/" target="_blank">
                 <center><img src="/<?php echo PATH ?>assets/images/sponsors/ieee.png" class="sponsorImage"></center>
             </a>
         </div>
