@@ -289,8 +289,9 @@ class Registration extends CI_Controller
                 {
                     $this -> data['member_id'] = $member_id;
                     $this -> data['activation_code'] = $activation_code;
-
-                    $message = $this -> load -> view('pages/Email/EmailActiveCode', $this -> data, true);
+                    $this->load->helper('url');
+                    redirect("Registration/EnterPassword/$member_id/$activation_code");
+                    /*$message = $this -> load -> view('pages/Email/EmailActiveCode', $this -> data, true);
 
                     if($page = $this -> sendMail($this -> input -> post('email'), $message))
                     {
@@ -300,7 +301,7 @@ class Registration extends CI_Controller
                     else
                         $this -> data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
 
-                    $page = "signupSuccess";
+                    $page = "signupSuccess";*/
                 }
             }
         }

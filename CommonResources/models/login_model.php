@@ -71,7 +71,7 @@ class Login_model extends CI_Model
         else
             $encrypted_pass = $this->password;
         $memberInfo = $this->member_model->getMemberInfo($this->username);
-        if($encrypted_pass == $memberInfo['member_password'] && (($memberInfo['member_is_activated']==1) || !$encryption))
+        if($memberInfo != null && $encrypted_pass == $memberInfo['member_password'] && (($memberInfo['member_is_activated']==1) || !$encryption))
         {
             $_SESSION[APPID]['authenticated'] = true;
             if(($_SESSION[APPID]['role_id'] = $this->role_model->getRoleId($roleName)) == false)
