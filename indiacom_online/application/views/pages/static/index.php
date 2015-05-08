@@ -2,16 +2,28 @@
     <div class="col-md-12 col-sm-12 col-xs-12 text-center">
         <span class="text-theme h2">Sponsors</span>
         <br>
-        <a href="http://www.csi-india.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/csi-gjlogo.jpg" class="sponsorImage"></a>
-        <a href="http://www.csi-india.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/csi.jpg" class="sponsorImage"></a>
-        <a href="http://isteonline.in/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iste.jpg" class="sponsorImage"></a>
-        <a href="http://www.ipu.ac.in/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/ipu.jpg" class="sponsorImage"></a>
-        <a href="http://iete.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iete.png" class="sponsorImage"></a>
-        <a href="http://www.theiet.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iet.jpg" class="sponsorImage"
-             style="width: 150px; height: 70px;"></a>
+        <a href="http://www.csi-india.org/" target="_blank"><img
+                src="/<?php echo PATH ?>assets/images/sponsors/csi-gjlogo.jpg" class="sponsorImage"></a>
+        <a href="http://www.csi-india.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/csi.jpg"
+                                                                 class="sponsorImage"></a>
+        <a href="http://isteonline.in/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iste.jpg"
+                                                             class="sponsorImage"></a>
+        <a href="http://www.ipu.ac.in/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/ipu.jpg"
+                                                             class="sponsorImage"></a>
+        <a href="http://iete.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iete.png"
+                                                        class="sponsorImage"></a>
+        <a href="http://www.theiet.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iet.jpg"
+                                                              class="sponsorImage"
+                                                              style="width: 150px; height: 70px;"></a>
 
     </div>
-    <div class="col-md-6 col-sm-6 col-xs-12">
+</div>
+<hr>
+<div class="row">
+
+    <div class="col-md-6 col-sm-6 col-xs-12 text-center">
+        <h2>Pictures</h2>
+
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="2000">
             <!-- Indicators -->
             <ol class="carousel-indicators">
@@ -83,9 +95,10 @@
             </a>
         </div>
     </div>
+
     <div class="col-md-6 col-sm-6 col-xs-12 text-center">
-        <span class="text-theme h2">News</span>
-        <br>
+        <h2>News</h2>
+
         <ul class="list-group text-left h5">
             <?php
             foreach ($stickyNews as $news) {
@@ -105,7 +118,7 @@
             <?php
             }
             ?>
-            <a class="btn btn-default btn-block" href="/<?php echo BASEURL; ?>News/load">All News &raquo;</a>
+            <a class="btn btn-primary btn-block" href="/<?php echo BASEURL; ?>News/load">All News &raquo;</a>
         </ul>
     </div>
 

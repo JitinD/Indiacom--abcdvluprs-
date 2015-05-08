@@ -66,10 +66,10 @@
                 <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage"></center>
             </a>
         </div>
-        <div class="col-lg-8 col-md-6 col-sm-6 col-xs-12 text-center">
+        <div class="col-lg-8 col-md-6 col-sm-6 text-center">
             <h1>INDIACom - 2016</h1>
-            <div class="row heroText">
-                <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="row h4">
+                <div class="col-md-12 col-sm-12">
                     10<sup>th</sup> INDIACom; 2016 3<sup>rd</sup> International Conference on Computing for Sustainable
                     Global Development
                 </div>

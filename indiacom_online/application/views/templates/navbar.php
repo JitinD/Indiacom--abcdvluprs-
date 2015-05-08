@@ -13,7 +13,7 @@ function SetActiveNavItem($navItem, $page)
 }
 
 ?>
-<div class="navbar-default visible-xs navbar-fixed-top" role="navigation">
+<div class="navbar-inverse visible-xs navbar-fixed-top" role="navigation">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
             <span class="sr-only">Toggle navigation</span>
@@ -114,7 +114,7 @@ function SetActiveNavItem($navItem, $page)
         </div>
     </div>
 </div>
-<div class="navbar-default hidden-xs" role="navigation">
+<div class="navbar-inverse hidden-xs" role="navigation">
     <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
             <span class="sr-only">Toggle navigation</span>

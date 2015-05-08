@@ -17,12 +17,12 @@
         <form class="form-horizontal" enctype="multipart/form-data" method="post">
             <div class="form-group">
                 <label for="salutation" class="col-sm-3 control-label">
-                    <span class="glyphicon glyphicon-asterisk text-danger"></span> Salutation</label>
+                    Salutation *</label>
 
                 <div class="col-sm-3">
 
                     <?php
-                    $salutation = array("Mr", "Ms", "Mrs", "Dr", "Prof", "Sir");
+                    $salutation = array("Mr", "Ms", "Mrs", "Dr", "Prof");
                     ?>
 
                     <select id="salutation" name="salutation" class="form-control">
@@ -42,8 +42,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="name" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span> Name</label>
+                <label for="name" class="col-sm-3 control-label">Name *</label>
 
                 <div class="col-sm-9">
                     <input type="text" name="name" maxlength="50" class="form-control"
@@ -55,8 +54,7 @@
             </div>
 
             <div class="form-group">
-                <label for="email" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span> Email</label>
+                <label for="email" class="col-sm-3 control-label">Email *</label>
 
                 <div class="col-sm-9">
                     <input type="email" name="email" class="form-control" value="<?php echo set_value('email'); ?>"
@@ -68,8 +66,7 @@
             </div>
 
             <div class="form-group">
-                <label for="address" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span> Address</label>
+                <label for="address" class="col-sm-3 control-label">Address *</label>
 
                 <div class="col-sm-9">
                     <textarea name="address" maxlength="100" class="form-control" id="address"
@@ -80,8 +77,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="pincode" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span> Pincode</label>
+                <label for="pincode" class="col-sm-3 control-label">Pincode *</label>
 
                 <div class="col-sm-9">
                     <input type="tel" name="pincode" maxlength="10" class="form-control" id="pincode"
@@ -92,8 +88,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="telephoneNumber" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span>Telephone Number</label>
+                <label for="telephoneNumber" class="col-sm-3 control-label">Telephone Number *</label>
 
                 <div class="col-sm-9">
                     <input type="tel" name="telephoneNumber" maxlength="20" class="form-control" id="telephoneNumber"
@@ -104,8 +99,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="mobileNumber" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span>Mobile Number</label>
+                <label for="mobileNumber" class="col-sm-3 control-label">Mobile Number *</label>
 
                 <div class="col-sm-9">
                     <div class="col-sm-4">
@@ -146,6 +140,15 @@
                 </div>
             </div>
             <div class="form-group">
+                <label for="ietemembershipno" class="col-sm-3 control-label">IETE Membership Number</label>
+
+                <div class="col-sm-9">
+                    <input type="tel" name="ietemembershipno" maxlength="30" class="form-control" id="ietemembershipno"
+                           value="<?php echo set_value('ietemembershipno'); ?>"
+                           placeholder="Enter IETE Membership Number">
+                </div>
+            </div>
+            <div class="form-group">
                 <label for="csimembershipno" class="col-sm-3 control-label">CSI Membership Number</label>
 
                 <div class="col-sm-9">
@@ -156,18 +159,9 @@
 
 
             </div>
-            <div class="form-group">
-                <label for="ietemembershipno" class="col-sm-3 control-label">IETE Membership Number</label>
 
-                <div class="col-sm-9">
-                    <input type="tel" name="ietemembershipno" maxlength="30" class="form-control" id="ietemembershipno"
-                           value="<?php echo set_value('ietemembershipno'); ?>"
-                           placeholder="Enter IETE Membership Number">
-                </div>
-            </div>
             <div class="form-group">
-                <label for="category" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span> Category</label>
+                <label for="category" class="col-sm-3 control-label">Category *</label>
 
                 <div class="col-sm-9">
                     <select name="category" class="form-control" id="category">
@@ -188,8 +182,7 @@
             </div>
 
             <div class="form-group">
-                <label for="organization" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span> Organization</label>
+                <label for="organization" class="col-sm-3 control-label">Organization *</label>
 
                 <div class="col-sm-9">
                     <input type="text" name="organization" autocomplete="off" class="form-control" id="keyword"
@@ -204,8 +197,7 @@
             </div>
 
             <div class="form-group">
-                <label for="department" class="col-sm-3 control-label"><span
-                        class="glyphicon glyphicon-asterisk text-danger"></span> Department</label>
+                <label for="department" class="col-sm-3 control-label">Department *</label>
 
                 <div class="col-sm-9">
                     <input type="text" name="department" class="form-control" id="department"

@@ -12,7 +12,7 @@
     <title>INDIACom 2016</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/cosmo-bootstrap.min.css">
     <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/jasny-bootstrap.min.css">
     <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/siteStyle.css">
     <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/textStyle.css">
