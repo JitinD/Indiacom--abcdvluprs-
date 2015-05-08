@@ -20,6 +20,7 @@
     <script src="/<?php echo PATH ?>assets/js/bootstrap.min.js"></script>
     <script src="/<?php echo PATH ?>assets/js/jasny-bootstrap.min.js"></script>
     <script src="/<?php echo PATH ?>assets/js/list.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
 <body>
 <div class="container-fluid">

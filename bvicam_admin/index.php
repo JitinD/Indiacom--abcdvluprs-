@@ -31,8 +31,8 @@
 
     if(!isset($_SESSION[APPID]['dbUserName']))
     {
-        $_SESSION[APPID]['dbUserName'] = $db[$active_group]['username'];
-        $_SESSION[APPID]['dbPassword'] = $db[$active_group]['password'];
+        $_SESSION[APPID]['dbUserName'] = $dbconfig['username'];
+        $_SESSION[APPID]['dbPassword'] = $dbconfig['password'];
         $_SESSION[APPID]['current_role_id'] = 30;
 
     }

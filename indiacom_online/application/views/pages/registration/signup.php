@@ -232,15 +232,9 @@
 
                 <div class="col-sm-9">
                     <div class="row">
-                        <div class="col-md-12">
-                            <?php echo $image; ?>
-                        </div>
-                        <div class="col-md-12 contentBlock-top">
-                            <input type="text" name="captcha" class="form-control" id="captcha"
-                                   placeholder="Enter the letters in the image above">
-                        </div>
+                        <div class="g-recaptcha" data-sitekey="6LcQQwYTAAAAAIz1OAMs4WX1np0LJfmm_vDCCexw"></div>
                         <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                            <?php echo form_error('captcha'); ?>
+                            <?php echo form_error('g-recaptcha-response'); ?>
                         </div>
                     </div>
                 </div>
