@@ -20,7 +20,7 @@
  */
     session_start();
     require_once("../global_config/config.php");
-    define('BASEURL', 'Indiacom2015/indiacom_online/');
+    define('BASEURL', BASEURL_PREFIX.'indiacom_online/');
 
     define('DEFAULT_ROLE', 31);
 	define('ENVIRONMENT', 'development');

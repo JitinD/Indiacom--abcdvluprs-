@@ -23,4 +23,17 @@
         'newline' => "\r\n",
         'mailtype' => "html"
     );
+    /*$config = array(
+        'protocol' => 'mail',
+        'smtp_host' => 'mx1.hostinger.in',
+        'smtp_port' => 2525,
+        'smtp_user' => 'info@abcdvluprs.com',
+        'smtp_pass' => 'CPAcc#4012',
+        'charset'   => 'utf-8',
+        'wordwrap'  => true,
+        'wrapchars' => 50,
+        'crlf' => "\r\n",
+        'newline' => "\r\n",
+        'mailtype' => "html"
+    );*/
 ?>

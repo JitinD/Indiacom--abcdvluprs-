@@ -20,7 +20,7 @@
  */
     session_start();
     require_once("../global_config/config.php");
-    define('BASEURL', 'Indiacom2015/bvicam_admin/');
+    define('BASEURL', BASEURL_PREFIX.'bvicam_admin/');
 
     define('DEFAULT_ROLE', 30);
 	define('ENVIRONMENT', 'development');

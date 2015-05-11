@@ -7,5 +7,6 @@
  */
 
 define('HOST', 'localhost/');
+define('BASEURL_PREFIX', 'Indiacom2015/');
 define('DBGROUP', 'default');
 ?>

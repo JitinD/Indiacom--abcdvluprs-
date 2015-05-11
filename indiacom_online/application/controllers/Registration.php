@@ -350,7 +350,7 @@ class Registration extends CI_Controller
                         $this->data['message'] = "An email has been sent to your registered email id. This mail will let you know about the services that would be provided to you.";
                         $this->db->trans_commit();
                     } else {
-                        $this->db->rollback();
+                        $this->db->trans_rollback();
                     }
                 }
             }
