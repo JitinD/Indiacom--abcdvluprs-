@@ -22,7 +22,7 @@
 <div class="row">
 
     <div class="col-md-6 col-sm-6 col-xs-12 text-center">
-        <h2>Pictures</h2>
+        <h2>Gallery</h2>
 
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="2000">
             <!-- Indicators -->
