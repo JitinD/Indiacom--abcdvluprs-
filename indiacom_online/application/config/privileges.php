@@ -89,3 +89,10 @@ Select - indiacom_news_master 89
 Select - news_master 61
 Select - indiacom_news_attachments 85
 */
+
+
+/*submitRequestForSpecialSession=
+Insert-track_master-47
+*/
+
+$privilege['Page']['request_special_session'] = array(49,15);

@@ -231,3 +231,9 @@ $privilege['Page']['DeliverablesManager']['assignMemberDeliverables'] = array(12
 $privilege['Page']['DeliverablesManager']['assignPaperDeliverables'] = array(124,112,120,13,104,116,136,21,33);
 
 $privilege['Page']['Page']['home'] = array(21,33);
+$privilege['Page']['SpecialSessionRequests']['session_details']=array(21);
+$privilege['Page']['SpecialSessionRequests']['add_sessions']=array(21);
+$privilege['Page']['SpecialSessionRequests']['view_sessions']=array(21);
+$privilege['Page']['SpecialSessionRequests']['verify_sessions_tracks']=array(21);
+$privilege['Page']['SpecialSessionRequests']['view_request_fail']=array(21);
+$privilege['Page']['SpecialSessionRequests']['view_request_success']=array(21);
