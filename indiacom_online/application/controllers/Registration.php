@@ -104,7 +104,7 @@ class Registration extends CI_Controller
     private function uploadTempBiodata($fileElem, $memberId)
     {
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER;
-        $config['allowed_types'] = 'pdf';
+        $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = $memberId . "_biodata";
         $config['overwrite'] = true;
 
@@ -170,7 +170,7 @@ class Registration extends CI_Controller
                             $message = $this->load->view('pages/EmailResetPasswordLink', $this->data, true);
 
                             if ($page = $this->sendMail($this->input->post('email'), $message))
-                                $this->data['message'] = "An email has been sent to your registered mail id. Click on the activation link provided in the mail to reset your password";
+                                $this->data['message'] = "An email has been sent to your registered mail id. Click on the activation link provided in the mail to reset your password<br/>NOTE: you can add co-authors at any stage later.";
                             else
                                 $this->data['message'] = "Some problem occurred. Email can't be sent. Reset password unsuccessful";
 
@@ -214,8 +214,12 @@ class Registration extends CI_Controller
         $this->form_validation->set_rules('salutation', 'Salutation', 'required');
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('address', 'Address', 'required');
-        $this->form_validation->set_rules('pincode', 'Pincode', 'required');
+        //$this->form_validation->set_rules('pincode', 'Pincode', 'required');
+        $this->form_validation->set_rules('country', 'Country', 'required');
+        $this->form_validation->set_rules('city', 'City', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
+        $this->form_validation->set_rules('telephoneNumber_country', 'Telephone number Country Code', 'required');
+        $this->form_validation->set_rules('telephoneNumber_city', 'Telephone number City Code', 'required');
         $this->form_validation->set_rules('telephoneNumber', 'Telephone number', 'required');
         $this->form_validation->set_rules('countryCode', 'Country Code', 'required');
         $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required|callback_validate_mobileNumber');
@@ -223,6 +227,8 @@ class Registration extends CI_Controller
         $this->form_validation->set_rules('category', 'Category', 'required');
         $this->form_validation->set_rules('department', 'Department', 'required');
         $this->form_validation->set_rules('g-recaptcha-response', 'Captcha', 'required|callback_validate_captcha');
+        $this->form_validation->set_rules('fax_country', 'Fax Number Country Code');
+        $this->form_validation->set_rules('fax_city', 'Fax Number City Code');
         $this->form_validation->set_rules('fax', 'Fax Number');
         $this->form_validation->set_rules('csimembershipno', 'CSI Membership Number');
         $this->form_validation->set_rules('ietemembershipno', 'IETE Membership Number');
@@ -260,9 +266,15 @@ class Registration extends CI_Controller
                     'member_address' => $this->input->post('address'),
                     'member_pincode' => $this->input->post('pincode'),
                     'member_email' => $this->input->post('email'),
+                    'member_country' => $this->input->post('country'),
+                    'member_city' => $this->input->post('city'),
+                    'member_phone_countryCode' => $this->input->post('telephoneNumber_country'),
+                    'member_phone_cityCode' => $this->input->post('telephoneNumber_city'),
                     'member_phone' => $this->input->post('telephoneNumber'),
                     'member_country_code' => $this->input->post('countryCode'),
                     'member_mobile' => $this->input->post('mobileNumber'),
+                    'member_fax_countryCode' => $this->input->post('fax_country'),
+                    'member_fax_cityCode' => $this->input->post('fax_city'),
                     'member_fax' => $this->input->post('fax'),
                     'member_designation' => $this->input->post('designation'),
                     'member_csi_mem_no' => $this->input->post('csimembershipno'),
@@ -273,7 +285,7 @@ class Registration extends CI_Controller
                     'member_category_id' => $this->input->post('category'),
                     'member_department' => $this->input->post('department'),
                     'member_experience' => $this->input->post('experience'),
-                    'member_is_activated' => ""
+                    'member_is_activated' => "1"
                 );
 
                 if ($this->registration_model->addTempMember($member_record)) {

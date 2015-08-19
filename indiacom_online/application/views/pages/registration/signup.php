@@ -64,6 +64,18 @@
                     <?php echo form_error('email'); ?>
                 </div>
             </div>
+            
+            <div class="form-group">
+                <label for="country" class="col-sm-3 control-label">Country *</label>
+
+                <div class="col-sm-9">
+                    <input type="text" name="country" class="form-control" value="<?php echo set_value('country'); ?>"
+                           id="country" placeholder="Enter country">
+                </div>
+                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                    <?php echo form_error('country'); ?>
+                </div>
+            </div>
 
             <div class="form-group">
                 <label for="address" class="col-sm-3 control-label">Address *</label>
@@ -76,8 +88,21 @@
                     <?php echo form_error('address'); ?>
                 </div>
             </div>
+            
             <div class="form-group">
-                <label for="pincode" class="col-sm-3 control-label">Pincode *</label>
+                <label for="city" class="col-sm-3 control-label">City *</label>
+
+                <div class="col-sm-9">
+                    <input type="city" name="city" class="form-control" value="<?php echo set_value('city'); ?>"
+                           id="city" placeholder="Enter city">
+                </div>
+                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                    <?php echo form_error('city'); ?>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="pincode" class="col-sm-3 control-label">Pincode</label>
 
                 <div class="col-sm-9">
                     <input type="tel" name="pincode" maxlength="10" class="form-control" id="pincode"
@@ -89,11 +114,27 @@
             </div>
             <div class="form-group">
                 <label for="telephoneNumber" class="col-sm-3 control-label">Telephone Number *</label>
-
-                <div class="col-sm-9">
+                <div class="col-sm-2">
+                    <div class="input-group">
+                      <div class="input-group-addon">+</div>
+                        <input type="tel" name="telephoneNumber_country" maxlength="20" class="form-control" id="telephoneNumber_country"
+                           value="<?php echo set_value('telephoneNumber_country'); ?>" placeholder="Country Code">
+                           
+                    </div>
+                    <span id="helpBlock" class="help-block">Country Code</span>
+                </div>
+                <div class="col-sm-2">
+                     <input type="tel" name="telephoneNumber_city" maxlength="20" class="form-control" id="telephoneNumber_city"
+                           value="<?php echo set_value('telephoneNumber_city'); ?>" placeholder="City Code">
+                           <span id="helpBlock" class="help-block">City Code</span>
+                </div>
+                
+                <div class="col-sm-5">
                     <input type="tel" name="telephoneNumber" maxlength="20" class="form-control" id="telephoneNumber"
                            value="<?php echo set_value('telephoneNumber'); ?>" placeholder="Enter Telephone Number">
+                           <span id="helpBlock" class="help-block">Telephone Number</span>
                 </div>
+
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('telephoneNumber'); ?>
                 </div>
@@ -103,12 +144,17 @@
 
                 <div class="col-sm-9">
                     <div class="col-sm-4">
-                        <input type="tel" name="countryCode" maxlength="5" class="form-control" id="countryCode"
+                    <div class="input-group">
+                        <div class="input-group-addon">+</div>
+                            <input type="tel" name="countryCode" maxlength="5" class="form-control" id="countryCode"
                                value="<?php echo set_value('countryCode'); ?>" placeholder="Country Code">
+                        </div>
+                        <span id="helpBlock" class="help-block">Country Code</span>
                     </div>
                     <div class="col-sm-8">
                         <input type="tel" name="mobileNumber" maxlength="10" class="form-control" id="mobileNumber"
                                value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
+                               <span id="helpBlock" class="help-block">10 digit mobile number</span>
                     </div>
                 </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -116,16 +162,27 @@
                     <?php echo form_error('mobileNumber'); ?>
                 </div>
             </div>
+            
             <div class="form-group">
                 <label for="fax" class="col-sm-3 control-label">Fax Number</label>
-
-                <div class="col-sm-9">
+                <div class="col-sm-2">
+                    <div class="input-group">
+                      <div class="input-group-addon">+</div>
+                      <input type="tel" name="fax_country" maxlength="3" class="form-control" id="fax_country"
+                               value="<?php echo set_value('fax_country'); ?>" placeholder="Country Code">
+                    </div>
+                </div>
+                <div class="col-sm-2">
+                    <input type="tel" name="fax_city" maxlength="5" class="form-control" id="fax_city"
+                           value="<?php echo set_value('fax_city'); ?>" placeholder="City Code">
+                </div>
+                
+                <div class="col-sm-5">
                     <input type="tel" name="fax" maxlength="20" class="form-control" id="fax"
                            value="<?php echo set_value('fax'); ?>" placeholder="Enter Fax Number">
                 </div>
-
-
             </div>
+
             <div class="form-group">
                 <label for="biodata" class="col-sm-3 control-label">Biodata</label>
 
@@ -135,12 +192,15 @@
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php
                     echo form_error('biodata');
-                    if (isset($uploadError)) echo $uploadError;
+                        if (isset($uploadError)) {
+                            echo $uploadError;
+                            echo "Allowed formats- doc, docx";
+                        };
                     ?>
                 </div>
             </div>
             <div class="form-group">
-                <label for="ietemembershipno" class="col-sm-3 control-label">IETE Membership Number</label>
+                <label for="ietemembershipno" class="col-sm-3 control-label">IEEE Membership Number</label>
 
                 <div class="col-sm-9">
                     <input type="tel" name="ietemembershipno" maxlength="30" class="form-control" id="ietemembershipno"
@@ -162,7 +222,7 @@
 
             <div class="form-group">
                 <label for="category" class="col-sm-3 control-label">Category *</label>
-
+                
                 <div class="col-sm-9">
                     <select name="category" class="form-control" id="category">
                         <?php foreach ($member_categories as $category) {

@@ -19,7 +19,8 @@ class Dashboard extends CI_Controller
         require(dirname(__FILE__).'/../config/privileges.php');
         require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
         $this->load->model('access_model');
-        if ( ! file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
+        
+        if ( !file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
         {
             show_404();
         }
@@ -55,6 +56,19 @@ class Dashboard extends CI_Controller
             }
             //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id'], EVENT_ID);
             $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
+        
+            $this->data['events'] = $this->event_model->getAllActiveEvents();
+            $this->data['paperCanRevise'] = array();
+            foreach($this->data['events'] as $event)
+            {
+                $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
+                foreach($this->data['papers'][$event->event_id] as $paper)
+                {
+                    $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
+                }
+            }
+            //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
+            $this->data['methodName'] = "submitPaperRevision";
         }
         $this->index($page);
     }
@@ -82,7 +96,7 @@ class Dashboard extends CI_Controller
 
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
-        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . PAPER_FOLDER;
+        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "\\" . PAPER_FOLDER;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = "Paper_" . $paperId . "v" . $versionNumber;
         $config['overwrite'] = true;
@@ -879,4 +893,270 @@ class Dashboard extends CI_Controller
         $this->data['payableClasses'] = $payableClasses;
         $this->index($page);
     }
+    
+    
+    
+    private function request_special_session_handle($member_id)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('session_name', "Session Name", "required");
+        $this->form_validation->set_rules('session_aim', "Session Aim", "required");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $subject_name = htmlentities($this->input->post('session_name'));
+            $session_aim = htmlentities($this->input->post('session_aim'));
+            $ss_id = $this->request_special_session->insertSpecialSessionSubject($member_id, $subject_name, $session_aim);
+            
+            if($ss_id > 0){
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+        }
+        return $retVal;
+    }
+
+    private function edit_session_Chairperson_handle($sid)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('profile', "Profile", "required");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $profile = htmlentities($this->input->post('profile'));
+            $ss_id = $this->request_special_session->updateChairPersonProfile($sid, $profile);
+            
+            if($ss_id){
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+        }
+        return $retVal;
+    }
+
+    private function add_aoc_handle($sid)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('aoc', "Area of Coverage", "required");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $aoc = htmlentities($this->input->post('aoc'));
+            $ss_id = $this->request_special_session->insertSpecialSessionAOC($sid, $aoc);
+            
+            if($ss_id){
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+        }
+        return $retVal;
+    }
+
+    private function add_tpc_handle($sid)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('tpc', "Technical Programme Committee", "required");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $tpc = htmlentities($this->input->post('tpc'));
+            $ss_id = $this->request_special_session->insertSpecialSessionTPC($sid, $tpc);
+            
+            if($ss_id){
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+        }
+        return $retVal;
+    }
+
+    /*
+    * function to handle request special session form with aoc and tpc multiple inputs for each field
+    private function request_special_session_details_handle($member_id)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('session_name', "Session Name", "required|alpha_dash");
+        $this->form_validation->set_rules('session_aim', "Session Aim", "required|alpha_dash");
+        $this->form_validation->set_rules('aoc[]', "Area of Coverage", "required|min_length[1]");
+        $this->form_validation->set_rules('tpc[]', "Technical Programme Committee", "required|min_length[1]");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $subject_name = $this->input->post('session_name');
+            $session_aim = $this->input->post('session_aim');
+            $aoc = $this->input->post('aoc');
+            $tpc = $this->input->post('tpc');
+            $this->db->trans_begin();
+            $ss_id = $this->request_special_session->insertSpecialSessionSubject($member_id, $subject_name, $session_aim);
+            
+            if($ss_id > 0){
+                foreach($aoc as $item){
+                    if(!$this->request_special_session->insertSpecialSessionAOC($ss_id, $item)){
+                        $retVal = false;
+                        break;
+                    } else{
+                        $retVal = true;
+                    }
+                }
+                if($retVal){
+                    foreach($tpc as $tpc_item){
+                        if(!$this->request_special_session->insertSpecialSessionTPC($ss_id, $tpc_item)){
+                            $retVal = false;
+                            break;
+                        } else{
+                            $retVal = true;
+                        }
+                    }
+                }
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+            if (!$retVal || $this->db->trans_status() === FALSE){
+                $this->db->trans_rollback();
+                $retVal = false;
+            }
+            else{
+                $this->db->trans_commit();
+                $retVal = true;
+            }
+            
+        }
+        return $retVal;
+    }
+    */
+    
+    public function request_special_session(){
+        $this->load->model('event_model');
+        $this->load->helper('url');
+
+        $page = 'request_special_session';
+        
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            if(isset($_POST['submit'])){
+                if( $this->request_special_session_handle($member_id)){
+                    $_SESSION[APPID]['message'] = "Request sent succesfully! Please review 'my special sessions' from sidebar links to add details to your requested special session once it has been verified.";
+                } else{
+                    $_SESSION[APPID]['message'] = "Technical Error occured!";
+                }
+            }
+        }
+        $this->index($page);    
+    }
+
+    public function special_sessions_list(){
+        $this->load->model('ss_track_model');
+        $this->load->helper('url');
+        $page = 'special_sessions_list';
+        $this->data['sessions'] = $this->ss_track_model->getAllTracks();
+        $this->index($page);    
+    }
+
+    public function my_special_session(){
+        $this->load->model('request_special_session');
+        $page = 'my_special_session';
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            $this->data['special_session'] = $this->request_special_session->get_special_session($member_id);
+        }
+        $this->index($page);    
+    }
+
+    public function special_session($sid){
+        $this->load->model('request_special_session');
+        $page = 'special_session';
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $this->data['special_session'] = $this->request_special_session->get_special_session_by_sid($sid);
+            $this->data['aoc'] = $this->request_special_session->get_aoc($sid);
+            $this->data['tpc'] = $this->request_special_session->get_tpc($sid);
+            
+        }
+        $this->index($page);
+    }
+
+
+    public function special_session_details($sid){
+        $this->load->model('request_special_session');
+        $page = 'special_session_details';
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $this->data['sid'] = $sid;
+            $this->data['aoc'] = $this->request_special_session->get_aoc($sid);
+            $this->data['tpc'] = $this->request_special_session->get_tpc($sid);
+        }
+        $this->index($page);
+    }
+
+    public function edit_session_Chairperson($sid){
+        $this->load->model('request_special_session');
+        $this->load->helper('url');
+        $page = 'edit_chairperson';
+        $this->data['sid'] = $sid;
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            if(isset($_POST['submit'])){
+                if( $this->edit_session_Chairperson_handle($sid)){
+                    $_SESSION[APPID]['message'] = "Profile edited succesfully.";
+                } else{
+                    $_SESSION[APPID]['message'] = "Technical Error occured!";
+                }
+            }
+
+            $result = $this->request_special_session->get_special_session_by_sid($sid);
+            $result = array_pop($result);
+            $this->data['chairper_profile'] = $result->profile;
+            
+        }
+        $this->index($page);
+    }
+
+    public function add_aoc($sid){
+        $this->load->model('request_special_session');
+        $this->load->helper('url');
+        $page = 'add_aoc';
+        $this->data['sid'] = $sid;
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            if(isset($_POST['submit'])){
+                if( $this->add_aoc_handle($sid)){
+                    $_SESSION[APPID]['message'] = "AOC edited succesfully.";
+                } else{
+                    $_SESSION[APPID]['message'] = "Technical Error occured!";
+                }
+            }
+            
+        }
+        $this->index($page);
+    }
+
+    public function add_tpc($sid){
+        $this->load->model('request_special_session');
+        $this->load->helper('url');
+        $page = 'add_tpc';
+        $this->data['sid'] = $sid;
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            if(isset($_POST['submit'])){
+                if( $this->add_tpc_handle($sid)){
+                    $_SESSION[APPID]['message'] = "AOC edited succesfully.";
+                } else{
+                    $_SESSION[APPID]['message'] = "Technical Error occured!";
+                }
+            }
+            
+        }
+        $this->index($page);
+    }
+
+
+        
 }

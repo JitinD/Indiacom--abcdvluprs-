@@ -19,3 +19,4 @@ $ControllerDefaultLink['DeskManager'] = "DeskManager/viewAuthorPapersPayments";
 $ControllerDefaultLink['TrackManager'] = "TrackManager/markAuthorAttendance";
 $ControllerDefaultLink['DeliverablesManager'] = "#";
 $ControllerDefaultLink['Page'] = "#";
+$ControllerDefaultLink['SpecialSessionRequests'] = "SpecialSessionRequests/load";
