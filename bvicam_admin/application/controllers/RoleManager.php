@@ -53,6 +53,7 @@ class RoleManager extends CI_Controller
 
     public function newRole()
     {
+        require(dirname(__FILE__) . "/../../../global_config/allPrivileges.php");
         $page = "newRole";
         $this->load->model('role_model');
         $this->load->model('privilege_model');
@@ -61,6 +62,7 @@ class RoleManager extends CI_Controller
         $this->data['editRole'] = false;
         $this->data['entities'] = $this->information_schema_model->getAllTableNames();
         $this->data['applications'] = $this->application_model->getAllApplications();
+        $this->data['modules'] = $allPrivileges;
         $this->load->library('form_validation');
         $this->form_validation->set_rules('role_name', "Role Name", "required");
         $this->form_validation->set_rules('application', "Application", "required");
@@ -82,8 +84,11 @@ class RoleManager extends CI_Controller
                 }
                 else if($postName != "submit" && $postName != "application")
                 {
-                    list($entityName, $operation) = explode(":", $postName);
-                    $pids[] = $this->privilege_model->newPrivilege(array('privilege_entity' => $entityName, 'privilege_operation' => $operation));
+                    list($moduleName, $operation) = explode(":", $postName);
+                    foreach($allPrivileges[$this->input->post('application')."a"]['Page'][$moduleName][$operation] as $priv)
+                    {
+                        $pids[] = $priv;
+                    }
                 }
             }
             $this->role_model->assignPrivileges($roleDetails['role_id'], $pids);

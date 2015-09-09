@@ -58,7 +58,7 @@ $active_record = TRUE;
 
 $db['default']['hostname'] = 'localhost';
 $db['default']['username'] = 'root';
-$db['default']['password'] = 'gaurav_sql';
+$db['default']['password'] = '';
 $db['default']['database'] = 'indiacom';
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';

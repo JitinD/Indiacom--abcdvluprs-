@@ -27,9 +27,10 @@
     define('COMMON', 'CommonResources/');
     define('APPID', '1a');
 
+    require_once('application/config/database.php');
+
     if(!isset($_SESSION[APPID]['dbUserName']))
     {
-        require_once('../global_config/database.php');
         $_SESSION[APPID]['dbUserName'] = $dbconfig['username'];
         $_SESSION[APPID]['dbPassword'] = $dbconfig['password'];
         $_SESSION[APPID]['current_role_id'] = 31;
