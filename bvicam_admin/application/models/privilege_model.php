@@ -53,7 +53,7 @@ class Privilege_model extends CI_Model
 
     public function getPrivilegeDetails($privilegeIds = array(), $extraQuery = "")
     {
-        $sql = "Select * From privilege_master Where privilege_id IN (" . implode(',', $privilegeIds) . ") " . $extraQuery;
+        $sql = "Select * From privilege_master Where privilege_id IN ('" . implode("','", $privilegeIds) . "') " . $extraQuery;
         $query = $this->db->query($sql);
         if($query->num_rows() == 0)
             return null;

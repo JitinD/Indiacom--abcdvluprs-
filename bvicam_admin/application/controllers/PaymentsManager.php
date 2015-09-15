@@ -6,32 +6,29 @@
  * Time: 1:28 AM
  */
 
-class PaymentsManager extends CI_Controller
-{
-    private $data = array();
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
 
+class PaymentsManager extends BaseController
+{
     public function __construct()
     {
         parent::__construct();
+        $this->controllerName = "PaymentsManager";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
-        $this->load->model('access_model');
-        require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "PaymentsManager";
+        $sidebarData['controllerName'] = $this->controllerName;
         $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/PaymentsManager/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privilege['Page']['PaymentsManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['PaymentsManager'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/navbar', $sidebarData);
@@ -50,13 +47,16 @@ class PaymentsManager extends CI_Controller
 
     public function load()
     {
+        if(!$this->checkAccess("load"))
+            return;
         $page = "index";
-
         $this->index($page);
     }
 
     public function viewPaymentsMemberWise()
     {
+        if(!$this->checkAccess("viewPaymentsMemberWise"))
+            return;
         $page = "viewPayments";
         $this->load->model('payment_model');
         $this->load->model('member_model');
@@ -86,6 +86,8 @@ class PaymentsManager extends CI_Controller
 
     public function viewPaymentsPaperWise()
     {
+        if(!$this->checkAccess("viewPaymentsPaperWise"))
+            return;
         $page = "viewPayments";
         $this->load->model('payment_model');
         $this->load->model('paper_model');
@@ -115,6 +117,8 @@ class PaymentsManager extends CI_Controller
 
     public function newPayment($transId = null)
     {
+        if(!$this->checkAccess("newPayment"))
+            return;
         $this->load->model('transaction_model');
         $this->load->model('paper_status_model');
         $this->load->model('member_categories_model');
@@ -265,6 +269,8 @@ class PaymentsManager extends CI_Controller
 
     public function paymentBreakup($submissionId, $payheadId)
     {
+        if(!$this->checkAccess("paymentBreakup"))
+            return;
         $page = "viewPaymentBreakup";
         $this->load->model('payment_model');
         $this->load->library('form_validation');
@@ -283,6 +289,8 @@ class PaymentsManager extends CI_Controller
 
     public function changePayableClass($submissionId, $payableClassId)
     {
+        if(!$this->checkAccess("changePayableClass"))
+            return;
         $page = "changePayableClass";
         $this->load->model('payable_class_model');
         $this->load->model('member_categories_model');
@@ -336,6 +344,8 @@ class PaymentsManager extends CI_Controller
 
     public function changeDiscountType($submissionId, $payableClassId)
     {
+        if(!$this->checkAccess("changeDiscountType"))
+            return;
         $page = "changeDiscountType";
         $this->load->model('payment_model');
         $this->load->model('discount_model');
@@ -368,6 +378,8 @@ class PaymentsManager extends CI_Controller
 
     public function paymentWaiveOff_AJAX()
     {
+        if(!$this->checkAccess("paymentWaiveOff_AJAX"))
+            return;
         $this->load->library('form_validation');
         $this->form_validation->set_rules('payheadId', '', 'required');
         $this->form_validation->set_rules('amount', '', 'required');
@@ -459,6 +471,8 @@ class PaymentsManager extends CI_Controller
 
     public function spotPayments()
     {
+        if(!$this->checkAccess("spotPayments"))
+            return;
         $page = "spotPayment";
         $this->load->model('payment_head_model');
         $this->load->model('discount_model');

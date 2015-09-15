@@ -1,8 +1,9 @@
 <?php
 
-class InitialPaperReviewer extends CI_Controller
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class InitialPaperReviewer extends BaseController
 {
-    private $data = array();
     public function __construct()
     {
         parent::__construct();
@@ -16,9 +17,51 @@ class InitialPaperReviewer extends CI_Controller
         $this -> load -> model('reviewer_model');
         $this -> load -> model('paper_version_review_model');
         $this->load->helper(array('form', 'url'));
+        $this->controllerName = "InitialPaperReviewer";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
-    public function uploadComments($fileElem,$eventId,$paper_version_review_id)
+    private function index($page)
+    {
+        require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        $sidebarData['controllerName'] = $controllerName = "FinalPaperReviewer";
+        $sidebarData['links'] = $this->setSidebarLinks();
+        if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
+        {
+            show_404();
+        }
+
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
+        $this->data['navbarItem'] = pageNavbarItem($page);
+        $this->load->view('templates/header', $this->data);
+        $this->load->view('templates/navbar', $sidebarData);
+        $this->load->view('pages/'.$page, $this->data);
+        $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+
+    }
+
+    public function load()
+    {
+        if(!$this->checkAccess("load"))
+            return;
+        $page = "ReviewerDashboardHome";
+        $this->load->model('event_model');
+        $this->data['events'] = $this->event_model->getAllActiveEvents();
+        $this->data['user_id'] = $_SESSION[APPID]['user_id'];
+        foreach($this->data['events'] as $event)
+        {
+            $this->data['pendingReviews'][$event->event_id] = $this->paper_version_review_model->getReviewerPendingReviews($this->data['user_id'], $event->event_id);
+            $this->data['completedReviews'][$event->event_id] = $this->paper_version_review_model->getReviewerCompletedReviews($this->data['user_id'], $event->event_id);
+        }
+        $this->index($page);
+    }
+
+    private function uploadComments($fileElem,$eventId,$paper_version_review_id)
     {
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . REVIEWER_REVIEW_FOLDER;
         $config['allowed_types'] = 'pdf|doc|docx';
@@ -36,52 +79,10 @@ class InitialPaperReviewer extends CI_Controller
         return UPLOAD_PATH . $eventId . "/" . REVIEWER_REVIEW_FOLDER . $config['file_name'] . $uploadData['file_ext'];
     }
 
-    private function index($page)
-    {
-        require(dirname(__FILE__).'/../config/privileges.php');
-        require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $this->load->model('access_model');
-        $sidebarData['controllerName'] = $controllerName = "FinalPaperReviewer";
-        $sidebarData['links'] = $this->setSidebarLinks();
-        if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
-        {
-            show_404();
-        }
-        if(isset($privilege['Page']['InitialPaperReviewer'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['InitialPaperReviewer'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-
-        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
-        $this->data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $this->data);
-        $this->load->view('templates/navbar', $sidebarData);
-        $this->load->view('pages/'.$page, $this->data);
-        $this->load->view('templates/footer');
-    }
-
-    private function setSidebarLinks()
-    {
-
-    }
-
-    public function load()
-    {
-        $page = "ReviewerDashboardHome";
-        $this->load->model('event_model');
-        $this->data['events'] = $this->event_model->getAllActiveEvents();
-        $this->data['user_id'] = $_SESSION[APPID]['user_id'];
-        foreach($this->data['events'] as $event)
-        {
-            $this->data['pendingReviews'][$event->event_id] = $this->paper_version_review_model->getReviewerPendingReviews($this->data['user_id'], $event->event_id);
-            $this->data['completedReviews'][$event->event_id] = $this->paper_version_review_model->getReviewerCompletedReviews($this->data['user_id'], $event->event_id);
-        }
-        $this->index($page);
-    }
-
     public function reviewPaperInfo($paper_version_review_id)
     {
+        if(!$this->checkAccess("reviewPaperInfo"))
+            return;
         $page = 'reviewPaperInfo';
         $paperVersionReviewDetails = $this->paper_version_review_model->getPaperVersionReviewerReview($paper_version_review_id);
         if($paperVersionReviewDetails == null || $paperVersionReviewDetails->paper_version_reviewer_id != $_SESSION[APPID]['user_id'])
