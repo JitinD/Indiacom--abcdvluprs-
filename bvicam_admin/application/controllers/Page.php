@@ -6,31 +6,31 @@
  * Time: 9:47 AM
  */
 
-class Page extends CI_Controller
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class Page extends BaseController
 {
-    private $data;
     public function __construct()
     {
         parent::__construct();
+        $this->controllerName = "Page";
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     public function index($page = 'home')
     {
-        require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $this->load->model('access_model');
-        $sidebarData['controllerName'] = $controllerName = "Page";
+        $sidebarData['controllerName'] = $this->controllerName;
         $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privilege['Page']['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['Page'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
+
+        if($page == 'home' && !$this->checkAccess('home'))
             return;
-        }
-        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header');
         $this->load->view('templates/navbar', $sidebarData);

@@ -6,16 +6,34 @@
  * Date: 15/7/14
  * Time: 1:56 PM
  */
-class Registration extends CI_Controller
-{
-    private $data;
 
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class Registration extends BaseController
+{
     public function __construct()
     {
         parent::__construct();
-
         $this->load->model('registration_model');
         $this->load->helper(array('form', 'url'));
+        $this->controllerName = "Registration";
+        require_once(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
+    }
+
+    private function index($page)
+    {
+        require_once(dirname(__FILE__) . '/../utils/ViewUtils.php');
+        if (!file_exists(APPPATH . 'views/pages/registration/' . $page . '.php')) {
+            show_404();
+        }
+
+        loginModalInit($this->data);
+        $this->data['navbarItem'] = pageNavbarItem($page);
+        $this->load->view('templates/header', $this->data);
+        $this->load->view('pages/registration/' . $page, $this->data, array('error' => ' '));
+        $this->load->view('templates/footer');
+
     }
 
     private function hide_mail($email)
@@ -34,6 +52,8 @@ class Registration extends CI_Controller
 
     public function validate_captcha()
     {
+        if(!$this->checkAccess("validate_captcha"))
+            return;
         $url = 'https://www.google.com/recaptcha/api/siteverify';
         $data = array('secret' => '6LcQQwYTAAAAAKGtQ968dkP7HCKcQ-PfG02jhRYp', 'response' => $this->input->post('g-recaptcha-response'));
 
@@ -54,6 +74,8 @@ class Registration extends CI_Controller
 
     public function validate_mobileNumber()
     {
+        if(!$this->checkAccess("validate_mobileNumber"))
+            return;
         $mobileNumberRegex = "/(\d{10})$/";
 
         if (!preg_match($mobileNumberRegex, $this->input->post('mobileNumber'))) {
@@ -65,6 +87,8 @@ class Registration extends CI_Controller
 
     public function validate_confirm_password()
     {
+        if(!$this->checkAccess("validate_confirm_password"))
+            return;
         if (strcmp($this->input->post('password'), $this->input->post('password2'))) {
             $this->form_validation->set_message('validate_confirm_password', "Passwords do not match!");
             return false;
@@ -74,6 +98,8 @@ class Registration extends CI_Controller
 
     public function formFilledCheck()
     {
+        if(!$this->checkAccess("formFilledCheck"))
+            return;
         $member_id = $this->input->post('memberID');
         $email_id = $this->input->post('email');
 
@@ -119,30 +145,10 @@ class Registration extends CI_Controller
         return UPLOAD_PATH . TEMP_BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext'];
     }
 
-    private function index($page)
-    {
-        require_once(dirname(__FILE__) . '/../config/privileges.php');
-        require_once(dirname(__FILE__) . '/../utils/ViewUtils.php');
-        $this->load->model('access_model');
-        if (!file_exists(APPPATH . 'views/pages/registration/' . $page . '.php')) {
-            show_404();
-        }
-
-        if (isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page])) {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-
-        loginModalInit($this->data);
-        $this->data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $this->data);
-        $this->load->view('pages/registration/' . $page, $this->data, array('error' => ' '));
-        $this->load->view('templates/footer');
-
-    }
-
     public function forgotPassword()
     {
+        if(!$this->checkAccess("forgotPassword"))
+            return;
         $page = "forgotPassword";
 
         $this->load->library('form_validation');
@@ -206,6 +212,8 @@ class Registration extends CI_Controller
 
     public function signUp()
     {
+        if(!$this->checkAccess("signUp"))
+            return;
         $page = "signup";
         $this->load->model('registration_model');
         $this->load->model('organization_model');
@@ -312,6 +320,8 @@ class Registration extends CI_Controller
 
     public function EnterPassword($member_id, $activation_code)
     {
+        if(!$this->checkAccess("EnterPassword"))
+            return;
         $page = "EnterPassword";
         $this->load->model('member_model');
         $this->load->model('login_model');

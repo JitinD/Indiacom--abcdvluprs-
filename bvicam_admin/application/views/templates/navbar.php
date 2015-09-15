@@ -49,7 +49,7 @@
         foreach ($loadableComponents as $component) {
             ?>
             <li>
-                <a href="/<?php echo BASEURL . "index.php/" . $ControllerDefaultLink[$component]; ?>">
+                <a href="/<?php echo (isset($ControllerDefaultLink[$component])) ? BASEURL . "index.php/" . $ControllerDefaultLink[$component] : ""; ?>">
                     <?php echo $component; ?>
                 </a>
             </li>

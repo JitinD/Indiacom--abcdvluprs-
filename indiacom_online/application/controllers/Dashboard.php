@@ -5,29 +5,28 @@
  * Date: 7/21/14
  * Time: 8:18 PM
  */
-class Dashboard extends CI_Controller
+
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class Dashboard extends BaseController
 {
-    private $data = array();
     public function __construct()
     {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
+        $this->controllerName = "Dashboard";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
-    private function index($page = "dashboardHome")
+    private function index($page)
     {
-        require(dirname(__FILE__).'/../config/privileges.php');
         require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
         $this->load->model('access_model');
         
         if ( !file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
         {
             show_404();
-        }
-        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
         }
 
         loginModalInit($this->data);
@@ -43,6 +42,8 @@ class Dashboard extends CI_Controller
 
     public function home()
     {
+        if(!$this->checkAccess("home"))
+            return;
         $this->load->model('paper_status_model');
         $this->load->model('member_model');
         $this->load->model('event_model');
@@ -76,6 +77,8 @@ class Dashboard extends CI_Controller
 
     public function uploadBiodata($fileElem,$eventId,$memberId)
     {
+        if(!$this->checkAccess("uploadBiodata"))
+            return;
         $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
         //$config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
         $config['allowed_types'] = 'pdf';
@@ -152,6 +155,8 @@ class Dashboard extends CI_Controller
 
     public function submitPaper()
     {
+        if(!$this->checkAccess("submitPaper"))
+            return;
         $this->load->model('event_model');
         $this->load->helper('url');
         $page = 'submitpaper';
@@ -281,6 +286,8 @@ class Dashboard extends CI_Controller
 
     public function submitPaperRevision($paperId = null)
     {
+        if(!$this->checkAccess("submitPaperRevision"))
+            return;
         $this->load->model('paper_model');
         $this->load->model('paper_version_model');
         $this->load->model('submission_model');
@@ -384,6 +391,8 @@ class Dashboard extends CI_Controller
 
     public function paperInfo($paperId)
     {
+        if(!$this->checkAccess("paperInfo"))
+            return;
         $this->load->model('submission_model');
         $this->load->model('paper_model');
         $this->load->model('subject_model');
@@ -474,6 +483,8 @@ class Dashboard extends CI_Controller
     //Allows user to change current password
     public function changePassword($toResetPassword = false)
     {
+        if(!$this->checkAccess("changePassword"))
+            return;
         $page = "changePassword";
 
         $this -> data['toResetPassword'] = $toResetPassword;
@@ -514,6 +525,8 @@ class Dashboard extends CI_Controller
 
     public function resetPassword($member_id, $activation_code)
     {
+        if(!$this->checkAccess("resetPassword"))
+            return;
         $page = "resetPassword";
 
         $_SESSION['sudo'] = true;
@@ -537,6 +550,8 @@ class Dashboard extends CI_Controller
 
     public function validateCurrentPassword()
     {
+        if(!$this->checkAccess("validateCurrentPassword"))
+            return;
         $this->load->model('member_model');
 
         $member_id  = $_SESSION[APPID]['member_id'];
@@ -554,6 +569,8 @@ class Dashboard extends CI_Controller
 
     public function validateConfirmPassword()
     {
+        if(!$this->checkAccess("validateConfirmPassword"))
+            return;
         if(strcmp($this->input->post('newPassword'),$this->input->post('confirmPassword')))
         {
             $this->form_validation->set_message('validateConfirmPassword',"Both passwords should match");
@@ -565,6 +582,8 @@ class Dashboard extends CI_Controller
 
     public function downloadBiodata()
     {
+        if(!$this->checkAccess("downloadBiodata"))
+            return;
         $this->load-> helper ('download');
         $data=file_get_contents(SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER."1/".$_SESSION[APPID]['member_id']."biodata.pdf");
         $name = $_SESSION[APPID]['member_id']."biodata.pdf";
@@ -573,6 +592,8 @@ class Dashboard extends CI_Controller
 
     public function editProfile()
     {
+        if(!$this->checkAccess("editProfile"))
+            return;
         $this->load->model('member_model');
         $this->load->model('registration_model');
         $page="editProfile";
@@ -633,6 +654,8 @@ class Dashboard extends CI_Controller
 
     public function payment()
     {
+        if(!$this->checkAccess("payment"))
+            return;
         $page = "paymentHome";
         $memberID = $_SESSION[APPID]['member_id'];
 
@@ -858,6 +881,8 @@ class Dashboard extends CI_Controller
 
     public function transaction()
     {
+        if(!$this->checkAccess("transaction"))
+            return;
         $page="transactionHistory";
         $this->load->model('transaction_model');
         $this->load->model('transaction_mode_model');
@@ -868,6 +893,8 @@ class Dashboard extends CI_Controller
 
     public function payablesChart()
     {
+        if(!$this->checkAccess("payablesChart"))
+            return;
         $this->load->model('payable_class_model');
         $this->load->model('member_categories_model');
         $this->load->model('nationality_model');
@@ -1035,7 +1062,10 @@ class Dashboard extends CI_Controller
     }
     */
     
-    public function request_special_session(){
+    public function request_special_session()
+    {
+        if(!$this->checkAccess("request_special_session"))
+            return;
         $this->load->model('event_model');
         $this->load->helper('url');
 
@@ -1054,7 +1084,10 @@ class Dashboard extends CI_Controller
         $this->index($page);    
     }
 
-    public function special_sessions_list(){
+    public function special_sessions_list()
+    {
+        if(!$this->checkAccess("special_sessions_list"))
+            return;
         $this->load->model('ss_track_model');
         $this->load->helper('url');
         $page = 'special_sessions_list';
@@ -1062,7 +1095,10 @@ class Dashboard extends CI_Controller
         $this->index($page);    
     }
 
-    public function my_special_session(){
+    public function my_special_session()
+    {
+        if(!$this->checkAccess("my_special_session"))
+            return;
         $this->load->model('request_special_session');
         $page = 'my_special_session';
         if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
@@ -1072,7 +1108,10 @@ class Dashboard extends CI_Controller
         $this->index($page);    
     }
 
-    public function special_session($sid){
+    public function special_session($sid)
+    {
+        if(!$this->checkAccess("special_session"))
+            return;
         $this->load->model('request_special_session');
         $page = 'special_session';
         if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
@@ -1085,7 +1124,10 @@ class Dashboard extends CI_Controller
     }
 
 
-    public function special_session_details($sid){
+    public function special_session_details($sid)
+    {
+        if(!$this->checkAccess("special_session_details"))
+            return;
         $this->load->model('request_special_session');
         $page = 'special_session_details';
         if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
@@ -1096,7 +1138,10 @@ class Dashboard extends CI_Controller
         $this->index($page);
     }
 
-    public function edit_session_Chairperson($sid){
+    public function edit_session_Chairperson($sid)
+    {
+        if(!$this->checkAccess("edit_session_Chairperson"))
+            return;
         $this->load->model('request_special_session');
         $this->load->helper('url');
         $page = 'edit_chairperson';
@@ -1119,7 +1164,10 @@ class Dashboard extends CI_Controller
         $this->index($page);
     }
 
-    public function add_aoc($sid){
+    public function add_aoc($sid)
+    {
+        if(!$this->checkAccess("add_aoc"))
+            return;
         $this->load->model('request_special_session');
         $this->load->helper('url');
         $page = 'add_aoc';
@@ -1138,7 +1186,10 @@ class Dashboard extends CI_Controller
         $this->index($page);
     }
 
-    public function add_tpc($sid){
+    public function add_tpc($sid)
+    {
+        if(!$this->checkAccess("add_tpc"))
+            return;
         $this->load->model('request_special_session');
         $this->load->helper('url');
         $page = 'add_tpc';
@@ -1156,7 +1207,4 @@ class Dashboard extends CI_Controller
         }
         $this->index($page);
     }
-
-
-        
 }

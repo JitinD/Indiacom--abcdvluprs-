@@ -6,32 +6,28 @@
  * Time: 3:01 PM
  */
 
-class TransactionManager extends CI_Controller
-{
-    private $data = array();
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
 
+class TransactionManager extends BaseController
+{
     public function __construct()
     {
         parent::__construct();
+        $this->controllerName = "TransactionManager";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
-        $this->load->model('access_model');
-        require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "TransactionManager";
+        $sidebarData['controllerName'] = $this->controllerName;
         $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/TransactionManager/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privilege['Page']['TransactionManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['TransactionManager'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/navbar', $sidebarData);
@@ -50,6 +46,8 @@ class TransactionManager extends CI_Controller
 
     public function newTransaction()
     {
+        if(!$this->checkAccess("newTransaction"))
+            return;
         $this->load->model('transaction_mode_model');
         $this->load->model('currency_model');
         $this->load->helper('url');
@@ -109,6 +107,8 @@ class TransactionManager extends CI_Controller
 
     public function loadUnusedTransactions()
     {
+        if(!$this->checkAccess("loadUnusedTransactions"))
+            return;
         $page = "index";
         $this->load->model('transaction_model');
         $this->load->model('transaction_mode_model');
@@ -122,6 +122,8 @@ class TransactionManager extends CI_Controller
 
     public function load()
     {
+        if(!$this->checkAccess("load"))
+            return;
         $page = "index";
         $this->load->model('transaction_model');
         $this->load->model('transaction_mode_model');
@@ -135,11 +137,17 @@ class TransactionManager extends CI_Controller
 
     public function viewTransaction($transId)
     {
-
+        if(!$this->checkAccess("viewTransaction"))
+            return;
     }
 
     public function setTransactionVerificationStatus_AJAX()
     {
+        if(!$this->checkAccess("setTransactionVerificationStatus_AJAX"))
+        {
+            echo json_encode(false);
+            return;
+        }
         $this->load->library('form_validation');
         $this->form_validation->set_rules('trans_id', 'trans_id', 'required');
         $this->form_validation->set_rules('verification_status', 'verification_status', 'required');
