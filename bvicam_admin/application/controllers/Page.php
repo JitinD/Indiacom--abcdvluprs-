@@ -30,6 +30,7 @@ class Page extends BaseController
 
         if($page == 'home' && !$this->checkAccess('home'))
             return;
+        $this->load->model('access_model');
         $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header');
