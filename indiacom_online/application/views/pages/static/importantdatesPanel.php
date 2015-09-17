@@ -8,22 +8,22 @@
             <li class="list-group-item">
                 Submission of Full Length Paper
                 <br>
-                <strong>10<sup>th</sup> November, 2014</strong>
+                <strong>10<sup>th</sup> November, 2015</strong>
             </li>
             <li class="list-group-item">
                 Paper Acceptance Notification
                 <br>
-                <strong>12<sup>th</sup> January, 2015</strong>
+                <strong>12<sup>th</sup> January, 2016</strong>
             </li>
             <li class="list-group-item">
                 Submission of CRC
                 <br>
-                <strong>22<sup>nd</sup> January, 2015</strong>
+                <strong>25<sup>th</sup> January, 2016</strong>
             </li>
             <li class="list-group-item">
-                Registration Deadline
+                Registration Deadline(for inclusion of Paper in Proceedings)
                 <br>
-                <strong>22<sup>nd</sup> January, 2015</strong>
+                <strong>1<sup>st</sup> February, 2016</strong>
             </li>
         </ul>
     </div>

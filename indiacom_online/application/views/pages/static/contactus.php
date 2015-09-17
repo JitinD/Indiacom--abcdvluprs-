@@ -25,7 +25,7 @@
         </div>
         <div class="row">
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <table class="table table-responsive table-hover">
+                <table class="table table-responsive">
                     <tr>
                         <td>
                             <p>For Registration, Payment Status and Accommodation related queries
