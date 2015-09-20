@@ -89,3 +89,7 @@ $privilege['Page']['SpecialSessionRequests']['view_sessions'] = array('SSR2');
 $privilege['Page']['SpecialSessionRequests']['verify_sessions_tracks'] = array('SSR3');
 $privilege['Page']['SpecialSessionRequests']['view_request_fail'] = array('SSR4');
 $privilege['Page']['SpecialSessionRequests']['view_request_success'] = array('SSR5');
+
+$privilege['Page']['EventManager']['load'] = array('EM0');
+$privilege['Page']['EventManager']['newEvent'] = array('EM1');
+$privilege['Page']['EventManager']['viewEvent'] = array('EM2');

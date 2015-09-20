@@ -1,1 +1,0 @@
-This folder contains compliance reports of paper versions.

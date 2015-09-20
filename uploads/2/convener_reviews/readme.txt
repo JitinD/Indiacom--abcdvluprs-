@@ -1,1 +1,0 @@
-This folder contains convener reviews of paper versions.

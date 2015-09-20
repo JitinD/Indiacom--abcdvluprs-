@@ -14,6 +14,24 @@ class Track_model extends CI_Model
         $this->load->database();
     }
 
+    public function newTrack($trackDetails = array(), $trackEventId)
+    {
+        $trackDetails['track_id'] = $this->assignTrackId();
+        $trackDetails['track_event_id'] = $trackEventId;
+        $this->db->insert('track_master', $trackDetails);
+        return $trackDetails['track_id'];
+    }
+
+    private function assignTrackId()
+    {
+        $sql = "Select (Max(track_id) + 1) as new_track_id From track_master";
+        $query = $this->db->query($sql);
+        if($query->num_rows() == 0)
+            return 1;
+        $row = $query->row();
+        return $row->new_track_id;
+    }
+
     public function getAllTracks($eventId)
     {
         $this -> db -> select('track_id, track_number, track_name');

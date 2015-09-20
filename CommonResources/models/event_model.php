@@ -14,7 +14,7 @@ class Event_model extends CI_Model
         $this->load->database();
     }
 
-    public function getAllEvents_deprc()
+    /*public function getAllEvents_deprc()
     {
         $sql = "Select event_id, event_name From event_master Where event_dirty = 0";
         $query = $this->db->query($sql);
@@ -24,6 +24,23 @@ class Event_model extends CI_Model
             $htmlStr .= "<option value='" . $row->event_id .  "'>" . $row->event_name . "</option>";
         }
         return $htmlStr;
+    }*/
+
+    public function newEvent($eventDetails = array())
+    {
+        $eventDetails['event_id'] = $this->assignEventId();
+        $this->db->insert('event_master', $eventDetails);
+        return $eventDetails['event_id'];
+    }
+
+    private function assignEventId()
+    {
+        $sql = "Select (Max(event_id) + 1) as new_event_id From event_master";
+        $query = $this->db->query($sql);
+        if($query->num_rows() == 0)
+            return 1;
+        $row = $query->row();
+        return $row->new_event_id;
     }
 
     public function getAllEvents()

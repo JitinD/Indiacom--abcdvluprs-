@@ -122,6 +122,7 @@ class FinalPaperReviewer extends BaseController
             return;
         $page = 'paperInfo';
         $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
+        //TODO: confirm usage of below condition
         if($this->data['paperVersionDetails'] == null)
         {
             $this->load->view('pages/unauthorizedAccess');
@@ -193,25 +194,24 @@ class FinalPaperReviewer extends BaseController
 
             }
         }
-        else if(($this -> input -> post('Form1')))
+        else if(($this->input->post('Form1')))
         {
-            if($this->form_validation->run())
+            if($this->form_validation->run() && is_array($this->input->post('reviewers')))
             {
-                foreach($this -> input -> post('selectReviewer') as $reviewer_id)
+                foreach($this->input->post('reviewers') as $reviewer_id)
                 {
-                    $paper_version_review_record = array
-                                            (
-                                                'paper_version_id'          =>  $paper_version_id,
-                                                'paper_version_reviewer_id' =>  $reviewer_id
-                                            );
+                    $paper_version_review_record = array(
+                        'paper_version_id' => $paper_version_id,
+                        'paper_version_reviewer_id' => $reviewer_id
+                    );
 
-                    if($this -> paper_version_review_model -> addPaperVersionReviewRecord($paper_version_review_record))
-                        $this -> data['message'] = "success";
+                    if($this->paper_version_review_model->addPaperVersionReviewRecord($paper_version_review_record))
+                        $this->data['message'] = "success";
                     else
-                        $this -> data['error1'] = "Sorry, there is some problem. Try again later";
+                        $this->data['error1'] = "Sorry, there is some problem. Try again later";
                 }
 
-                $this -> setReviewerAssigned($paper_version_id, 1);
+                $this->setReviewerAssigned($paper_version_id, 1);
             }
         }
         else if(($this -> input -> post('Form3')))

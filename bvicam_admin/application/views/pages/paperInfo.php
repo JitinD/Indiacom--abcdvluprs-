@@ -102,6 +102,7 @@
                     </thead>
                     <tbody>
                     <?php
+                    $paper_version_reviewers = array();
                     if(empty($reviews))
                     {
                         ?>
@@ -116,9 +117,6 @@
                     {
                     ?>
                         <?php
-
-                            $paper_version_reviewers = array();
-
                         foreach($reviews as $index=>$review)
                         {
                         ?>
@@ -186,52 +184,69 @@
                     {
 
                 ?>
-                    <div>
+                    <div class="col-sm-12">
                         <form method = "post" class="form-horizontal">
-                            <div>
-                                <span class="h3">Add reviewers</span>
+                            <div class="row">
+                                <span class="h3">Assign Reviewers</span>
                             </div>
-                            <div class="form-group">
-                                <div class="col-sm-8">
-                                    <select multiple id="selectReviewer" name="selectReviewer[]" class="form-control">
-                                        <?php
-                                        $noReviewer = true;
-                                        foreach($reviewers as $reviewer_id=>$reviewer_name)
+
+                            <div class="row col-sm-2">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>S.No.</th>
+                                        <th>Reviewer Name</th>
+                                        <th>Select</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php
+                                    $sno = 1;
+                                    $noReviewer = true;
+                                    foreach($Allreviewers as $reviewer)
+                                    {
+                                        if(!in_array($reviewer->user_id, $paper_version_reviewers))
                                         {
+                                            $noReviewer = false;
                                         ?>
-                                            <?php
-                                            if(!in_array($reviewer_id, $paper_version_reviewers))
-                                            {
-                                                $noReviewer = false;
-                                            ?>
-                                                <div class="form-group">
-                                                    <option value = <?php echo $reviewer_id ;?>><?php echo $reviewer_id." - ".$reviewer_name;  ?></option>
-                                                </div>
-                                            <?php
-                                            }
-                                            ?>
+                                            <tr>
+                                                <td><?php echo $sno++; ?>.</td>
+                                                <td><?php echo $reviewer->user_name; ?></td>
+                                                <td><input type="checkbox" name="reviewers[]" value="<?php echo $reviewer->user_id; ?>"></td>
+                                            </tr>
                                         <?php
                                         }
-                                        if($noReviewer)
-                                        {
-                                        ?>
-                                            <option disabled>No reviewers available</option>
-                                        <?php
-                                        }
-                                        ?>
-                                    </select>
-                                    <span class="help-block">Hold Ctrl to select more than one reviewer</span>
-                                </div>
+                                    }
+                                    if($noReviewer)
+                                    {
+                                    ?>
+                                        <tr>
+                                            <td colspan="3">No Reviewers Available</td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                    </tbody>
+                                </table>
                             </div>
-                            <div class="form-group">
-                                <span class="body-text text-danger">
-                                            <?php
-                                            if(isset($error1))
-                                                echo $error1;
-                                            ?>
-                                </span>
+
+
+                            <div class="row text-danger">
+                                <?php
+                                if(isset($error1))
+                                    echo $error1;
+                                ?>
                             </div>
-                            <button name = "Form1" value = "Form1" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Add</button>
+                            <div class="row">
+                                <?php
+                                if(!$noReviewer)
+                                {
+                                ?>
+                                    <button name = "Form1" value = "Form1" class="btn btn-success"><span class="glyphicon glyphicon-plus"></span>Add Selected Reviewer(s)</button>
+                                <?php
+                                }
+                                ?>
+                            </div>
                         </form>
                     </div>
                 <?php
@@ -241,7 +256,7 @@
                 ?>
 
 
-                <div>
+                <div class="col-sm-12">
                     <div class="h2">
                         Your comments
                     </div>
@@ -329,7 +344,7 @@
                         }
                     ?>
 
-                    <a href = "/<?php echo BASEURL; ?>index.php/FinalPaperReviewer" > View papers assigned</a>
+                    <a href = "/<?php echo BASEURL; ?>index.php/FinalPaperReviewer/load" > View papers assigned</a>
                 </div>
             </div>
         </div>

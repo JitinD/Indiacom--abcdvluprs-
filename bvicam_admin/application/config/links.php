@@ -20,3 +20,4 @@ $ControllerDefaultLink['TrackManager'] = "TrackManager/markAuthorAttendance";
 $ControllerDefaultLink['DeliverablesManager'] = "#";
 $ControllerDefaultLink['Page'] = "#";
 $ControllerDefaultLink['SpecialSessionRequests'] = "SpecialSessionRequests/load";
+$ControllerDefaultLink['EventManager'] = "EventManager/load";

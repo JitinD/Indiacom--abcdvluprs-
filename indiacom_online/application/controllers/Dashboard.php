@@ -79,8 +79,8 @@ class Dashboard extends BaseController
     {
         if(!$this->checkAccess("uploadBiodata"))
             return;
-        $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
-        //$config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
+        //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
+        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
         $config['allowed_types'] = 'pdf';
         $config['file_name'] = $memberId . "biodata";
         $config['overwrite'] = true;
@@ -243,7 +243,13 @@ class Dashboard extends BaseController
 
                     $member_info = $this->member_model->getMemberInfo($paperDetails['paper_contact_author_id']);
                     $email_id = $member_info['member_email'];
-                    $message =  $this->load->view('pages/Email/EmailPaperSubmission', array("member_name"=>$member_info['member_name'], "paper_code"=>$paperDetails['paper_code'], "paper_title"=>$paperDetails['paper_title']), true);
+                    $message =  $this->load->view('pages/Email/EmailPaperSubmission', array(
+                        "member_name" => $member_info['member_name'],
+                        "member_ids" => $authors,
+                        "paper_code" => $paperDetails['paper_code'],
+                        "paper_title" => $paperDetails['paper_title'],
+                        "receipt_date" => date("Y")
+                    ), true);
 
                     if($this->sendMail($email_id, $message, array(SERVER_ROOT.$doc_path)))
                         $this->data['message'] = "success";
@@ -255,6 +261,17 @@ class Dashboard extends BaseController
         }
         return false;
     }
+
+    /*public function emailPage($pageName)
+    {
+        $this->load->view("pages/Email/$pageName", array(
+            "member_name" => "Saurabv",
+            "paper_title" => "sd",
+            "paper_code" => 23,
+            "receipt_date" => "September 17, 2015",
+            "member_ids" => array(5413, 5414)
+        ));
+    }*/
 
     public function authorsCheck($authors = array())
     {
@@ -447,8 +464,9 @@ class Dashboard extends BaseController
         $this->load->model('review_result_model');
         $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
         $reviewResultDetails = $this->review_result_model->getReviewResultDetails($versionDetails->paper_version_review_result_id);
+        //TODO: is_final_review column not in review_result_master. Checked all db dumps. Such a column never existed. Yet this problem was discovered only on 9/20/2015. Investigate why this was not detected earlier. Plus what is the significance of using this in the following condition. Currently commented out its usage and replaced with true.
         if(($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
-            && ($reviewResultDetails != null && $reviewResultDetails->is_final_review == 1 || $reviewResultDetails == null)
+            && ($reviewResultDetails != null && /*$reviewResultDetails->is_final_review == 1*/ true || $reviewResultDetails == null)
         )
         {
             return true;
