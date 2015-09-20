@@ -19,13 +19,14 @@
             <p>
                 The research papers, that we receive each year, are put through a strenuous, multi-phase review process
                 and the ones that finally get selected, are published in the Pre-Conference Proceedings of INDIACom. The
-                INDIACom proceedings, published with ISSN (0973-7529) and ISBN serials, are released during the
-                inaugural session of the respective events.<br/>&nbsp;<br/>
+                INDIACom proceedings, published with <strong>ISSN (0973-7529)</strong> and <strong>ISBN </strong>serials, are released during the inaugural session of the respective events.<br/>&nbsp;<br/>
                 You may click on either of the following links to access the soft copy of the proceedings for the
                 desired year:
             </p>
 
             <ul>
+				<li><a href="http://www.bvicam.ac.in/news/INDIACom%202015%20Proceedings/index.html">INDIACom-2015</a>
+                </li>
                 <li><a href="http://www.bvicam.ac.in/news/INDIACom%202014%20Proceedings/index.html">INDIACom-2014</a>
                 </li>
                 <li><a href="http://www.bvicam.ac.in/news/INDIACom%202013%20Proceedings/index.html">INDIACom-2013</a>

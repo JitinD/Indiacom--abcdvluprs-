@@ -100,7 +100,7 @@
                 <h2>SPECIAL DISCOUNTS in all Categories</h2>
 
                 <p>
-					Co-Authors (provided the main author has registered) of accepted papers and Alumni of BVICAM will get 20% discount on base rate in the respective category. They should contact <strong>Mr. Vishal Jain</strong> at indiacom2016@gmail.com for availing the discount before registration.
+					Co-Authors (provided the main author has registered) of accepted papers and Alumni of BVICAM will get 20% discount on base rate in the respective category. They should contact <strong>Mr. Vishal Jain</strong> at <a href = "mailto:indiacom2016@gmail.com">indiacom2016@gmail.com</a> for availing the discount before registration.
 				</p>
 				
 				<p>

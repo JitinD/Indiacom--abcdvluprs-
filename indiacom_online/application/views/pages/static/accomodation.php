@@ -7,17 +7,10 @@
         <hr>
         <div class="row">
             <div class="col-md-12 text-justify">
-                <p>Authors / Delegates are requested to kindly contact the below mentioned hotels directly for booking
-                    of accommodation as per their arrival / departure schedule.</p>
-
-                <p>Request for the <strong>applicable special discount</strong> on behalf of <strong>Bharati Vidyapeeth,
-                        New Delhi (INDIA)</strong> on account of <strong>INDIACom -2015</strong>.</p>
-
-                <p>As a <strong>special case for international participants</strong>, on advance payment basis,
-                    accommodation can be provided, by our Local Organizing Committee, at subsidized rates, at India
-                    International Centre (IIC), Lodi Road, New Delhi </span>and nearby hotels, based on the request. For
-                    more information e-mail us at <a href="mailto:indiacom2015@gmail.com">indiacom2015@gmail.com</a>.
-                </p>
+                <p>
+					Details of nearby hotels along with their discounted tariff are available hereunder. Authors / Delegates are requested to kindly contact them directly for booking of accommodation as per their arrival / departure schedule and request for the <strong>applicable special discount</strong> on behalf of <strong>Bharati Vidyapeeth, New Delhi (INDIA)</strong> on account of <strong>INDIACom -2016</strong>. <span class = "text-danger">As a <strong>special case for international participants</strong>, on advance payment basis, accommodation can be provided, by our Local Organizing Committee, at subsidized rates, at India International Centre (IIC), Lodi Road, New Delhi</span> and nearby hotels, based on the request. For more information e-mail us at <a href = "mailto:indiacom2016@gmail.com">indiacom2016@gmail.com</a>
+				</p>
+				
                 <table class="table table-responsive table-hover">
                     <thead>
                     <tr>
