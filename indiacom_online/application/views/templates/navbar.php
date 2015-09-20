@@ -137,7 +137,7 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="/<?php echo BASEURL; ?>sponsors">Sponsors</a></li>
                         <li><a href="/<?php echo BASEURL; ?>committees">Committees</a></li>
                         <li><a href="/<?php echo BASEURL; ?>reviewProcess">Review Process, Publication and Indexing</a>
-                        <li><a href="/<?php echo BASEURL; ?>plagarismPolicy">Plagarism Policy</a>
+                        <li><a href="/<?php echo BASEURL; ?>plagiarismPolicy">Plagiarism Policy</a>
                         </li>
                     </ul>
                 </li>
