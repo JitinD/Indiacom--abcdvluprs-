@@ -12,20 +12,20 @@
 				<table class="table table-bordered table-responsive">
                     <tr>
                         <td rowspan = "2"><strong>Category of Delegates/Authors</strong></td>
-						<td colspan = "2"><strong>Early Bird on or before 1st February, 2016</strong></td>
+						<td colspan = "2"><strong>Early Bird on or before <br/>1st February, 2016</strong></td>
 						<td colspan = "2"><strong>After 1st February, 2016</strong></td>
 						<td colspan = "2"><strong>Spot Registration (only in Cash)</strong></td>
                     </tr>
                     <tr>
-                        <td><strong>IEEE/IET/CSI/IETE/IE(I)/ISTE Members</strong></td>
-						<td><strong>General</strong></td>
-						<td><strong>IEEE/IET/CSI/IETE/IE(I)/ISTE Members</strong></td>
-						<td><strong>General</strong></td>
-						<td><strong>IEEE/IET/CSI/IETE/IE(I)/ISTE Members</strong></td>
-						<td><strong>General</strong></td>
+                        <td class = "text-primary"><strong>IEEE/IET/CSI/<br/>IETE/IE(I)/ISTE Members</strong></td>
+						<td class = "text-primary"><strong>General</strong></td>
+						<td class = "text-primary"><strong>IEEE/IET/CSI/<br/>IETE/IE(I)/ISTE Members</strong></td>
+						<td class = "text-primary"><strong>General</strong></td>
+						<td class = "text-primary"><strong>IEEE/IET/CSI/<br/>IETE/IE(I)/ISTE Members</strong></td>
+						<td class = "text-primary"><strong>General</strong></td>
                     </tr>
                     <tr>
-                        <td colspan = "7" align = "center"><strong>Indian Authors & Delegates (in INR)</strong></td>
+                        <td colspan = "7" align = "center" class = "text-danger"><strong>Indian Authors & Delegates (in INR)</strong></td>
                     </tr>
                     <tr>
                         <td><strong>Full Time Students*</strong></td>
@@ -55,7 +55,7 @@
 						<td>12,000.00</td>
                     </tr>
                     <tr>
-                        <td colspan = "7" align = "center"><strong>Foreign Authors & Delegates (in USD $)</strong></td>
+                        <td colspan = "7" align = "center" class = "text-danger"><strong>Foreign Authors & Delegates (in USD $)</strong></td>
                     </tr>
                     <tr>
                         <td><strong>Full Time Students*</strong></td>
@@ -87,7 +87,7 @@
                     
                 </table>
 			
-				<p>
+				<p class = "text-danger">
 					*Please note that Hard Copy of Proceedings of INDIACom-2016 will not be issued to authors who register as Full Time Students.
 				</p>
                 <p>
@@ -97,7 +97,7 @@
 					10% discount will be given on three or more registrations from one organization in General Category only. Please note that M. Tech./B. Tech./MCA students will be considered as Full time Students whereas Ph. D. Scholars will be considered as Research Scholars.
 				</p>
 
-                <h3><strong>SPECIAL DISCOUNTS in all Categories</strong></h3>
+                <h2>SPECIAL DISCOUNTS in all Categories</h2>
 
                 <p>
 					Co-Authors (provided the main author has registered) of accepted papers and Alumni of BVICAM will get 20% discount on base rate in the respective category. They should contact <strong>Mr. Vishal Jain</strong> at indiacom2016@gmail.com for availing the discount before registration.
@@ -112,22 +112,75 @@
 					The registration fee includes tea, lunch, conference kit and the Soft and Hard Copies of the Conference Proceedings along with other printed materials related to the conference.
 				</p>
 				
-                <h3><strong>Additional Instructions for Co-Authors</strong></h3>
+                <h2>Additional Instructions for Co-Authors</h2>
                 
 				<p>
 					In a paper with more than one author, all authors cannot register as <strong>"Co-Authors"</strong>. One of the authors must pay full registration fee, while others can avail Co-Author discount. Co-Author registration discount can be availed only after one of the authors has successfully registered with full registration fee. Co-Authors who wish to avail registration discount have to compulsorily indicate fee payment details of first author.
 				</p>
                 
-				<h3><strong>Submission of Multiple Papers</strong></h3>
+				<h2>Submission of Multiple Papers</h2>
 
                 <p>
-					Multiple papers may be submitted by one author or group of authors.  In such cases, if multiple papers are accepted, <strong>authors will need to submit at-least one full registration per paper</strong>, to make the paper eligible for presentation / publishing. However, if there are more than one papers from same group of authors, there will be an extra charge of Rs.2000/- for every additional paper, <strong>provided any one author has paid full registration fee for that paper</strong>. In such cases, Conference Kit will not be issued, however, certificate will be issued to the author who would be presenting this paper. Please note that a paper will be considered for presentation / publication only when at-least one full registration is received against that paper.
+					Multiple papers may be submitted by one author or group of authors.  In such cases, if multiple papers are accepted, <strong>authors will need to submit at-least one full registration per paper</strong>, to make the paper eligible for presentation / publishing. However, if there are more than one papers from same group of authors, there will be an extra charge of Rs.2000/- for every additional paper, <strong>provided any one author has paid full registration fee for that paper</strong>. In such cases, Conference Kit will not be issued, however, certificate will be issued to the author who would be presenting this paper. <span class = "text-danger"><strong>Please note that a paper will be considered for presentation / publication only when at-least one full registration is received against that paper.</strong></span>
 				</p>
 
-                <h3><strong>Payment Modes</strong></h3>
+                <h2>Payment Modes</h2>
 
                 <p>
-					The payment can be made in Cash in the office of the Institute / by Demand Draft in favour of <strong>Director, BVICAM</strong>, payable at <strong>New Delhi</strong> (INDIA) / Online Payments / RTGS / Wire Transfer in our SBI (State Bank of India) Account No.: 32077798105; Account Name: BVICAM; Branch Name: Jwala Heri (Delhi, INDIA); Branch Code: 06623; IFSC: SBIN0006623; Account Type: Saving; Swift Code of Beneficiary Bank: SBININBB550. While making online payment, authors are further requested to mention their Member ID & Paper ID clearly in Payment Remark to enable us to trace your payment in the Bank Statement. Kindly also note to add the applicable bank charges, if any, for online payment. 
+					The payment can be made in Cash in the office of the Institute / by Demand Draft in favour of <strong>Director, BVICAM</strong>, payable at <strong>New Delhi<span class = "text-danger">(INDIA)</span></strong>  / Online Payments / RTGS / Wire Transfer in our SBI <span class = "text-danger">(State Bank of India)</span>
+					<p>
+						<table class = "table">
+						<tr>
+							<td>
+								Account No.
+							</td>
+							<td>
+								32077798105;
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Account Name
+							</td>
+							<td>
+								BVICAM; 
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Branch Name 
+							</td>
+							<td>
+								Jwala Heri (Delhi, INDIA);
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Branch Code
+							</td>
+							<td>
+								06623;
+							</td>
+						</tr>
+						<tr>
+							<td>
+								IFSC
+							</td>
+							<td>
+								SBIN0006623;
+							</td>
+						</tr>
+						<tr>
+							<td>
+								Account Type
+							</td>
+							<td>
+								Saving; Swift Code of Beneficiary Bank: SBININBB550.
+							</td>
+						</tr>
+					</table>	
+					</p>
+					While making online payment, authors are further requested to mention their Member ID & Paper ID clearly in Payment Remark to <span class = "text-primary">enable us to trace your payment in the Bank Statement</span>. <span class = "text-danger">Kindly also note to add the applicable bank charges, if any, for online payment.</span>
 				</p><br/>
 				<a href = "#">Click here to download the Registration Form</a>
             </div>
