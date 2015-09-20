@@ -182,7 +182,7 @@
 					</p>
 					While making online payment, authors are further requested to mention their Member ID & Paper ID clearly in Payment Remark to <span class = "text-primary">enable us to trace your payment in the Bank Statement</span>. <span class = "text-danger">Kindly also note to add the applicable bank charges, if any, for online payment.</span>
 				</p><br/>
-				<a href = "#">Click here to download the Registration Form</a>
+				<a href = "<?php echo "/".DOWNLOAD_PATH."Registration_Form_for_INDIACom 2016.doc"?>" target = "blank">Click here to download the Registration Form</a>
             </div>
         </div>
     </div>

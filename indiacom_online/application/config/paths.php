@@ -14,6 +14,7 @@ include(dirname(__FILE__) . "/../../../global_config/paths.php");
 
 //Upload Folders
 define('UPLOAD_FOLDER', 'uploads/');
+define('DOWNLOAD_FOLDER', 'downloads/');
 define('PAPER_FOLDER', 'papers/');
 define('CONVENER_REVIEW_FOLDER', 'convener_reviews/');
 define('REVIEWER_REVIEW_FOLDER', 'reviewer_reviews/');
@@ -23,3 +24,6 @@ define('TEMP_BIODATA_FOLDER','biodata_temp/');
 
 //Upload base path
 define('UPLOAD_PATH', UPLOAD_PATH_PREFIX.UPLOAD_FOLDER);
+
+//Downloads base path
+define('DOWNLOAD_PATH', UPLOAD_PATH_PREFIX.DOWNLOAD_FOLDER);
