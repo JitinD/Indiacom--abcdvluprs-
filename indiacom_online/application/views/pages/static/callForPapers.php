@@ -171,7 +171,7 @@
                 <p>
                     Authors from across different parts of the world are invited to submit their papers. Authors wishing
                     to submit their papers must refer to the website, for paper structuring and formatting guidelines in
-                    detail, at <a href="technicalGuidelines.php">Technical Guidelines</a>. Authors should submit their
+                    detail, at <a href="formattingGuidelines">Formatting Guidelines</a>. Authors should submit their
                     papers online at the link Submit Paper.
                     Unregistered authors should first create an account on Add Member link, to log on and submit paper.
                     Only electronic submissions will be considered. Papers submitted by e-mail will not be considered.

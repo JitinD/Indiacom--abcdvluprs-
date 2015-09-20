@@ -5,6 +5,7 @@
     <ul class="list-group">
 
         <li class="list-group-item"><a href="submitpaper">Submit Paper</a></li>
+        <li class="list-group-item"><a href="plagiarismPolicy">Plagiarism Policy</a></li>
         <li class="list-group-item"><a href="proceduralGuidelines">Paper Submission Guidelines</a></li>
         <li class="list-group-item"><a href="formattingGuidelines">Paper Formatting Guidelines</a></li>
         <li class="list-group-item"><a href="paymentModes">Payment Modes</a></li>

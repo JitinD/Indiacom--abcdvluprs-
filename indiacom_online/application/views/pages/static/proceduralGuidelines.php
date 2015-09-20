@@ -84,7 +84,7 @@
                 <p>
                     You can always refer to our <a href="faqs">FAQs</a> page which might be able to answer any
                     further queries or contact us using the correspondence details available <a
-                        href="contactus">here</a>. </p>
+                        href="conferenceSecretariate">here</a>. </p>
             </div>
         </div>
     </div>
