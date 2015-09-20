@@ -6,7 +6,11 @@
  * Time: 10:53
  */
 ?>
-
+<style>
+    a:hover{
+        color: #ff0000;
+    }
+</style>
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 text-center contentBlock-top">
         <ul class="list-inline">
@@ -32,16 +36,9 @@
             <li>
                 <a href="/<?php echo BASEURL; ?>faqs">FAQs</a>
             </li>
-            <?php
-            if ( !isset($_SESSION[APPID]['member_id']) )
-            {
-            ?>
             <li>
-                <a href="/<?php echo BASEURL; ?>d/Registration/signUp">Register</a>
+                <a href="/<?php echo BASEURL; ?>registrationDetails">Registration Details</a>
             </li>
-            <?php
-            }
-            ?>
         </ul>
     </div>
 </div>
