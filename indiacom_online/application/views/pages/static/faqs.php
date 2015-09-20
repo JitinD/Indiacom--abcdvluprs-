@@ -29,8 +29,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -51,8 +49,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -72,8 +68,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -94,8 +88,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -114,8 +106,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="panel-group" id="accordion">
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 <h4 class="panel-title">
@@ -130,6 +120,77 @@
                                     <p>
                                         Click on the <a href="retrievePassword.asp">Forgot Your Password</a></font>
                                         link that appears on the login page
+
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#q7">
+                                        Do I need to register for the
+                                        conference, if I am not submitting a paper?
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="q7" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>
+                                        If you wish to attend our conference, then you need to register.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#q8">
+                                        How do I register?
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="q8" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>
+                                        To register for an event, you need to fill up a registration form for that
+                                        specific event.
+                                        You can access the Event
+                                        <a href="downloads/Registration_Form_for_INDIACom%202015.doc">Registration Form</a>
+                                        here.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#q9">
+                                        How do I make payments?
+                                    </a>
+                                </h4>
+                            </div>
+                            <div id="q9" class="panel-collapse collapse">
+                                <div class="panel-body">
+                                    <p>
+                                        Payments can be made either in Cash or by Demand Draft (DD) (drawn in favour of <b>Director,
+                                            BVICAM,</b>
+                                        payable at <b>New Delhi</b>). Online Payments / RTGS in our SBI <font color="#0000FF"><b>
+                                                Account No.</b>:</font> <b><font color="#FF0000">32077798105</font></b> <b>
+                                            <font color="#0000FF">Account Name:</font></b> <b><font color="#FF0000">BVICAM</font></b>
+                                        <b><font color="#0000FF">Branch Name:</font></b> <b><font color="#FF0000">Jwala</font></b>
+                                        <b><font color="#FF0000">Heri</font></b> (<b><font color="#FF0000">Delhi</font></b>,
+                                        <b><font color="#FF0000">INDIA</font></b>), <b><font color="#0000FF">Branch Code</font></b>:
+                                        <b><font color="#FF0000">06623</font></b>, <b><font color="#0000FF">IFSC:</font></b>
+                                        <b><font color="#FF0000">SBIN0006623</font></b>, <b><font color="#0000FF">
+                                                Account Type:</font></b> <b><font color="#FF0000">Saving</font></b>. While
+                                        making online payment, authors are further requested to mention their Member ID
+                                        &amp; Paper ID clearly in Payment Remark to enable us to trace your payment in the
+                                        Bank Statement. Kindly also note to add the applicable bank charges, if any, for
+                                        online payment. .Cash payments are to be made on the spot, while the DD
+                                        can be mailed to us.
+                                    <p>Any payment received before the specified <i> early bird date</i> is
+                                        eligible for the early bird discount.
 
                                     </p>
                                 </div>
