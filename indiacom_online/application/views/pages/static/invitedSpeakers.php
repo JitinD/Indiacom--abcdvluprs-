@@ -6,26 +6,24 @@
         <span class="h1 text-theme">List of Invited Speakers</span>
         <hr>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 text-justify">
 
                 <table class="table">
 
                     <tr>
                         <td valign="top" height="187">
-                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/aashish banati.jpg" height="116"/></td>
-                        <td class="generalTxt" height="187" valign="top"><strong>Mr. Aashish Banati </strong>is
-                            currently working as
-                            Director/Scientist "F" at STQC IT – Delhi Centre, Department of Electronics and Information
-                            Technology,
-                            Ministry of Communication and IT (MC&IT). He has been working with Standardisation Testing
-                            and Quality
-                            Certification Directorate (STQC Dte.) in various capacities for last 23 years. He has been
-                            responsible for
-                            testing and certification of wide variety of products starting with electronic components,
-                            devices and more
-                            recently (for the last 13-14 years) into testing and certification of application software.
-                            The application
-                            software is tested, analysed for various characteristics/ aspects and then certified..
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/aashish banati.jpg"
+                                 height="116"/></td>
+                        <td class="generalTxt text-justify" height="187" valign="top"><strong>Mr. Aashish
+                                Banati </strong>is
+                            currently working as Director/Scientist "F" at STQC IT - Delhi Centre, Department of
+                            Electronics and Information Technology, Ministry of Communication and IT (MC&IT). He has
+                            been working with Standardisation Testing and Quality Certification Directorate (STQC Dte.)
+                            in various capacities for last 23 years. He has been responsible for testing and
+                            certification of vide variety of products starting with electronic components, devices and
+                            more recently (for the last 13-14 years) into testing and certification of application
+                            software. The application software is tested, analysed for various characteristics/ aspects
+                            and then certified.
 
                             <a class="faq" href="http://in.linkedin.com/pub/aashish-banati/24/2b9/75">
                                 Read More...</a></td>
@@ -33,27 +31,42 @@
 
                     <tr>
                         <td valign="top" height="171">
-                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Prof. A. Q. Ansari.jpg" height="116"/></td>
-                        <td class="generalTxt" height="171" valign="top"><b>Prof. Abdul Quaiyum Ansari</b> is a
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Prof. A. Q. Ansari.jpg"
+                                 height="116"/></td>
+                        <td class="generalTxt text-justify" height="171" valign="top"><b>Prof. Abdul Quaiyum Ansari</b>
+                            is a
                             Professor in the Department of Electrical Engineering at Jamia Millia Islamia, New Delhi
-                            (INDIA), since 18<sup>th</sup> August 2000. Prof. Ansari is a Fellow of the Institution of
-                            Engineers
-                            (India), the National Telematics Forum
-                            (INDIA), and the IETE. He is a Senior Member of the Computer Society of India and the IEEE
-                            (USA). Prof.
-                            Ansari is currently the Chairman of the IEEE–Computational Intelligence Society, Delhi
-                            Chapter; Honorary
-                            Secretary, ISTE Jamia Chapter; and Faculty Advisor, ISTE-JMI
-                            Students Chapter.
+                            (INDIA), since 18th August 2000. Prof. Ansari is a Fellow of the Institution of Engineers
+                            (India), the National Telematics Forum (INDIA), and the IETE. He is a Senior Member of the
+                            Computer Society of India and the IEEE (USA). Prof. Ansari is currently the Chairman of the
+                            IEEE -Computational Intelligence Society, Delhi Chapter; Honorary Secretary, ISTE Jamia
+                            Chapter; and Faculty Advisor, ISTE-JMI Students Chapter.
                             <a class="faq"
                                href="http://jmi.ac.in/aboutjamia/departments/Electrical-Engg/faculty-members/Dr_Abdul_Quaiyum_Ansari-1950">
+                                Read More...</a></td>
+                    </tr>
+                    <tr>
+                        <td valign="top" height="171">
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Dr. Aime Lay-Ekualille.jpg"
+                                 height="116"/></td>
+                        <td class="generalTxt text-justify" height="171" valign="top"><b>Dr. Aime Lay-Ekualille,</b>
+                            Senior Member of IEEE, is with the University of Salento, MD in Electronic Engineering, MD
+                            in Clinical Engineering, Ph.D in Electronic Engineering, and post Degree in Environmental
+                            Impact Assessment. Director of Instrumentation and Measurement Lab at University of Salento.
+                            He is a former Technical Manager of different private and public institutions. He is
+                            currently scientific advisor of Italian national committee for IPPC (Integrated Pollution
+                            Prevention and Control, and health issues) and Senior advisor of the Italian Ministry of
+                            Environment.
+                            <a class="faq"
+                               href="http://ieee-ims.org/contacts/aim%C3%A9-lay-ekuakille">
                                 Read More...</a></td>
                     </tr>
 
                     <tr>
                         <td valign="top" height="127">
-                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Alok Vijayant.jpg" height="116"/></td>
-                        <td class="generalTxt" height="127" valign="top"><b>Mr. Alok Vijayant</b> is Director (IDG),
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Alok Vijayant.jpg"
+                                 height="116"/></td>
+                        <td class="generalTxt text-justify" height="127" valign="top"><b>Mr. Alok Vijayant</b> is Director (IDG),
                             Office of NSA
                             (PMO), Govt. of India. He served RBI for 14 years in various capacities.
                             He joined NTRO, Country's premier Technical Intelligence Agency as Head of IDG (Information
@@ -64,12 +77,31 @@
                             <a class="faq" href="">
                                 Read More...</a></td>
                     </tr>
+                    <tr>
+                        <td valign="top" height="171">
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Dr. A.jpg"
+                                 height="116"/></td>
+                        <td class="generalTxt text-justify" height="171" valign="top"><b>Prof. Ashok Agarawala</b>
+                            is Professor in the Department of Computer Science at the University of Maryland. He also
+                            holds joint positions with University of Maryland Institute for Advanced Computer Studies
+                            (UMIACS) and the Department of Electrical Engineering. For the past thirty Years, he has
+                            pursued research activities in the design, implementation and performance of computer
+                            systems. He is recognized for achievements in the areas of transient analysis of queues,
+                            distributed algorithms, and hard real-time systems design. Much of his research has gained
+                            national and corporate recognition through practical applications of his innovative
+                            solutions in these areas worldwide.
+                            <a class="faq"
+                               href="https://www.cs.umd.edu/users/agrawala/information.shtml">
+                                Read More...</a></td>
+                    </tr>
 
 
                     <tr>
                         <td valign="top" height="155">
-                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20B.%20S.%20Chowdhry.jpg" height="118"/></td>
-                        <td class="generalTxt" height="155" valign="top"><b>Prof. B. S. Chowdhry</b> is Dean, Faculty of
+                            <img width="118"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.%20B.%20S.%20Chowdhry.jpg"
+                                 height="118"/></td>
+                        <td class="generalTxt text-justify" height="155" valign="top"><b>Prof. B. S. Chowdhry</b> is Dean, Faculty of
                             Electrical Electronics and Computer Engineering and has been serving as
 
                             Chairman, Dept. of Electronics and Biomedical Engineering, MUET (PAKISTAN) for past 17 years
@@ -84,7 +116,7 @@
                     <tr>
                         <td valign="top" height="155">
                             <img src="/<?php echo PATH ?>assets/images/speakers/Prof.%20B.%20N.%20Mishra.jpg"/></td>
-                        <td class="generalTxt" height="155" valign="top"><b>Prof. B. N. Mishra</b>
+                        <td class="generalTxt text-justify" height="155" valign="top"><b>Prof. B. N. Mishra</b>
                             is Dean, Faculty of Technology and Chairman, Board of Research Studies,
                             University of Delhi, he facilitated research programs leading to degree
                             of Ph. D from the faculty. He is known for number of innovations in
@@ -98,8 +130,9 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/Dr.%20Brejesh%20Lall.jpg" height="137"/></td>
-                        <td class="generalTxt" height="148" valign="top">
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/Dr.%20Brejesh%20Lall.jpg"
+                                 height="137"/></td>
+                        <td class="generalTxt text-justify" height="148" valign="top">
                             <b>Dr. Brejesh Lall</b> is an Associate Professor in IIT Delhi. His
                             research Areas include Multiscale Modeling of Stochastic Processing,
                             Widesense Cyclostationary Process Representation, Physical layer in
@@ -110,11 +143,24 @@
                                 Read More...</a></td>
                     </tr>
 
+                    <tr>
+                        <td valign="top" height="148">
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/Dr. B. K. Panigrahi.jpg"
+                                 height="137"/></td>
+                        <td class="generalTxt text-justify" height="148" valign="top">
+                            <b>Dr. B. K. Panigrahi</b> is an Associate Professor in IIT Delhi. His research Areas
+                            include Power Quality, FACTS Devices, Power System Protection and AI Application to Power
+                            System.
+                            <a target="_blank" href="http://ee.iitd.ernet.in/people/bkpanigrahi.html">
+                                Read More...</a></td>
+                    </tr>
 
                     <tr>
                         <td valign="top" height="146">
-                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20D.%20K.%20Bandyopadhyay.jpg" height="148"/></td>
-                        <td class="generalTxt" height="146" valign="top"><b>Prof. D. K.
+                            <img width="115"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.%20D.%20K.%20Bandyopadhyay.jpg"
+                                 height="148"/></td>
+                        <td class="generalTxt text-justify" height="146" valign="top"><b>Prof. D. K.
                                 Bandyopadhyay</b> is a visionary leader in India's Management Education
                             community in modern times. He is a Fellow of the All India Management
                             Association (AIMA) and the Institution of Electronics and
@@ -131,6 +177,40 @@
                             &nbsp;</td>
                     </tr>
 
+                    <tr>
+                        <td valign="top" height="146">
+                            <img width="115"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof. G. S. Hura.gif"
+                                 height="148"/></td>
+                        <td class="generalTxt text-justify" height="146" valign="top"><b>Prof. G. S. Hura</b> is professor and chair
+                            of Dept. of Mathematics & Computer Science, University of Maryland (USA). He holds Ph.D. in
+                            Computer Engineering and M. S. in Electronics and Tele-communicationsfrom University of
+                            Roorkee (INDIA). He has more than forty years of teaching and reserach experience in various
+                            universities like Univ. of Idaho, Wright State University (USA), Concordia University
+                            (CANADA).
+                            <a class="faq"
+                               href="https://www.umes.edu/cms300uploadedFiles/1-AcademicAffairs/Business_and_Technology/_Departments/Math_and_Computer_Science/B3A3D223-A256-49E0-863B-361FD7F9446A.pdf">Read
+                                More...</a><br>
+                            &nbsp;</td>
+                    </tr>
+
+                    <tr>
+                        <td valign="top" height="146">
+                            <img width="115"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.gif"
+                                 height="148"/></td>
+                        <td class="generalTxt text-justify" height="146" valign="top"><b>Mr. Jeetan Ssingh </b> is an alumnus of
+                            Indian Institute of Technology Kharagpur, India and has over 20+ years of experience in the
+                            IT industry. He spent 10+ years of his initial career as a Computer Software specialist in
+                            variety of technologies. Jeetan started Datamatics Consultants Inc in 1993 to serve the IT
+                            needs of clients. Since its founding in 1993. Datamatics has grown from a bedroom office to
+                            an international operation with 130+ consultants based in the Americas and an additional 90
+                            international associates.
+                            <a class="faq"
+                               href="http://www.ehighpoints.com/leadership_team.html">Read
+                                More...</a><br>
+                            &nbsp;</td>
+                    </tr>
                     <!--
                             <tr>
                             <td valign="top" height="144">
@@ -146,8 +226,10 @@
                     -->
                     <tr>
                         <td valign="top" height="157">
-                            <img width="116" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Kishor%20S.%20Trivedi.jpg" height="112"/></td>
-                        <td class="generalTxt" height="157" valign="top">
+                            <img width="116"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Kishor%20S.%20Trivedi.jpg"
+                                 height="112"/></td>
+                        <td class="generalTxt text-justify" height="157" valign="top">
                             <b>Prof. Kishor S. Trivedi </b>holds the
                             Hudson Chair in the Department of Electrical and Computer Engineering at
                             Duke University, Durham, NC (USA). He also holds a joint appointment in the
@@ -161,8 +243,10 @@
 
                     <tr>
                         <td valign="top" height="134">
-                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20k.%20K.%20Aggarwal.jpg" height="142"/></td>
-                        <td class="generalTxt" height="134" valign="top"><b>Prof. K. K. Aggarwal</b>
+                            <img width="115"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.%20k.%20K.%20Aggarwal.jpg"
+                                 height="142"/></td>
+                        <td class="generalTxt text-justify" height="134" valign="top"><b>Prof. K. K. Aggarwal</b>
                             was the founder Vice Chancellor Guru Gobind singh Indraprastha
                             Univeristy, New Delhi (INDIA) for two terms. He is presently the Chancellor of Lingaya's
                             University, Haryana
@@ -176,9 +260,26 @@
                     </tr>
 
                     <tr>
+                        <td valign="top" height="134">
+                            <img width="115"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof. K. Subramanian.jpg"
+                                 height="142"/></td>
+                        <td class="generalTxt text-justify" height="134" valign="top"><b>Prof. K. Subramanian</b>
+                            was the first director and Professor at Advanced center for Informatics and Innovative
+                            Learning (ACIIL) and introduced Advanced Technology, Engineering and Management Courses at
+                            the Masters Level and started Research Programs in the Interdisciplinary areas of Knowledge
+                            Management, Informatics and Information and Communications Technologies and Management
+                            through Partnership Institutions at IGNOU..
+                            <a class="faq" href="http://sites.ieee.org/singapore-c/seminars-by-prof-subramanian/">
+                                Read More...</a></td>
+                    </tr>
+
+
+                    <tr>
                         <td valign="top" height="147">
-                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20M.%20N.%20Doja.jpg" height="113"/></td>
-                        <td class="generalTxt" height="147" valign="top">
+                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20M.%20N.%20Doja.jpg"
+                                 height="113"/></td>
+                        <td class="generalTxt text-justify" height="147" valign="top">
                             <b>Prof. M. N. Doja</b> is a national level
                             quality evaluator for NACC and NBA. He has been the chairman /member of
                             UGC plan committee 2f, 12b committee and an expert member for AICTE,
@@ -196,8 +297,9 @@
 
                     <tr>
                         <td valign="top" height="134">
-                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20M.%20P.%20Gupta.jpg" height="131"/></td>
-                        <td class="generalTxt" height="134" valign="top">
+                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20M.%20P.%20Gupta.jpg"
+                                 height="131"/></td>
+                        <td class="generalTxt text-justify" height="134" valign="top">
                             <b>Prof. M. P. Gupta </b>is a Professor
                             at the Department of Management Studies, IIT Delhi, New Delhi (INDIA).
                             He is on the jury of prestigious awards committees’ viz. Computer
@@ -211,8 +313,10 @@
 
                     <tr>
                         <td valign="top" height="151">
-                            <img width="112" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Mirza%20Salim%20Beg.jpg" height="111"/></td>
-                        <td class="generalTxt" height="151" valign="top">
+                            <img width="112"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Mirza%20Salim%20Beg.jpg"
+                                 height="111"/></td>
+                        <td class="generalTxt text-justify" height="151" valign="top">
                             <b>Prof. M. Salim Beg </b>is a Professor at
                             the Department of Electrinics Engineering, AMU, Aligarh (INDIA). He
                             obtained his B.Sc. Engg. (Hons) from AMU, Master of Engg. in
@@ -227,8 +331,9 @@
 
                     <tr>
                         <td valign="top" height="146">
-                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Prof. Hamada.jpg" height="116"/></td>
-                        <td class="generalTxt" height="146" valign="top"><b>Prof. Mohamed Hamada</b> is a professor in
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Prof. Hamada.jpg"
+                                 height="116"/></td>
+                        <td class="generalTxt text-justify" height="146" valign="top"><b>Prof. Mohamed Hamada</b> is a professor in
                             the Computer
                             Science Department, University of Aizu, Japan. His research interested include Artificial
                             Intelligence and
@@ -242,8 +347,9 @@
 
                     <tr>
                         <td valign="top" height="142">
-                            <img width="116" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20O.%20P.%20Vyas.jpg" height="120"/></td>
-                        <td class="generalTxt" height="142" valign="top">
+                            <img width="116" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20O.%20P.%20Vyas.jpg"
+                                 height="120"/></td>
+                        <td class="generalTxt text-justify" height="142" valign="top">
                             <b>Prof. O. P. Vyas</b> is a Professor at
                             IIIT Allahbad, Allahbad (INDIA). He has pursued M.Tech. in Computer
                             Science from IIT Kharagpur and Ph.D. in Computer Networks from IIT
@@ -257,8 +363,9 @@
 
                     <tr>
                         <td valign="top" height="185">
-                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Om Vyas.jpg" height="116"/></td>
-                        <td class="generalTxt" height="185" valign="top"><b>Dr. Om Vikas</b>
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Om Vyas.jpg" height="116"/>
+                        </td>
+                        <td class="generalTxt text-justify" height="185" valign="top"><b>Dr. Om Vikas</b>
                             possesses B Tech(EE), M Tech(EE), Ph.D.(CSE) all from IIT, Kanpur. He was formerly
                             Director/VC, ABV-IIITM
                             (Indian Institute of Information Technology & Management)
@@ -276,11 +383,24 @@
                         </td>
                     </tr>
 
+                    <tr>
+                        <td valign="top" height="185">
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Dr. P. Mateti.jpg"
+                                 height="116"/>
+                        </td>
+                        <td class="generalTxt text-justify" height="185" valign="top"><b>Dr. P. Mateti</b>
+                            is Associate Professor in Department of Computer Science and Engineering, Wright State
+                            University (USA). He holds Ph.D. in Computer Science from University of Illinois (USA) and
+                            M.Tech. in Computer Science from IIT Kanpur (INDIA).
+                            <a class="faq" href="http://cecs.wright.edu/~pmateti/">Read More...</a></td>
+                    </tr>
+
 
                     <tr>
                         <td valign="top" height="185">
-                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Rajat M Nag.jpg" height="116"/></td>
-                        <td class="generalTxt" height="185" valign="top"><b>Mr. Rajat M. Nag</b> holds engineering
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Rajat M Nag.jpg"
+                                 height="116"/></td>
+                        <td class="generalTxt text-justify" height="185" valign="top"><b>Mr. Rajat M. Nag</b> holds engineering
                             degrees from the
                             Indian Institute of Technology, Delhi
                             and University of Saskatchewan (Canada). He also has Masters degrees in Business
@@ -299,11 +419,27 @@
                                 Read More...</a></td>
                     </tr>
 
+                    <tr>
+                        <td valign="top" height="185">
+                            <img width="118" src="/<?php echo PATH ?>assets/images/speakers/Dr.jpg" height="116"/>
+                        </td>
+                        <td class="generalTxt text-justify" height="185" valign="top"><b>Mr. Rajendra Pratap Gupta</b>
+                            is Known globally for his innovative approach and strategic thinking . He has been invited
+                            by global organisations like the United Nations , World Health Organization , World Economic
+                            Forum , ITU , Embassy of the United States of America , Govt. of Japan & Finland , and also
+                            by the Ministry of health & The Planning Commission - Government of India for his views on
+                            diverse range of topics, and he authored the Election Manifesto for BJP in 2009 and in 2014
+                            under the Chairmanship of Dr.Murli Manohar Joshi. Policies of the Modi led NDA Government
+                            are entirely based on the Election Manifesto authored by him.
+                            <a class="faq" href="https://www.linkedin.com/in/rajendragupta">Read More...</a></td>
+                    </tr>
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/Prof. Sayed Hyder Abbas Musavi.jpg" height="137"/></td>
-                        <td class="generalTxt" height="148" valign="top">
+                            <img width="108"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof. Sayed Hyder Abbas Musavi.jpg"
+                                 height="137"/></td>
+                        <td class="generalTxt text-justify" height="148" valign="top">
                             <b>Prof. Sayed Hyder Abbas Musavi</b> is PhD and ME in Telecommunication Engineering under
                             HEC Scholarship
                             and B.E. in Electronics Engineering from Mehran University of Engineering and Technology. He
@@ -323,8 +459,23 @@
 
                     <tr>
                         <td valign="top" height="159">
-                            <img width="115" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20S.%20V.%20Raghavan.jpg" height="137"/></td>
-                        <td class="generalTxt" height="159" valign="top">
+                            <img width="115"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.jpg"
+                                 height="137"/></td>
+                        <td class="generalTxt text-justify" height="159" valign="top">
+                            <b>Mr. Stefanus Botes, </b>Minister Counsellor Economic at the South African High
+                            Commission, New Delhi since 2012. As Head of the Economic Section in the Mission his mandate
+                            is the promotion of manufactured products from South Africa into India (export promotion)
+                            and recruiting Foreign Direct Investment (FDI) from India into South Africa.
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td valign="top" height="159">
+                            <img width="115"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.%20S.%20V.%20Raghavan.jpg"
+                                 height="137"/></td>
+                        <td class="generalTxt text-justify" height="159" valign="top">
                             <b>Prof. S. V. Raghavan </b>is the
                             Scientific Secretary in the Office of the Principal Scientific Adviser
                             to the Government of India, Professor in the Department of Computer
@@ -339,8 +490,10 @@
 
                     <tr>
                         <td valign="top" height="155">
-                            <img width="112" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Shiban%20K.%20Koul.jpg" height="143"/></td>
-                        <td class="generalTxt" height="155" valign="top">
+                            <img width="112"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Shiban%20K.%20Koul.jpg"
+                                 height="143"/></td>
+                        <td class="generalTxt text-justify" height="155" valign="top">
                             <b>Prof. Shiban K Koul </b>is a Professor
                             and Deputy Director (Strategy and Planning) at Indian Institute of
                             Technology Delhi, New Delhi (INDIA). He is also the Chairman of Astra
@@ -358,8 +511,9 @@
 
                     <tr>
                         <td valign="top" height="134">
-                            <img width="112" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Steven%20Guan.jpg" height="118"/></td>
-                        <td class="generalTxt" height="134" valign="top">
+                            <img width="112" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Steven%20Guan.jpg"
+                                 height="118"/></td>
+                        <td class="generalTxt text-justify" height="134" valign="top">
                             <b>Prof. Steven Sheng-Uei Guan </b>is a
                             Professor in the computer science and software engineering department at
                             Xian Jiaotong-Liverpool University, Jiangsu (CHINA). Before joining
@@ -374,8 +528,10 @@
 
                     <tr>
                         <td valign="top" height="183">
-                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Subramaniam%20Ganesan.jpg" height="127"/></td>
-                        <td class="generalTxt" height="183" valign="top">
+                            <img width="108"
+                                 src="/<?php echo PATH ?>assets/images/speakers/Prof.%20Subramaniam%20Ganesan.jpg"
+                                 height="127"/></td>
+                        <td class="generalTxt text-justify" height="183" valign="top">
                             <b>Prof. Subramaniam Ganesan</b> is a
                             Professor of Electrical and Computer Engineering, Oakland University,
                             Rochester, MI 48309 (USA). He has over 25 years of teaching and research
@@ -391,8 +547,9 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/balasundram.jpg" height="137"/></td>
-                        <td class="generalTxt" height="148" valign="top">
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/balasundram.jpg"
+                                 height="137"/></td>
+                        <td class="generalTxt text-justify" height="148" valign="top">
                             <b>Prof. S. Balasundaram</b> is a Professor in the School of Computer &amp;
                             Systems Sciences at Jawaharlal Nehru University, New Delhi.
                             <a class="faq"
@@ -403,8 +560,9 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/vikas.jpg" height="137"/></td>
-                        <td class="generalTxt" height="148" valign="top">
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/vikas.jpg" height="137"/>
+                        </td>
+                        <td class="generalTxt text-justify" height="148" valign="top">
                             <b>Mr. Vikas </b>is a B.Tech from IIT Delhi with over 15 year of
                             professional experience &amp; is now a successful enterprenuer having have
                             successfully brought a pre-revenue single person start-up company to
@@ -419,8 +577,9 @@
 
                     <tr>
                         <td valign="top" height="148">
-                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/vijay vaishnavi.jpg" height="137"/></td>
-                        <td class="generalTxt" height="148" valign="top">
+                            <img width="108" src="/<?php echo PATH ?>assets/images/speakers/vijay vaishnavi.jpg"
+                                 height="137"/></td>
+                        <td class="generalTxt text-justify" height="148" valign="top">
                             <b>Dr. Vijay Vaishnavi</b> is Emeritus Board of Advisors Professor of Computer Information
                             Systems and
                             former Professor of
