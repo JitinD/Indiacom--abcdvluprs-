@@ -4,7 +4,7 @@
         <?php include('importantdatesPanel.php'); ?>
     </div>
     <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12">
-        <h1>Paper Formatting Guidelines</h1>
+        <h1>Paper Formatting Guidelines for Authors</h1>
         <hr>
         <div class="row">
             <div class="col-md-12">
@@ -13,8 +13,8 @@
                     the form of an abstract or academic thesis) and is not under consideration for publication
                     elsewhere. The submission should be approved by all the authors of the paper. If a paper is finally
                     accepted, the authorities, where the work had been carried out, shall be responsible for not
-                    publishing the work elsewhere in the same form. Paper, once submitted for consideration in INDIACom
-                    - 2016, cannot be withdrawn unless the same is finally rejected.
+                    publishing the work elsewhere in the same form. Paper, once submitted for consideration in <strong>INDIACom
+                    - 2016</strong>, cannot be withdrawn unless the same is finally rejected.
                 </p>
 
                 <h3>Paper Structure and Format</h3>
@@ -23,8 +23,7 @@
                     .docx) format:-</p>
                 <ul>
                     <li>The total length of the paper, including references and appendices, must
-                        not exceed six (06)
-                        Letter Size pages. However, the authors can extend maximum 1 page with over length page charge,
+                        not exceed <strong>six (06) Letter Size pages</strong>. However, the authors can extend maximum 1 page with over length page charge,
                         if accepted. It should be typed on one-side with double column, single-line spacing, 10 font
                         size, Times New Roman, in MS Word.
                     </li>
@@ -77,7 +76,7 @@
                     of
                     the research, the principal results and major conclusions. References and non-standard or uncommon
                     abbreviations should be avoided. As a last paragraph of the abstract, 05 to 10 Index Terms, in
-                    alphabetic order, under the heading Index Terms (Index Terms - …….) must be provided.
+                    alphabetic order, under the heading Index Terms <strong>(Index Terms - …….)</strong> must be provided.
                 </p>
                 <strong>Nomenclature</strong>
 
