@@ -15,7 +15,7 @@
 
 <body>
 
-<h1> Indiacom 2015 welcomes you! </h1>
+<h1> Indiacom 2016 welcomes you! </h1>
 <br/>
 Thank you for signing up.
 

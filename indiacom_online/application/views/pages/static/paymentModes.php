@@ -67,11 +67,11 @@
                 <p class="generalTxt">Registration Form, Demand Draft, Certificate of
                     Originality and copies of Membership Cards (for availing of discount)
                     if any, along with any other documents (if required) must be sent by
-                    SPEED POST, with the caption &quot;INDIACom-2015&quot; at the top centre of the
+                    SPEED POST, with the caption &quot;INDIACom-2016&quot; at the top centre of the
                     envelope to the following address: -
                 </p>
                 <p><strong>Prof. M. N. Hoda</strong><br>
-                        General Chair, <em>INDIACom-2015</em><br>
+                        General Chair, <em>INDIACom-2016</em><br>
                         Director, Bharati Vidyapeeth&rsquo;s<br>
                         Institute of Computer Applications and Management (BVICAM)<br>
                         A-4, Paschim Vihar, Rohtak Road, New Delhi &ndash; 110063 (INDIA)<br>

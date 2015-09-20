@@ -44,7 +44,7 @@
                 </table>
 
 
-                <p><strong> INDIACom-2015</strong> will be held at <strong>Bharati Vidyapeeth, New Delhi
+                <p><strong> INDIACom-2016</strong> will be held at <strong>Bharati Vidyapeeth, New Delhi
                         (INDIA)</strong>. The conference will provide a platform for technical exchanges within the
                     research community and will encompass regular paper presentation sessions, invited talks, key note
                     addresses, panel discussions and poster exhibitions. In addition, the participants will be treated
