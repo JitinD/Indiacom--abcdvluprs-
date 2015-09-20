@@ -29,6 +29,9 @@
             <li>
                 <a href="/<?php echo BASEURL; ?>accomodation">Accomodation</a>
             </li>
+            <li>
+                <a href="/<?php echo BASEURL; ?>faqs">FAQs</a>
+            </li>
             <?php
             if ( !isset($_SESSION[APPID]['member_id']) )
             {

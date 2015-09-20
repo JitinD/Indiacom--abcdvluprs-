@@ -137,11 +137,8 @@ function SetActiveNavItem($navItem, $page)
                         <li><a href="/<?php echo BASEURL; ?>sponsors">Sponsors</a></li>
                         <li><a href="/<?php echo BASEURL; ?>committees">Committees</a></li>
                         <li><a href="/<?php echo BASEURL; ?>reviewProcess">Review Process, Publication and Indexing</a>
-                        <li><a href="/<?php echo BASEURL; ?>plagiarismPolicy">Plagiarism Policy</a>
-                        </li>
                     </ul>
                 </li>
-
                 <li class="dropdown <?php SetActiveNavItem("Submit Paper", $navbarItem); ?>">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">Submit Paper<span
                             class="caret"></span></a>
@@ -154,6 +151,7 @@ function SetActiveNavItem($navItem, $page)
                         <?php
                         }
                         ?>
+                        <li><a href="/<?php echo BASEURL; ?>plagiarismPolicy">Plagiarism Ploicy</a></li>
                         <li><a href="/<?php echo BASEURL; ?>proceduralGuidelines">Paper Submission Guidelines</a></li>
                         <li><a href="/<?php echo BASEURL; ?>formattingGuidelines">Paper Formatting Guidelines</a></li>
                         <li><a href="/<?php echo BASEURL; ?>paymentModes">Payment Modes</a></li>
@@ -170,7 +168,7 @@ function SetActiveNavItem($navItem, $page)
                 <!--                <li class="-->
                 <?php //SetActiveNavItem("FAQs", $navbarItem); ?><!--"><a href="#">FAQs</a></li>-->
                 <li class="<?php SetActiveNavItem("Contact Us", $navbarItem); ?>"><a
-                        href="/<?php echo BASEURL; ?>contactus">Contact Us</a></li>
+                        href="/<?php echo BASEURL; ?>conferenceSecretariate">Contact Us</a></li>
                 <?php
                 if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])) {
                     ?>
@@ -201,13 +199,6 @@ function SetActiveNavItem($navItem, $page)
                 <?php
                 }
                 ?>
-                <!--<li>
-                    <a>
-                    <?php
-                /*                    echo $_SESSION[APPID]['dbUserName'];
-                                    */ ?>
-                        </a>
-                </li>-->
             </ul>
         </div>
     </div>
