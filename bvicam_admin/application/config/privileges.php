@@ -16,13 +16,13 @@ $privilege['Page']['NewsManager_IndiacomOnlineSystem']['deleteNews'] = array('NM
 $privilege['Page']['RoleManager']['load']=array('RM0');
 $privilege['Page']['RoleManager']['newRole']=array('RM1');
 $privilege['Page']['RoleManager']['viewRole']=array('RM2');
-$privilege['Page']['RoleManager']['enableRolePrivilege']=array('RM3');
-$privilege['Page']['RoleManager']['disableRolePrivilege']=array('RM4');
-$privilege['Page']['RoleManager']['addRolePrivilege']=array('RM5');
-$privilege['Page']['RoleManager']['deleteRolePrivilege']=array('RM6');
-$privilege['Page']['RoleManager']['disableRole']=array('RM7');
-$privilege['Page']['RoleManager']['enableRole']=array('RM8');
-$privilege['Page']['RoleManager']['deleteRole']=array('RM9');
+$privilege['Page']['RoleManager']['enableRolePrivilege_AJAX']=array('RM3');
+$privilege['Page']['RoleManager']['disableRolePrivilege_AJAX']=array('RM4');
+$privilege['Page']['RoleManager']['addRolePrivilege_AJAX']=array('RM5');
+$privilege['Page']['RoleManager']['deleteRolePrivilege_AJAX']=array('RM6');
+$privilege['Page']['RoleManager']['disableRole_AJAX']=array('RM7');
+$privilege['Page']['RoleManager']['enableRole_AJAX']=array('RM8');
+$privilege['Page']['RoleManager']['deleteRole_AJAX']=array('RM9');
 
 $privilege['Page']['UserManager']['load'] = array('UM0');
 $privilege['Page']['UserManager']['newUser'] = array('UM1');
@@ -37,9 +37,10 @@ $privilege['Page']['UserManager']['deleteUserRole'] = array('UM8');
 $privilege['Page']['InitialPaperReviewer']['load'] = array('IPR0');
 $privilege['Page']['InitialPaperReviewer']['reviewPaperInfo'] = array('IPR1');
 
-$privilege['Page']['FinalPaperReviewer']['load'] = array('FPR0');
+$privilege['Page']['FinalPaperReviewer']['loadAllPapers'] = array('FPR0');
 $privilege['Page']['FinalPaperReviewer']['setReviewerAssigned'] = array('FPR1');
 $privilege['Page']['FinalPaperReviewer']['paperInfo'] = array('FPR2');
+$privilege['Page']['FinalPaperReviewer']['loadTrackPapers'] = array('FPR3');
 
 $privilege['Page']['PaymentsManager']['load'] = array('PM0');
 $privilege['Page']['PaymentsManager']['viewPaymentsMemberWise'] = array('PM1');
@@ -93,3 +94,8 @@ $privilege['Page']['SpecialSessionRequests']['view_request_success'] = array('SS
 $privilege['Page']['EventManager']['load'] = array('EM0');
 $privilege['Page']['EventManager']['newEvent'] = array('EM1');
 $privilege['Page']['EventManager']['viewEvent'] = array('EM2');
+$privilege['Page']['EventManager']['enableEvent_AJAX'] = array('EM3');
+$privilege['Page']['EventManager']['disableEvent_AJAX'] = array('EM4');
+
+$privilege['Page']['CoConvenerManager']['load'] = array('CCM0');
+$privilege['Page']['CoConvenerManager']['setTrackCoConvener_AJAX'] = array('CCM1');

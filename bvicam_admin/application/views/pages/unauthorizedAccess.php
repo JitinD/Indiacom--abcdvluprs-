@@ -21,12 +21,13 @@
 			</center>
 		</div>
 		<div class="col-md-12 col-sm-12 col-xs-12 alert alert-danger">
-		<center>
-		<h1>Sorry, You are not authorized to access this page!</h1>
-				<p class="lead">
-					Or If you were searching for Meth, Call Heisenberg!
-				</p>
-				</center>
+            <?php if(isset($message)) echo "<h4>$message</h4>"; ?>
+		    <center>
+		    <h1>Sorry, You are not authorized to access this page!</h1>
+            <p class="lead">
+                Or If you were searching for Meth, Call Heisenberg!
+            </p>
+            </center>
         </div>
     </div>
 </div>

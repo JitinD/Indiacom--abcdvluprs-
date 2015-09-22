@@ -320,21 +320,23 @@ class Registration extends BaseController
 
     public function EnterPassword($member_id, $activation_code)
     {
+        $this->load->model('member_model');
+        $this->load->model('login_model');
+        $member_info = $this->member_model->getTempMemberInfo($member_id);
+        $this->login_model->setLoginParams("LM", $member_info['member_id'], $activation_code);
+        $this->login_model->authenticate();
         if(!$this->checkAccess("EnterPassword"))
             return;
         $page = "EnterPassword";
-        $this->load->model('member_model');
-        $this->load->model('login_model');
         $this->load->library('encrypt');
         $this->load->library('form_validation');
         $this->load->library('ftp');
 
-        $member_info = $this->member_model->getTempMemberInfo($member_id);
-        $this->login_model->setLoginParams("LM", $member_info['member_id'], $activation_code);
-        if (!$this->login_model->authenticate()) {
-            $this->load->view('pages/unauthorizedAccess');
+
+        /*if (!$this->login_model->authenticate()) {
+            $this->loadUnauthorisedAccessPage();
             return;
-        }
+        }*/
         $this->form_validation->set_rules('password', 'Password', 'required');
         $this->form_validation->set_rules('password2', 'Confirm Password', 'required|callback_validate_confirm_password');
         if ($this->form_validation->run()) {

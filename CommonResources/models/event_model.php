@@ -43,6 +43,24 @@ class Event_model extends CI_Model
         return $row->new_event_id;
     }
 
+    public function disableEvent($eventId)
+    {
+        $sql = "Update event_master
+                Set event_dirty = 1
+                Where event_id = ?";
+        $this->db->query($sql, array($eventId));
+        return $this->db->trans_status();
+    }
+
+    public function enableEvent($eventId)
+    {
+        $sql = "Update event_master
+                Set event_dirty = 0
+                Where event_id = ?";
+        $this->db->query($sql, array($eventId));
+        return $this->db->trans_status();
+    }
+
     public function getAllEvents()
     {
         $sql = "Select * From event_master Where event_dirty = 0";
@@ -52,7 +70,7 @@ class Event_model extends CI_Model
 
     public function getAllEventsInclDirty()
     {
-        $sql = "Select event_id, event_name From event_master";
+        $sql = "Select * From event_master";
         $query = $this->db->query($sql);
         return $query->result();
     }

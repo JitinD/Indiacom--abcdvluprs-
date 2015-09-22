@@ -27,7 +27,7 @@ class FinalPaperReviewer extends BaseController
     private function index($page)
     {
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "FinalPaperReviewer";
+        $sidebarData['controllerName'] = $this->controllerName;
         $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {
@@ -49,8 +49,20 @@ class FinalPaperReviewer extends BaseController
 
     public function load()
     {
-        if(!$this->checkAccess("load"))
-            return;
+        if($this->checkAccess("loadAllPapers", false))
+        {
+            $this->loadAllPapers();
+        }
+        else if($this->checkAccess("loadTrackPapers", false))
+        {
+            $this->loadTrackPapers();
+        }
+        else
+            $this->loadUnauthorisedAccessPage();
+    }
+
+    private function loadAllPapers()
+    {
         $page = "ConvenerDashboardHome";
         $this->load->model('event_model');
 
@@ -62,6 +74,44 @@ class FinalPaperReviewer extends BaseController
             $this -> data['not_reviewed_papers'][$event->event_id] = $this -> paper_version_model -> getNotReviewedPapers($event->event_id);
             $this -> data['convener_reviewed_papers'][$event->event_id] = $this -> paper_version_model -> getConvenerReviewedPapers($event->event_id);
         }
+
+        $this->index($page);
+    }
+
+    private function loadTrackPapers()
+    {
+        $page = "ConvenerDashboardHome";
+        $this->load->model('event_model');
+
+        $this->data['events'] = $this->event_model->getAllActiveEvents();
+        $this->data['coConvenerTracks'] = $tracks = $this->track_model->getTracksByCoConvener($_SESSION[APPID]['user_id']);
+        if(count($tracks) == 0)
+            die("No track assigned");
+
+        foreach($this->data['coConvenerTracks'] as $track)
+        {
+            $noReviewerPapers = $this->paper_version_model->getNoReviewerPapers(null, $track->track_id);
+            $reviewedPapers = $this->paper_version_model->getReviewedPapers(null, $track->track_id);
+            $notReviewedPapers = $this->paper_version_model->getNotReviewedPapers(null, $track->track_id);
+            $convenerReviewedPapers = $this->paper_version_model->getConvenerReviewedPapers(null, $track->track_id);
+            if(count($noReviewerPapers) > 0)
+                $this->data['no_reviewer_papers'][$noReviewerPapers[0]->event_id] = $noReviewerPapers;
+            if(count($reviewedPapers) > 0)
+                $this->data['reviewed_papers'][$reviewedPapers[0]->event_id] = $reviewedPapers;
+            if(count($notReviewedPapers) > 0)
+                $this->data['not_reviewed_papers'][$notReviewedPapers[0]->event_id] = $notReviewedPapers;
+            if(count($convenerReviewedPapers) > 0)
+                $this->data['convener_reviewed_papers'][$convenerReviewedPapers[0]->event_id] = $convenerReviewedPapers;
+        }
+
+        /*foreach($this->data['events'] as $event)
+        {
+
+            $this -> data['no_reviewer_papers'][$event->event_id] = $this -> paper_version_model -> getNoReviewerPapers($event->event_id, $tracks[0]->track_id);
+            $this -> data['reviewed_papers'][$event->event_id] = $this -> paper_version_model -> getReviewedPapers($event->event_id, $tracks[0]->track_id);
+            $this -> data['not_reviewed_papers'][$event->event_id] = $this -> paper_version_model -> getNotReviewedPapers($event->event_id, $tracks[0]->track_id);
+            $this -> data['convener_reviewed_papers'][$event->event_id] = $this -> paper_version_model -> getConvenerReviewedPapers($event->event_id, $tracks[0]->track_id);
+        }*/
 
         $this->index($page);
     }

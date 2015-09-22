@@ -149,91 +149,150 @@ class RoleManager extends BaseController
         $this->index($page);
     }
 
-    public function enableRolePrivilege($roleId, $privilegeId)
+    public function enableRolePrivilege_AJAX()
     {
-        if(!$this->checkAccess("enableRolePrivilege"))
+        if(!$this->checkAccess("enableRolePrivilege_AJAX", false))
+        {
+            echo false;
             return;
+        }
+        $this->load->library('form_validation');
         $this->load->model('role_model');
-        $this->load->helper('url');
-        $this->role_model->enablePrivilege($roleId, $privilegeId);
-        /*$roleInfo = $this->role_model->getRoleDetails($roleId);
-        $_SESSION['sudo'] = true;
-        $this->role_model->grantPrivileges($roleInfo->role_name, array($privilegeId));*/
-        redirect('/RoleManager/ViewRole/'.$roleId);
+        $this->form_validation->set_rules('roleId', 'Role Id', 'required');
+        $this->form_validation->set_rules('privilegeId', 'Privilege Id', 'required');
+        if($this->form_validation->run())
+        {
+            $this->role_model->enablePrivilege($this->input->post('roleId'), $this->input->post('privilegeId'));
+            echo true;
+            return;
+        }
+        echo false;
+        return;
     }
 
-    public function disableRolePrivilege($roleId, $privilegeId)
+    public function disableRolePrivilege_AJAX()
     {
-        if(!$this->checkAccess("disableRolePrivilege"))
+        if(!$this->checkAccess("disableRolePrivilege_AJAX"))
+        {
+            echo false;
             return;
+        }
+        $this->load->library('form_validation');
         $this->load->model('role_model');
-        $this->load->helper('url');
-        $this->role_model->disablePrivilege($roleId, $privilegeId);
-        /*$roleInfo = $this->role_model->getRoleDetails($roleId);
-        $_SESSION['sudo'] = true;
-        $this->role_model->revokePrivileges($roleInfo->role_name, array($privilegeId));*/
-        redirect('/RoleManager/ViewRole/'.$roleId);
+        $this->form_validation->set_rules('roleId', 'Role Id', 'required');
+        $this->form_validation->set_rules('privilegeId', 'Privilege Id', 'required');
+        if($this->form_validation->run())
+        {
+            $this->role_model->disablePrivilege($this->input->post('roleId'), $this->input->post('privilegeId'));
+            echo true;
+            return;
+        }
+        echo false;
+        return;
     }
 
-    public function deleteRolePrivilege($roleId, $privilegeId)
+    public function deleteRolePrivilege_AJAX()
     {
-        if(!$this->checkAccess("deleteRolePrivilege"))
+        if(!$this->checkAccess("deleteRolePrivilege_AJAX"))
+        {
+            echo false;
             return;
+        }
+        $this->load->library('form_validation');
         $this->load->model('role_model');
-        $this->load->helper('url');
-        $this->role_model->deletePrivilege($roleId, $privilegeId);
-        /*$roleInfo = $this->role_model->getRoleDetails($roleId);
-        $_SESSION['sudo'] = true;
-        $this->role_model->revokePrivileges($roleInfo->role_name, array($privilegeId));*/
-        redirect('/RoleManager/ViewRole/'.$roleId);
+        $this->form_validation->set_rules('roleId', 'Role Id', 'required');
+        $this->form_validation->set_rules('privilegeId', 'Privilege Id', 'required');
+        if($this->form_validation->run())
+        {
+            $this->role_model->deletePrivilege($this->input->post('roleId'), $this->input->post('privilegeId'));
+            echo true;
+            return;
+        }
+        echo false;
+        return;
     }
 
-    public function addRolePrivilege($roleId, $privilegeId)
+    public function addRolePrivilege_AJAX()
     {
-        if(!$this->checkAccess("addRolePrivilege"))
+        if(!$this->checkAccess("addRolePrivilege_AJAX"))
+        {
+            echo false;
             return;
+        }
+        $this->load->library('form_validation');
         $this->load->model('role_model');
-        $this->load->helper('url');
-        $this->role_model->assignPrivileges($roleId, array($privilegeId));
-        redirect('/RoleManager/ViewRole/'.$roleId);
+        $this->form_validation->set_rules('roleId', 'Role Id', 'required');
+        $this->form_validation->set_rules('privilegeId', 'Privilege Id', 'required');
+        if($this->form_validation->run())
+        {
+            $this->role_model->assignPrivileges($this->input->post('roleId'), array($this->input->post('privilegeId')));
+            echo true;
+            return;
+        }
+        echo false;
+        return;
     }
 
-    public function disableRole($roleId)
+    public function disableRole_AJAX()
     {
-        if(!$this->checkAccess("disableRole"))
+        if(!$this->checkAccess("disableRole_AJAX"))
+        {
+            echo false;
             return;
+        }
+        $this->load->library('form_validation');
         $this->load->model('role_model');
-        $this->load->helper('url');
-        $this->role_model->disableRole($roleId);
-        redirect('/RoleManager/load');
+        $this->form_validation->set_rules('roleId', 'Role Id', 'required');
+        if($this->form_validation->run() && $this->role_model->disableRole($this->input->post('roleId')))
+        {
+            echo true;
+            return;
+        }
+        echo false;
+        return;
     }
 
-    public function enableRole($roleId)
+    public function enableRole_AJAX()
     {
-        if(!$this->checkAccess("enableRole"))
+        if(!$this->checkAccess("enableRole_AJAX"))
+        {
+            echo false;
             return;
+        }
+        $this->load->library('form_validation');
         $this->load->model('role_model');
-        $this->load->helper('url');
-        $this->role_model->enableRole($roleId);
-        redirect('/RoleManager/load');
+        $this->form_validation->set_rules('roleId', 'Role Id', 'required');
+        if($this->form_validation->run() && $this->role_model->enableRole($this->input->post('roleId')))
+        {
+            echo true;
+            return;
+        }
+        echo false;
+        return;
     }
 
-    public function deleteRole($roleId)
+    public function deleteRole_AJAX()
     {
-        if(!$this->checkAccess("deleteRole"))
+        if(!$this->checkAccess("deleteRole_AJAX"))
+        {
+            echo false;
             return;
+        }
+        $this->load->library('form_validation');
         $this->load->model('role_model');
         $this->load->model('database_user_model');
         $this->load->model('user_model');
-        $this->load->helper('url');
-        $this->role_model->deleteAllRolePrivileges($roleId);
-        $roleInfo = $this->role_model->getRoleDetails($roleId);
-        //$this->database_user_model->deleteUser($roleInfo->role_name);
-        $this->user_model->deleteRoleMappings($roleId);
-        $this->role_model->deleteRole($roleId);
-        redirect('/RoleManager/load');
-        //$_SESSION['sudo'] = true;
-        //$this->role_model->dropDbuser($roleInfo->role_name);
+        $this->form_validation->set_rules('roleId', 'Role Id', 'required');
+        if($this->form_validation->run()
+            && $this->role_model->deleteAllRolePrivileges($this->input->post('roleId'))
+            && $this->user_model->deleteRoleMappings($this->input->post('roleId'))
+            && $this->role_model->deleteRole($this->input->post('roleId')))
+        {
+            echo true;
+            return;
+        }
+        echo false;
+        return;
     }
 
     public function refreshRoleDbUser($roleId)

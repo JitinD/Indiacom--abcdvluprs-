@@ -21,3 +21,4 @@ $ControllerDefaultLink['DeliverablesManager'] = "#";
 $ControllerDefaultLink['Page'] = "#";
 $ControllerDefaultLink['SpecialSessionRequests'] = "SpecialSessionRequests/load";
 $ControllerDefaultLink['EventManager'] = "EventManager/load";
+$ControllerDefaultLink['CoConvenerManager'] = "CoConvenerManager/load";

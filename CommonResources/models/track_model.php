@@ -47,6 +47,39 @@ class Track_model extends CI_Model
         return $query->row();
     }
 
+    public function getTracksByCoConvener($coConvenerId)
+    {
+        $sql = "Select * From track_master Where track_co_convener = ? And track_dirty = 0";
+        $query = $this->db->query($sql, array($coConvenerId));
+        return $query->result();
+    }
 
+    public function getCoConvenerTrackByEvent($eventId, $coConvenerId)
+    {
+        $sql = "Select track_master.*
+                From track_master
+                Where track_event_id = ? And track_co_convener = ? And track_dirty = 0";
+        $query = $this->db->query($sql, array($eventId, $coConvenerId));
+        if($query->num_rows() == 0)
+            return null;
+        return $query->row();
+    }
 
+    public function setTrackCoConvener($trackId, $userId)
+    {
+        $trackDetails = $this->getTrackDetails($trackId);
+        if($trackDetails == null)
+            return false;
+        $sql = "Update track_master
+                Set track_co_convener = null
+                Where track_co_convener = ? And track_event_id = ?";
+        $this->db->query($sql, array($userId, $trackDetails->track_event_id));
+        if(!$this->db->trans_status())
+            return false;
+        $sql = "Update track_master
+                Set track_co_convener = ?
+                Where track_id = ?";
+        $this->db->query($sql, array($userId, $trackId));
+        return $this->db->trans_status();
+    }
 }

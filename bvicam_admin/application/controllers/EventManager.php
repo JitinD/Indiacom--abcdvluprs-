@@ -48,7 +48,7 @@ class EventManager extends BaseController
         $page = "index";
         $this->load->model('event_model');
 
-        $this->data['events'] = $this->event_model->getAllEvents();
+        $this->data['events'] = $this->event_model->getAllEventsInclDirty();
 
         $this->index($page);
     }
@@ -167,6 +167,44 @@ class EventManager extends BaseController
     public function viewEvent()
     {
 
+    }
+
+    public function enableEvent_AJAX()
+    {
+        if(!$this->checkAccess("enableEvent_AJAX", false))
+        {
+            echo false;
+            return;
+        }
+        $this->load->library('form_validation');
+        $this->load->model('event_model');
+        $this->form_validation->set_rules('eventId', 'Event Id', 'required');
+        if($this->form_validation->run() && $this->event_model->enableEvent($this->input->post('eventId')))
+        {
+            echo true;
+            return;
+        }
+        echo false;
+        return;
+    }
+
+    public function disableEvent_AJAX()
+    {
+        if(!$this->checkAccess("disableEvent_AJAX", false))
+        {
+            echo false;
+            return;
+        }
+        $this->load->library('form_validation');
+        $this->load->model('event_model');
+        $this->form_validation->set_rules('eventId', 'Event Id', 'required');
+        if($this->form_validation->run() && $this->event_model->disableEvent($this->input->post('eventId')))
+        {
+            echo true;
+            return;
+        }
+        echo false;
+        return;
     }
 }
 
