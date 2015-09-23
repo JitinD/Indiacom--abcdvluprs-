@@ -31,7 +31,7 @@
                 <a href="/<?php echo BASEURL; ?>reachingBVICAM">Reaching BVICAM</a>
             </li>
             <li>
-                <a href="/<?php echo BASEURL; ?>accomodation">Accomodation</a>
+<!--                <a href="/--><?php //echo BASEURL; ?><!--accomodation">Accomodation</a>-->
             </li>
             <li>
                 <a href="/<?php echo BASEURL; ?>faqs">FAQs</a>

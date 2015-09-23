@@ -27,10 +27,12 @@
 <div class="container-fluid visible-xs topBlock">
     <div class="row ">
         <div class="col-xs-6">
-            <a href="http://bvicam.in/"><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive"></a>
+            <a href="http://bvicam.in/"><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png"
+                                             class="banner-sponsor-img"></a>
         </div>
         <div class="col-xs-6">
-            <a href="http://www.ewh.ieee.org/r10/delhi/"><img src="/<?php echo PATH ?>assets/images/sponsors/ieee.png" class="img-responsive"></a>
+            <a href="http://www.ewh.ieee.org/r10/delhi/"><img src="/<?php echo PATH ?>assets/images/sponsors/ieee.png"
+                                                              class="banner-sponsor-img"></a>
         </div>
     </div>
     <div class="col-xs-12 heroHeading text-center">
@@ -63,11 +65,13 @@
     <div class="row">
         <div class="col-lg-2 col-md-3 col-sm-3 col-xs-12">
             <a href="http://bvicam.in/" target="_blank">
-                <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage"></center>
+                <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive sponsorImage">
+                </center>
             </a>
         </div>
         <div class="col-lg-8 col-md-6 col-sm-6 text-center">
             <h1>INDIACom - 2016</h1>
+
             <div class="row h4">
                 <div class="col-md-12 col-sm-12">
                     10<sup>th</sup> INDIACom; 2016 3<sup>rd</sup> International Conference on Computing for Sustainable

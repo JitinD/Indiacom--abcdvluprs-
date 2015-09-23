@@ -1,7 +1,5 @@
 <div class="row">
     <div class="col-md-12 col-sm-12 col-xs-12 text-center">
-        <span class="h2">Sponsors</span>
-        <br>
         <a href="http://www.csi-india.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/csi.jpg"
                                                                  class="sponsorImage"></a>
         <a href="http://isteonline.in/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iste.jpg"

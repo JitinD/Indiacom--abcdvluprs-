@@ -10,6 +10,14 @@ require("NewsManager.php");
 
 class NewsManager_IndiacomOnlineSystem extends NewsManager
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->controllerName = "NewsManager_IndiacomOnlineSystem";
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
+    }
+
     public function addNews()
     {
         if(!$this->checkAccess("addNews"))
