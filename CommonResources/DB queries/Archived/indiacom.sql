@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.4.14
+-- version 4.1.14
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 24, 2015 at 08:15 AM
--- Server version: 5.6.26
--- PHP Version: 5.5.28
+-- Generation Time: Sep 15, 2015 at 08:22 AM
+-- Server version: 5.6.17
+-- PHP Version: 5.5.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -14,7 +14,7 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `indiacom`
@@ -27,12 +27,13 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `application_master` (
-  `application_id` int(4) NOT NULL,
+  `application_id` int(4) NOT NULL AUTO_INCREMENT,
   `application_name` varchar(50) NOT NULL,
   `DIRTY` tinyint(1) NOT NULL DEFAULT '0',
   `DOR` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `HASHTAG` varchar(64) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `HASHTAG` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`application_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `application_master`
@@ -49,10 +50,12 @@ INSERT INTO `application_master` (`application_id`, `application_name`, `DIRTY`,
 --
 
 CREATE TABLE IF NOT EXISTS `area_of_coverage` (
-  `aoc_id` int(11) NOT NULL,
+  `aoc_id` int(11) NOT NULL AUTO_INCREMENT,
   `sid` int(11) NOT NULL,
-  `name` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `name` text NOT NULL,
+  PRIMARY KEY (`aoc_id`),
+  KEY `sid` (`sid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -69,7 +72,11 @@ CREATE TABLE IF NOT EXISTS `attendance_master` (
   `is_present_in_hall` tinyint(1) NOT NULL DEFAULT '0',
   `attendance_hashtag` varchar(64) NOT NULL,
   `attendance_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `attendance_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `attendance_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`attendance_id`),
+  KEY `event_id` (`event_id`),
+  KEY `member_id` (`member_id`),
+  KEY `submission_id` (`submission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -353,7 +360,8 @@ CREATE TABLE IF NOT EXISTS `certificate_master` (
   `certificate_name` varchar(50) NOT NULL,
   `certificate_hashtag` varchar(64) DEFAULT NULL,
   `certificate_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `certificate_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `certificate_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`certificate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -368,222 +376,11 @@ CREATE TABLE IF NOT EXISTS `certificate_member_mapper` (
   `certificate_id` int(11) NOT NULL,
   `certificate_member_mapper_hashtag` varchar(64) DEFAULT NULL,
   `certificate_member_mapper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `certificate_member_mapper_dirty` tinyint(1) NOT NULL
+  `certificate_member_mapper_dirty` tinyint(1) NOT NULL,
+  PRIMARY KEY (`certificate_member_mapper_id`),
+  KEY `member_category_id` (`member_category_id`),
+  KEY `certificate_id` (`certificate_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `country_master`
---
-
-CREATE TABLE IF NOT EXISTS `country_master` (
-  `country_id` int(11) NOT NULL,
-  `country_name` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=198 DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `country_master`
---
-
-INSERT INTO `country_master` (`country_id`, `country_name`) VALUES
-(1, 'Afghanistan\r'),
-(2, 'Albania\r'),
-(3, 'Algeria\r'),
-(4, 'Andorra\r'),
-(5, 'Angola\r'),
-(6, 'Antigua and Barbuda\r'),
-(7, 'Argentina\r'),
-(8, 'Armenia\r'),
-(9, 'Australia\r'),
-(10, 'Austria\r'),
-(11, 'Azerbaijan\r'),
-(12, 'Bahamas\r'),
-(13, 'Bahrain\r'),
-(14, 'Bangladesh\r'),
-(15, 'Barbados\r'),
-(16, 'Belarus\r'),
-(17, 'Belgium\r'),
-(18, 'Belize\r'),
-(19, 'Benin\r'),
-(20, 'Bhutan\r'),
-(21, 'Bolivia\r'),
-(22, 'Bosnia and Herzegovina\r'),
-(23, 'Botswana\r'),
-(24, 'Brazil\r'),
-(25, 'Brunei\r'),
-(26, 'Bulgaria\r'),
-(27, 'Burkina Faso\r'),
-(28, 'Burundi\r'),
-(29, 'Cabo Verde\r'),
-(30, 'Cambodia\r'),
-(31, 'Cameroon\r'),
-(32, 'Canada\r'),
-(33, 'Central African Republic\r'),
-(34, 'Chad\r'),
-(35, 'Chile\r'),
-(36, 'China\r'),
-(37, 'Colombia\r'),
-(38, 'Comoros\r'),
-(39, 'Congo, Republic of the\r'),
-(40, 'Congo, Democratic Republic of the\r'),
-(41, 'Costa Rica\r'),
-(42, 'Cote d''Ivoire\r'),
-(43, 'Croatia\r'),
-(44, 'Cuba\r'),
-(45, 'Cyprus\r'),
-(46, 'Czech Republic\r'),
-(47, 'Denmark\r'),
-(48, 'Djibouti\r'),
-(49, 'Dominica\r'),
-(50, 'Dominican Republic\r'),
-(51, 'Ecuador\r'),
-(52, 'Egypt\r'),
-(53, 'El Salvador\r'),
-(54, 'Equatorial Guinea\r'),
-(55, 'Eritrea\r'),
-(56, 'Estonia\r'),
-(57, 'Ethiopia\r'),
-(58, 'Fiji\r'),
-(59, 'Finland\r'),
-(60, 'France\r'),
-(61, 'Gabon\r'),
-(62, 'Gambia\r'),
-(63, 'Georgia\r'),
-(64, 'Germany\r'),
-(65, 'Ghana\r'),
-(66, 'Greece\r'),
-(67, 'Grenada\r'),
-(68, 'Guatemala\r'),
-(69, 'Guinea\r'),
-(70, 'Guinea-Bissau\r'),
-(71, 'Guyana\r'),
-(72, 'Haiti\r'),
-(73, 'Honduras\r'),
-(74, 'Hungary\r'),
-(75, 'Iceland\r'),
-(76, 'India\r'),
-(77, 'Indonesia\r'),
-(78, 'Iran\r'),
-(79, 'Iraq\r'),
-(80, 'Ireland\r'),
-(81, 'Israel\r'),
-(82, 'Italy\r'),
-(83, 'Jamaica\r'),
-(84, 'Japan\r'),
-(85, 'Jordan\r'),
-(86, 'Kazakhstan\r'),
-(87, 'Kenya\r'),
-(88, 'Kiribati\r'),
-(89, 'Kosovo\r'),
-(90, 'Kuwait\r'),
-(91, 'Kyrgyzstan\r'),
-(92, 'Laos\r'),
-(93, 'Latvia\r'),
-(94, 'Lebanon\r'),
-(95, 'Lesotho\r'),
-(96, 'Liberia\r'),
-(97, 'Libya\r'),
-(98, 'Liechtenstein\r'),
-(99, 'Lithuania\r'),
-(100, 'Luxembourg\r'),
-(101, 'Macedonia\r'),
-(102, 'Madagascar\r'),
-(103, 'Malawi\r'),
-(104, 'Malaysia\r'),
-(105, 'Maldives\r'),
-(106, 'Mali\r'),
-(107, 'Malta\r'),
-(108, 'Marshall Islands\r'),
-(109, 'Mauritania\r'),
-(110, 'Mauritius\r'),
-(111, 'Mexico\r'),
-(112, 'Micronesia\r'),
-(113, 'Moldova\r'),
-(114, 'Monaco\r'),
-(115, 'Mongolia\r'),
-(116, 'Montenegro\r'),
-(117, 'Morocco\r'),
-(118, 'Mozambique\r'),
-(119, 'Myanmar (Burma)\r'),
-(120, 'Namibia\r'),
-(121, 'Nauru\r'),
-(122, 'Nepal\r'),
-(123, 'Netherlands\r'),
-(124, 'New Zealand\r'),
-(125, 'Nicaragua\r'),
-(126, 'Niger\r'),
-(127, 'Nigeria\r'),
-(128, 'North Korea\r'),
-(129, 'Norway\r'),
-(130, 'Oman\r'),
-(131, 'Pakistan\r'),
-(132, 'Palau\r'),
-(133, 'Palestine\r'),
-(134, 'Panama\r'),
-(135, 'Papua New Guinea\r'),
-(136, 'Paraguay\r'),
-(137, 'Peru\r'),
-(138, 'Philippines\r'),
-(139, 'Poland\r'),
-(140, 'Portugal\r'),
-(141, 'Qatar\r'),
-(142, 'Romania\r'),
-(143, 'Russia\r'),
-(144, 'Rwanda\r'),
-(145, 'St. Kitts and Nevis\r'),
-(146, 'St. Lucia\r'),
-(147, 'St. Vincent and The Grenadines\r'),
-(148, 'Samoa\r'),
-(149, 'San Marino\r'),
-(150, 'Sao Tome and Principe\r'),
-(151, 'Saudi Arabia\r'),
-(152, 'Senegal\r'),
-(153, 'Serbia\r'),
-(154, 'Seychelles\r'),
-(155, 'Sierra Leone\r'),
-(156, 'Singapore\r'),
-(157, 'Slovakia\r'),
-(158, 'Slovenia\r'),
-(159, 'Solomon Islands\r'),
-(160, 'Somalia\r'),
-(161, 'South Africa\r'),
-(162, 'South Korea\r'),
-(163, 'South Sudan\r'),
-(164, 'Spain\r'),
-(165, 'Sri Lanka\r'),
-(166, 'Sudan\r'),
-(167, 'Suriname\r'),
-(168, 'Swaziland\r'),
-(169, 'Sweden\r'),
-(170, 'Switzerland\r'),
-(171, 'Syria\r'),
-(172, 'Taiwan\r'),
-(173, 'Tajikistan\r'),
-(174, 'Tanzania\r'),
-(175, 'Thailand\r'),
-(176, 'Timor-Leste\r'),
-(177, 'Togo\r'),
-(178, 'Tonga\r'),
-(179, 'Trinidad and Tobago\r'),
-(180, 'Tunisia\r'),
-(181, 'Turkey\r'),
-(182, 'Turkmenistan\r'),
-(183, 'Tuvalu\r'),
-(184, 'Uganda\r'),
-(185, 'Ukraine\r'),
-(186, 'United Arab Emirates\r'),
-(187, 'UK (United Kingdom)\r'),
-(188, 'USA (United States of America)\r'),
-(189, 'Uruguay\r'),
-(190, 'Uzbekistan\r'),
-(191, 'Vanuatu\r'),
-(192, 'Vatican City (Holy See)\r'),
-(193, 'Venezuela\r'),
-(194, 'Vietnam\r'),
-(195, 'Yemen\r'),
-(196, 'Zambia\r'),
-(197, 'Zimbabwe');
 
 -- --------------------------------------------------------
 
@@ -592,12 +389,14 @@ INSERT INTO `country_master` (`country_id`, `country_name`) VALUES
 --
 
 CREATE TABLE IF NOT EXISTS `currency_master` (
-  `currency_id` int(2) NOT NULL,
+  `currency_id` int(2) NOT NULL AUTO_INCREMENT,
   `currency_name` varchar(3) NOT NULL,
   `currency_hashtag` varchar(64) DEFAULT NULL,
   `currency_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `currency_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `currency_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`currency_id`),
+  UNIQUE KEY `currency_name` (`currency_name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `currency_master`
@@ -618,7 +417,8 @@ CREATE TABLE IF NOT EXISTS `database_user` (
   `database_user_password` varchar(64) NOT NULL,
   `database_user_hashtag` varchar(64) DEFAULT NULL,
   `database_user_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `database_user_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `database_user_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`database_user_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -632,7 +432,8 @@ CREATE TABLE IF NOT EXISTS `deliverables_master` (
   `deliverables_name` varchar(50) NOT NULL,
   `deliverables_hashtag` varchar(64) DEFAULT NULL,
   `deliverables_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deliverables_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `deliverables_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`deliverables_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -656,7 +457,10 @@ CREATE TABLE IF NOT EXISTS `deliverables_member_mapper` (
   `deliverables_id` int(2) NOT NULL,
   `deliverables_member_mapper_hashtag` varchar(64) DEFAULT NULL,
   `deliverables_member_mapper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deliverables_member_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `deliverables_member_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`deliverables_member_mapper_id`),
+  KEY `member_category_id` (`member_category_id`),
+  KEY `deliverables_id` (`deliverables_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -676,7 +480,18 @@ CREATE TABLE IF NOT EXISTS `deliverables_status` (
   `deliverables_status_remarks` varchar(100) DEFAULT NULL,
   `deliverables_status_hashtag` varchar(64) DEFAULT NULL,
   `deliverables_status_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `deliverables_status_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `deliverables_status_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`deliverables_status_id`),
+  UNIQUE KEY `submission_id` (`submission_id`),
+  KEY `member_id` (`member_id`),
+  KEY `deliverables_member_mapper_id` (`deliverables_member_mapper_id`),
+  KEY `event_id` (`event_id`),
+  KEY `member_id_2` (`member_id`),
+  KEY `submission_id_2` (`submission_id`),
+  KEY `deliverables_member_mapper_id_2` (`deliverables_member_mapper_id`),
+  KEY `event_id_2` (`event_id`),
+  KEY `member_id_3` (`member_id`),
+  KEY `submission_id_3` (`submission_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -921,14 +736,16 @@ INSERT INTO `deliverables_status` (`deliverables_status_id`, `deliverables_membe
 --
 
 CREATE TABLE IF NOT EXISTS `discount_type_master` (
-  `discount_type_id` int(2) NOT NULL,
+  `discount_type_id` int(2) NOT NULL AUTO_INCREMENT,
   `discount_type_name` varchar(20) NOT NULL,
   `discount_type_amount` float NOT NULL,
   `discount_type_payhead` int(2) NOT NULL,
   `discount_type_hashtag` varchar(64) DEFAULT NULL,
   `discount_type_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `discount_type_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `discount_type_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`discount_type_id`),
+  KEY `discount_type_payhead` (`discount_type_payhead`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `discount_type_master`
@@ -946,7 +763,7 @@ INSERT INTO `discount_type_master` (`discount_type_id`, `discount_type_name`, `d
 --
 
 CREATE TABLE IF NOT EXISTS `event_master` (
-  `event_id` int(8) NOT NULL,
+  `event_id` int(8) NOT NULL AUTO_INCREMENT,
   `event_name` varchar(50) NOT NULL,
   `event_description` varchar(200) DEFAULT NULL,
   `event_start_date` datetime NOT NULL,
@@ -963,16 +780,16 @@ CREATE TABLE IF NOT EXISTS `event_master` (
   `event_attachment` varchar(300) DEFAULT NULL,
   `event_hashtag` varchar(64) DEFAULT NULL,
   `event_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `event_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `event_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`event_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
 
 --
 -- Dumping data for table `event_master`
 --
 
 INSERT INTO `event_master` (`event_id`, `event_name`, `event_description`, `event_start_date`, `event_end_date`, `event_paper_submission_start_date`, `event_paper_submission_end_date`, `event_abstract_submission_end_date`, `event_abstract_acceptance_notification`, `event_paper_submission_notification`, `event_review_info_avail_after`, `event_clear_min_dues_by`, `event_email`, `event_info`, `event_attachment`, `event_hashtag`, `event_dor`, `event_dirty`) VALUES
-(1, 'INDIACom - 2015', '2015 2<sup>nd</sup> International Conference on "Computing for Sustainable Global Development"', '2015-03-11 00:00:00', '2016-03-13 00:00:00', '2014-07-01 00:00:00', '2014-11-18 00:00:00', '2014-11-10 00:00:00', '2015-01-12 00:00:00', '2015-01-12 00:00:00', '2015-11-10 00:00:00', '2015-01-22 00:00:00', 'conference@bvicam.ac.in', '', '', NULL, '2015-03-01 06:20:25', 1),
-(2, 'Test Indiacom 2016', 'A test indiacom event for simulation', '2015-09-01 00:00:00', '2015-09-30 00:00:00', '2015-09-01 00:00:00', '2015-09-30 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '0000-00-00 00:00:00', '', NULL, NULL, NULL, '2015-09-20 09:26:15', 0);
+(1, 'INDIACom - 2015', '2015 2<sup>nd</sup> International Conference on "Computing for Sustainable Global Development"', '2015-03-11 00:00:00', '2015-03-13 00:00:00', '2014-07-01 00:00:00', '2014-11-18 00:00:00', '2014-11-10 00:00:00', '2015-01-12 00:00:00', '2015-01-12 00:00:00', '2015-11-10 00:00:00', '2015-01-22 00:00:00', 'conference@bvicam.ac.in', '', '', NULL, '2015-03-01 06:20:25', 0);
 
 -- --------------------------------------------------------
 
@@ -981,14 +798,16 @@ INSERT INTO `event_master` (`event_id`, `event_name`, `event_description`, `even
 --
 
 CREATE TABLE IF NOT EXISTS `indiacom_news_attachments` (
-  `attachment_id` int(8) NOT NULL,
+  `attachment_id` int(8) NOT NULL AUTO_INCREMENT,
   `news_id` int(8) NOT NULL,
   `attachment_name` varchar(50) DEFAULT NULL,
   `attachment_url` varchar(100) NOT NULL,
   `news_attachments_dirty` tinyint(1) NOT NULL DEFAULT '0',
   `news_attachments_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `news_attachments_hashtag` varchar(64) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `news_attachments_hashtag` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`attachment_id`),
+  KEY `news_id` (`news_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -1002,7 +821,9 @@ CREATE TABLE IF NOT EXISTS `indiacom_news_master` (
   `news_event_id` int(8) NOT NULL,
   `news_master_dirty` tinyint(1) NOT NULL DEFAULT '0',
   `news_master_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `news_master_hashtag` varchar(64) DEFAULT NULL
+  `news_master_hashtag` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`news_id`),
+  KEY `news_event_id` (`news_event_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -1012,13 +833,15 @@ CREATE TABLE IF NOT EXISTS `indiacom_news_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `member_category_master` (
-  `member_category_id` int(4) NOT NULL,
+  `member_category_id` int(4) NOT NULL AUTO_INCREMENT,
   `member_category_name` varchar(64) NOT NULL,
   `member_category_event_id` int(8) NOT NULL,
   `member_category_hashtag` varchar(64) DEFAULT NULL,
   `member_category_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `member_category_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+  `member_category_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`member_category_id`),
+  KEY `member_category_event_id` (`member_category_event_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `member_category_master`
@@ -1049,7 +872,12 @@ CREATE TABLE IF NOT EXISTS `member_certificate_tracker` (
   `is_certificate_given` tinyint(1) NOT NULL DEFAULT '0',
   `member_certificate_tracker_hashtag` varchar(64) DEFAULT NULL,
   `member_certificate_tracker_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `member_certificate_tracker_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `member_certificate_tracker_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`member_certificate_tracker_id`),
+  KEY `event_id` (`event_id`),
+  KEY `member_id` (`member_id`),
+  KEY `submission_id` (`submission_id`),
+  KEY `certificate_member_mapper_id` (`certificate_member_mapper_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -1282,7 +1110,10 @@ CREATE TABLE IF NOT EXISTS `member_master` (
   `member_is_activated` tinyint(1) NOT NULL DEFAULT '0',
   `member_hashtag` varchar(64) DEFAULT NULL,
   `member_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `member_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `member_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`member_id`),
+  KEY `member_organization_id` (`member_organization_id`),
+  KEY `member_category_id` (`member_category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -5604,7 +5435,7 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('5219', NULL, 'Saurabh Sharma', '341 Third Floor, Hari Nagar, Ashram, New Delhi', '110014', 'lavishlibra0810@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-26344864', NULL, '9953533981', '', '', '01242930', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('522', NULL, 'T.Ashwini', 'H.no.2-2-185/55/f,CE Colony,Bhag amberpet,Hyderabad,Andhra Pradesh.', '500013', 'ash_rao03@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-040-27404355', NULL, '9347309918', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 59, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5220', NULL, 'Jitin Dominic', 'Block - 22 / 2, Nurses Residential Complex, Srinivaspuri, New Delhi', '110065', 'jitin.dominic01@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-26922416', NULL, '9560365906', '', '', '01242950', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
-('5221', NULL, 'Saurav Deb Purkayastha', 'E-168, Sector 41', '201303', 'sauravdebp@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-4319850', NULL, '9818865297', '', '', '01242964', '', '10c0500908124a545f373d6a790ef7ef', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
+('5221', NULL, 'Saurav Deb Purkayastha', 'E-168, Sector 41', '201303', 'kusa4indigeek@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-4319850', NULL, '9818865297', '', '', '01242964', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5222', NULL, 'Shubhi Saraswat', '1/6723 East rohtash nagar shahdara delhi', '110032', 'shubhi.saraswat@gmail.om', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-22326195', NULL, '8010065362', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5223', NULL, 'Himanshu Gupta', '37 Anand Nagar, Inderlok, New Delhi', '110035', 'himanshu_731@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-23128748', NULL, '8010975575', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5224', NULL, 'Bhumika Khurana', 'H.no-407/24 near happy child school,uttam colony,bahadurgarh,haryana', '124507', 'peerless.bhumi@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-22326195', NULL, '9802154365', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
@@ -5818,7 +5649,7 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('5410', NULL, 'SHIVANGI SRIVASTAVA', '687, CIVIL LINES, \r\nHAR MAVAN DAYAL COLONY,\r\nUNNAO', '209801', 'shivangisrivastava0109@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0515-2820178', NULL, '7398074050', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 122, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5411', NULL, 'Neha Goel', 'House Number - 11, Pocket D-15, Sector-03, Rohini, Delhi', '110085', 'nehagoel123@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-27510135', NULL, '9911644560', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 312, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('5412', NULL, 'S D SAMANTARAY', 'PROFESSOR & HEAD\r\nCOMPUTER ENGINEERING\r\nCOLLEGE OF TECHNOLOGY\r\nPANTNAGAR', '263145', 'sdsray@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-05944-233367', NULL, '9412987200', '91-05944-233338', 'PROFESSOR & HEAD', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 138, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
-('5413', NULL, 'ayushi', 'sanskriti girls hostel bhopal', '462021', 'sauravdebp@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-8989-534762', NULL, '8989534762', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 536, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
+('5413', NULL, 'ayushi', 'sanskriti girls hostel bhopal', '462021', 'ayushi1agrawal1490@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-8989-534762', NULL, '8989534762', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 536, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5414', NULL, 'Dr Shiv Kumar', 'Anand Nagar Bhopal', '462021', 'titit2013@rediffmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '966-998-1618', NULL, '', '', 'Head of Department ', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 536, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('5415', NULL, 'Rachna Jain', 'GF-56,vardan apartment,\r\nIndirapuram\r\nGhaziabad', '201010', 'rachna_19802000@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0120-416071', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 711, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5416', NULL, 'Mr. Amit Kumar Mishra', 'anand nagar Bhopal', '462021', 'amitmishra.mtech@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-092000-44044', NULL, '', '', 'assistant professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 536, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
@@ -5871,9 +5702,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('5459', NULL, 'Shashank D Joshi', 'Bharati Vidyapeeth Deemed University’s,College of Engineering, Pune - Satara Road, Pune', '411043', 'sdj@live.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-020-24107390', NULL, '9423222621', '', 'Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 32, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('546', NULL, 'Devanand', 'Dept. of Computer Science & IT, University of Jammu, Jammu', '180006', 'dpadha@rediffmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0191-2437382', NULL, '09419103468', '91-0191-2432715', 'Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 191, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('5460', NULL, 'Menal', 'Flat no.38,Harmony apartment, pkt-1, sec-4, Dwarka ,New Delhi', '110078', 'menaldahiya@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-45604028', NULL, '9810453506', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 262, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
-('5461', NULL, 'Dr. Shaikh Abdul Azad', 'P.S.G.V.P''S SCIENCE COLLEGE, SHAHADA, DISTRICT-NANDURBAR,\r\nMAHARASHTRA', '425409', 'abdulteli786@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-55683', NULL, '9657555683', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 976, '', 'biodata_5461.pdf', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
-('5462', NULL, 'anuja khodaskar', '56, shankar nagar, raja peth, amravati.', '444601', 'annujha51@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0721-2670547', NULL, '9850548476', '', '', '', 'M-234703', '81dc9bdb52d04dc20036dbd8313ed055', 323, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0);
+('5461', NULL, 'Dr. Shaikh Abdul Azad', 'P.S.G.V.P''S SCIENCE COLLEGE, SHAHADA, DISTRICT-NANDURBAR,\r\nMAHARASHTRA', '425409', 'abdulteli786@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-55683', NULL, '9657555683', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 976, '', 'biodata_5461.pdf', 2, '3', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('5462', NULL, 'anuja khodaskar', '56, shankar nagar, raja peth, amravati.', '444601', 'annujha51@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0721-2670547', NULL, '9850548476', '', '', '', 'M-234703', '81dc9bdb52d04dc20036dbd8313ed055', 323, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5463', NULL, 'MANIDIPA ROY', '12/696, FRIEND''S SOCIETY, VASUNDHARA, GHAZIABAD, UP 201012', '201012', 'manidipa4488@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-23007249', NULL, '9810518588', '', '', '', '232546', '81dc9bdb52d04dc20036dbd8313ed055', 438, '', 'biodata_5463.doc', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5464', NULL, 'Siddharth Kaul', 'C - 92 Satellite Centre Vastrapur Ahmedabad', '380015', 'siddharth.kaul.k10@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-079-26741073', NULL, '9426243358', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 347, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5465', NULL, 'Dr.Madhuri Abhijeet Joshi', '14/2,ganesh housing society,N-8(A),CIDCO\r\nBajrang Chowk,Aurangabad.MH', '431003', 'madhuri.joshee@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-95950-10032', NULL, '9595010032', '', 'Assistant Professor', '', 'M208844', '81dc9bdb52d04dc20036dbd8313ed055', 343, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
@@ -6025,9 +5856,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('5597', NULL, 'Prof. Dr. Engr. Sayed Hyder Abbas Musavi', 'Dean, FEST, Indus University, Near National Statdium, Gulshan Iqbal Block 18 Karachi, Pakistan', '99999999', 'drhyderabbas@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '92-021-34801434', NULL, '00923012735696', '', 'Dean', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1030, '', 'biodata_5597.pdf', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('5598', NULL, 'Mamta Khanchandani', 'D/201.Aksharkunj Appt B/H postal soc Udhna Surat', '394210', 'mamta.mk22@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-2262925', NULL, '9228342588', '', 'Assiatant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1031, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
 ('5599', NULL, 'k.ramakrishna', 'hyderabad\r\nandhrapradesh', '500018', 'ramakrishnamtech08@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-7893748968', NULL, '7893748968', '', 'Asst.Prof', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1032, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
-('56', NULL, 'Ankur', 'Galgotia Institute of Mnagement & Technology I,Knowledge park II Greater Noida', '201306', 'ankur_garg1981@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-2548121', NULL, '09990909149', '', 'Lecturer', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 37, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
-('560', NULL, 'Hetesh Kumar', 'Hetesh Kumar\r\ns/o Sh. Mamchand Agarwal,\r\nMain Road, Khanjarpur, Roorkee.', '247667', 'hetesh87@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-01332-271717', NULL, '09410331307', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 36, '', 'biodata_560.doc', 1, '', 1, '', '0000-00-00 00:00:00', 0);
+('56', NULL, 'Ankur', 'Galgotia Institute of Mnagement & Technology I,Knowledge park II Greater Noida', '201306', 'ankur_garg1981@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-2548121', NULL, '09990909149', '', 'Lecturer', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 37, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('560', NULL, 'Hetesh Kumar', 'Hetesh Kumar\r\ns/o Sh. Mamchand Agarwal,\r\nMain Road, Khanjarpur, Roorkee.', '247667', 'hetesh87@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-01332-271717', NULL, '09410331307', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 36, '', 'biodata_560.doc', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5600', NULL, 'garima malik', 'v.p.o khanpur kalan, sonipat(haryana)', '131305', 'gmalik304@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-9728697347', NULL, '9728697347', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 914, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5601', NULL, 'parveen kakkar', 'Deptt. of MCA, DAVIET, Jalandhar', '144008', 'parveen.daviet@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0181-2207650', NULL, '09872211679', '91-0181-2205851', 'AP & Head', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 366, '', 'biodata_5601.docx', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('5602', NULL, 'asst.prof.Neeta Pramod Ghadge', '5,aashirwad AP-Khindwadi,TD-Satara,MAHARASHTRA INDIA.', '415002', 'neetaghadge@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-8600005862', NULL, '8600005862', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1033, '', 'biodata_5602.doc', 3, '', 1, '', '0000-00-00 00:00:00', 0),
@@ -6181,9 +6012,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('5737', NULL, 'bhumika bajaj', 'h.no.108, m.c.colony, near rohtak road, bhiwani, haryana, india', '127021', 'bhumikabajaj09@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0-7206909038', NULL, '09468481929', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 830, '', 'biodata_5737.pdf', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5738', NULL, 'Rachna Nagdev', 'House No 7/ E-18 Ward No 4\r\nSwami Vivekanand Marg \r\nLaxman Nagar Bairagarh Bhopal', '462030', 'rachna.nagdev@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0755-4057104', NULL, '9993573466', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 170, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5739', NULL, 'roly shrivastava', 'maa sharda kunj\r\nhaji wali talab\r\ndurga nagar\r\nvidisha (m.p.)', '464001', 'rolyshrivastava20@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-7952-234772', NULL, '9179122727', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 170, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
-('574', NULL, 'Mansi Parikh', 'A-14 Kalyan Nagar, Waghodia Road,Vadodara', '390019', 'er_mansi7@yahoo.co.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-265-2521360', NULL, '', '', 'Lecturer', '00155241', '', '81dc9bdb52d04dc20036dbd8313ed055', 118, '', '', 2, '1', 1, '', '0000-00-00 00:00:00', 0),
-('5740', NULL, 'Rana Majumdar', 'RZ-1485, 1st Floor, Gali No. 27/28, Tuglakabad Extn, Kalkaji, New Delhi-110019', '110019', 'rmajumdar@amity.edu', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-4392996', NULL, '9711572316', '', 'Asst. Prof.', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 20, '', 'biodata_5740.doc', 2, '3', 1, '', '0000-00-00 00:00:00', 0);
+('574', NULL, 'Mansi Parikh', 'A-14 Kalyan Nagar, Waghodia Road,Vadodara', '390019', 'er_mansi7@yahoo.co.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-265-2521360', NULL, '', '', 'Lecturer', '00155241', '', '81dc9bdb52d04dc20036dbd8313ed055', 118, '', '', 2, '1', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('5740', NULL, 'Rana Majumdar', 'RZ-1485, 1st Floor, Gali No. 27/28, Tuglakabad Extn, Kalkaji, New Delhi-110019', '110019', 'rmajumdar@amity.edu', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-4392996', NULL, '9711572316', '', 'Asst. Prof.', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 20, '', 'biodata_5740.doc', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('5741', NULL, 'Kartikay Garg', '416 , SECTOR - 37 , FARIDABAD\r\nHARYANA', '121003', 'garg.kartikay@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0-9818723467', NULL, '9818723467', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 268, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5742', NULL, 'Dr. Himanshu Gupta', 'Senior Faculty Member, AIIT, I1 Block, 3rd Floor, Amity University, Sector-125, Noida', '201301', 'hgupta@amity.edu', NULL, NULL, NULL, NULL, NULL, NULL, '91-120-4392267', NULL, '09911987390', '', 'Sr. Faculty Member', 'I0121589', 'Sr. Faculty Member', '81dc9bdb52d04dc20036dbd8313ed055', 20, '', 'biodata_5742.pdf', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('5743', NULL, 'HEENA KWATRA', 'Z-16 NAVEEN SHAHDARA, DELHI', '110032', 'hnkwatra1989@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-22328490', NULL, '7838397229', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1052, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
@@ -6335,9 +6166,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('5875', NULL, 'MPS Bhatia', 'Division of Computer Engineering\r\nNetaji Subhas Institute of Technology\r\nDelhi', '110078', 'mpsbhatia@nsit.ac.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-27012008', NULL, '9818192294', '', 'Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 58, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('5876', NULL, 'Akshi kumar', 'Department of Computer Engineering\r\nDelhi Technological university\r\nDelhi', '110042', 'akshi.kumar@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-27012008', NULL, '9899790369', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 202, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('5877', NULL, 'R.Devakunchari', 'No.3,kasturibai street,Muthulakshmi nagar,chitlapakkam,chennai,India', '600064', 'devakunchari.r@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-044-22234633', NULL, '9840470953', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 350, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
-('5878', NULL, 'Navaneet Kumar Sinha', 'kabir nagar, Jalandhar', '144001', 'navaneetsinha@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-06132-243242', NULL, '9815582923', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1068, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
-('5879', NULL, 'Kanchan Manna', 'Department of E & ECE\r\nMicroprocessor Lab.\r\nIIT Kharagpur\r\nKharagpur\r\nWest Bengal', '721302', 'kanchanm@sit.iitkgp.ernet.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-3222-255303', NULL, '09732667074', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 888, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0);
+('5878', NULL, 'Navaneet Kumar Sinha', 'kabir nagar, Jalandhar', '144001', 'navaneetsinha@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-06132-243242', NULL, '9815582923', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1068, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('5879', NULL, 'Kanchan Manna', 'Department of E & ECE\r\nMicroprocessor Lab.\r\nIIT Kharagpur\r\nKharagpur\r\nWest Bengal', '721302', 'kanchanm@sit.iitkgp.ernet.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-3222-255303', NULL, '09732667074', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 888, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('588', NULL, 'Kamlesh Dutta', 'CSED, NIT Hamirpur (HP)', '177005', 'kdnith@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-01972-254424', NULL, '', '', 'Lecturer', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 240, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('5880', NULL, 'Vignesh', 'Vit. University, Vellore-632014', '632014', 'iyer.vignesh2@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-967-7064420', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 347, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('5881', NULL, 'Ashish Kumar Sharma', 'Vit University, Vellore', '632014', 'ashishkumar.sharma2013@vit.ac.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-809-8437900', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 347, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
@@ -6492,9 +6323,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('6014', NULL, 'surinder pal singh', 'STMicroelectronics, Plot no. 1, Knowledge Park III, Greater Noida', '201308', 'surinder-pal.singh@st.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-120-2352999', NULL, '', '', 'Principal Engineer', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1091, '', '', 4, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('6015', NULL, 'Rajkumari', 'sec. 15d\r\nchandigarh', '160015', 'rajkumari_bhatia5@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-94179-17607', NULL, '', '', 'assistant professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 901, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6016', NULL, 'amit kumar', 'omaxe palm greens\r\nflat 1101, jelly palm D\r\nSector MU\r\nGreater Noida', '201308', 'kumar.amiit@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-8860533922', NULL, '8860533922', '', 'chief Eng', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1092, '', '', 4, '4', 1, '', '0000-00-00 00:00:00', 0),
-('6017', NULL, 'Priyanka Grover', 'H.no. 33, vikas nagar, bhiwani, haryana,india', '12701', 'parulgrover293@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-248054', NULL, '8950285505', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 175, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
-('6018', NULL, 'rita devi', '# 136, village lubh, p.o. makarahan\r\ntehsil jawali ,distt. kangra (h.p.)\r\n ', '176023', 'rita2988@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-7814054327', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 876, '', 'biodata_6018.docx', 3, '', 1, '', '0000-00-00 00:00:00', 0);
+('6017', NULL, 'Priyanka Grover', 'H.no. 33, vikas nagar, bhiwani, haryana,india', '12701', 'parulgrover293@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-248054', NULL, '8950285505', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 175, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('6018', NULL, 'rita devi', '# 136, village lubh, p.o. makarahan\r\ntehsil jawali ,distt. kangra (h.p.)\r\n ', '176023', 'rita2988@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-7814054327', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 876, '', 'biodata_6018.docx', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6019', NULL, 'Anoop Kumar Srivastava', 'Director, Radha Govind Engineering College, Meerut, U.P.', '250004', 'anoop_kumar_srivastava@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0121-2760396', NULL, '918439134968', '91-0121-2660771', 'Director', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1093, '', 'biodata_6019.docx', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('602', NULL, 'Sangamitra Pal', 'C/O Mr. Nirajan Pal,Opp. Kajal Aquarium,Arya Kumar Road,Machhua toli,patna', '800004', 'sanghamitra.pal@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0612-9835633892', NULL, '9990450611', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6020', NULL, 'Dr Mukesh Kumar', '#11, Lake View\r\nTIT&S, Birla Colony\r\nBhiwani.', '127021', 'drmukeshji@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-248054', NULL, '9992211406', '', 'Head Of Deparment', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 175, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
@@ -6655,9 +6486,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('6160', NULL, 'Manjula K R', 'SAP', '613401', 'manju_sakvarma@yahoo.co.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-43211', NULL, '9585917', '', 'SAP', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 150, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('6161', NULL, 'romana', 'house no:102 green park hyderpora byepass near jamkash', '190014', 'romanariyazuok@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0194-2430139', NULL, '9796394978', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 124, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6162', NULL, 'Vajenti', 'Ganga hostel Room No.10 JNU, New Delhi', '110067', 'er.vajenti@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-98-99848658', NULL, '9899848658', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 188, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
-('6163', NULL, 'Vineet Nagpal', 'House No. 1-B/ 44,\r\nNIT, Faridabad ', '121001', 'vineet.nagpal@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-129-4108410', NULL, '9873410841', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 875, '', 'biodata_6163.pdf', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
-('6164', NULL, 'jyoti gupta', 'E 301Happy home appartment sector 7 dwarka new de3lhi', '110075', 'jyotig1989@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-28089135', NULL, '', '', 'ap', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 337, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0);
+('6163', NULL, 'Vineet Nagpal', 'House No. 1-B/ 44,\r\nNIT, Faridabad ', '121001', 'vineet.nagpal@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-129-4108410', NULL, '9873410841', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 875, '', 'biodata_6163.pdf', 2, '3', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('6164', NULL, 'jyoti gupta', 'E 301Happy home appartment sector 7 dwarka new de3lhi', '110075', 'jyotig1989@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-28089135', NULL, '', '', 'ap', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 337, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
 ('6165', NULL, 'sachin kumar', 'dwarka new delhi', '110075', 'er.sachinvlsi@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-28089135', NULL, '', '', 'AP', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 284, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
 ('6166', NULL, 'ramakrishna', 'hyderabad', '500082', 'sriram.2515@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-7893748968', NULL, '7893748968', '', 'asst.prof', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 560, '', 'biodata_6166.doc', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6167', NULL, 'Gurbakash Phonsa', 'Block 34\r\nRoom 207\r\nChamber- 5\r\nLovely Professional University, \r\nNH1-Jalandhar-Delhi.\r\nPhagwara', '144402', 'phonsa@live.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-94635-60037', NULL, '9463560037', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 357, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
@@ -6817,9 +6648,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('6305', NULL, 'DR SHILPA DANG', 'MMU', '133207', 'dang.shilpa@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-01731-304100', NULL, '', '', 'ASSISTANT PROFESSOR', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 437, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6306', NULL, 'Dr SANTANU KOLEY', 'ISIM JAIPUR', '302001', 'santanukoley@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-90010-91248', NULL, '', '', 'FACULTY', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 214, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6307', NULL, 'Deepak', 'D-6-270/1 Sector-6 Rohini', '110085', 'dsrdeepak1197@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-9958658559', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 893, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
-('6308', NULL, 'Vinay kumar pandey', 'House ', '110086', 'vkp1979@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-8285980400', NULL, '9953660998', '91-011-9050774577', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 875, '', 'biodata_6308.doc', 2, '', 1, '', '0000-00-00 00:00:00', 0),
-('6309', NULL, 'Mukesh Kumar', 'IASRI, Library Avenue, Pusa, New Delhi ', '110012', 'mukeshkr@iasri.res.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-25847121', NULL, '9868086664', '', 'Sr. Scientist', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 688, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0);
+('6308', NULL, 'Vinay kumar pandey', 'House ', '110086', 'vkp1979@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-8285980400', NULL, '9953660998', '91-011-9050774577', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 875, '', 'biodata_6308.doc', 2, '', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('6309', NULL, 'Mukesh Kumar', 'IASRI, Library Avenue, Pusa, New Delhi ', '110012', 'mukeshkr@iasri.res.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-25847121', NULL, '9868086664', '', 'Sr. Scientist', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 688, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('631', NULL, 'Namit Mishra', 'room no-235,boys hostel-1\r\nABV-IIITM Gwalior(MP)', '474001', 'mishra.namit@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-34708', NULL, '9300916844', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 242, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6310', NULL, 'Dr. Devraj', 'Sr. Scientist (Computer Application),\r\nI.I.P.R., Kanpur (U.P.)', '208024', 'drmishra_1969@yahoo.co.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-0512-2572464', NULL, '09451018396', '91-0512-2572582', 'Sr. Scientist', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 123, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('6311', NULL, 'Sonia Chauhan', 'NCAP, Pusa, \r\nLibrary Avenue,\r\nPost Box 11305\r\nNew Delhi-110 012', '110012', 'sonia@ncap.res.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-25847628', NULL, '9968272885', '91-011-25842684', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 300, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
@@ -6973,9 +6804,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('6445', NULL, 'aditi moudgil', 'Dr. C.K Moudgil,Rajouli Road ,Barara Distt Ambala', '133201', 'aditi.modgil@chitkara.edu.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-01731-283441', NULL, '9416542685', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 488, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6446', NULL, 'Gaurav Verma', 'H. No. 143, Sector 10C, Vasundhra, Ghaziabad (U.P.)', '201012', 'gaurav.iitkg@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0120-2594321', NULL, '9811506739', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 50, '', 'biodata_6446.pdf', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6447', NULL, 'Gurpreet Singh', 'CURIN, Chitkara University\r\nRajpura\r\nPatiala', '140401', 'gursainipreet@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-98145-08484', NULL, '', '', 'Assis. Prof. (Res)', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1152, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
-('6448', NULL, 'gordon', 'azAW7U http://www.QS3PE5ZGdxC9IoVKTAPT2DBYpPkMKqfz.com', '2883', 'john@hotmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '17989359919', '', 'aAJWjqNFEHdHRFsA', 'DtVITfuXartyeWx', 'lWTMNaIUJoFuBUjPuA', '81dc9bdb52d04dc20036dbd8313ed055', 418, '', '', 3, '2', 1, '', '0000-00-00 00:00:00', 0),
-('6449', NULL, 'Divya Sharma', '236/B, Mahesh Nagar,\r\nAmbala Cantt\r\nHaryana', '133001', 'divya.sharma@chitkara.edu.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-0171-2662887', NULL, '09646425145', '', '', '', '93209913', '81dc9bdb52d04dc20036dbd8313ed055', 488, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0);
+('6448', NULL, 'gordon', 'azAW7U http://www.QS3PE5ZGdxC9IoVKTAPT2DBYpPkMKqfz.com', '2883', 'john@hotmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '17989359919', '', 'aAJWjqNFEHdHRFsA', 'DtVITfuXartyeWx', 'lWTMNaIUJoFuBUjPuA', '81dc9bdb52d04dc20036dbd8313ed055', 418, '', '', 3, '2', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('6449', NULL, 'Divya Sharma', '236/B, Mahesh Nagar,\r\nAmbala Cantt\r\nHaryana', '133001', 'divya.sharma@chitkara.edu.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-0171-2662887', NULL, '09646425145', '', '', '', '93209913', '81dc9bdb52d04dc20036dbd8313ed055', 488, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('645', NULL, 'Bhupinder Garg', '# 71/34,\r\nJanta Colony\r\nRohtak', '124001', 'garg.bhupinder@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-01262-238156', NULL, '09466459721', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 246, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6450', NULL, 'Rashpinder', '# 38, Ground floor,GGS Nagar,Near Gurudwara Bauli sahib Dhakoli,Zirakpur', '140603', 'rashpinder.kaur@chitkara.edu.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-17026756', NULL, '9417026756', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1152, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6451', NULL, 'Ankur Pachauri', '34/4 tail mill road,\r\nnai basti, tundla,\r\nfirozabad, uttar pradesh', '283204', 'ankurpachauri@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-5612-227205', NULL, '9927590910', '', 'assistant professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1153, '', 'biodata_6451.doc', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
@@ -7131,9 +6962,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('6587', NULL, 'Hany Soliman', 'Cairo', '331133', 'nhany73s@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '00-0100-6574960', NULL, '01006574960', '', 'CHI', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 363, '', 'biodata_6587.pdf', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6588', NULL, 'Pradeep Kumar', 'Quantum School of Technology Roorkee', '247167', 'pradeepkiitr@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-9456842172', NULL, '9456842172', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 848, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6589', NULL, 'SUMITA NAGAH', 'HOUSE NUMBER-3/2 \r\nSECTOR-41A\r\nCHANDIGARH', '160036', 'sumi@gyancity.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0172-2626372', NULL, '9780958436', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1171, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
-('659', NULL, 'SHYAM GHAI', '1/A ASHOKA COLONY, BEGUM BAGH, MEERUT (U.P.)', '250001', 'shyam_ghai2007@yahoo.co.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-0121-2648906', NULL, '09897305979', '', 'ASSTT.PROFESSOR', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 252, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
-('6590', NULL, 'Svarika Goyal', 'Thapar University, patiala , INDIA', '000000', 'svarikagoyal@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-000000', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 133, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0);
+('659', NULL, 'SHYAM GHAI', '1/A ASHOKA COLONY, BEGUM BAGH, MEERUT (U.P.)', '250001', 'shyam_ghai2007@yahoo.co.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-0121-2648906', NULL, '09897305979', '', 'ASSTT.PROFESSOR', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 252, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('6590', NULL, 'Svarika Goyal', 'Thapar University, patiala , INDIA', '000000', 'svarikagoyal@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-000000', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 133, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6591', NULL, 'Puneeta Marwaha', '\r\nDr. B R Ambedkar National Institute of Technology, \r\n', '144011', 'puneetamarwaha@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-000000', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1172, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6592', NULL, 'satya prakash singh', 'Gautam Buddha University\r\nGr. Noida', '201308', 'satya002u@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-120-2346015', NULL, '9818526340', '', '', '', '92349350', '81dc9bdb52d04dc20036dbd8313ed055', 1087, '', 'biodata_6592.doc', 3, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6593', NULL, 'PRASENJIT MAJI', '50/381,R.N.COLONY,CHINCHURIA,BURDWAN,', '713378', 'maji.katm@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-8116441403', NULL, '', '', 'ASSISTANT PROFESSOR', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1025, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
@@ -7286,9 +7117,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('6725', NULL, 'Pharmb308', ' Hello! efdfbff interesting efdfbff site! I''m really like it! Very, very efdfbff good! ', 'yrrrytwp', 'johnb610@aol.com', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, 'uryuuoio', '', 'yytiwiyi', 'tperwwou', 'rewrruuo', '81dc9bdb52d04dc20036dbd8313ed055', 363, '', '', 3, '1', 1, '', '0000-00-00 00:00:00', 0),
 ('6726', NULL, 'Amit Kumar', 'Chitkara University punjab', '140401', 'amit.pandey@chitkara.edu.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-01762-221480', NULL, '918054579080', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 488, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6727', NULL, 'Pradipta Roy', 'P 97/3 ITR Colony Balasore\r\nOdisha', '756001', 'pradiptar@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-6782-265617', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 889, '', '', 3, '', 1, '', '0000-00-00 00:00:00', 0),
-('6728', NULL, 'Shrikant Tiwari', 'Department of CSE (FET), SSTC, SSGI, Bhilai, Chattisgrah, India', '000000', 'shrikanttiwari15@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-0000000', NULL, '', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1091, '', '', 4, '2', 1, '', '0000-00-00 00:00:00', 0),
-('6729', NULL, 'Y. L. Malathi Latha', '1CSE Department, Swami Vivekananda Institute of Technology (SVIT), Hyderabad', '000000', 'malathilatha_99@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-0000000', NULL, '', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 307, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0);
+('6728', NULL, 'Shrikant Tiwari', 'Department of CSE (FET), SSTC, SSGI, Bhilai, Chattisgrah, India', '000000', 'shrikanttiwari15@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-0000000', NULL, '', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1091, '', '', 4, '2', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('6729', NULL, 'Y. L. Malathi Latha', '1CSE Department, Swami Vivekananda Institute of Technology (SVIT), Hyderabad', '000000', 'malathilatha_99@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-0000000', NULL, '', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 307, '', '', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
 ('673', NULL, 'RUPENDER SINGH', 'H.NO-79,ASHOK GARDEN,NEAR GURUGRAM SCHOOL,RAJENDRA PARK,GURGAON', '122001', 'rupendersingh04cs39@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-099-11494195', NULL, '9911494195', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 19, '', 'biodata_673.doc', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6730', NULL, 'Rajesh Siddavatam', 'School of Computer Engineering, KIIT University', '000000', 'srajesh@ieee.org', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-0000000', NULL, '', '', 'professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 296, '', '', 2, '4', 1, '', '0000-00-00 00:00:00', 0),
 ('6731', NULL, 'Neha Khanna', 'JSS Academy,Noida', '201308', 'neha15khanna@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-120-2344353', NULL, '9891918797', '', 'Assistant Professor', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1170, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
@@ -7452,9 +7283,9 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('6874', NULL, 'RUCHI TREHAN', 'B-187 MANSAROVAR GARDEN NEW DELHI', '110015', 'ruchitrehan16@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-8447179785', NULL, '', '', '', '01284681', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6875', NULL, 'DEEPAK PANDEY', 'L389 STREET NO 11\r\nMAHIPALPUR \r\nNEW DELHI', '110037', 'WEDTORQUE@GMAIL.COM', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-7838349893', NULL, '7838349893', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6876', NULL, 'AJAY RAWAT', 'WZ-38.NARAINA,DELHI ', '110028', 'RAWATAJAY611@GMAIL.COM', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-81130866274', NULL, '918130866274', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
-('6877', NULL, 'ANUJ SAXENA', '171,Power house road,MAINPURI\r\nUP', '205001', 'ANUJ.633@GMAIL.COM', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-9871463958', NULL, '9871463958', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
-('6878', NULL, 'ANKITA TANWAR', 'RZ J-5/262, WEST SAGARPUR, NEAR SANGAM CHOWK , NEW DELHI -110046', '110046', 'ankitatanwar2@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-29842358', NULL, '8860473690', '', '', '01284737', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0);
+('6877', NULL, 'ANUJ SAXENA', '171,Power house road,MAINPURI\r\nUP', '205001', 'ANUJ.633@GMAIL.COM', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-9871463958', NULL, '9871463958', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('6878', NULL, 'ANKITA TANWAR', 'RZ J-5/262, WEST SAGARPUR, NEAR SANGAM CHOWK , NEW DELHI -110046', '110046', 'ankitatanwar2@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-29842358', NULL, '8860473690', '', '', '01284737', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('6879', NULL, 'NILESH', 'L-389 STREET 11\r\nmahipalpur  \r\nnew delhi\r\n', '110037', 'singh.nsingh830@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-9718398298', NULL, '9718398298', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('688', NULL, 'JASWINDER SINGH DILAWARI', 'INSTITUTE OF ENGINEERING AND EMERGING TECHNOLOGIES,BADDI,H.P', '173205', 'dilawari.jaswinder@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-01795-247881', NULL, '09816820172', '91-01795-247352', 'Asst Prof', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 256, '', 'biodata_688.doc', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('6880', NULL, 'Shashwat Kesarwani', 'ZS 3,SHIVA ENCLAVE,PASCHIM VIHAR', '110063', 'shashwatkesarwani.30@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '00-91-9818839468', NULL, '', '', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 1, '', '', 1, '', 1, '', '0000-00-00 00:00:00', 0),
@@ -7627,10 +7458,10 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('703', NULL, 'Tushar Kapoor', '# 776,Sector 2/ Panchkula ,Haryana', '134112', 'tushar_dhawan@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-2750942', NULL, '9915284353', '', 'lecturar', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 260, '', 'biodata_703.doc', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
 ('7030', '', 'Abid Sarvar', '', '', 'sarwar.aabid@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7031', '', 'Aditi Sharan', '', '', 'aditisharan@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
-('7032', '', 'Adnan Mustafa AlBar ', '', '', 'ambar@kau.edu.sa', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
-('7033', '', 'Ajanta Das', '', '', 'ajantadas@bitmesra.ac.in ', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
-('7034', '', 'Ajith Abraham', '', '', 'ajith.abraham@ieee.org', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0);
+('7032', '', 'Adnan Mustafa AlBar ', '', '', 'ambar@kau.edu.sa', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('7033', '', 'Ajanta Das', '', '', 'ajantadas@bitmesra.ac.in ', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
+('7034', '', 'Ajith Abraham', '', '', 'ajith.abraham@ieee.org', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7035', '', 'AK Marik', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7036', '', 'Akshai Aggarwal', '', '', 'aka19@hotmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7037', '', 'Alexandre Schneider', '', '', 'alexandre.schneider@univ-reims.fr', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
@@ -7875,10 +7706,10 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('7252', '', 'Pinki Bajaj', '', '', 'pinkibajaj29@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7253', '', 'Piyush Gupta', '', '', 'piyus.gupta@hindustantimes.com', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7254', '', 'Poonam Bansal', '', '', 'pbansal89@yahoo.co.in', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
-('7255', '', 'PP Sengupta', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
-('7256', '', 'Pradeep Kandula', '', '', 'pkandulafcs@kiit.ac.in', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
-('7257', '', 'Pradeep Kumar', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0);
+('7255', '', 'PP Sengupta', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0);
 INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `member_address`, `member_pincode`, `member_email`, `member_phone_cityCode`, `member_phone_countryCode`, `member_fax_cityCode`, `member_fax_countryCode`, `member_country`, `member_city`, `member_phone`, `member_country_code`, `member_mobile`, `member_fax`, `member_designation`, `member_csi_mem_no`, `member_iete_mem_no`, `member_password`, `member_organization_id`, `member_department`, `member_biodata_path`, `member_category_id`, `member_experience`, `member_is_activated`, `member_hashtag`, `member_dor`, `member_dirty`) VALUES
+('7256', '', 'Pradeep Kandula', '', '', 'pkandulafcs@kiit.ac.in', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
+('7257', '', 'Pradeep Kumar', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7258', '', 'Pradeep Kumar', '', '', 'pkumar4@amity.edu', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7259', '', 'Pradip W. Kulkarni', '', '', 'pradip.kulkarni@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('726', NULL, 'Ajay Kumar Gupta', 'A1-96, Paschim Vihar\r\nNew Delhi', '110063', 'ajaykgupta@nic.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-23383059', NULL, '09810111491', '', 'Scientist "D"', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 26, '', 'biodata_726.doc', 4, '4', 1, '', '0000-00-00 00:00:00', 0),
@@ -8047,7 +7878,6 @@ INSERT INTO `member_master` (`member_id`, `member_salutation`, `member_name`, `m
 ('7406', '', 'Yogesh K. Chauhan', '', '', 'chauhanyk@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7407', '', 'Yogita Gigras', '', '', 'gigras.yogita@gmail.com ', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
 ('7408', '', 'Zongmei Wang', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, '', '', '', '', '', '', '', '', 1195, '', '', 3, '', 1, NULL, '2015-03-08 14:08:52', 0),
-('7409', 'Ms', 'test', 'gd', '3435', 'pavithra.g11@gmail.com', '566', '91', '4545', '54', '75', 'fdg', '5656', '56', '5656565654', '454', '', '5454', '5454', '6c8349cc7260ae62e3b1396831a8398f', 1, 'dfg', NULL, 1, '', 1, NULL, '2015-09-24 06:12:23', 0),
 ('741', NULL, 'Birendra Kumar', 'Faculty Residence, \r\nIFTM Campus, Lodipur Rajpoot, Delhi road, Moradabad.', '244001', 'kumarbirendra@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-0591-2360818', NULL, '09415171955', '91-0591-2360818', 'Assistant Professor', '171513', '', '81dc9bdb52d04dc20036dbd8313ed055', 157, '', '', 2, '3', 1, '', '0000-00-00 00:00:00', 0),
 ('742', NULL, 'Jitender Chugh', 'R No 138, B Block,\r\nDRDO Bhawan,\r\nMinistry of Defence\r\nnew Delhi', '110105', 'chugh@hqr.drdo.in', NULL, NULL, NULL, NULL, NULL, NULL, '91-011-23007138', NULL, '09868951757', '91-011-23013119', '', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 18, '', 'biodata_742.pdf', 1, '', 1, '', '0000-00-00 00:00:00', 0),
 ('743', NULL, 'Akhilesh Sharma', '222-Pragati nagar indore MP', '452012', 'akhileshshm@yahoo.com', NULL, NULL, NULL, NULL, NULL, NULL, '91-07532-234188', NULL, '09827615546', '', 'Sr. Lecturer', '', '', '81dc9bdb52d04dc20036dbd8313ed055', 64, '', 'biodata_743.doc', 2, '2', 1, '', '0000-00-00 00:00:00', 0),
@@ -8347,7 +8177,13 @@ CREATE TABLE IF NOT EXISTS `multiplereviews` (
   `ReviewID` int(10) NOT NULL,
   `VersionID` int(32) NOT NULL,
   `ReviewResultID` int(2) NOT NULL,
-  `ReceiptDate` date NOT NULL
+  `ReceiptDate` date NOT NULL,
+  KEY `ReviewID` (`ReviewID`),
+  KEY `VersionID` (`VersionID`),
+  KEY `ReviewResultID` (`ReviewResultID`),
+  KEY `ReviewID_2` (`ReviewID`),
+  KEY `VersionID_2` (`VersionID`),
+  KEY `ReviewResultID_2` (`ReviewResultID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -10299,13 +10135,15 @@ INSERT INTO `multiplereviews` (`ReviewID`, `VersionID`, `ReviewResultID`, `Recei
 --
 
 CREATE TABLE IF NOT EXISTS `nationality_master` (
-  `Nationality_id` int(2) NOT NULL,
+  `Nationality_id` int(2) NOT NULL AUTO_INCREMENT,
   `Nationality_type` varchar(10) NOT NULL,
   `Nationality_currency` int(2) NOT NULL,
   `Nationality_hashtag` varchar(64) DEFAULT NULL,
   `Nationality_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `Nationality_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `Nationality_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`Nationality_id`),
+  KEY `Nationality_currency` (`Nationality_currency`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 --
 -- Dumping data for table `nationality_master`
@@ -10322,7 +10160,7 @@ INSERT INTO `nationality_master` (`Nationality_id`, `Nationality_type`, `Nationa
 --
 
 CREATE TABLE IF NOT EXISTS `news_master` (
-  `news_id` int(8) NOT NULL,
+  `news_id` int(8) NOT NULL AUTO_INCREMENT,
   `news_title` varchar(100) NOT NULL,
   `news_content` varchar(500) DEFAULT NULL,
   `news_publisher_id` int(8) NOT NULL,
@@ -10330,8 +10168,11 @@ CREATE TABLE IF NOT EXISTS `news_master` (
   `news_application_id` int(4) NOT NULL,
   `news_hashtag` varchar(64) DEFAULT NULL,
   `news_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `news_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `news_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`news_id`),
+  KEY `news_publisher_id` (`news_publisher_id`),
+  KEY `news_application_id` (`news_application_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -10340,12 +10181,13 @@ CREATE TABLE IF NOT EXISTS `news_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `olpc_master` (
-  `overlength_paper_id` int(16) NOT NULL,
+  `overlength_paper_id` int(16) NOT NULL AUTO_INCREMENT,
   `extra_pages` int(1) NOT NULL,
   `OLPC_hashtag` varchar(64) NOT NULL,
   `OLPC_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `OLPC_dirty` tinyint(1) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=968 DEFAULT CHARSET=latin1;
+  `OLPC_dirty` tinyint(1) NOT NULL,
+  PRIMARY KEY (`overlength_paper_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=968 ;
 
 --
 -- Dumping data for table `olpc_master`
@@ -10367,7 +10209,7 @@ INSERT INTO `olpc_master` (`overlength_paper_id`, `extra_pages`, `OLPC_hashtag`,
 --
 
 CREATE TABLE IF NOT EXISTS `organization_master` (
-  `organization_id` int(8) NOT NULL,
+  `organization_id` int(8) NOT NULL AUTO_INCREMENT,
   `organization_name` varchar(100) NOT NULL,
   `organization_short_name` varchar(20) DEFAULT NULL,
   `organization_address` varchar(200) DEFAULT NULL,
@@ -10377,8 +10219,9 @@ CREATE TABLE IF NOT EXISTS `organization_master` (
   `organization_fax` varchar(20) DEFAULT NULL,
   `organization_hashtag` varchar(64) DEFAULT NULL,
   `organization_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `organization_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1196 DEFAULT CHARSET=latin1;
+  `organization_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`organization_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1196 ;
 
 --
 -- Dumping data for table `organization_master`
@@ -11595,7 +11438,6 @@ CREATE TABLE IF NOT EXISTS `paper_latest_version` (
 ,`review_result_type_name` varchar(50)
 ,`review_result_id` int(2)
 );
-
 -- --------------------------------------------------------
 
 --
@@ -11605,7 +11447,6 @@ CREATE TABLE IF NOT EXISTS `paper_latest_version_brief` (
 `paper_id` int(16)
 ,`latest_paper_version_number` int(4)
 );
-
 -- --------------------------------------------------------
 
 --
@@ -11613,7 +11454,7 @@ CREATE TABLE IF NOT EXISTS `paper_latest_version_brief` (
 --
 
 CREATE TABLE IF NOT EXISTS `paper_master` (
-  `paper_id` int(16) NOT NULL,
+  `paper_id` int(16) NOT NULL AUTO_INCREMENT,
   `paper_code` varchar(10) NOT NULL,
   `paper_title` varchar(200) NOT NULL,
   `paper_subject_id` int(8) NOT NULL,
@@ -11623,8 +11464,11 @@ CREATE TABLE IF NOT EXISTS `paper_master` (
   `paper_isclose` tinyint(1) NOT NULL DEFAULT '0',
   `paper_hashtag` varchar(64) DEFAULT NULL,
   `paper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `paper_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=1381 DEFAULT CHARSET=latin1;
+  `paper_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`paper_id`),
+  KEY `paper_contact_author_id` (`paper_contact_author_id`),
+  KEY `paper_subject_id` (`paper_subject_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=1371 ;
 
 --
 -- Dumping data for table `paper_master`
@@ -11941,9 +11785,9 @@ INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subj
 (308, '308', 'STUDY OF CRIMINAL APPLICATIONS OF OUTLIER DETECTION USING DATA MINING', 1, '2014-11-10 00:00:00', '', '5925', 0, '', '0000-00-00 00:00:00', 0),
 (309, '309', 'Denoising of Audio Signal using Heavy Tailed Distribution and Comparison of Wavelets and Thresholding Techniques', 1, '2014-11-10 00:00:00', '', '6106', 0, '', '0000-00-00 00:00:00', 0),
 (310, '310', 'A Mixed Hybrid Recommendation System Based on Rough Set Theory', 1, '2014-11-10 00:00:00', '', '5946', 0, '', '0000-00-00 00:00:00', 0),
-(311, '311', 'A Review on LTE (Long Term Evolution)', 1, '2014-11-10 00:00:00', '', '6020', 0, '', '0000-00-00 00:00:00', 0),
-(312, '312', 'Modified Rapid Automatic Keyword Extraction (M-RAKE) for Keyword and Keyphrase Extraction from Hindi Documents', 1, '2014-11-10 00:00:00', '', '6097', 0, '', '0000-00-00 00:00:00', 0);
+(311, '311', 'A Review on LTE (Long Term Evolution)', 1, '2014-11-10 00:00:00', '', '6020', 0, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subject_id`, `paper_date_of_submission`, `paper_presentation_path`, `paper_contact_author_id`, `paper_isclose`, `paper_hashtag`, `paper_dor`, `paper_dirty`) VALUES
+(312, '312', 'Modified Rapid Automatic Keyword Extraction (M-RAKE) for Keyword and Keyphrase Extraction from Hindi Documents', 1, '2014-11-10 00:00:00', '', '6097', 0, '', '0000-00-00 00:00:00', 0),
 (313, '313', 'Plague of human trafficking and its affecting factors', 1, '2014-11-10 00:00:00', '', '6081', 0, '', '0000-00-00 00:00:00', 0),
 (314, '314', 'Tactics of Twitter Data Extraction for Opinion Mining', 1, '2014-11-10 00:00:00', 'INDIACom15_314_presentation (1).pptx', '6073', 0, '', '0000-00-00 00:00:00', 0),
 (315, '315', 'Cloud Computing and Security of Cloud Data', 1, '2014-11-10 00:00:00', 'INDIACom15_315_presentation (1).doc', '6084', 0, '', '0000-00-00 00:00:00', 0),
@@ -12330,9 +12174,9 @@ INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subj
 (698, '698', 'SECURED DATA COMMUNICATION SYSTEM USING RSA WITH MERSENNE PRIMES AND STEGANOGRAPHYSECURED DATA COMMUNICATION SYSTEM USING RSA WITH MERSENNE PRIMES AND STEGANOGRAPHY', 9, '2015-01-12 00:00:00', 'INDIACom15_698_presentation (1).pptx', '5834', 0, '', '0000-00-00 00:00:00', 0),
 (699, '699', 'Cyber', 9, '2015-01-12 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
 (700, '700', 'cyberworld', 9, '2015-01-12 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
-(701, '701', 'CASE_STUDY RESEARCH ON INTEGRATED METHODOLOGIES ON NETWORK INFRASTRUCTURE SECURITY', 9, '2015-01-12 00:00:00', '', '6417', 0, '', '0000-00-00 00:00:00', 0),
-(702, '702', 'CyberSecurity', 9, '2015-01-12 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0);
+(701, '701', 'CASE_STUDY RESEARCH ON INTEGRATED METHODOLOGIES ON NETWORK INFRASTRUCTURE SECURITY', 9, '2015-01-12 00:00:00', '', '6417', 0, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subject_id`, `paper_date_of_submission`, `paper_presentation_path`, `paper_contact_author_id`, `paper_isclose`, `paper_hashtag`, `paper_dor`, `paper_dirty`) VALUES
+(702, '702', 'CyberSecurity', 9, '2015-01-12 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
 (703, '703', 'A MODIFIED SCHEME BASED ON HE KEISLER SCHEME USING INTEGER FACTORIZATION AND DISCRETE LOGARITHMS', 9, '2015-01-12 00:00:00', 'INDIACom15_703_presentation (1).ppt', '6270', 0, '', '0000-00-00 00:00:00', 0),
 (704, '704', 'Enhancing Security of MAC Protocol in MANET Using Trust Based Engine', 6, '2015-01-12 00:00:00', '', '6323', 0, '', '0000-00-00 00:00:00', 0),
 (705, '705', 'Gabor Wavelet Based Face Recognition Under Varying Lighting, Pose, and Expression Conditions', 8, '2015-01-13 00:00:00', 'INDIACom15_705_presentation (1).pptx', '6539', 0, '', '0000-00-00 00:00:00', 0),
@@ -12670,9 +12514,9 @@ INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subj
 (1037, '1037', 'aqwsedqse', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
 (1038, '1038', 'aqwsedr', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
 (1039, '1039', 'frtgyhuji', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
-(1040, '1040', 'qwexrftc', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
-(1041, '1041', 'lklmnkjiouiu', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0);
+(1040, '1040', 'qwexrftc', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0);
 INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subject_id`, `paper_date_of_submission`, `paper_presentation_path`, `paper_contact_author_id`, `paper_isclose`, `paper_hashtag`, `paper_dor`, `paper_dirty`) VALUES
+(1041, '1041', 'lklmnkjiouiu', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
 (1042, '1042', 'ftuytghg', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
 (1043, '1043', 'fanfan', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
 (1044, '1044', 'gftredd', 1, '2015-02-20 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
@@ -12926,17 +12770,7 @@ INSERT INTO `paper_master` (`paper_id`, `paper_code`, `paper_title`, `paper_subj
 (1292, '1292', 'w csdv', 1, '2015-02-24 00:00:00', '', '1289', 0, '', '0000-00-00 00:00:00', 0),
 (1351, '1351', 'Understanding of Open Source Software Development-Best practice for Computational Sciences', 1, '2015-03-03 00:00:00', '', '6999', 0, '', '0000-00-00 00:00:00', 0),
 (1363, '1363', 'Contrast Enhancement and Smoothing of CT Images for Diagnosis', 8, '2015-03-05 00:00:00', '', '4646', 0, '', '0000-00-00 00:00:00', 0),
-(1370, '1370', 'A Literature Survey of Image Denoising Techniques in the Spatial Domain', 8, '2015-03-05 00:00:00', '', '4646', 0, '', '0000-00-00 00:00:00', 0),
-(1371, '1', 'Sample Paper', 48, '2015-09-20 11:34:33', NULL, '5413', 0, NULL, '2015-09-20 09:34:33', 0),
-(1372, '2', 'Sample Paper 2', 50, '2015-09-20 13:43:42', NULL, '5413', 0, NULL, '2015-09-20 11:43:42', 0),
-(1373, '3', 'Sample Paper 3', 48, '2015-09-20 13:49:44', NULL, '5413', 0, NULL, '2015-09-20 11:49:44', 0),
-(1374, '4', 'Sample Paper 4', 46, '2015-09-20 15:53:07', NULL, '5413', 0, NULL, '2015-09-20 13:53:07', 0),
-(1375, '5', 'Sample Paper 5', 48, '2015-09-20 15:54:37', NULL, '5413', 0, NULL, '2015-09-20 13:54:37', 0),
-(1376, '6', 'Sample Paper 6', 48, '2015-09-20 15:55:15', NULL, '5413', 0, NULL, '2015-09-20 13:55:15', 0),
-(1377, '7', 'Sample Paper 7', 47, '2015-09-20 15:58:30', NULL, '5413', 0, NULL, '2015-09-20 13:58:30', 0),
-(1378, '8', 'Sample Paper 8', 48, '2015-09-20 16:04:43', NULL, '5413', 0, NULL, '2015-09-20 14:04:43', 0),
-(1379, '9', 'Sample Paper 9', 47, '2015-09-20 16:05:13', NULL, '5413', 0, NULL, '2015-09-20 14:05:13', 0),
-(1380, '10', 'Sample Paper 10', 48, '2015-09-20 16:10:01', NULL, '5413', 0, NULL, '2015-09-20 14:10:01', 0);
+(1370, '1370', 'A Literature Survey of Image Denoising Techniques in the Spatial Domain', 8, '2015-03-05 00:00:00', '', '4646', 0, '', '0000-00-00 00:00:00', 0);
 
 -- --------------------------------------------------------
 
@@ -12949,7 +12783,10 @@ CREATE TABLE IF NOT EXISTS `paper_schedule_tracker` (
   `schedule_id` int(2) DEFAULT NULL,
   `paper_schedule_hashtag` varchar(64) DEFAULT NULL,
   `paper_schedule_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `paper_schedule_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `paper_schedule_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`paper_id`),
+  KEY `paper_id` (`paper_id`),
+  KEY `schedule_id` (`schedule_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -13470,27 +13307,11 @@ INSERT INTO `paper_schedule_tracker` (`paper_id`, `schedule_id`, `paper_schedule
 -- --------------------------------------------------------
 
 --
--- Stand-in structure for view `paper_subject_track_event`
---
-CREATE TABLE IF NOT EXISTS `paper_subject_track_event` (
-`paper_id` int(16)
-,`paper_code` varchar(10)
-,`subject_id` int(8)
-,`subject_code` varchar(10)
-,`track_id` int(8)
-,`track_number` varchar(10)
-,`event_id` int(8)
-,`event_name` varchar(50)
-);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `paper_version_master`
 --
 
 CREATE TABLE IF NOT EXISTS `paper_version_master` (
-  `paper_version_id` int(32) NOT NULL,
+  `paper_version_id` int(32) NOT NULL AUTO_INCREMENT,
   `paper_id` int(16) NOT NULL,
   `paper_version_number` int(4) NOT NULL,
   `paper_version_date_of_submission` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -13506,8 +13327,13 @@ CREATE TABLE IF NOT EXISTS `paper_version_master` (
   `paper_version_review_is_read_by_author` tinyint(1) NOT NULL DEFAULT '0',
   `paper_version_hashtag` varchar(64) DEFAULT NULL,
   `paper_version_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `paper_version_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3013 DEFAULT CHARSET=latin1;
+  `paper_version_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`paper_version_id`),
+  KEY `paper_id` (`paper_id`),
+  KEY `paper_id_2` (`paper_id`),
+  KEY `paper_version_convener_id` (`paper_version_convener_id`),
+  KEY `paper_version_review_result_id` (`paper_version_review_result_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3002 ;
 
 --
 -- Dumping data for table `paper_version_master`
@@ -15002,18 +14828,7 @@ INSERT INTO `paper_version_master` (`paper_version_id`, `paper_id`, `paper_versi
 (2872, 1292, 1, '2015-02-24 00:00:00', 'INDIACom15_1292_Paper.docx', '', NULL, 0, 0, '0000-00-00 00:00:00', 2, '', '', 0, NULL, '2015-03-01 12:28:19', 0),
 (2976, 1351, 1, '2015-03-05 00:00:00', 'Sample', NULL, NULL, 0, 0, NULL, 8, NULL, NULL, 0, NULL, '2015-03-09 04:30:57', 0),
 (2994, 1363, 1, '2015-03-05 00:00:00', 'Sample', NULL, NULL, 0, 0, NULL, 8, NULL, NULL, 0, NULL, '2015-03-09 04:32:08', 0),
-(3001, 1370, 1, '2015-03-05 00:00:00', 'Sample', NULL, NULL, 0, 0, NULL, 8, NULL, NULL, 0, NULL, '2015-03-09 04:32:08', 0),
-(3002, 1371, 1, '2015-09-20 11:34:33', 'Indiacom2015/uploads/2/papers/Paper_1371v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 09:34:33', 0),
-(3003, 1371, 2, '2015-09-20 11:35:18', 'Indiacom2015/uploads/2/papers/Paper_1371v2.docx', NULL, NULL, 1, 1, '2015-09-20 17:16:37', 5, ' cvxbv', 'Indiacom2015/uploads/2/convener_reviews/3003reviews.docx', 0, NULL, '2015-09-20 09:35:18', 0),
-(3004, 1372, 1, '2015-09-20 13:43:42', 'Indiacom2015/uploads/2/papers/Paper_1372v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 11:43:42', 0),
-(3005, 1373, 1, '2015-09-20 13:49:44', 'Indiacom2015/uploads/2/papers/Paper_1373v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 11:49:44', 0),
-(3006, 1374, 1, '2015-09-20 15:53:07', 'Indiacom2015/uploads/2/papers/Paper_1374v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 13:53:07', 0),
-(3007, 1375, 1, '2015-09-20 15:54:37', 'Indiacom2015/uploads/2/papers/Paper_1375v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 13:54:37', 0),
-(3008, 1376, 1, '2015-09-20 15:55:15', 'Indiacom2015/uploads/2/papers/Paper_1376v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 13:55:15', 0),
-(3009, 1377, 1, '2015-09-20 15:58:30', 'Indiacom2015/uploads/2/papers/Paper_1377v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 13:58:30', 0),
-(3010, 1378, 1, '2015-09-20 16:04:43', 'Indiacom2015/uploads/2/papers/Paper_1378v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 14:04:43', 0),
-(3011, 1379, 1, '2015-09-20 16:05:13', 'Indiacom2015/uploads/2/papers/Paper_1379v1.docx', NULL, NULL, 0, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 14:05:13', 0),
-(3012, 1380, 1, '2015-09-20 16:10:01', 'Indiacom2015/uploads/2/papers/Paper_1380v1.docx', NULL, NULL, 1, 0, NULL, NULL, NULL, NULL, 0, NULL, '2015-09-20 14:10:01', 0);
+(3001, 1370, 1, '2015-03-05 00:00:00', 'Sample', NULL, NULL, 0, 0, NULL, 8, NULL, NULL, 0, NULL, '2015-03-09 04:32:08', 0);
 
 -- --------------------------------------------------------
 
@@ -15022,7 +14837,7 @@ INSERT INTO `paper_version_master` (`paper_version_id`, `paper_id`, `paper_versi
 --
 
 CREATE TABLE IF NOT EXISTS `paper_version_review` (
-  `paper_version_review_id` int(64) NOT NULL,
+  `paper_version_review_id` int(64) NOT NULL AUTO_INCREMENT,
   `paper_version_id` int(32) NOT NULL,
   `paper_version_reviewer_id` int(8) NOT NULL,
   `paper_version_review_comments` varchar(300) DEFAULT NULL,
@@ -15031,8 +14846,11 @@ CREATE TABLE IF NOT EXISTS `paper_version_review` (
   `paper_version_review_date_of_receipt` datetime DEFAULT NULL,
   `paper_version_review_hashtag` varchar(64) DEFAULT NULL,
   `paper_version_review_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `paper_version_review_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=3600 DEFAULT CHARSET=latin1;
+  `paper_version_review_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`paper_version_review_id`),
+  KEY `paper_version_id` (`paper_version_id`),
+  KEY `reviewer_id` (`paper_version_reviewer_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3598 ;
 
 --
 -- Dumping data for table `paper_version_review`
@@ -16987,9 +16805,7 @@ INSERT INTO `paper_version_review` (`paper_version_review_id`, `paper_version_id
 (3491, 2471, 1, 'kindly revise and submit', 'ReviewRemarks_3491.pdf', '0000-00-00 00:00:00', '2015-02-28 00:00:00', NULL, '2015-03-01 12:50:17', 0),
 (3569, 3001, 1, 'Congrrats', NULL, '2015-03-06 18:30:00', NULL, NULL, '2015-03-09 04:33:40', 0),
 (3570, 2994, 1, 'Congrats', NULL, '2015-03-06 18:30:00', '0000-00-00 00:00:00', NULL, '2015-03-09 04:33:40', 0),
-(3597, 2976, 1, 'Congrats', NULL, '2015-03-06 18:30:00', '2015-03-07 00:00:00', NULL, '2015-03-09 04:34:28', 0),
-(3598, 3003, 8, 'OK', 'Indiacom2015/uploads/2/reviewer_reviews/3598reviews.docx', '0000-00-00 00:00:00', '2015-09-20 00:00:00', NULL, '2015-09-20 11:40:47', 0),
-(3599, 3012, 8, NULL, NULL, '0000-00-00 00:00:00', NULL, NULL, '2015-09-22 06:56:06', 0);
+(3597, 2976, 1, 'Congrats', NULL, '2015-03-06 18:30:00', '2015-03-07 00:00:00', NULL, '2015-03-09 04:34:28', 0);
 
 -- --------------------------------------------------------
 
@@ -16998,7 +16814,7 @@ INSERT INTO `paper_version_review` (`paper_version_review_id`, `paper_version_id
 --
 
 CREATE TABLE IF NOT EXISTS `payable_class` (
-  `payable_class_id` int(2) NOT NULL,
+  `payable_class_id` int(2) NOT NULL AUTO_INCREMENT,
   `start_date` date DEFAULT NULL,
   `end_date` date DEFAULT NULL,
   `is_general` tinyint(1) DEFAULT NULL,
@@ -17008,8 +16824,13 @@ CREATE TABLE IF NOT EXISTS `payable_class` (
   `payable_class_amount` int(5) NOT NULL,
   `payable_class_hashtag` varchar(64) DEFAULT NULL,
   `payable_class_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `payable_class_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=latin1;
+  `payable_class_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`payable_class_id`),
+  KEY `payable_class_registration_category` (`payable_class_registration_category`),
+  KEY `payable_class_registration_cat_2` (`payable_class_registration_category`),
+  KEY `payable_class_nationality` (`payable_class_nationality`),
+  KEY `payable_class_payhead_id` (`payable_class_payhead_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=53 ;
 
 --
 -- Dumping data for table `payable_class`
@@ -17076,12 +16897,13 @@ INSERT INTO `payable_class` (`payable_class_id`, `start_date`, `end_date`, `is_g
 --
 
 CREATE TABLE IF NOT EXISTS `payment_head_master` (
-  `payment_head_id` int(2) NOT NULL,
+  `payment_head_id` int(2) NOT NULL AUTO_INCREMENT,
   `payment_head_name` varchar(30) NOT NULL,
   `payment_head_hashtag` varchar(64) DEFAULT NULL,
   `payment_head_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `payment_head_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `payment_head_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`payment_head_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `payment_head_master`
@@ -17100,7 +16922,7 @@ INSERT INTO `payment_head_master` (`payment_head_id`, `payment_head_name`, `paym
 --
 
 CREATE TABLE IF NOT EXISTS `payment_master` (
-  `payment_id` int(8) NOT NULL,
+  `payment_id` int(8) NOT NULL AUTO_INCREMENT,
   `payment_trans_id` int(3) NOT NULL,
   `payment_submission_id` int(32) DEFAULT NULL,
   `payment_member_id` varchar(10) DEFAULT NULL,
@@ -17111,8 +16933,14 @@ CREATE TABLE IF NOT EXISTS `payment_master` (
   `payment_discount_type` int(2) DEFAULT NULL,
   `payment_hashtag` varchar(64) DEFAULT NULL,
   `payment_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `payment_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=654 DEFAULT CHARSET=latin1;
+  `payment_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`payment_id`),
+  UNIQUE KEY `payment_trans_id` (`payment_trans_id`,`payment_member_id`),
+  KEY `payment_member_id` (`payment_member_id`),
+  KEY `payment_payable_class` (`payment_payable_class`),
+  KEY `payment_submission_id` (`payment_submission_id`),
+  KEY `payment_discount_type` (`payment_discount_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=654 ;
 
 --
 -- Dumping data for table `payment_master`
@@ -17720,7 +17548,9 @@ CREATE TABLE IF NOT EXISTS `privilege_master` (
   `privilege_operation` varchar(50) NOT NULL,
   `privilege_hashtag` varchar(64) DEFAULT NULL,
   `privilege_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `privilege_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `privilege_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`privilege_id`,`privilege_application`),
+  KEY `privilege_application` (`privilege_application`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -17733,8 +17563,6 @@ INSERT INTO `privilege_master` (`privilege_id`, `privilege_entity`, `privilege_a
 ('A2', 'AJAX', 1, 'subjects', NULL, '2015-09-15 05:04:07', 0),
 ('AM0', 'AttendanceManager', 2, 'markDeskAttendance_AJAX', NULL, '2015-09-15 05:03:28', 0),
 ('AM1', 'AttendanceManager', 2, 'markTrackAttendance_AJAX', NULL, '2015-09-15 05:03:28', 0),
-('CCM0', 'CoConvenerManager', 2, 'load', NULL, '2015-09-22 07:33:08', 0),
-('CCM1', 'CoConvenerManager', 2, 'setTrackCoConvener_AJAX', NULL, '2015-09-22 14:21:27', 0),
 ('CM0', 'CertificateManager', 2, 'markOutwardNumber_AJAX', NULL, '2015-09-15 05:03:28', 0),
 ('CM1', 'CertificateManager', 2, 'markCertificateGiven_AJAX', NULL, '2015-09-15 05:03:28', 0),
 ('CM2', 'CertificateManager', 2, 'removeCertificateRecord_AJAX', NULL, '2015-09-15 05:03:28', 0),
@@ -17768,15 +17596,9 @@ INSERT INTO `privilege_master` (`privilege_id`, `privilege_entity`, `privilege_a
 ('DM0', 'DeskManager', 2, 'home', NULL, '2015-09-15 05:03:28', 0),
 ('DM1', 'DeskManager', 2, 'viewPaperAuthorsPayments', NULL, '2015-09-15 05:03:28', 0),
 ('DM2', 'DeskManager', 2, 'viewAuthorPapersPayments', NULL, '2015-09-15 05:03:28', 0),
-('EM0', 'EventManager', 2, 'load', NULL, '2015-09-20 18:07:41', 0),
-('EM1', 'EventManager', 2, 'newEvent', NULL, '2015-09-20 18:07:41', 0),
-('EM2', 'EventManager', 2, 'viewEvent', NULL, '2015-09-20 18:08:03', 0),
-('EM3', 'EventManager', 2, 'enableEvent_AJAX', NULL, '2015-09-22 16:44:02', 0),
-('EM4', 'EventManager', 2, 'disableEvent_AJAX', NULL, '2015-09-22 16:44:02', 0),
-('FPR0', 'FinalPaperReviewer', 2, 'loadAllPapers', NULL, '2015-09-15 05:03:28', 0),
+('FPR0', 'FinalPaperReviewer', 2, 'load', NULL, '2015-09-15 05:03:28', 0),
 ('FPR1', 'FinalPaperReviewer', 2, 'setReviewerAssigned', NULL, '2015-09-15 05:03:28', 0),
 ('FPR2', 'FinalPaperReviewer', 2, 'paperInfo', NULL, '2015-09-15 05:03:28', 0),
-('FPR3', 'FinalPaperReviewer', 2, 'loadTrackPapers', NULL, '2015-09-22 06:16:08', 0),
 ('IPR0', 'InitialPaperReviewer', 2, 'load', NULL, '2015-09-15 05:03:28', 0),
 ('IPR1', 'InitialPaperReviewer', 2, 'reviewPaperInfo', NULL, '2015-09-15 05:03:28', 0),
 ('L0', 'Login', 1, 'index', NULL, '2015-09-15 05:04:06', 0),
@@ -17816,13 +17638,13 @@ INSERT INTO `privilege_master` (`privilege_id`, `privilege_entity`, `privilege_a
 ('RM0', 'RoleManager', 2, 'load', NULL, '2015-09-15 05:03:27', 0),
 ('RM1', 'RoleManager', 2, 'newRole', NULL, '2015-09-15 05:03:27', 0),
 ('RM2', 'RoleManager', 2, 'viewRole', NULL, '2015-09-15 05:03:27', 0),
-('RM3', 'RoleManager', 2, 'enableRolePrivilege_AJAX', NULL, '2015-09-15 05:03:27', 0),
-('RM4', 'RoleManager', 2, 'disableRolePrivilege_AJAX', NULL, '2015-09-15 05:03:27', 0),
-('RM5', 'RoleManager', 2, 'addRolePrivilege_AJAX', NULL, '2015-09-15 05:03:27', 0),
-('RM6', 'RoleManager', 2, 'deleteRolePrivilege_AJAX', NULL, '2015-09-15 05:03:27', 0),
-('RM7', 'RoleManager', 2, 'disableRole_AJAX', NULL, '2015-09-15 05:03:27', 0),
-('RM8', 'RoleManager', 2, 'enableRole_AJAX', NULL, '2015-09-15 05:03:27', 0),
-('RM9', 'RoleManager', 2, 'deleteRole_AJAX', NULL, '2015-09-15 05:03:27', 0),
+('RM3', 'RoleManager', 2, 'enableRolePrivilege', NULL, '2015-09-15 05:03:27', 0),
+('RM4', 'RoleManager', 2, 'disableRolePrivilege', NULL, '2015-09-15 05:03:27', 0),
+('RM5', 'RoleManager', 2, 'addRolePrivilege', NULL, '2015-09-15 05:03:27', 0),
+('RM6', 'RoleManager', 2, 'deleteRolePrivilege', NULL, '2015-09-15 05:03:27', 0),
+('RM7', 'RoleManager', 2, 'disableRole', NULL, '2015-09-15 05:03:27', 0),
+('RM8', 'RoleManager', 2, 'enableRole', NULL, '2015-09-15 05:03:27', 0),
+('RM9', 'RoleManager', 2, 'deleteRole', NULL, '2015-09-15 05:03:27', 0),
 ('SSR0', 'SpecialSessionRequests', 2, 'session_details', NULL, '2015-09-15 05:03:29', 0),
 ('SSR1', 'SpecialSessionRequests', 2, 'add_sessions', NULL, '2015-09-15 05:03:29', 0),
 ('SSR2', 'SpecialSessionRequests', 2, 'view_sessions', NULL, '2015-09-15 05:03:29', 0),
@@ -17858,7 +17680,9 @@ CREATE TABLE IF NOT EXISTS `privilege_role_mapper` (
   `role_id` int(8) NOT NULL,
   `privilege_role_mapper_hashtag` varchar(64) DEFAULT NULL,
   `privilege_role_mapper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `privilege_role_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `privilege_role_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`privilege_id`,`role_id`),
+  KEY `role_id` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -17868,93 +17692,38 @@ CREATE TABLE IF NOT EXISTS `privilege_role_mapper` (
 INSERT INTO `privilege_role_mapper` (`privilege_id`, `role_id`, `privilege_role_mapper_hashtag`, `privilege_role_mapper_dor`, `privilege_role_mapper_dirty`) VALUES
 ('AM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('AM1', 37, NULL, '2015-09-15 05:05:54', 0),
-('CCM0', 37, NULL, '2015-09-22 07:33:13', 0),
-('CCM1', 37, NULL, '2015-09-22 15:15:50', 0),
 ('CM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('CM1', 37, NULL, '2015-09-15 05:05:54', 0),
 ('CM2', 37, NULL, '2015-09-15 05:05:54', 0),
-('D0', 55, NULL, '2015-09-22 16:20:07', 0),
-('D1', 55, NULL, '2015-09-22 16:20:08', 0),
-('D10', 55, NULL, '2015-09-22 16:20:08', 0),
-('D11', 55, NULL, '2015-09-22 16:20:08', 0),
-('D12', 55, NULL, '2015-09-22 16:20:08', 0),
-('D13', 55, NULL, '2015-09-22 16:20:08', 0),
-('D14', 55, NULL, '2015-09-22 16:20:08', 0),
-('D15', 55, NULL, '2015-09-22 16:20:08', 0),
-('D16', 55, NULL, '2015-09-22 16:20:08', 0),
-('D17', 55, NULL, '2015-09-22 16:20:08', 0),
-('D18', 55, NULL, '2015-09-22 16:20:08', 0),
-('D19', 55, NULL, '2015-09-22 16:20:08', 0),
-('D2', 55, NULL, '2015-09-22 16:20:08', 0),
-('D20', 55, NULL, '2015-09-22 16:20:08', 0),
-('D21', 55, NULL, '2015-09-22 16:20:08', 0),
-('D22', 55, NULL, '2015-09-22 16:20:08', 0),
-('D23', 55, NULL, '2015-09-22 16:20:08', 0),
-('D3', 55, NULL, '2015-09-22 16:20:08', 0),
-('D4', 55, NULL, '2015-09-22 16:20:08', 0),
-('D5', 55, NULL, '2015-09-22 16:20:08', 0),
-('D6', 55, NULL, '2015-09-22 16:20:08', 0),
-('D7', 55, NULL, '2015-09-22 16:20:08', 0),
-('D8', 55, NULL, '2015-09-22 16:20:08', 0),
-('D9', 55, NULL, '2015-09-22 16:20:08', 0),
+('D0', 51, NULL, '2015-09-15 05:27:24', 0),
 ('DeM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('DeM1', 37, NULL, '2015-09-15 05:05:54', 0),
 ('DeM2', 37, NULL, '2015-09-15 05:05:54', 0),
 ('DM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('DM1', 37, NULL, '2015-09-15 05:05:54', 0),
 ('DM2', 37, NULL, '2015-09-15 05:05:54', 0),
-('EM0', 37, NULL, '2015-09-20 18:08:31', 0),
-('EM1', 37, NULL, '2015-09-20 18:08:33', 0),
-('EM2', 37, NULL, '2015-09-20 18:08:35', 0),
-('EM3', 37, NULL, '2015-09-22 16:45:46', 0),
-('EM4', 37, NULL, '2015-09-22 16:45:47', 0),
-('FPR0', 37, NULL, '2015-09-22 09:31:21', 0),
-('FPR0', 53, NULL, '2015-09-22 06:23:10', 0),
+('FPR0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('FPR1', 37, NULL, '2015-09-15 05:05:54', 0),
-('FPR1', 53, NULL, '2015-09-22 06:23:10', 0),
-('FPR1', 54, NULL, '2015-09-22 06:23:26', 0),
 ('FPR2', 37, NULL, '2015-09-15 05:05:54', 0),
-('FPR2', 53, NULL, '2015-09-22 06:23:10', 0),
-('FPR2', 54, NULL, '2015-09-22 06:23:26', 0),
-('FPR3', 37, NULL, '2015-09-22 06:17:38', 0),
-('FPR3', 54, NULL, '2015-09-22 06:23:26', 0),
 ('IPR0', 37, NULL, '2015-09-15 05:05:54', 0),
-('IPR0', 52, NULL, '2015-09-20 11:39:03', 0),
 ('IPR1', 37, NULL, '2015-09-15 05:05:54', 0),
-('IPR1', 52, NULL, '2015-09-20 11:39:03', 0),
 ('MC0', 31, NULL, '2015-09-15 05:26:03', 0),
-('MC0', 55, NULL, '2015-09-22 16:20:07', 0),
 ('MC1', 31, NULL, '2015-09-15 06:08:09', 0),
-('MC1', 55, NULL, '2015-09-22 16:20:07', 0),
-('N0', 31, NULL, '2015-09-17 13:39:13', 0),
-('N0', 55, NULL, '2015-09-22 16:20:08', 0),
-('N1', 31, NULL, '2015-09-17 13:39:08', 0),
-('N1', 55, NULL, '2015-09-22 16:20:08', 0),
 ('NM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('NM_IOS0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('NM_IOS1', 37, NULL, '2015-09-15 05:05:54', 0),
 ('NM_IOS2', 37, NULL, '2015-09-15 05:05:54', 0),
 ('NM_IOS3', 37, NULL, '2015-09-15 05:05:54', 0),
 ('P0', 37, NULL, '2015-09-15 05:05:54', 0),
-('P0', 52, NULL, '2015-09-20 11:39:03', 0),
-('P0', 53, NULL, '2015-09-22 06:23:10', 0),
-('P0', 54, NULL, '2015-09-22 06:23:26', 0),
-('PM0', 37, NULL, '2015-09-22 15:49:36', 0),
+('PM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('PM1', 37, NULL, '2015-09-15 05:05:54', 0),
 ('PM2', 37, NULL, '2015-09-15 05:05:54', 0),
-('PM3', 37, NULL, '2015-09-22 15:49:34', 0),
+('PM3', 37, NULL, '2015-09-15 05:05:54', 0),
 ('PM4', 37, NULL, '2015-09-15 05:05:54', 0),
 ('PM5', 37, NULL, '2015-09-15 05:05:54', 0),
 ('PM6', 37, NULL, '2015-09-15 05:05:54', 0),
 ('PM7', 37, NULL, '2015-09-15 05:05:54', 0),
 ('PM8', 37, NULL, '2015-09-15 05:05:54', 0),
-('R0', 31, NULL, '2015-09-17 13:38:53', 0),
-('R1', 31, NULL, '2015-09-17 13:38:55', 0),
-('R2', 31, NULL, '2015-09-17 13:38:56', 0),
-('R3', 31, NULL, '2015-09-17 13:38:56', 0),
-('R4', 31, NULL, '2015-09-17 13:38:59', 0),
-('R5', 31, NULL, '2015-09-17 13:38:58', 0),
-('R6', 33, NULL, '2015-09-22 16:05:25', 0),
 ('ReM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('ReM1', 37, NULL, '2015-09-15 05:05:54', 0),
 ('ReM2', 37, NULL, '2015-09-15 05:05:54', 0),
@@ -17983,7 +17752,7 @@ INSERT INTO `privilege_role_mapper` (`privilege_id`, `role_id`, `privilege_role_
 ('TraM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('TraM1', 37, NULL, '2015-09-15 05:05:54', 0),
 ('TraM2', 37, NULL, '2015-09-15 05:05:54', 0),
-('UM0', 37, NULL, '2015-09-22 15:48:39', 0),
+('UM0', 37, NULL, '2015-09-15 05:05:54', 0),
 ('UM1', 37, NULL, '2015-09-15 05:05:54', 0),
 ('UM2', 37, NULL, '2015-09-15 05:05:54', 0),
 ('UM3', 37, NULL, '2015-09-15 05:05:54', 0),
@@ -18000,12 +17769,13 @@ INSERT INTO `privilege_role_mapper` (`privilege_id`, `role_id`, `privilege_role_
 --
 
 CREATE TABLE IF NOT EXISTS `registration_category_master` (
-  `registration_category_id` int(2) NOT NULL,
+  `registration_category_id` int(2) NOT NULL AUTO_INCREMENT,
   `registration_category_name` varchar(20) NOT NULL,
   `registration_category_hashtag` varchar(64) DEFAULT NULL,
   `registration_category_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `registration_category_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `registration_category_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`registration_category_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 --
 -- Dumping data for table `registration_category_master`
@@ -18028,7 +17798,10 @@ CREATE TABLE IF NOT EXISTS `reviewer_master` (
   `reviewer_organization_id` int(8) DEFAULT NULL,
   `reviewer_hashtag` varchar(64) DEFAULT NULL,
   `reviewer_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `reviewer_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `reviewer_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`reviewer_id`),
+  KEY `reviewer_id` (`reviewer_id`),
+  KEY `reviewer_organization_id` (`reviewer_organization_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -18038,15 +17811,16 @@ CREATE TABLE IF NOT EXISTS `reviewer_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `review_result_master` (
-  `review_result_id` int(2) NOT NULL,
+  `review_result_id` int(2) NOT NULL AUTO_INCREMENT,
   `review_result_type_name` varchar(50) NOT NULL,
   `review_result_description` varchar(150) DEFAULT NULL,
   `review_result_message` varchar(150) DEFAULT NULL,
   `review_result_acronym` varchar(10) DEFAULT NULL,
   `review_result_hashtag` varchar(64) DEFAULT NULL,
   `review_result_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `review_result_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  `review_result_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`review_result_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
 --
 -- Dumping data for table `review_result_master`
@@ -18069,13 +17843,16 @@ INSERT INTO `review_result_master` (`review_result_id`, `review_result_type_name
 --
 
 CREATE TABLE IF NOT EXISTS `role_master` (
-  `role_id` int(8) NOT NULL,
+  `role_id` int(8) NOT NULL AUTO_INCREMENT,
   `role_name` varchar(32) NOT NULL,
   `role_application_id` int(4) NOT NULL,
   `role_hashtag` varchar(64) DEFAULT NULL,
   `role_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `role_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=latin1;
+  `role_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`role_id`),
+  UNIQUE KEY `role_name` (`role_name`),
+  KEY `application_id` (`role_application_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=52 ;
 
 --
 -- Dumping data for table `role_master`
@@ -18086,10 +17863,7 @@ INSERT INTO `role_master` (`role_id`, `role_name`, `role_application_id`, `role_
 (31, 'Minimal', 1, '', '2014-10-01 00:53:30', 0),
 (33, 'LimitedAuthor', 1, '', '2014-10-24 20:39:44', 0),
 (37, 'Super Admin', 2, NULL, '2015-03-11 07:35:46', 0),
-(52, 'Reviewer', 2, NULL, '2015-09-20 11:39:03', 0),
-(53, 'Convener', 2, NULL, '2015-09-22 06:23:10', 0),
-(54, 'Co-Convener', 2, NULL, '2015-09-22 06:23:26', 0),
-(55, 'Author', 1, NULL, '2015-09-22 16:20:07', 0);
+(51, 'Author', 1, NULL, '2015-09-11 08:50:50', 0);
 
 -- --------------------------------------------------------
 
@@ -18111,7 +17885,9 @@ CREATE TABLE IF NOT EXISTS `schedule_master` (
   `faculty_incharge` varchar(50) DEFAULT NULL,
   `schedule_hashtag` varchar(64) DEFAULT NULL,
   `schedule_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `schedule_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `schedule_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`schedule_id`),
+  KEY `track_id` (`track_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -18159,14 +17935,16 @@ INSERT INTO `schedule_master` (`schedule_id`, `track_id`, `session_id`, `sub_ses
 --
 
 CREATE TABLE IF NOT EXISTS `special_session_request` (
-  `sid` int(11) NOT NULL,
+  `sid` int(11) NOT NULL AUTO_INCREMENT,
   `member_id` varchar(10) CHARACTER SET latin1 NOT NULL,
   `title` text NOT NULL,
   `aim` text NOT NULL,
   `profile` text,
   `verified` tinyint(4) NOT NULL DEFAULT '0',
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`sid`),
+  KEY `member_id` (`member_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=16 ;
 
 -- --------------------------------------------------------
 
@@ -18175,15 +17953,18 @@ CREATE TABLE IF NOT EXISTS `special_session_request` (
 --
 
 CREATE TABLE IF NOT EXISTS `subject_master` (
-  `subject_id` int(8) NOT NULL,
+  `subject_id` int(8) NOT NULL AUTO_INCREMENT,
   `subject_code` varchar(10) NOT NULL,
   `subject_track_id` int(8) NOT NULL,
   `subject_name` varchar(50) NOT NULL,
   `subject_description` varchar(100) DEFAULT NULL,
   `subject_hashtag` varchar(64) DEFAULT NULL,
   `subject_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `subject_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=latin1;
+  `subject_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`subject_id`),
+  UNIQUE KEY `subject_code` (`subject_code`,`subject_track_id`),
+  KEY `subject_track_id` (`subject_track_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=46 ;
 
 --
 -- Dumping data for table `subject_master`
@@ -18234,13 +18015,7 @@ INSERT INTO `subject_master` (`subject_id`, `subject_code`, `subject_track_id`, 
 (42, '6', 5, 'Ankur Dumka - Networking Protocols', NULL, NULL, '2015-03-01 07:21:46', 0),
 (43, '7', 5, 'Dr. Rajni Jain - Computer Applications in Agricult', NULL, NULL, '2015-03-01 07:21:46', 0),
 (44, '8', 5, 'Prof. S. M. K. Quadri - Trends in Software Enginee', NULL, NULL, '2015-03-01 07:21:46', 0),
-(45, '9', 5, 'Prof. Chitra Desai - Cryptography and Cyber Securi', NULL, NULL, '2015-03-01 07:21:46', 0),
-(46, '1', 6, 'T1S1', NULL, NULL, '2015-09-20 09:26:15', 0),
-(47, '2', 6, 'T1S2', NULL, NULL, '2015-09-20 09:26:15', 0),
-(48, '1', 7, 'T2S1', NULL, NULL, '2015-09-20 09:26:15', 0),
-(49, '2', 7, 'T2S2', NULL, NULL, '2015-09-20 09:26:15', 0),
-(50, '1', 8, 'T3S1', NULL, NULL, '2015-09-20 09:26:15', 0),
-(51, '2', 8, 'T3S2', NULL, NULL, '2015-09-20 09:26:15', 0);
+(45, '9', 5, 'Prof. Chitra Desai - Cryptography and Cyber Securi', NULL, NULL, '2015-03-01 07:21:46', 0);
 
 -- --------------------------------------------------------
 
@@ -18249,13 +18024,17 @@ INSERT INTO `subject_master` (`subject_id`, `subject_code`, `subject_track_id`, 
 --
 
 CREATE TABLE IF NOT EXISTS `submission_master` (
-  `submission_id` int(32) NOT NULL,
+  `submission_id` int(32) NOT NULL AUTO_INCREMENT,
   `submission_paper_id` int(16) NOT NULL,
   `submission_member_id` varchar(10) NOT NULL,
   `submission_hashtag` varchar(64) DEFAULT NULL,
   `submission_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `submission_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=2270 DEFAULT CHARSET=latin1;
+  `submission_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`submission_id`),
+  UNIQUE KEY `submission_paper_id_2` (`submission_paper_id`,`submission_member_id`),
+  KEY `submission_paper_id` (`submission_paper_id`),
+  KEY `submission_member_id` (`submission_member_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2253 ;
 
 --
 -- Dumping data for table `submission_master`
@@ -20513,24 +20292,7 @@ INSERT INTO `submission_master` (`submission_id`, `submission_paper_id`, `submis
 (2249, 600, '6406', NULL, '2015-03-11 09:06:21', 0),
 (2250, 1033, '6100', NULL, '2015-03-11 09:32:23', 0),
 (2251, 148, '6408', NULL, '2015-03-12 04:07:53', 0),
-(2252, 194, '6408', NULL, '2015-03-12 04:07:53', 0),
-(2253, 1371, '5413', NULL, '2015-09-20 09:34:33', 0),
-(2254, 1372, '5413', NULL, '2015-09-20 11:43:42', 0),
-(2255, 1373, '5413', NULL, '2015-09-20 11:49:44', 0),
-(2256, 1374, '5413', NULL, '2015-09-20 13:53:07', 0),
-(2257, 1374, '5414', NULL, '2015-09-20 13:53:07', 0),
-(2258, 1375, '5413', NULL, '2015-09-20 13:54:37', 0),
-(2259, 1375, '5414', NULL, '2015-09-20 13:54:37', 0),
-(2260, 1376, '5413', NULL, '2015-09-20 13:55:15', 0),
-(2261, 1376, '5414', NULL, '2015-09-20 13:55:15', 0),
-(2262, 1377, '5413', NULL, '2015-09-20 13:58:30', 0),
-(2263, 1377, '5414', NULL, '2015-09-20 13:58:30', 0),
-(2264, 1378, '5413', NULL, '2015-09-20 14:04:43', 0),
-(2265, 1378, '5414', NULL, '2015-09-20 14:04:43', 0),
-(2266, 1379, '5413', NULL, '2015-09-20 14:05:13', 0),
-(2267, 1379, '5414', NULL, '2015-09-20 14:05:13', 0),
-(2268, 1380, '5413', NULL, '2015-09-20 14:10:01', 0),
-(2269, 1380, '5414', NULL, '2015-09-20 14:10:01', 0);
+(2252, 194, '6408', NULL, '2015-03-12 04:07:53', 0);
 
 -- --------------------------------------------------------
 
@@ -20539,10 +20301,12 @@ INSERT INTO `submission_master` (`submission_id`, `submission_paper_id`, `submis
 --
 
 CREATE TABLE IF NOT EXISTS `technical_programme_committee` (
-  `tpc_id` int(11) NOT NULL,
+  `tpc_id` int(11) NOT NULL AUTO_INCREMENT,
   `sid` int(11) NOT NULL,
-  `name` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `name` text NOT NULL,
+  PRIMARY KEY (`tpc_id`),
+  KEY `sid` (`sid`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 
@@ -20579,7 +20343,8 @@ CREATE TABLE IF NOT EXISTS `temp_member_master` (
   `member_is_activated` tinyint(1) NOT NULL DEFAULT '0',
   `member_hashtag` varchar(64) DEFAULT NULL,
   `member_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `member_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `member_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`member_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -20599,7 +20364,12 @@ CREATE TABLE IF NOT EXISTS `temp_payment_master` (
   `payment_payable_class` int(2) NOT NULL,
   `payment_hashtag` varchar(64) DEFAULT NULL,
   `payment_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `payment_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `payment_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  KEY `payment_trans_id` (`payment_trans_id`),
+  KEY `payment_head` (`payment_head`),
+  KEY `payment_member_id` (`payment_member_id`),
+  KEY `payment_paper_id` (`payment_paper_id`),
+  KEY `payment_payable_class` (`payment_payable_class`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -20609,13 +20379,16 @@ CREATE TABLE IF NOT EXISTS `temp_payment_master` (
 --
 
 CREATE TABLE IF NOT EXISTS `temp_transaction_member_mapper` (
-  `mapper_id` int(3) NOT NULL,
+  `mapper_id` int(3) NOT NULL AUTO_INCREMENT,
   `transaction_id` int(3) NOT NULL,
   `member_id` varchar(10) NOT NULL,
   `hashtag` varchar(64) DEFAULT NULL,
   `dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`mapper_id`),
+  KEY `transaction_id` (`transaction_id`),
+  KEY `member_id` (`member_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -20624,30 +20397,29 @@ CREATE TABLE IF NOT EXISTS `temp_transaction_member_mapper` (
 --
 
 CREATE TABLE IF NOT EXISTS `track_master` (
-  `track_id` int(8) NOT NULL,
+  `track_id` int(8) NOT NULL AUTO_INCREMENT,
   `track_number` varchar(10) NOT NULL,
   `track_event_id` int(8) NOT NULL,
   `track_name` varchar(100) NOT NULL,
   `track_description` varchar(200) DEFAULT NULL,
-  `track_co_convener` int(8) DEFAULT NULL,
   `track_hashtag` varchar(64) DEFAULT NULL,
   `track_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `track_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+  `track_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`track_id`),
+  UNIQUE KEY `track_number` (`track_number`,`track_event_id`),
+  KEY `track_event_id` (`track_event_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Dumping data for table `track_master`
 --
 
-INSERT INTO `track_master` (`track_id`, `track_number`, `track_event_id`, `track_name`, `track_description`, `track_co_convener`, `track_hashtag`, `track_dor`, `track_dirty`) VALUES
-(1, '1', 1, 'International Conference on Sustainable Computing', NULL, NULL, NULL, '2015-03-01 06:30:31', 0),
-(2, '2', 1, 'International Conference on High Performance Computing', NULL, NULL, NULL, '2015-03-01 06:30:31', 0),
-(3, '3', 1, 'International Conference on High Speed Networking and Information Security', NULL, NULL, NULL, '2015-03-01 06:30:31', 0),
-(4, '4', 1, 'International Conference on Software Engineering and Emerging Technologies', NULL, 10, NULL, '2015-03-01 06:30:31', 0),
-(5, '5', 1, 'Special Sessions', NULL, NULL, NULL, '2015-03-01 06:30:31', 0),
-(6, '0', 2, 'Track 1', NULL, 10, NULL, '2015-09-20 09:26:15', 0),
-(7, '1', 2, 'Track 2', NULL, 7, NULL, '2015-09-20 09:26:15', 0),
-(8, '2', 2, 'Track 3', NULL, NULL, NULL, '2015-09-20 09:26:15', 0);
+INSERT INTO `track_master` (`track_id`, `track_number`, `track_event_id`, `track_name`, `track_description`, `track_hashtag`, `track_dor`, `track_dirty`) VALUES
+(1, '1', 1, 'International Conference on Sustainable Computing', NULL, NULL, '2015-03-01 06:30:31', 0),
+(2, '2', 1, 'International Conference on High Performance Computing', NULL, NULL, '2015-03-01 06:30:31', 0),
+(3, '3', 1, 'International Conference on High Speed Networking and Information Security', NULL, NULL, '2015-03-01 06:30:31', 0),
+(4, '4', 1, 'International Conference on Software Engineering and Emerging Technologies', NULL, NULL, '2015-03-01 06:30:31', 0),
+(5, '5', 1, 'Special Sessions', NULL, NULL, '2015-03-01 06:30:31', 0);
 
 -- --------------------------------------------------------
 
@@ -20656,7 +20428,7 @@ INSERT INTO `track_master` (`track_id`, `track_number`, `track_event_id`, `track
 --
 
 CREATE TABLE IF NOT EXISTS `transaction_master` (
-  `transaction_id` int(3) NOT NULL,
+  `transaction_id` int(3) NOT NULL AUTO_INCREMENT,
   `transaction_member_id` varchar(10) DEFAULT NULL,
   `transaction_bank` varchar(50) NOT NULL,
   `transaction_number` varchar(10) NOT NULL,
@@ -20671,8 +20443,12 @@ CREATE TABLE IF NOT EXISTS `transaction_master` (
   `transaction_remarks` varchar(100) NOT NULL,
   `transaction_hashtag` varchar(64) DEFAULT NULL,
   `transaction_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `transaction_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=491 DEFAULT CHARSET=latin1;
+  `transaction_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`transaction_id`),
+  KEY `transaction_member_id` (`transaction_member_id`),
+  KEY `transaction_mode` (`transaction_mode`),
+  KEY `transaction_currency` (`transaction_currency`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=491 ;
 
 --
 -- Dumping data for table `transaction_master`
@@ -21175,12 +20951,13 @@ INSERT INTO `transaction_master` (`transaction_id`, `transaction_member_id`, `tr
 --
 
 CREATE TABLE IF NOT EXISTS `transaction_mode_master` (
-  `transaction_mode_id` int(2) NOT NULL,
+  `transaction_mode_id` int(2) NOT NULL AUTO_INCREMENT,
   `transaction_mode_name` varchar(20) NOT NULL,
   `transaction_mode_hashtag` varchar(64) DEFAULT NULL,
   `transaction_mode_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `transaction_mode_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `transaction_mode_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`transaction_mode_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Dumping data for table `transaction_mode_master`
@@ -21198,13 +20975,16 @@ INSERT INTO `transaction_mode_master` (`transaction_mode_id`, `transaction_mode_
 --
 
 CREATE TABLE IF NOT EXISTS `transfer_master` (
-  `transfer_id` int(4) NOT NULL,
+  `transfer_id` int(4) NOT NULL AUTO_INCREMENT,
   `from_payment_id` int(8) NOT NULL,
   `to_payment_id` int(8) NOT NULL,
   `transfer_hashtag` varchar(64) DEFAULT NULL,
   `transfer_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `transfer_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `transfer_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`transfer_id`),
+  KEY `from_payment_id` (`from_payment_id`),
+  KEY `to_payment_id` (`to_payment_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 -- --------------------------------------------------------
 
@@ -21217,7 +20997,9 @@ CREATE TABLE IF NOT EXISTS `user_event_role_mapper` (
   `role_id` int(8) NOT NULL,
   `user_event_role_mapper_hashtag` varchar(64) DEFAULT NULL,
   `user_event_role_mapper_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_event_role_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0'
+  `user_event_role_mapper_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`,`role_id`),
+  KEY `role_id` (`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -21225,12 +21007,7 @@ CREATE TABLE IF NOT EXISTS `user_event_role_mapper` (
 --
 
 INSERT INTO `user_event_role_mapper` (`user_id`, `role_id`, `user_event_role_mapper_hashtag`, `user_event_role_mapper_dor`, `user_event_role_mapper_dirty`) VALUES
-(7, 37, NULL, '2015-03-11 07:36:23', 0),
-(7, 52, NULL, '2015-09-20 12:36:14', 0),
-(7, 54, NULL, '2015-09-22 14:51:51', 0),
-(8, 52, NULL, '2015-09-20 11:39:51', 0),
-(9, 53, NULL, '2015-09-22 06:24:38', 0),
-(10, 54, NULL, '2015-09-22 06:25:30', 0);
+(7, 37, NULL, '2015-03-11 07:36:23', 0);
 
 -- --------------------------------------------------------
 
@@ -21239,7 +21016,7 @@ INSERT INTO `user_event_role_mapper` (`user_id`, `role_id`, `user_event_role_map
 --
 
 CREATE TABLE IF NOT EXISTS `user_master` (
-  `user_id` int(8) NOT NULL,
+  `user_id` int(8) NOT NULL AUTO_INCREMENT,
   `user_name` varchar(50) NOT NULL,
   `user_organization_id` int(8) DEFAULT NULL,
   `user_designation` varchar(50) DEFAULT NULL,
@@ -21252,18 +21029,18 @@ CREATE TABLE IF NOT EXISTS `user_master` (
   `user_registrar` int(8) DEFAULT NULL,
   `user_hashtag` varchar(64) DEFAULT NULL,
   `user_dor` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_dirty` tinyint(1) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+  `user_dirty` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`user_id`),
+  KEY `user_registrar` (`user_registrar`),
+  KEY `user_organization_id` (`user_organization_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
 --
 -- Dumping data for table `user_master`
 --
 
 INSERT INTO `user_master` (`user_id`, `user_name`, `user_organization_id`, `user_designation`, `user_address`, `user_office_address`, `user_mobile`, `user_department`, `user_email`, `user_password`, `user_registrar`, `user_hashtag`, `user_dor`, `user_dirty`) VALUES
-(7, 'Saurav Deb Purkayastha', NULL, NULL, NULL, NULL, NULL, NULL, 'sauravdebp@gmail.com', '1234', NULL, NULL, '2015-01-17 07:04:00', 0),
-(8, 'Sample Reviewer User', NULL, NULL, NULL, NULL, NULL, NULL, 'reviewerUser@bvicam.in', '1234', 7, NULL, '2015-09-20 11:39:51', 0),
-(9, 'Sample Convener User', NULL, NULL, NULL, NULL, NULL, NULL, 'convener@bvicam.in', '1234', 7, NULL, '2015-09-22 06:24:38', 0),
-(10, 'Sample Co Convener User', NULL, NULL, NULL, NULL, NULL, NULL, 'coconvener@bvicam.in', '1234', 7, NULL, '2015-09-22 06:25:30', 0);
+(7, 'Saurav Deb Purkayastha', NULL, NULL, NULL, NULL, NULL, NULL, 'sauravdebp@gmail.com', '1234', NULL, NULL, '2015-01-17 07:04:00', 0);
 
 -- --------------------------------------------------------
 
@@ -21283,566 +21060,6 @@ DROP TABLE IF EXISTS `paper_latest_version_brief`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `paper_latest_version_brief` AS (select `paper_version_master`.`paper_id` AS `paper_id`,max(`paper_version_master`.`paper_version_number`) AS `latest_paper_version_number` from `paper_version_master` group by `paper_version_master`.`paper_id`);
 
--- --------------------------------------------------------
-
---
--- Structure for view `paper_subject_track_event`
---
-DROP TABLE IF EXISTS `paper_subject_track_event`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `paper_subject_track_event` AS select `paper_master`.`paper_id` AS `paper_id`,`paper_master`.`paper_code` AS `paper_code`,`subject_master`.`subject_id` AS `subject_id`,`subject_master`.`subject_code` AS `subject_code`,`track_master`.`track_id` AS `track_id`,`track_master`.`track_number` AS `track_number`,`event_master`.`event_id` AS `event_id`,`event_master`.`event_name` AS `event_name` from (((`subject_master` left join `paper_master` on((`paper_master`.`paper_subject_id` = `subject_master`.`subject_id`))) join `track_master` on((`subject_master`.`subject_track_id` = `track_master`.`track_id`))) join `event_master` on((`track_master`.`track_event_id` = `event_master`.`event_id`))) order by `track_master`.`track_event_id`;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `application_master`
---
-ALTER TABLE `application_master`
-  ADD PRIMARY KEY (`application_id`);
-
---
--- Indexes for table `area_of_coverage`
---
-ALTER TABLE `area_of_coverage`
-  ADD PRIMARY KEY (`aoc_id`),
-  ADD KEY `sid` (`sid`);
-
---
--- Indexes for table `attendance_master`
---
-ALTER TABLE `attendance_master`
-  ADD PRIMARY KEY (`attendance_id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `member_id` (`member_id`),
-  ADD KEY `submission_id` (`submission_id`);
-
---
--- Indexes for table `certificate_master`
---
-ALTER TABLE `certificate_master`
-  ADD PRIMARY KEY (`certificate_id`);
-
---
--- Indexes for table `certificate_member_mapper`
---
-ALTER TABLE `certificate_member_mapper`
-  ADD PRIMARY KEY (`certificate_member_mapper_id`),
-  ADD KEY `member_category_id` (`member_category_id`),
-  ADD KEY `certificate_id` (`certificate_id`);
-
---
--- Indexes for table `country_master`
---
-ALTER TABLE `country_master`
-  ADD PRIMARY KEY (`country_id`),
-  ADD FULLTEXT KEY `country_name` (`country_name`);
-
---
--- Indexes for table `currency_master`
---
-ALTER TABLE `currency_master`
-  ADD PRIMARY KEY (`currency_id`),
-  ADD UNIQUE KEY `currency_name` (`currency_name`);
-
---
--- Indexes for table `database_user`
---
-ALTER TABLE `database_user`
-  ADD PRIMARY KEY (`database_user_name`);
-
---
--- Indexes for table `deliverables_master`
---
-ALTER TABLE `deliverables_master`
-  ADD PRIMARY KEY (`deliverables_id`);
-
---
--- Indexes for table `deliverables_member_mapper`
---
-ALTER TABLE `deliverables_member_mapper`
-  ADD PRIMARY KEY (`deliverables_member_mapper_id`),
-  ADD KEY `member_category_id` (`member_category_id`),
-  ADD KEY `deliverables_id` (`deliverables_id`);
-
---
--- Indexes for table `deliverables_status`
---
-ALTER TABLE `deliverables_status`
-  ADD PRIMARY KEY (`deliverables_status_id`),
-  ADD UNIQUE KEY `submission_id` (`submission_id`),
-  ADD KEY `member_id` (`member_id`),
-  ADD KEY `deliverables_member_mapper_id` (`deliverables_member_mapper_id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `member_id_2` (`member_id`),
-  ADD KEY `submission_id_2` (`submission_id`),
-  ADD KEY `deliverables_member_mapper_id_2` (`deliverables_member_mapper_id`),
-  ADD KEY `event_id_2` (`event_id`),
-  ADD KEY `member_id_3` (`member_id`),
-  ADD KEY `submission_id_3` (`submission_id`);
-
---
--- Indexes for table `discount_type_master`
---
-ALTER TABLE `discount_type_master`
-  ADD PRIMARY KEY (`discount_type_id`),
-  ADD KEY `discount_type_payhead` (`discount_type_payhead`);
-
---
--- Indexes for table `event_master`
---
-ALTER TABLE `event_master`
-  ADD PRIMARY KEY (`event_id`);
-
---
--- Indexes for table `indiacom_news_attachments`
---
-ALTER TABLE `indiacom_news_attachments`
-  ADD PRIMARY KEY (`attachment_id`),
-  ADD KEY `news_id` (`news_id`);
-
---
--- Indexes for table `indiacom_news_master`
---
-ALTER TABLE `indiacom_news_master`
-  ADD PRIMARY KEY (`news_id`),
-  ADD KEY `news_event_id` (`news_event_id`);
-
---
--- Indexes for table `member_category_master`
---
-ALTER TABLE `member_category_master`
-  ADD PRIMARY KEY (`member_category_id`),
-  ADD KEY `member_category_event_id` (`member_category_event_id`);
-
---
--- Indexes for table `member_certificate_tracker`
---
-ALTER TABLE `member_certificate_tracker`
-  ADD PRIMARY KEY (`member_certificate_tracker_id`),
-  ADD KEY `event_id` (`event_id`),
-  ADD KEY `member_id` (`member_id`),
-  ADD KEY `submission_id` (`submission_id`),
-  ADD KEY `certificate_member_mapper_id` (`certificate_member_mapper_id`);
-
---
--- Indexes for table `member_master`
---
-ALTER TABLE `member_master`
-  ADD PRIMARY KEY (`member_id`),
-  ADD KEY `member_organization_id` (`member_organization_id`),
-  ADD KEY `member_category_id` (`member_category_id`);
-
---
--- Indexes for table `multiplereviews`
---
-ALTER TABLE `multiplereviews`
-  ADD KEY `ReviewID` (`ReviewID`),
-  ADD KEY `VersionID` (`VersionID`),
-  ADD KEY `ReviewResultID` (`ReviewResultID`),
-  ADD KEY `ReviewID_2` (`ReviewID`),
-  ADD KEY `VersionID_2` (`VersionID`),
-  ADD KEY `ReviewResultID_2` (`ReviewResultID`);
-
---
--- Indexes for table `nationality_master`
---
-ALTER TABLE `nationality_master`
-  ADD PRIMARY KEY (`Nationality_id`),
-  ADD KEY `Nationality_currency` (`Nationality_currency`);
-
---
--- Indexes for table `news_master`
---
-ALTER TABLE `news_master`
-  ADD PRIMARY KEY (`news_id`),
-  ADD KEY `news_publisher_id` (`news_publisher_id`),
-  ADD KEY `news_application_id` (`news_application_id`);
-
---
--- Indexes for table `olpc_master`
---
-ALTER TABLE `olpc_master`
-  ADD PRIMARY KEY (`overlength_paper_id`);
-
---
--- Indexes for table `organization_master`
---
-ALTER TABLE `organization_master`
-  ADD PRIMARY KEY (`organization_id`);
-
---
--- Indexes for table `paper_master`
---
-ALTER TABLE `paper_master`
-  ADD PRIMARY KEY (`paper_id`),
-  ADD KEY `paper_contact_author_id` (`paper_contact_author_id`),
-  ADD KEY `paper_subject_id` (`paper_subject_id`);
-
---
--- Indexes for table `paper_schedule_tracker`
---
-ALTER TABLE `paper_schedule_tracker`
-  ADD PRIMARY KEY (`paper_id`),
-  ADD KEY `paper_id` (`paper_id`),
-  ADD KEY `schedule_id` (`schedule_id`);
-
---
--- Indexes for table `paper_version_master`
---
-ALTER TABLE `paper_version_master`
-  ADD PRIMARY KEY (`paper_version_id`),
-  ADD KEY `paper_id` (`paper_id`),
-  ADD KEY `paper_id_2` (`paper_id`),
-  ADD KEY `paper_version_convener_id` (`paper_version_convener_id`),
-  ADD KEY `paper_version_review_result_id` (`paper_version_review_result_id`);
-
---
--- Indexes for table `paper_version_review`
---
-ALTER TABLE `paper_version_review`
-  ADD PRIMARY KEY (`paper_version_review_id`),
-  ADD KEY `paper_version_id` (`paper_version_id`),
-  ADD KEY `reviewer_id` (`paper_version_reviewer_id`);
-
---
--- Indexes for table `payable_class`
---
-ALTER TABLE `payable_class`
-  ADD PRIMARY KEY (`payable_class_id`),
-  ADD KEY `payable_class_registration_category` (`payable_class_registration_category`),
-  ADD KEY `payable_class_registration_cat_2` (`payable_class_registration_category`),
-  ADD KEY `payable_class_nationality` (`payable_class_nationality`),
-  ADD KEY `payable_class_payhead_id` (`payable_class_payhead_id`);
-
---
--- Indexes for table `payment_head_master`
---
-ALTER TABLE `payment_head_master`
-  ADD PRIMARY KEY (`payment_head_id`);
-
---
--- Indexes for table `payment_master`
---
-ALTER TABLE `payment_master`
-  ADD PRIMARY KEY (`payment_id`),
-  ADD UNIQUE KEY `payment_trans_id` (`payment_trans_id`,`payment_member_id`),
-  ADD KEY `payment_member_id` (`payment_member_id`),
-  ADD KEY `payment_payable_class` (`payment_payable_class`),
-  ADD KEY `payment_submission_id` (`payment_submission_id`),
-  ADD KEY `payment_discount_type` (`payment_discount_type`);
-
---
--- Indexes for table `privilege_master`
---
-ALTER TABLE `privilege_master`
-  ADD PRIMARY KEY (`privilege_id`,`privilege_application`),
-  ADD KEY `privilege_application` (`privilege_application`);
-
---
--- Indexes for table `privilege_role_mapper`
---
-ALTER TABLE `privilege_role_mapper`
-  ADD PRIMARY KEY (`privilege_id`,`role_id`),
-  ADD KEY `role_id` (`role_id`);
-
---
--- Indexes for table `registration_category_master`
---
-ALTER TABLE `registration_category_master`
-  ADD PRIMARY KEY (`registration_category_id`);
-
---
--- Indexes for table `reviewer_master`
---
-ALTER TABLE `reviewer_master`
-  ADD PRIMARY KEY (`reviewer_id`),
-  ADD KEY `reviewer_id` (`reviewer_id`),
-  ADD KEY `reviewer_organization_id` (`reviewer_organization_id`);
-
---
--- Indexes for table `review_result_master`
---
-ALTER TABLE `review_result_master`
-  ADD PRIMARY KEY (`review_result_id`);
-
---
--- Indexes for table `role_master`
---
-ALTER TABLE `role_master`
-  ADD PRIMARY KEY (`role_id`),
-  ADD UNIQUE KEY `role_name` (`role_name`),
-  ADD KEY `application_id` (`role_application_id`);
-
---
--- Indexes for table `schedule_master`
---
-ALTER TABLE `schedule_master`
-  ADD PRIMARY KEY (`schedule_id`),
-  ADD KEY `track_id` (`track_id`);
-
---
--- Indexes for table `special_session_request`
---
-ALTER TABLE `special_session_request`
-  ADD PRIMARY KEY (`sid`),
-  ADD KEY `member_id` (`member_id`);
-
---
--- Indexes for table `subject_master`
---
-ALTER TABLE `subject_master`
-  ADD PRIMARY KEY (`subject_id`),
-  ADD UNIQUE KEY `subject_code` (`subject_code`,`subject_track_id`),
-  ADD KEY `subject_track_id` (`subject_track_id`);
-
---
--- Indexes for table `submission_master`
---
-ALTER TABLE `submission_master`
-  ADD PRIMARY KEY (`submission_id`),
-  ADD UNIQUE KEY `submission_paper_id_2` (`submission_paper_id`,`submission_member_id`),
-  ADD KEY `submission_paper_id` (`submission_paper_id`),
-  ADD KEY `submission_member_id` (`submission_member_id`);
-
---
--- Indexes for table `technical_programme_committee`
---
-ALTER TABLE `technical_programme_committee`
-  ADD PRIMARY KEY (`tpc_id`),
-  ADD KEY `sid` (`sid`);
-
---
--- Indexes for table `temp_member_master`
---
-ALTER TABLE `temp_member_master`
-  ADD PRIMARY KEY (`member_id`);
-
---
--- Indexes for table `temp_payment_master`
---
-ALTER TABLE `temp_payment_master`
-  ADD KEY `payment_trans_id` (`payment_trans_id`),
-  ADD KEY `payment_head` (`payment_head`),
-  ADD KEY `payment_member_id` (`payment_member_id`),
-  ADD KEY `payment_paper_id` (`payment_paper_id`),
-  ADD KEY `payment_payable_class` (`payment_payable_class`);
-
---
--- Indexes for table `temp_transaction_member_mapper`
---
-ALTER TABLE `temp_transaction_member_mapper`
-  ADD PRIMARY KEY (`mapper_id`),
-  ADD KEY `transaction_id` (`transaction_id`),
-  ADD KEY `member_id` (`member_id`);
-
---
--- Indexes for table `track_master`
---
-ALTER TABLE `track_master`
-  ADD PRIMARY KEY (`track_id`),
-  ADD UNIQUE KEY `track_number` (`track_number`,`track_event_id`),
-  ADD KEY `track_event_id` (`track_event_id`),
-  ADD KEY `track_co_convener` (`track_co_convener`);
-
---
--- Indexes for table `transaction_master`
---
-ALTER TABLE `transaction_master`
-  ADD PRIMARY KEY (`transaction_id`),
-  ADD KEY `transaction_member_id` (`transaction_member_id`),
-  ADD KEY `transaction_mode` (`transaction_mode`),
-  ADD KEY `transaction_currency` (`transaction_currency`);
-
---
--- Indexes for table `transaction_mode_master`
---
-ALTER TABLE `transaction_mode_master`
-  ADD PRIMARY KEY (`transaction_mode_id`);
-
---
--- Indexes for table `transfer_master`
---
-ALTER TABLE `transfer_master`
-  ADD PRIMARY KEY (`transfer_id`),
-  ADD KEY `from_payment_id` (`from_payment_id`),
-  ADD KEY `to_payment_id` (`to_payment_id`);
-
---
--- Indexes for table `user_event_role_mapper`
---
-ALTER TABLE `user_event_role_mapper`
-  ADD PRIMARY KEY (`user_id`,`role_id`),
-  ADD KEY `role_id` (`role_id`);
-
---
--- Indexes for table `user_master`
---
-ALTER TABLE `user_master`
-  ADD PRIMARY KEY (`user_id`),
-  ADD KEY `user_registrar` (`user_registrar`),
-  ADD KEY `user_organization_id` (`user_organization_id`);
-
---
--- AUTO_INCREMENT for dumped tables
---
-
---
--- AUTO_INCREMENT for table `application_master`
---
-ALTER TABLE `application_master`
-  MODIFY `application_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `area_of_coverage`
---
-ALTER TABLE `area_of_coverage`
-  MODIFY `aoc_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `country_master`
---
-ALTER TABLE `country_master`
-  MODIFY `country_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=198;
---
--- AUTO_INCREMENT for table `currency_master`
---
-ALTER TABLE `currency_master`
-  MODIFY `currency_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `discount_type_master`
---
-ALTER TABLE `discount_type_master`
-  MODIFY `discount_type_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `event_master`
---
-ALTER TABLE `event_master`
-  MODIFY `event_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `indiacom_news_attachments`
---
-ALTER TABLE `indiacom_news_attachments`
-  MODIFY `attachment_id` int(8) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `member_category_master`
---
-ALTER TABLE `member_category_master`
-  MODIFY `member_category_id` int(4) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=8;
---
--- AUTO_INCREMENT for table `nationality_master`
---
-ALTER TABLE `nationality_master`
-  MODIFY `Nationality_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
---
--- AUTO_INCREMENT for table `news_master`
---
-ALTER TABLE `news_master`
-  MODIFY `news_id` int(8) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `olpc_master`
---
-ALTER TABLE `olpc_master`
-  MODIFY `overlength_paper_id` int(16) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=968;
---
--- AUTO_INCREMENT for table `organization_master`
---
-ALTER TABLE `organization_master`
-  MODIFY `organization_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1196;
---
--- AUTO_INCREMENT for table `paper_master`
---
-ALTER TABLE `paper_master`
-  MODIFY `paper_id` int(16) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=1381;
---
--- AUTO_INCREMENT for table `paper_version_master`
---
-ALTER TABLE `paper_version_master`
-  MODIFY `paper_version_id` int(32) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3013;
---
--- AUTO_INCREMENT for table `paper_version_review`
---
-ALTER TABLE `paper_version_review`
-  MODIFY `paper_version_review_id` int(64) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3600;
---
--- AUTO_INCREMENT for table `payable_class`
---
-ALTER TABLE `payable_class`
-  MODIFY `payable_class_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=53;
---
--- AUTO_INCREMENT for table `payment_head_master`
---
-ALTER TABLE `payment_head_master`
-  MODIFY `payment_head_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `payment_master`
---
-ALTER TABLE `payment_master`
-  MODIFY `payment_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=654;
---
--- AUTO_INCREMENT for table `registration_category_master`
---
-ALTER TABLE `registration_category_master`
-  MODIFY `registration_category_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=5;
---
--- AUTO_INCREMENT for table `review_result_master`
---
-ALTER TABLE `review_result_master`
-  MODIFY `review_result_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT for table `role_master`
---
-ALTER TABLE `role_master`
-  MODIFY `role_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=57;
---
--- AUTO_INCREMENT for table `special_session_request`
---
-ALTER TABLE `special_session_request`
-  MODIFY `sid` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `subject_master`
---
-ALTER TABLE `subject_master`
-  MODIFY `subject_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=52;
---
--- AUTO_INCREMENT for table `submission_master`
---
-ALTER TABLE `submission_master`
-  MODIFY `submission_id` int(32) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2270;
---
--- AUTO_INCREMENT for table `technical_programme_committee`
---
-ALTER TABLE `technical_programme_committee`
-  MODIFY `tpc_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `temp_transaction_member_mapper`
---
-ALTER TABLE `temp_transaction_member_mapper`
-  MODIFY `mapper_id` int(3) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `track_master`
---
-ALTER TABLE `track_master`
-  MODIFY `track_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
---
--- AUTO_INCREMENT for table `transaction_master`
---
-ALTER TABLE `transaction_master`
-  MODIFY `transaction_id` int(3) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=491;
---
--- AUTO_INCREMENT for table `transaction_mode_master`
---
-ALTER TABLE `transaction_mode_master`
-  MODIFY `transaction_mode_id` int(2) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
---
--- AUTO_INCREMENT for table `transfer_master`
---
-ALTER TABLE `transfer_master`
-  MODIFY `transfer_id` int(4) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `user_master`
---
-ALTER TABLE `user_master`
-  MODIFY `user_id` int(8) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
 --
 -- Constraints for dumped tables
 --
@@ -22068,8 +21285,7 @@ ALTER TABLE `temp_transaction_member_mapper`
 -- Constraints for table `track_master`
 --
 ALTER TABLE `track_master`
-  ADD CONSTRAINT `track_master_ibfk_1` FOREIGN KEY (`track_event_id`) REFERENCES `event_master` (`event_id`),
-  ADD CONSTRAINT `track_master_ibfk_2` FOREIGN KEY (`track_co_convener`) REFERENCES `user_master` (`user_id`);
+  ADD CONSTRAINT `track_master_ibfk_1` FOREIGN KEY (`track_event_id`) REFERENCES `event_master` (`event_id`);
 
 --
 -- Constraints for table `transaction_master`

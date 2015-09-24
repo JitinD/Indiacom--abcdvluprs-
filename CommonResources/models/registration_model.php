@@ -80,6 +80,14 @@ class Registration_model extends CI_Model
         return $query -> result();
 
     }
+    public function getCountries()
+    {
+        $this -> db -> select('country_id, country_name');
+        $query = $this -> db -> get('country_master');
+
+        return $query -> result();
+
+    }
 
     /*public function checkCurrentPassword($user_id,$password)
     {

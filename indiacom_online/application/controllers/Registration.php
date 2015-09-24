@@ -245,6 +245,7 @@ class Registration extends BaseController
         $this->form_validation->set_rules('experience', 'Experience');
 
         $this -> data['member_categories'] = $this -> registration_model -> getMemberCategories();
+        $this -> data['countries'] = $this -> registration_model -> getCountries();
 
         if ($this->form_validation->run()) {
             $organization_id = $this->organization_model->getOrganizationId($this->input->post('organization'));
