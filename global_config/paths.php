@@ -15,7 +15,11 @@
 //define('UPLOAD_PATH_PREFIX', "indiacom2015/");
 
 //local wamp server
-define('SERVER_ROOT', 'C:/wamp/www/');
+//define('SERVER_ROOT', 'C:/wamp/www/');
+
+//local xampp server
+define('SERVER_ROOT', 'C:/xampp/htdocs/');
+
 define('UPLOAD_PATH_PREFIX', "Indiacom2015/");
 
 //abcdvluprs.com server

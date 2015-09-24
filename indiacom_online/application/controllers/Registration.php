@@ -130,7 +130,7 @@ class Registration extends BaseController
     private function uploadTempBiodata($fileElem, $memberId)
     {
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER;
-        $config['allowed_types'] = 'doc|docx';
+        $config['allowed_types'] = 'doc|docx|pdf';
         $config['file_name'] = $memberId . "_biodata";
         $config['overwrite'] = true;
 
@@ -142,6 +142,7 @@ class Registration extends BaseController
         }
         $uploadData = $this->upload->data();
         //die(UPLOAD_PATH . TEMP_BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext']);
+
         return UPLOAD_PATH . TEMP_BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext'];
     }
 
@@ -348,8 +349,11 @@ class Registration extends BaseController
             $biodata_url = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
             $assignedMemberId = $this->registration_model->assignMemberId();
             if ($member_info['member_biodata_path'] != null) {
-                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url . "{$assignedMemberId}_biodata.pdf");
-                $member_info['member_biodata_path'] = UPLOAD_PATH . BIODATA_FOLDER . $assignedMemberId . "_biodata.pdf";
+                $biodata_path_array = pathinfo($member_info['member_biodata_path']);
+
+                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url . "{$assignedMemberId}_biodata.".$biodata_path_array['extension']);
+                $member_info['member_biodata_path'] = UPLOAD_PATH . BIODATA_FOLDER . $assignedMemberId . "_biodata.".$biodata_path_array['extension'];
+               
             }
 
             if ($this->registration_model->deleteTempMember($member_id)) {
