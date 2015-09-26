@@ -29,6 +29,14 @@ class Organization_model extends CI_Model
             return $query -> result_array();
     }
 
+    public function getMatchingOrganizations($organizationKeyword)
+    {
+        $sql = "Select organization_name From organization_master
+                Where organization_name Like '$organizationKeyword%'";
+        $query = $this->db->query($sql);
+        return $query->result();
+    }
+
     public function getOrganizationId($organizationName)
     {
         $this->db->select('organization_id');

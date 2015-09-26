@@ -74,7 +74,7 @@ class Registration_model extends CI_Model
 
     public function getMemberCategories()
     {
-        $this -> db -> select('member_category_id, member_category_name');
+        $this -> db -> select('*');
         $query = $this -> db -> get('member_category_master');
 
         return $query -> result();

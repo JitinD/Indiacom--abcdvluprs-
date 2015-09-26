@@ -137,6 +137,7 @@
                     else
                     {
                         alert("ERROR : " + msg);
+                        location.reload();
                     }
                 }
             });

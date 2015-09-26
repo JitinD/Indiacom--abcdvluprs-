@@ -211,6 +211,18 @@ class Registration extends BaseController
         return $activation_code;
     }
 
+    public function getOrganizationNameSuggestions($keyword)
+    {
+        $this->load->model('organization_model');
+        $organizations = $this->organization_model->getMatchingOrganizations($keyword);
+        $resultArr = array();
+        foreach($organizations as $organization)
+        {
+            $resultArr[] = $organization->organization_name;
+        }
+        echo json_encode($resultArr);
+    }
+
     public function signUp()
     {
         if(!$this->checkAccess("signUp"))
@@ -246,7 +258,7 @@ class Registration extends BaseController
 
         $this -> data['member_categories'] = $this -> registration_model -> getMemberCategories();
         $this -> data['countries'] = $this -> registration_model -> getCountries();
-
+        
         if ($this->form_validation->run()) {
             $organization_id = $this->organization_model->getOrganizationId($this->input->post('organization'));
             $member_id = $this->registration_model->assignTempMemberId();

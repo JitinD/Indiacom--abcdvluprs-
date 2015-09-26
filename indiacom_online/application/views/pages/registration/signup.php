@@ -1,5 +1,6 @@
 <script src="/<?php echo PATH ?>assets/js/AJAX.js"></script>
 <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/AJAXstyle.css">
+<link rel="stylesheet" href="/<?php echo PATH ?>assets/css/typeaheadStyle.css">
 
 
 <div class="row contentBlock-top">
@@ -15,32 +16,35 @@
 <div class="row">
     <div class="col-lg-10 col-md-9 col-sm-9 col-xs-12 well well-sm">
         <form class="form-horizontal" enctype="multipart/form-data" method="post">
+            <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                <?php echo validation_errors(); ?>
+            </div>
+
             <div class="form-group">
                 <label for="salutation" class="col-sm-3 control-label">
-                    Salutation *</label>
+                    Salutation *
+                </label>
 
                 <div class="col-sm-3">
-
-                    <?php
-                    $salutation = array("Mr", "Ms", "Mrs", "Dr", "Prof");
-                    ?>
-
+                    <?php $salutation = array("Mr", "Ms", "Mrs", "Dr", "Prof"); ?>
                     <select id="salutation" name="salutation" class="form-control">
                         <?php
-                        foreach ($salutation as $value) {
-                            ?>
-                            <option
-                                value= <?php echo $value ?> <?php if (set_value('salutation') == $value) echo "selected"; ?>><?php echo $value ?></option>
-                            <?php
+                        foreach ($salutation as $value)
+                        {
+                        ?>
+                            <option value= <?php echo $value ?> <?php if (set_value('salutation') == $value) echo "selected"; ?>>
+                                <?php echo $value ?>
+                            </option>
+                        <?php
                         }
                         ?>
-
                     </select>
                 </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('salutation'); ?>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="name" class="col-sm-3 control-label">Name *</label>
 
@@ -68,16 +72,20 @@
             <div class="form-group">
                 <label for="country" class="col-sm-3 control-label">Country *</label>
 
-                <select name="country" class="form-control" id="country">
-                    <?php foreach ($countries as $country) {
-                        ?>
-                        <option
-                            value="<?php echo $country->country_id ?>" <?php if (set_value('country') == $country->country_id) echo "selected"; ?>><?php echo $country->country_name ?></option>
+                <div class="col-sm-9">
+                    <select name="country" class="form-control" id="country">
                         <?php
-                    }
-                    ?>
-                </select>
-
+                        foreach ($countries as $country)
+                        {
+                        ?>
+                            <option value="<?php echo $country->country_id ?>" <?php if (set_value('country') == $country->country_id) echo "selected"; ?>>
+                                <?php echo $country->country_name ?>
+                            </option>
+                        <?php
+                        }
+                        ?>
+                    </select>
+                </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('country'); ?>
                 </div>
@@ -87,8 +95,9 @@
                 <label for="address" class="col-sm-3 control-label">Address *</label>
 
                 <div class="col-sm-9">
-        <textarea name="address" maxlength="100" class="form-control" id="address"
-                  placeholder="Enter full address"><?php echo set_value('address'); ?></textarea>
+                    <textarea name="address" maxlength="100" class="form-control" id="address" placeholder="Enter full address">
+                        <?php echo set_value('address'); ?>
+                    </textarea>
                 </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('address'); ?>
@@ -118,6 +127,7 @@
                     <?php echo form_error('pincode'); ?>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="telephoneNumber" class="col-sm-3 control-label">Telephone Number *</label>
 
@@ -127,23 +137,20 @@
                         <input type="tel" name="telephoneNumber_country" maxlength="20" class="form-control"
                                id="telephoneNumber_country"
                                value="<?php echo set_value('telephoneNumber_country'); ?>" placeholder="Country Code">
-
                     </div>
                     <span id="helpBlock" class="help-block">Country Code</span>
                 </div>
-                <div class="col-sm-4">
+                <div class="col-sm-2">
                     <input type="tel" name="telephoneNumber_city" maxlength="20" class="form-control"
                            id="telephoneNumber_city"
                            value="<?php echo set_value('telephoneNumber_city'); ?>" placeholder="City Code">
                     <span id="helpBlock" class="help-block">City Code</span>
                 </div>
-
                 <div class="col-sm-5">
                     <input type="tel" name="telephoneNumber" maxlength="20" class="form-control" id="telephoneNumber"
                            value="<?php echo set_value('telephoneNumber'); ?>" placeholder="Enter Telephone Number">
                     <span id="helpBlock" class="help-block">Telephone Number</span>
                 </div>
-
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('telephoneNumber'); ?>
                 </div>
@@ -151,20 +158,18 @@
             <div class="form-group">
                 <label for="mobileNumber" class="col-sm-3 control-label">Mobile Number *</label>
 
-                <div class="col-sm-9">
-                    <div class="col-sm-4">
-                        <div class="input-group">
-                            <div class="input-group-addon">+</div>
-                            <input type="tel" name="countryCode" maxlength="5" class="form-control" id="countryCode"
-                                   value="<?php echo set_value('countryCode'); ?>" placeholder="Country Code">
-                        </div>
-                        <span id="helpBlock" class="help-block">Country Code</span>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <div class="input-group-addon">+</div>
+                        <input type="tel" name="countryCode" maxlength="5" class="form-control" id="countryCode"
+                               value="<?php echo set_value('countryCode'); ?>" placeholder="Country Code">
                     </div>
-                    <div class="col-sm-8">
-                        <input type="tel" name="mobileNumber" maxlength="10" class="form-control" id="mobileNumber"
-                               value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
-                        <span id="helpBlock" class="help-block">10 digit mobile number</span>
-                    </div>
+                    <span id="helpBlock" class="help-block">Country Code</span>
+                </div>
+                <div class="col-sm-7">
+                    <input type="tel" name="mobileNumber" maxlength="10" class="form-control" id="mobileNumber"
+                           value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
+                    <span id="helpBlock" class="help-block">10 digit mobile number</span>
                 </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('countryCode'); ?>
@@ -202,13 +207,15 @@
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php
                     echo form_error('biodata');
-                    if (isset($uploadError)) {
+                    if (isset($uploadError))
+                    {
                         echo $uploadError;
                         echo "Allowed formats- doc, docx";
-                    };
+                    }
                     ?>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="ietemembershipno" class="col-sm-3 control-label">IEEE Membership Number</label>
 
@@ -226,8 +233,6 @@
                            value="<?php echo set_value('csimembershipno'); ?>"
                            placeholder="Enter CSI Membership Number">
                 </div>
-
-
             </div>
 
             <div class="form-group">
@@ -235,16 +240,17 @@
 
                 <div class="col-sm-9">
                     <select name="category" class="form-control" id="category">
-                        <?php foreach ($member_categories as $category) {
-                            ?>
-                            <option
-                                value="<?php echo $category->member_category_id ?>" <?php if (set_value('category') == $category->member_category_id) echo "selected"; ?>><?php echo $category->member_category_name ?></option>
-                            <?php
+                        <?php
+                        foreach ($member_categories as $category)
+                        {
+                        ?>
+                            <option value="<?php echo $category->member_category_id ?>" <?php if (set_value('category') == $category->member_category_id) echo "selected"; ?>>
+                                <?php echo $category->member_category_name; ?><?php if($category->category_hint != null) echo " ($category->category_hint)"; ?>
+                            </option>
+                        <?php
                         }
                         ?>
                     </select>
-
-
                 </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('category'); ?>
@@ -255,10 +261,10 @@
                 <label for="organization" class="col-sm-3 control-label">Organization *</label>
 
                 <div class="col-sm-9">
-                    <input type="text" name="organization" autocomplete="off" class="form-control" id="keyword"
+                    <input type="text" name="organization" autocomplete="off"
+                           class="form-control" id="organization"
                            value="<?php echo set_value('organization'); ?>"
                            placeholder="Start typing name of Organization here">
-
                     <div id="ajax_response"></div>
                 </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
@@ -297,16 +303,18 @@
                            placeholder="Enter Experience in the Organization">
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="captcha" class="col-sm-3 control-label">Captcha</label>
 
                 <div class="col-sm-9">
-                    <div class="row">
+                    sd
+                    <!--<div class="row">
                         <div class="g-recaptcha" data-sitekey="6LcQQwYTAAAAAIz1OAMs4WX1np0LJfmm_vDCCexw"></div>
-                        <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                        <div class="col-sm-8 co/*l-sm-offset-4 text-danger h5" id="errorText*/">
                             <?php echo form_error('g-recaptcha-response'); ?>
                         </div>
-                    </div>
+                    </div>-->
                 </div>
             </div>
 
@@ -316,9 +324,21 @@
                     <button type="reset" class="btn btn-danger">Reset</button>
                 </div>
             </div>
-
         </form>
-
     </div>
-
 </div>
+<script>
+    var countries = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.whitespace,
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        remote: {
+            url: 'getOrganizationNameSuggestions/%QUERY',
+            wildcard: '%QUERY'
+        }
+    });
+
+    $('#organization').typeahead(null, {
+            name: 'states',
+            source: countries
+        });
+</script>

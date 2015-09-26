@@ -172,7 +172,7 @@ class RoleManager extends BaseController
 
     public function disableRolePrivilege_AJAX()
     {
-        if(!$this->checkAccess("disableRolePrivilege_AJAX"))
+        if(!$this->checkAccess("disableRolePrivilege_AJAX", false))
         {
             echo false;
             return;
@@ -193,7 +193,7 @@ class RoleManager extends BaseController
 
     public function deleteRolePrivilege_AJAX()
     {
-        if(!$this->checkAccess("deleteRolePrivilege_AJAX"))
+        if(!$this->checkAccess("deleteRolePrivilege_AJAX", false))
         {
             echo false;
             return;
@@ -214,7 +214,7 @@ class RoleManager extends BaseController
 
     public function addRolePrivilege_AJAX()
     {
-        if(!$this->checkAccess("addRolePrivilege_AJAX"))
+        if(!$this->checkAccess("addRolePrivilege_AJAX", false))
         {
             echo false;
             return;
@@ -235,7 +235,7 @@ class RoleManager extends BaseController
 
     public function disableRole_AJAX()
     {
-        if(!$this->checkAccess("disableRole_AJAX"))
+        if(!$this->checkAccess("disableRole_AJAX", false))
         {
             echo false;
             return;
@@ -254,7 +254,7 @@ class RoleManager extends BaseController
 
     public function enableRole_AJAX()
     {
-        if(!$this->checkAccess("enableRole_AJAX"))
+        if(!$this->checkAccess("enableRole_AJAX", false))
         {
             echo false;
             return;
@@ -273,7 +273,7 @@ class RoleManager extends BaseController
 
     public function deleteRole_AJAX()
     {
-        if(!$this->checkAccess("deleteRole_AJAX"))
+        if(!$this->checkAccess("deleteRole_AJAX", false))
         {
             echo false;
             return;
