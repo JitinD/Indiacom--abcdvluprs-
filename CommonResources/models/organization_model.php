@@ -16,9 +16,9 @@ class Organization_model extends CI_Model
     public function getOrganizationInfo($member_organization_id)
     {
         $query = $this -> db -> get_where('organization_master', array('organization_id' => $member_organization_id));
-
-        if($query -> num_rows() > 0)
-            return $query -> row_array();
+        if($query -> num_rows() == 1)
+            return $query->row();
+        return null;
     }
 
     public function getOrganizations()

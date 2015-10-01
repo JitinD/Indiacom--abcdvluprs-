@@ -130,7 +130,7 @@ class Registration extends BaseController
     private function uploadTempBiodata($fileElem, $memberId)
     {
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER;
-        $config['allowed_types'] = 'doc|docx|pdf';
+        $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = $memberId . "_biodata";
         $config['overwrite'] = true;
 

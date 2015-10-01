@@ -77,7 +77,7 @@ class Event_model extends CI_Model
 
     public function getAllActiveEvents()
     {
-        $sql = "SELECT * FROM event_master Where event_end_date > NOW() And event_dirty = 0";
+        $sql = "SELECT * FROM event_master Where event_end_date >= NOW() And event_dirty = 0";
         $query = $this->db->query($sql);
         return $query->result();
     }

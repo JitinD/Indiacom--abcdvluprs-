@@ -75,14 +75,14 @@ class Dashboard extends BaseController
     }
 
 
-    public function uploadBiodata($fileElem,$eventId,$memberId)
+    public function uploadBiodata($fileElem, $memberId)
     {
         if(!$this->checkAccess("uploadBiodata"))
             return;
         //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
-        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
-        $config['allowed_types'] = 'pdf';
-        $config['file_name'] = $memberId . "biodata";
+        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
+        $config['allowed_types'] = 'doc|docx';
+        $config['file_name'] = $memberId . "_biodata";
         $config['overwrite'] = true;
 
         $this->load->library('upload');
@@ -94,7 +94,7 @@ class Dashboard extends BaseController
         }
         $uploadData = $this->upload->data();
 
-        return UPLOAD_PATH . BIODATA_FOLDER . $eventId . "/" . $config['file_name'] . $uploadData['file_ext'];
+        return UPLOAD_PATH . BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext'];
     }
 
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
@@ -614,60 +614,71 @@ class Dashboard extends BaseController
             return;
         $this->load->model('member_model');
         $this->load->model('registration_model');
+        $this->load->model('organization_model');
         $page="editProfile";
-        $this->data['editProfile'] =$this->member_model->getMemberInfo($_SESSION[APPID]['member_id']);
+        $this -> data['countries'] = $this -> registration_model -> getCountries();
+        $this->data['editProfile'] = $this->member_model->getMemberInfo($_SESSION[APPID]['member_id']);
+        $this->data['organizationDetails'] =  $this->organization_model->getOrganizationInfo($this->data['editProfile']['member_organization_id']);
         $this -> data['member_categories'] = $this -> registration_model -> getMemberCategories();
         $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         $this->load->library('form_validation');
         $this->form_validation->set_rules('salutation', 'Salutation', 'required');
         $this->form_validation->set_rules('name', 'Name', 'required');
-        $this->form_validation->set_rules('address', 'Address', 'required');
-        $this->form_validation->set_rules('pincode', 'Pincode', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
-        $this->form_validation->set_rules('phoneNumber', 'Phone number', 'required');
+        $this->form_validation->set_rules('country', 'Country', 'required');
+        $this->form_validation->set_rules('address', 'Address', 'required');
+        $this->form_validation->set_rules('city', 'City', 'required');
+        $this->form_validation->set_rules('pincode', 'Pincode', 'required');
+        $this->form_validation->set_rules('countryCode', 'Country Code', 'required');
         $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
-        $this->form_validation->set_rules('organization', 'Organization', 'required');
         $this->form_validation->set_rules('category', 'Category', 'required');
+        $this->form_validation->set_rules('organization', 'Organization', 'required');
         $this->form_validation->set_rules('department', 'Department', 'required');
 
         if($this->form_validation->run())
         {
             $organization_id_array = $this -> registration_model -> getOrganizationId($this -> input -> post('organization'));
 
-            if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$_SESSION[APPID]['member_id'])) == false)
+            if(!empty($_FILES['biodata']['name']) && ($doc_path = $this->uploadBiodata('biodata', $_SESSION[APPID]['member_id'])) == false)
             {
                 $this->data['uploadError'] = $this->upload->display_errors();
-                $this->db->trans_rollback();
             }
-            if($organization_id_array)
+            else if($organization_id_array)
             {
                 $member_record = array(
-                    'member_id' => $_SESSION[APPID]['member_id'],
                     'member_salutation' => $this->input->post('salutation'),
                     'member_name' => $this->input->post('name'),
-                    'member_address' => $this->input->post('address'),
-                    'member_pincode' => $this->input->post('pincode'),
                     'member_email' => $this->input->post('email'),
-                    'member_phone' => $this->input->post('phoneNumber'),
+                    'member_country' => $this->input->post('country'),
+                    'member_address' => $this->input->post('address'),
+                    'member_city' => $this->input->post('city'),
+                    'member_pincode' => $this->input->post('pincode'),
+                    'member_country_code' => $this->input->post('countryCode'),
                     'member_mobile' => $this->input->post('mobileNumber'),
+                    'member_phone_countryCode' => $this->input->post('telephoneNumber_country'),
+                    'member_phone_cityCode' => $this->input->post('telephoneNumber_city'),
+                    'member_phone' => $this->input->post('telephoneNumber'),
+                    'member_fax_countryCode' => $this->input->post('fax_country'),
+                    'member_fax_cityCode' => $this->input->post('fax_city'),
                     'member_fax' => $this->input->post('fax'),
-                    'member_designation' => $this->input->post('designation'),
-                    'member_csi_mem_no' => $this->input->post('csimembershipno'),
                     'member_iete_mem_no' => $this->input->post('ietemembershipno'),
-                    'member_organization_id' => $organization_id_array['organization_id'],
-                    'member_biodata_path' => $doc_path,
+                    'member_csi_mem_no' => $this->input->post('csimembershipno'),
                     'member_category_id' => $this->input->post('category'),
+                    'member_organization_id' => $organization_id_array['organization_id'],
                     'member_department' => $this->input->post('department'),
+                    'member_designation' => $this->input->post('designation'),
                     'member_experience' => $this->input->post('experience')
                 );
+                if(isset($doc_path))
+                    $member_record['member_biodata_path'] = $doc_path;
 
                 if($this->member_model->updateMemberInfo($member_record, $_SESSION[APPID]['member_id']))
                     $page .= "Success";
             }
             else
-                $this -> data['error'] = "No such organization";
+                $this -> data['error'] = "Invalid organization. Contact Admin.";
         }
-                $this->index($page);
+        $this->index($page);
     }
 
     public function payment()

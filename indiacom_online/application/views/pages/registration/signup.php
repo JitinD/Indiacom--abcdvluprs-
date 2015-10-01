@@ -18,6 +18,13 @@
         <form class="form-horizontal" enctype="multipart/form-data" method="post">
             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                 <?php echo validation_errors(); ?>
+                <?php
+                if (isset($uploadError))
+                {
+                    echo $uploadError;
+                    echo "Allowed formats- doc, docx";
+                }
+                ?>
             </div>
 
             <div class="form-group">
@@ -26,7 +33,7 @@
                 </label>
 
                 <div class="col-sm-3">
-                    <?php $salutation = array("Mr", "Ms", "Mrs", "Dr", "Prof"); ?>
+                    <?php $salutation = array("Mr.", "Ms.", "Mrs.", "Dr.", "Prof."); ?>
                     <select id="salutation" name="salutation" class="form-control">
                         <?php
                         foreach ($salutation as $value)
@@ -95,9 +102,7 @@
                 <label for="address" class="col-sm-3 control-label">Address *</label>
 
                 <div class="col-sm-9">
-                    <textarea name="address" maxlength="100" class="form-control" id="address" placeholder="Enter full address">
-                        <?php echo set_value('address'); ?>
-                    </textarea>
+                    <textarea name="address" maxlength="100" class="form-control" id="address" placeholder="Enter full address"><?php echo set_value('address'); ?></textarea>
                 </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('address'); ?>
@@ -155,6 +160,7 @@
                     <?php echo form_error('telephoneNumber'); ?>
                 </div>
             </div>
+
             <div class="form-group">
                 <label for="mobileNumber" class="col-sm-3 control-label">Mobile Number *</label>
 
@@ -308,13 +314,11 @@
                 <label for="captcha" class="col-sm-3 control-label">Captcha</label>
 
                 <div class="col-sm-9">
-                    sd
-                    <!--<div class="row">
                         <div class="g-recaptcha" data-sitekey="6LcQQwYTAAAAAIz1OAMs4WX1np0LJfmm_vDCCexw"></div>
-                        <div class="col-sm-8 co/*l-sm-offset-4 text-danger h5" id="errorText*/">
-                            <?php echo form_error('g-recaptcha-response'); ?>
-                        </div>
-                    </div>-->
+
+                </div>
+                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                    <?php echo form_error('g-recaptcha-response'); ?>
                 </div>
             </div>
 
