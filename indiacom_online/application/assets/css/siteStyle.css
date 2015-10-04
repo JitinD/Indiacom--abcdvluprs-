@@ -100,7 +100,9 @@ body
 {
     background-color: #004080;
 }
-
+.bg-white{
+    background-color: #ffffff;
+}
 .category-based
 {
     display: none;
@@ -116,3 +118,15 @@ tr.rowTopMargin > td
     padding-top: 2em;
 }
 
+/* centered columns styles */
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}

@@ -23,7 +23,7 @@
     <script src="/<?php echo PATH ?>assets/js/typeahead.bundle.js"></script>
     <script src='https://www.google.com/recaptcha/api.js'></script>
 </head>
-<body>
+<body >
 <div class="container-fluid">
     <?php
 
