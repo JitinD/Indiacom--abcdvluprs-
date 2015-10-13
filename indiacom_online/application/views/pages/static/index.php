@@ -1,5 +1,5 @@
-<div class="row">
-    <div class="col-md-12 col-sm-12 col-xs-12 text-center">
+<div class="row row-centered">
+    <div class="col-md-6 col-centered text-center">
         <a href="http://www.csi-india.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/csi.jpg"
                                                                  class="sponsorImage"></a>
         <a href="http://isteonline.in/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iste.jpg"
@@ -11,12 +11,11 @@
         <a href="http://www.theiet.org/" target="_blank"><img src="/<?php echo PATH ?>assets/images/sponsors/iet.jpg"
                                                               class="sponsorImage"
                                                               style="width: 150px; height: 70px;"></a>
-
     </div>
 </div>
 <hr>
 <div class="row">
-    <div class="col-md-4 col-sm-4 col-xs-12 text-center">
+    <div class="col-md-4 col-sm-4 col-xs-8 text-center center-block">
         <div id="carousel-example-generic" class="carousel slide" data-ride="carousel" data-interval="2000">
             <!-- Indicators -->
             <ol class="carousel-indicators">
