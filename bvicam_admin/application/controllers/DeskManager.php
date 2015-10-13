@@ -111,10 +111,10 @@ class DeskManager extends BaseController
 
         $this -> home();
         $this->load->model('paper_model');
-        $paper_id_obj=$this->paper_model->getPaperID($paper_code);
+        $paper_id = $this->paper_model->getPaperID($paper_code, EVENT_ID);
 
-        if(isset($paper_id_obj))
-            $paper_id = $paper_id_obj -> paper_id;
+        /*if(isset($paper_id_obj))
+            $paper_id = $paper_id_obj -> paper_id;*/
 
         if(isset($paper_id) && $paper_id)
         {

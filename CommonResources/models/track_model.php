@@ -40,6 +40,19 @@ class Track_model extends CI_Model
         return $query->result();
     }
 
+    public function getTrackId($eventId, $trackNumber)
+    {
+        $sql = "Select track_id From track_master
+                Where track_event_id = ? And track_number = ?";
+        $query = $this->db->query($sql, array($eventId, $trackNumber));
+        if($query->num_rows() == 1)
+        {
+            $row = $query->row();
+            return $row->track_id;
+        }
+        return null;
+    }
+
     public function getTrackDetails($trackId)
     {
         $sql = "Select * From track_master Where track_id = ?";

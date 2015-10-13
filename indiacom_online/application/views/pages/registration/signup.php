@@ -134,6 +134,28 @@
             </div>
 
             <div class="form-group">
+                <label for="mobileNumber" class="col-sm-3 control-label">Mobile Number *</label>
+
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <div class="input-group-addon">+</div>
+                        <input type="tel" name="countryCode" maxlength="5" class="form-control" id="countryCode"
+                               value="<?php echo set_value('countryCode'); ?>" placeholder="Country Code">
+                    </div>
+                    <span id="helpBlock" class="help-block">Country Code</span>
+                </div>
+                <div class="col-sm-7">
+                    <input type="tel" name="mobileNumber" maxlength="10" class="form-control" id="mobileNumber"
+                           value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
+                    <span id="helpBlock" class="help-block">10 digit mobile number</span>
+                </div>
+                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                    <?php echo form_error('countryCode'); ?>
+                    <?php echo form_error('mobileNumber'); ?>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="telephoneNumber" class="col-sm-3 control-label">Telephone Number *</label>
 
                 <div class="col-sm-2">
@@ -158,28 +180,6 @@
                 </div>
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                     <?php echo form_error('telephoneNumber'); ?>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="mobileNumber" class="col-sm-3 control-label">Mobile Number *</label>
-
-                <div class="col-sm-2">
-                    <div class="input-group">
-                        <div class="input-group-addon">+</div>
-                        <input type="tel" name="countryCode" maxlength="5" class="form-control" id="countryCode"
-                               value="<?php echo set_value('countryCode'); ?>" placeholder="Country Code">
-                    </div>
-                    <span id="helpBlock" class="help-block">Country Code</span>
-                </div>
-                <div class="col-sm-7">
-                    <input type="tel" name="mobileNumber" maxlength="10" class="form-control" id="mobileNumber"
-                           value="<?php echo set_value('mobileNumber'); ?>" placeholder="Enter Mobile Number">
-                    <span id="helpBlock" class="help-block">10 digit mobile number</span>
-                </div>
-                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                    <?php echo form_error('countryCode'); ?>
-                    <?php echo form_error('mobileNumber'); ?>
                 </div>
             </div>
 

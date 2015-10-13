@@ -16,15 +16,15 @@ class Paper_version_model extends CI_Model
         $this->load->database();
     }
 
-    public function addPaperVersion($versionDetails = array())
+    public function addPaperVersion(&$versionDetails = array())
     {
-        $versionDetails['paper_version_id'] = $this->assignPaperVersionId();
+        //$versionDetails['paper_version_id'] = $this->assignPaperVersionId();
         $versionDetails['paper_version_number'] = $this->getLatestPaperVersionNumber($versionDetails['paper_id']) + 1;
         $versionDetails['paper_version_date_of_submission'] = date('Y-m-d H:i:s');
         $this->db->insert('paper_version_master', $versionDetails);
         if($this->db->trans_status() == false)
         {
-            $this->error = "There was an error saving paper doc path. Contact the admin.";
+            $this->error = "There was an error saving new paper version. Contact the admin.";
             return false;
         }
         return true;
@@ -56,17 +56,17 @@ class Paper_version_model extends CI_Model
         return $query->result();
     }
 
-    private function assignPaperVersionId()
-    {
-        $sql = "Select paper_version_id From paper_version_master Order By paper_version_id Desc Limit 1";
-        $query = $this->db->query($sql);
-        if($query->num_rows() == 0)
-        {
-            return 1;
-        }
-        $row = $query->row();
-        return $row->paper_version_id + 1;
-    }
+//    private function assignPaperVersionId()
+//    {
+//        $sql = "Select paper_version_id From paper_version_master Order By paper_version_id Desc Limit 1";
+//        $query = $this->db->query($sql);
+//        if($query->num_rows() == 0)
+//        {
+//            return 1;
+//        }
+//        $row = $query->row();
+//        return $row->paper_version_id + 1;
+//    }
 
     public function getAssignedPapers($user_id)
     {

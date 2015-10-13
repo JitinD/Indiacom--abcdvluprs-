@@ -16,6 +16,12 @@ class Submission_model extends CI_Model
         $this->load->database();
     }
 
+    public function addSubmissionArray($submissionDetails = array())
+    {
+        $this->db->insert('submission_master', $submissionDetails);
+        return $this->db->trans_status();
+    }
+
     public function addSubmission($paperId, $members = array())
     {
         $details = array(

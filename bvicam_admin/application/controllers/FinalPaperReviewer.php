@@ -224,10 +224,10 @@ class FinalPaperReviewer extends BaseController
                         $message =  $this->getReviewMailMessage(
                             $update_data['paper_version_review_result_id'],
                             array(
-                                "member_name"=>$member_info['member_salutation'].". ".$member_info['member_name'],
-                                "paper_title"=>$this->data['paperDetails']->paper_title,
-                                "paper_code"=>$this->data['paperDetails']->paper_code,
-                                "comments"=>$this->input->post('comments')
+                                "member_name" => $member_info['member_salutation'] . " " . $member_info['member_name'],
+                                "paper_title" => $this->data['paperDetails']->paper_title,
+                                "paper_code" => $this->data['paperDetails']->paper_code,
+                                "comments" => $this->input->post('comments')
                             )
                         );
 
@@ -308,19 +308,19 @@ class FinalPaperReviewer extends BaseController
         switch($reviewResultDetails->review_result_acronym)
         {
             case "REJ_IR":
-                return $this->load->view('pages/Email/EmailReview_REJ_IR', $messageData, true);
+                return $this->load->view('pages/Email/Review_REJ_IR', $messageData, true);
             case "REV_IR":
-                return $this->load->view('pages/Email/EmailReview_REV_IR', $messageData, true);
+                return $this->load->view('pages/Email/Review_REV_IR', $messageData, true);
             case "SENT_DR":
-                return $this->load->view('pages/Email/EmailReview_SENT_DR', $messageData, true);
+                return $this->load->view('pages/Email/Review_SENT_DR', $messageData, true);
             case "REJ_DR":
-                return $this->load->view('pages/Email/EmailReview_REJ_DR', $messageData, true);
+                return $this->load->view('pages/Email/Review_REJ_DR', $messageData, true);
             case "MIN_DR":
-                return $this->load->view('pages/Email/EmailReview_MIN_DR', $messageData, true);
+                return $this->load->view('pages/Email/Review_MIN_DR', $messageData, true);
             case "MAJ_DR":
-                return $this->load->view('pages/Email/EmailReview_MAJ_DR', $messageData, true);
+                return $this->load->view('pages/Email/Review_MAJ_DR', $messageData, true);
             case "ACC_DR":
-                return $this->load->view('pages/Email/EmailReview_ACC_DR', $messageData, true);
+                return $this->load->view('pages/Email/Review_ACC_DR', $messageData, true);
             default:
                 break;
         }

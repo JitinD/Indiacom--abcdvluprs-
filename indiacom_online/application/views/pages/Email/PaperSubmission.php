@@ -58,21 +58,8 @@
         Bharati Vidyapeeth's Institute of Computer Applications and Management (BVICAM),<br/>
         A-4, Paschim Vihar, Rohtak Road, New Delhi - 63 (INDIA).<br/>
         Tel. : +91-11-25275055, Fax. : +91-11-25255056, Mobile : +91-9212022066<br/>
-        E-Mails : conference@bvicam.ac.in
+        E-Mails : conference@bvicam.ac.in<br/>
+        Visit us at <a href="www.bvicam.ac.in/indiacom">www.bvicam.ac.in/indiacom</a>
     </p>
-    <p>
-        <span style="background-color: #88cf36;">
-            <i>Attachment :- All documents submitted by author</i>
-        </span>
-    </p>
-    <p>
-        <span style="background-color: #88cf36;">
-            <i>In case of a special session paper, mail to be sent as CC to session chair person</i>
-        </span>
-    </p>
-    <!--Your paper <strong><?php /*echo $paper_title; */?></strong> has been submitted.<br/><br/>
-    Paper Code for this paper is <strong><?php /*echo $paper_code; */?></strong><br/><br/>
-    You will find a copy of your paper in the attachments.<br/><br/>
-    Thank You.-->
 </body>
 </html>

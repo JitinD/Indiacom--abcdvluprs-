@@ -58,4 +58,17 @@ class Subject_model extends CI_Model
         $row = $query->row();
         return $row->event_id;
     }
+
+    public function getSubjectId($trackId, $subjectCode)
+    {
+        $sql = "Select subject_id From subject_master
+                Where subject_track_id = ? And subject_code = ?";
+        $query = $this->db->query($sql, array($trackId, $subjectCode));
+        if($query->num_rows() == 1)
+        {
+            $row = $query->row();
+            return $row->subject_id;
+        }
+        return null;
+    }
 }

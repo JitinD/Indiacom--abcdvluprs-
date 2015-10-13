@@ -153,6 +153,39 @@ class Dashboard extends BaseController
         return false;
     }
 
+    private function sendSms($to, $text)
+    {
+        $url = SMS_SEND_LINK;
+        $data = array(
+            "username" => SMS_SERVICE_USER_ID,
+            "password" => SMS_SERVICE_PWD,
+            "to" => $to,
+            "from" => SMS_FROM,
+            "text" => $text
+        );
+        $options = array(
+            'http' => array(
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data),
+            ),
+        );
+        $context  = stream_context_create($options);
+        file_get_contents($url, false, $context);
+    }
+
+    private function authorsCorrespondence($authors = array(), $emailMessageVars, $emailContentView, $attachments)
+    {
+        foreach($authors as $author)
+        {
+            $emailMessageVars['member_name'] = $author['member_salutation'] . " " . $author['member_name'];
+            $message = $this->load->view("pages/Email/$emailContentView", $emailMessageVars, true);
+            $this->sendMail($author['member_email'], $message, $attachments);
+            //TODO: check valid format of member mobile avaialbale or not
+            $this->sendSms($author['member_mobile'], $this->load->view("pages/Sms/$emailContentView", $emailMessageVars, true));
+        }
+    }
+
     public function submitPaper()
     {
         if(!$this->checkAccess("submitPaper"))
@@ -241,20 +274,24 @@ class Dashboard extends BaseController
                     $paperId = $versionDetails['paper_id'];
                     $this->data['paper_code'] = $paperDetails['paper_code'];
 
-                    $member_info = $this->member_model->getMemberInfo($paperDetails['paper_contact_author_id']);
-                    $email_id = $member_info['member_email'];
-                    $message =  $this->load->view('pages/Email/EmailPaperSubmission', array(
-                        "member_name" => $member_info['member_name'],
-                        "member_ids" => $authors,
-                        "paper_code" => $paperDetails['paper_code'],
-                        "paper_title" => $paperDetails['paper_title'],
-                        "receipt_date" => date("Y")
-                    ), true);
+                    $members = array();
+                    foreach($authors as $author)
+                    {
+                        $members[] = $this->member_model->getMemberInfo($author);
+                    }
 
-                    if($this->sendMail($email_id, $message, array(SERVER_ROOT.$doc_path)))
-                        $this->data['message'] = "success";
-                    else
-                        $this->data['error2'] = "Sorry, there is some problem. Try again later";
+                    $this->authorsCorrespondence(
+                        $members,
+                        array(
+                            "member_ids" => $authors,
+                            "paper_code" => $paperDetails['paper_code'],
+                            "paper_title" => $paperDetails['paper_title'],
+                            "receipt_date" => date("Y")
+                        ),
+                        "PaperSubmission",
+                        array(SERVER_ROOT.$doc_path)
+                    );
+
                     return true;
                 }
             }
@@ -268,6 +305,7 @@ class Dashboard extends BaseController
             "member_name" => "Saurabv",
             "paper_title" => "sd",
             "paper_code" => 23,
+            "complianceReport" => true,
             "receipt_date" => "September 17, 2015",
             "member_ids" => array(5413, 5414)
         ));
@@ -319,7 +357,7 @@ class Dashboard extends BaseController
 
         if(!$this->isValidPaper($paperId) || !$this->canSubmitRevision($paperId))
         {
-            $this->load->view('pages/unauthorizedAccess');
+            $this->loadUnauthorisedAccessPage();
             return;
         }
         $paperDetails = $this->paper_model->getPaperDetails($paperId);
@@ -387,18 +425,26 @@ class Dashboard extends BaseController
                 }
                 $this->db->trans_start();
                 $this->paper_version_model->addPaperVersion($versionDetails);
-                //$page .= "Success";
                 $this->db->trans_complete();
 
-                $member_info = $this -> member_model -> getMemberInfo($paperDetails->paper_contact_author_id);
-                $email_id = $member_info['member_email'];
-                $message = $this -> load -> view('pages/Email/EmailPaperRevisionSubmission', array("member_name"=>$member_info['member_name'], "paper_title"=>$paperDetails->paper_title, "paper_code"=>$paperDetails->paper_code, "complianceReport"=>$complianceReportReqd), true);
-
+                $submissions = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paperId);
+                $members = array();
+                foreach($submissions as $submission)
+                {
+                    $members[] = $this->member_model->getMemberInfo($submission->submission_member_id);
+                }
                 $attachments[] = SERVER_ROOT.$doc_path;
-                if($this -> sendMail($email_id, $message, $attachments))
-                    $this -> data['message'] = "success";
-                else
-                    $this -> data['error2'] = "Sorry, there is some problem. Try again later";
+                $this->authorsCorrespondence(
+                    $members,
+                    array(
+                        "paper_version" => $versionDetails['paper_version_number'],
+                        "paper_code" => $paperDetails->paper_code,
+                        "complianceReport" => $complianceReportReqd
+                    ),
+                    "PaperRevisionSubmission",
+                    $attachments
+                );
+
                 $_SESSION[APPID]['messages'][] = "Paper version added successfully.";
                 redirect('Dashboard/paperInfo/'.$versionDetails['paper_id']);
             }
