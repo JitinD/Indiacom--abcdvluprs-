@@ -30,6 +30,24 @@ class Paper_version_model extends CI_Model
         return true;
     }
 
+    public function updatePaperVersionDetails($details = array(), $paperVersionId)
+    {
+        return $this->db->update('paper_version_master', $details, array("paper_version_id" => $paperVersionId));
+    }
+
+    public function getAllPapersVersionsByEvent($eventId)
+    {
+        $sql = "Select *
+                From paper_version_master
+                    Join
+                    (
+                        SELECT paper_id FROM `paper_subject_track_event` Where event_id = ? And paper_id Is Not Null
+                    ) as event_papers
+                    On paper_version_master.paper_id = event_papers.paper_id";
+        $query = $this->db->query($sql, array($eventId));
+        return $query->result();
+    }
+
     public function getLatestPaperVersionNumber($paperId)
     {
         $sql = "Select paper_version_number From paper_version_master Where paper_id = ? Order By paper_version_number Desc Limit 1";

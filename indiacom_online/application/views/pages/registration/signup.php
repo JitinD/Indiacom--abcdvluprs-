@@ -122,6 +122,18 @@
             </div>
 
             <div class="form-group">
+                <label for="state" class="col-sm-3 control-label">State *</label>
+
+                <div class="col-sm-9">
+                    <input type="city" name="state" class="form-control" value="<?php echo set_value('state'); ?>"
+                           id="state" placeholder="Enter state">
+                </div>
+                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                    <?php echo form_error('state'); ?>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <label for="pincode" class="col-sm-3 control-label">Pincode</label>
 
                 <div class="col-sm-9">

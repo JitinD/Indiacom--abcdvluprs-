@@ -159,7 +159,7 @@
         <tbody>
         <tr>
             <td>Name</td>
-            <td><?php echo $miniProfile['member_salutation'] . "." . $miniProfile['member_name'] ?></td>
+            <td><?php echo $miniProfile['member_salutation'] . " " . $miniProfile['member_name'] ?></td>
         </tr>
         <tr>
             <td>Member ID</td>

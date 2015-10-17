@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-4">
-                                    <a href="/<?php echo BASEURL; ?>Registration/forgotPassword" class="btn btn-danger btn-block">Forgot Member Id / Password</a>
+                                    <a href="/<?php echo BASEURL; ?>Registration/forgotLoginCredentials" class="btn btn-danger btn-block">Forgot Member Id / Password</a>
 
                                 </div>
                             </div>

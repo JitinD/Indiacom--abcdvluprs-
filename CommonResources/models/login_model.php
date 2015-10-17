@@ -50,7 +50,7 @@ class Login_model extends CI_Model
         $this->setLoginType($loginType);
     }
 
-    public function authenticate()
+    public function authenticate($tempMember = true)
     {
         if($this->loginType == 'M')
         {
@@ -58,7 +58,7 @@ class Login_model extends CI_Model
         }
         else if($this->loginType == 'LM')
         {
-            return $this->memberAuthenticate("LimitedAuthor", false, true);
+            return $this->memberAuthenticate("LimitedAuthor", false, $tempMember);
         }
         else if($this->loginType == 'A')
         {

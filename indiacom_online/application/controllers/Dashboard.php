@@ -549,9 +549,10 @@ class Dashboard extends BaseController
     {
         if(!$this->checkAccess("changePassword"))
             return;
+
         $page = "changePassword";
 
-        $this -> data['toResetPassword'] = $toResetPassword;
+        $this->data['toResetPassword'] = $toResetPassword;
 
         $this->load->model('registration_model');
         $this->load->library('form_validation');
@@ -560,7 +561,6 @@ class Dashboard extends BaseController
 
         if(!$toResetPassword)
             $this->form_validation->set_rules('currentPassword', 'Current Password', 'required|callback_validateCurrentPassword');
-
         $this->form_validation->set_rules('newPassword', 'New Password', 'required');
         $this->form_validation->set_rules('confirmPassword', 'Confirm Password', 'required|callback_validateConfirmPassword');
 
@@ -569,47 +569,53 @@ class Dashboard extends BaseController
             $encrypted_password = md5($this -> input -> post('newPassword'));
 
             $update_data = array(
-                                    'member_password'       =>  $encrypted_password,
-                                    'member_is_activated'   =>  1
-                                );
+                'member_password' => $encrypted_password,
+                'member_is_activated' => 1
+            );
 
             if($this -> member_model -> updateMemberInfo($update_data, $member_id))
             {
+                if($toResetPassword)
+                    return true;
                 $page .= "Success";
-               // return true;
             }
-
-            //return false;
         }
 
         $this->index($page);
-
-        //return false;
+        return false;
     }
 
     public function resetPassword($member_id, $activation_code)
     {
-        if(!$this->checkAccess("resetPassword"))
-            return;
-        $page = "resetPassword";
-
-        $_SESSION['sudo'] = true;
         $this -> load -> model('login_model');
         $this -> load -> model('member_model');
 
         $this -> login_model -> setUsername($member_id);
         $this -> login_model -> setPassword($activation_code);
         $this -> login_model -> setLoginType('LM');
-        $this -> login_model -> authenticate();
+
+        if(!($auth = $this->login_model->authenticate(false)) || !$this->checkAccess("resetPassword"))
+        {
+            if(!$auth)
+                $this->loadUnauthorisedAccessPage();
+            return;
+        }
 
         $update_data = array('member_is_activated'   =>  0);
 
-        if($this -> member_model -> updateMemberInfo($update_data, $member_id))
+        if($this->member_model->updateMemberInfo($update_data, $member_id))
         {
-            if($this -> changePassword(true))
-                redirect('Login/Logout');
+            if($this->changePassword(true))
+            {
+                $this->login_model->setUsername($member_id);
+                $this->login_model->setPassword($this->input->post('newPassword'));
+                $this->login_model->setLoginType('M');
+                $this->login_model->authenticate();
+                $this->index("changePasswordSuccess");
+                return;
+            }
         }
-
+        $this->login_model->logout();
     }
 
     public function validateCurrentPassword()
@@ -674,6 +680,7 @@ class Dashboard extends BaseController
         $this->form_validation->set_rules('country', 'Country', 'required');
         $this->form_validation->set_rules('address', 'Address', 'required');
         $this->form_validation->set_rules('city', 'City', 'required');
+        $this->form_validation->set_rules('state', 'State', 'required');
         $this->form_validation->set_rules('pincode', 'Pincode', 'required');
         $this->form_validation->set_rules('countryCode', 'Country Code', 'required');
         $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
@@ -698,6 +705,7 @@ class Dashboard extends BaseController
                     'member_country' => $this->input->post('country'),
                     'member_address' => $this->input->post('address'),
                     'member_city' => $this->input->post('city'),
+                    'member_state' => $this->input->post('state'),
                     'member_pincode' => $this->input->post('pincode'),
                     'member_country_code' => $this->input->post('countryCode'),
                     'member_mobile' => $this->input->post('mobileNumber'),

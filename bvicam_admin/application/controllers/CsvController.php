@@ -453,4 +453,59 @@ class CsvController extends BaseController
             $this->paper_version_model->sendConvenerReview($versionDetails, $versionId);
         }
     }
+
+    public function importDocumentSoftCopies($eventId)
+    {
+
+    }
+
+    public function importPaperSoftCopies($eventId)
+    {
+        $this->load->model('paper_version_model');
+        $sourceDocumentsPath = $this->dataPath . "documents/";
+        $destDocumentsPath = SERVER_ROOT . UPLOAD_PATH . "$eventId/" . PAPER_FOLDER;
+        $versions = $this->paper_version_model->getAllPapersVersionsByEvent($eventId);
+        $versionDetails = array();
+        foreach($versions as $version)
+        {
+            $sourceFileName = $version->paper_version_document_path;
+            $fileInfo = pathinfo($sourceFileName);
+            $fileExt = $fileInfo['extension'];
+            $destFileName = "Paper_" . $version->paper_id . "v" . $version->paper_version_number . ".$fileExt";
+            if(copy($sourceDocumentsPath . $sourceFileName, $destDocumentsPath . $destFileName))
+            {
+                $versionDetails["paper_version_document_path"] = UPLOAD_PATH . "$eventId/" . PAPER_FOLDER . $destFileName;
+                $this->paper_version_model->updatePaperVersionDetails($versionDetails, $version->paper_version_id);
+            }
+            else
+            {
+                echo "Error copying : $sourceFileName, VersionId : {$version->paper_version_id}<br/>";
+            }
+        }
+    }
+
+    public function importPaperVersionComplianceReports($eventId)
+    {
+        $this->load->model('paper_version_model');
+        $sourceDocumentsPath = $this->dataPath . "documents/";
+        $destDocumentsPath = SERVER_ROOT . UPLOAD_PATH . "$eventId/" . COMPLIANCE_REPORT_FOLDER;
+        $versions = $this->paper_version_model->getAllPapersVersionsByEvent($eventId);
+        $versionDetails = array();
+        foreach($versions as $version)
+        {
+            $sourceFileName = $version->paper_version_compliance_report_path;
+            $fileInfo = pathinfo($sourceFileName);
+            $fileExt = $fileInfo['extension'];
+            $destFileName = "Report_" . $version->paper_id . "v" . $version->paper_version_number . ".$fileExt";
+            if(copy($sourceDocumentsPath . $sourceFileName, $destDocumentsPath . $destFileName))
+            {
+                $versionDetails["paper_version_compliance_report_path"] = UPLOAD_PATH . "$eventId/" . COMPLIANCE_REPORT_FOLDER . $destFileName;
+                $this->paper_version_model->updatePaperVersionDetails($versionDetails, $version->paper_version_id);
+            }
+            else
+            {
+                echo "Error copying : $sourceFileName, VersionId : {$version->paper_version_id}<br/>";
+            }
+        }
+    }
 }

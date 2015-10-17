@@ -13,6 +13,7 @@ $privilege['Page']['Registration']['formFilledCheck'] = array('R3');
 $privilege['Page']['Registration']['forgotPassword'] = array('R4');
 $privilege['Page']['Registration']['signUp'] = array('R5');
 $privilege['Page']['Registration']['EnterPassword'] = array('R6');
+$privilege['Page']['Registration']['forgotLoginCredentials'] = array('R7');
 
 $privilege['Page']['MainController']['viewPage'] = array('MC0');
 $privilege['Page']['MainController']['index'] = array('MC1');

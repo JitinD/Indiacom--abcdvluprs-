@@ -146,7 +146,88 @@ class Registration extends BaseController
         return UPLOAD_PATH . TEMP_BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext'];
     }
 
-    public function forgotPassword()
+    public function forgotLoginCredentials()
+    {
+        if(!$this->checkAccess("forgotLoginCredentials"))
+            return;
+        $page = "forgotLoginCredentials";
+
+        if(isset($_POST['form_getMemberId']))
+        {
+            $this->forgotMemberId();
+            $this->data['usedForgotMemberId'] = true;
+        }
+        if(isset($_POST['form_forgotPassword']))
+        {
+            $this->forgotPassword();
+            $this->data['usedForgotPassword'] = true;
+        }
+        $this->index($page);
+    }
+
+    private function forgotPassword()
+    {
+        $this->load->library('form_validation');
+        $this->load->model('member_model');
+        $this->form_validation->set_rules('email', "Registered Email Address", 'required');
+
+        if($this->form_validation->run())
+        {
+            $email = $this->input->post('email');
+            $memberInfo = $this->member_model->getMemberInfoByEmail($email);
+
+            if($memberInfo)
+            {
+                $memberNewInfo = array('member_password' => md5(substr(md5(rand()), 0, 7)));
+                $this->member_model->updateMemberInfo($memberNewInfo, $memberInfo->member_id);
+
+                $message = $this->load->view(
+                    'pages/EmailResetPasswordLink',
+                    array(
+                        "member_id" => $memberInfo->member_id,
+                        "activation_code" => $memberNewInfo['member_password']
+                    ),
+                    true
+                );
+
+                if ($this->sendMail($memberInfo->member_email, $message))
+                    $this->data['forgotPwd_message'] = "An email has been sent to your registered mail id. Click on the activation link provided in the mail to reset your password<br/>";
+                else
+                    $this->data['forgotPwd_errorMessage'] = "An error occurred. Email can't be sent. Reset password unsuccessful!";
+            }
+            else
+                $this->data['forgotPwd_errorMessage'] = "Provided Email Address could not be found in our database!";
+        }
+        else if(($memberId =$this->input->post('memberId')))
+        {
+            $this->data['memberEmail'] = $this->forgotRegisteredEmail($memberId);
+        }
+    }
+
+    private function forgotMemberId()
+    {
+        $this->load->library('form_validation');
+        $this->load->model('member_model');
+        $this->form_validation->set_rules('email', "Registered Email Address", 'required');
+
+        if($this->form_validation->run())
+        {
+            $email = $this->input->post('email');
+            $memberInfo = $this->member_model->getMemberInfoByEmail($email);
+            if($memberInfo)
+                $this->data['forgottenMemberId'] = $memberInfo->member_id;
+            else
+                $this->data['forgotMemberId_errorMessage'] = "Provided Email Address could not be found in our database!";
+        }
+    }
+
+    private function forgotRegisteredEmail($memberId)
+    {
+        $memberInfo = $this->member_model->getMemberInfo($memberId);
+        return $this->hide_mail($memberInfo['member_email']);
+    }
+
+    /*public function forgotPassword()
     {
         if(!$this->checkAccess("forgotPassword"))
             return;
@@ -201,7 +282,7 @@ class Registration extends BaseController
 
         $this->index($page);
 
-    }
+    }*/
 
     private function assignActivationCode()
     {
@@ -238,6 +319,7 @@ class Registration extends BaseController
         //$this->form_validation->set_rules('pincode', 'Pincode', 'required');
         $this->form_validation->set_rules('country', 'Country', 'required');
         $this->form_validation->set_rules('city', 'City', 'required');
+        $this->form_validation->set_rules('state', 'State', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
         $this->form_validation->set_rules('telephoneNumber_country', 'Telephone number Country Code', 'required');
         $this->form_validation->set_rules('telephoneNumber_city', 'Telephone number City Code', 'required');
@@ -289,6 +371,7 @@ class Registration extends BaseController
                     'member_pincode' => $this->input->post('pincode'),
                     'member_email' => $this->input->post('email'),
                     'member_country' => $this->input->post('country'),
+                    'member_state' => $this->input->post('state'),
                     'member_city' => $this->input->post('city'),
                     'member_phone_countryCode' => $this->input->post('telephoneNumber_country'),
                     'member_phone_cityCode' => $this->input->post('telephoneNumber_city'),
