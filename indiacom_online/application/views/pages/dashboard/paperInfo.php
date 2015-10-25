@@ -29,7 +29,7 @@
                 ?>
                 <table class="table table-striped table-hover table-responsive">
                     <tr>
-                        <td>Paper Code</td>
+                        <td>Paper ID</td>
                         <td><?php echo $paperDetails->paper_code; ?></td>
                     </tr>
                     <tr>
@@ -83,7 +83,7 @@
                                             if($version->paper_version_review_date != null)
                                             {
                                             ?>
-                                                <a class="btn btn-primary" href="/<?php echo $version->paper_version_comments_path; ?>">
+                                                <a class="btn btn-primary" href="<?php echo "../downloadReviewerComments/" . $version->paper_version_id; ?>" target="new">
                                                     <span class="glyphicon glyphicon-cloud-download"></span>
                                                 </a>
                                             <?php
@@ -91,7 +91,7 @@
                                             ?>
                                         </td>
                                         <td>
-                                            <a class="btn btn-primary" href="/<?php echo $version->paper_version_document_path; ?>">
+                                            <a class="btn btn-primary" href="<?php echo "../downloadPaperVersion/" . $version->paper_version_id; ?>" target="new">
                                                 <span class="glyphicon glyphicon-cloud-download"></span>
                                             </a>
                                         </td>
@@ -100,7 +100,7 @@
                                             if($version->paper_version_compliance_report_path != null)
                                             {
                                             ?>
-                                                <a class="btn btn-primary" href="/<?php echo $version->paper_version_compliance_report_path; ?>">
+                                                <a class="btn btn-primary" href="<?php echo "../downloadComplianceReport/" . $version->paper_version_id; ?>" target="new">
                                                     <span class="glyphicon glyphicon-cloud-download"></span>
                                                 </a>
                                             <?php

@@ -224,7 +224,7 @@
                                 {
                                 ?>
                                     <div>
-                                        <a title="Download Biodata" class="btn btn-primary btn-block" href="<?php echo $editProfile['member_biodata_path']; ?>">Download<span class="glyphicon glyphicon-cloud-download"></span></a>
+                                        <a class="btn btn-primary btn-block" href="<?php echo "downloadBiodata"; ?>" target="new">Download<span class="glyphicon glyphicon-cloud-download"></span></a>
                                     </div>
                                 <?php
                                 }

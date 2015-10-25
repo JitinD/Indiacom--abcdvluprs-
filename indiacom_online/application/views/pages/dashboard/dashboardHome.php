@@ -97,7 +97,7 @@
                 <thead>
                 <tr>
                     <th>#</th>
-                    <th>Paper Code</th>
+                    <th>Paper ID</th>
                     <th>Title</th>
                     <th>Latest Version</th>
                     <th>Version Status</th>

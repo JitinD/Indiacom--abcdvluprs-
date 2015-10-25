@@ -6,5 +6,4 @@
  * Time: 12:21 PM
  */
 ?>
-
-Sample text for paper revision submission
+Thank you. Version <?php echo $paper_version; ?> of Paper ID <?php echo $paper_code; ?> received. INDIACom-2016 Team.

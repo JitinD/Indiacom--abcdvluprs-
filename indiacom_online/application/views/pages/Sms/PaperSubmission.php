@@ -6,4 +6,4 @@
  * Time: 12:21 PM
  */
 ?>
-Sample text for paper submission
+Thank you for submitting your research paper. Your Paper ID is <?php echo $paper_code; ?>. Please note that paper acceptance will be notified by. INDIACom-2016 Team.

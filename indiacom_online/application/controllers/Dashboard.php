@@ -40,46 +40,10 @@ class Dashboard extends BaseController
         $this->load->view('templates/footer');
     }
 
-    public function home()
-    {
-        if(!$this->checkAccess("home"))
-            return;
-        $this->load->model('paper_status_model');
-        $this->load->model('member_model');
-        $this->load->model('event_model');
-        $page = "dashboardHome";
-        if(isset($_SESSION[APPID]['member_id']))
-        {
-            $this->data['events'] = $this->event_model->getAllActiveEvents();
-            foreach($this->data['events'] as $event)
-            {
-                $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
-            }
-            //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id'], EVENT_ID);
-            $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
-        
-            $this->data['events'] = $this->event_model->getAllActiveEvents();
-            $this->data['paperCanRevise'] = array();
-            foreach($this->data['events'] as $event)
-            {
-                $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
-                foreach($this->data['papers'][$event->event_id] as $paper)
-                {
-                    $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
-                }
-            }
-            //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
-            $this->data['methodName'] = "submitPaperRevision";
-        }
-        $this->index($page);
-    }
-
-
-    public function uploadBiodata($fileElem, $memberId)
+    private function uploadBiodata($fileElem, $memberId)
     {
         if(!$this->checkAccess("uploadBiodata"))
             return;
-        //$config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = $memberId . "_biodata";
@@ -186,6 +150,40 @@ class Dashboard extends BaseController
         }
     }
 
+    public function home()
+    {
+        if(!$this->checkAccess("home"))
+            return;
+        $this->load->model('paper_status_model');
+        $this->load->model('member_model');
+        $this->load->model('event_model');
+        $page = "dashboardHome";
+        if(isset($_SESSION[APPID]['member_id']))
+        {
+            $this->data['events'] = $this->event_model->getAllActiveEvents();
+            foreach($this->data['events'] as $event)
+            {
+                $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
+            }
+            //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id'], EVENT_ID);
+            $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
+        
+            $this->data['events'] = $this->event_model->getAllActiveEvents();
+            $this->data['paperCanRevise'] = array();
+            foreach($this->data['events'] as $event)
+            {
+                $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
+                foreach($this->data['papers'][$event->event_id] as $paper)
+                {
+                    $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
+                }
+            }
+            //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
+            $this->data['methodName'] = "submitPaperRevision";
+        }
+        $this->index($page);
+    }
+
     public function submitPaper()
     {
         if(!$this->checkAccess("submitPaper"))
@@ -213,12 +211,12 @@ class Dashboard extends BaseController
         $this->load->model('member_model');
         $this->load->library('form_validation');
 
-        $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");
+        $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheckCallback");
         $this->form_validation->set_rules('event', 'Event', 'required');
         $this->form_validation->set_rules('track', 'Track', 'required');
         $this->form_validation->set_rules('subject', 'Subject', 'required');
         $this->form_validation->set_rules('main_author', 'Main Author', 'required');
-        $this->form_validation->set_rules('authors', 'Author Id(s)', 'required|callback_authorsCheck');
+        $this->form_validation->set_rules('authors', 'Author Id(s)', 'required|callback_authorsCheckCallback');
 
         if($this->form_validation->run())
         {
@@ -311,7 +309,7 @@ class Dashboard extends BaseController
         ));
     }*/
 
-    public function authorsCheck($authors = array())
+    public function authorsCheckCallback($authors = array())
     {
         $retVal = false;
         $this->form_validation->set_message('authorsCheck', 'Signed in author missing in authors list');
@@ -330,7 +328,7 @@ class Dashboard extends BaseController
         return $retVal;
     }
 
-    public function paperTitleCheck($paperTitle)
+    public function paperTitleCheckCallback($paperTitle)
     {
         $this->load->model('paper_model');
         if($this->paper_model->isUniquePaperTitle($paperTitle, $this->input->post('event')))
@@ -452,6 +450,26 @@ class Dashboard extends BaseController
         $this->index($page);
     }
 
+    private function paperVersionList()
+    {
+        $this->load->model('paper_status_model');
+        $this->load->model('event_model');
+        $page = "submitPaperRevisionList";
+        $this->data['events'] = $this->event_model->getAllActiveEvents();
+        $this->data['paperCanRevise'] = array();
+        foreach($this->data['events'] as $event)
+        {
+            $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
+            foreach($this->data['papers'][$event->event_id] as $paper)
+            {
+                $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
+            }
+        }
+        //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
+        $this->data['methodName'] = "submitPaperRevision";
+        $this->index($page);
+    }
+
     public function paperInfo($paperId)
     {
         if(!$this->checkAccess("paperInfo"))
@@ -480,26 +498,6 @@ class Dashboard extends BaseController
             $this->load->view('pages/unauthorizedAccess');
             return;
         }
-        $this->index($page);
-    }
-
-    private function paperVersionList()
-    {
-        $this->load->model('paper_status_model');
-        $this->load->model('event_model');
-        $page = "submitPaperRevisionList";
-        $this->data['events'] = $this->event_model->getAllActiveEvents();
-        $this->data['paperCanRevise'] = array();
-        foreach($this->data['events'] as $event)
-        {
-            $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
-            foreach($this->data['papers'][$event->event_id] as $paper)
-            {
-                $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
-            }
-        }
-        //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
-        $this->data['methodName'] = "submitPaperRevision";
         $this->index($page);
     }
 
@@ -652,12 +650,53 @@ class Dashboard extends BaseController
 
     public function downloadBiodata()
     {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        $this->load->model('member_model');
         if(!$this->checkAccess("downloadBiodata"))
             return;
-        $this->load-> helper ('download');
-        $data=file_get_contents(SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER."1/".$_SESSION[APPID]['member_id']."biodata.pdf");
-        $name = $_SESSION[APPID]['member_id']."biodata.pdf";
-        force_download ($name, $data);
+        $memberInfo = $this->member_model->getMemberInfo($_SESSION[APPID]['member_id']);
+        $pathInfo = pathinfo($memberInfo['member_biodata_path']);
+        DownloadUtil::downloadFile(SERVER_ROOT . $memberInfo['member_biodata_path'], "Bio Data." . $pathInfo['extension']);
+    }
+
+    private function downloadPaperVersionDocuments($paperVersionId, $documentPathFieldName)
+    {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        $this->load->model('paper_version_model');
+        $this->load->model('submission_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
+            DownloadUtil::downloadFile(SERVER_ROOT . $versionInfo->$documentPathFieldName, basename($versionInfo->$documentPathFieldName));
+        else
+            $this->loadUnauthorisedAccessPage();
+    }
+
+    public function watchFlash()
+    {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        $filePath = "D:/Extras/TV Shows/The Flash/Season 2/The.Flash.2014.S02E03.HDTV.x264-LOL[eztv].mp4";
+        DownloadUtil::downloadFile($filePath, basename($filePath));
+    }
+
+    public function downloadPaperVersion($paperVersionId)
+    {
+        if(!$this->checkAccess("downloadPaperVersion"))
+            return;
+        $this->downloadPaperVersionDocuments($paperVersionId, "paper_version_document_path");
+    }
+
+    public function downloadComplianceReport($paperVersionId)
+    {
+        if(!$this->checkAccess("downloadComplianceReport"))
+            return;
+        $this->downloadPaperVersionDocuments($paperVersionId, "paper_version_compliance_report_path");
+    }
+
+    public function downloadReviewerComments($paperVersionId)
+    {
+        if(!$this->checkAccess("downloadPaperVersion"))
+            return;
+        $this->downloadPaperVersionDocuments($paperVersionId, "paper_version_comments_path");
     }
 
     public function editProfile()

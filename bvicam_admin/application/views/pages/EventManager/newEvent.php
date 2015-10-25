@@ -126,7 +126,7 @@
                 <div class="form-group">
                     <label for="event_email" class="col-sm-3 control-label">Event Email Id</label>
                     <div class="col-sm-9">
-                        <input type="date" class="form-control" name="event_email" id="event_email" placeholder="Enter Event Email">
+                        <input type="email" class="form-control" name="event_email" id="event_email" placeholder="Enter Event Email">
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                         <?php echo form_error('event_email'); ?>
@@ -136,7 +136,7 @@
                 <div id="new_tracks_list"></div>
 
                 <div class="form-group">
-                    <label for="event_email" class="col-sm-3 control-label">Add Track</label>
+                    <label class="col-sm-3 control-label">Add Track</label>
                     <div class="col-sm-9">
                         <div class="input-group contentBlock-top">
                             <button class="btn btn-success btn-sm" type="button" id="but_addTrack">
