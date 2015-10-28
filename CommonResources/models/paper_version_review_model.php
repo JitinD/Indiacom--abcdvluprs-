@@ -29,7 +29,7 @@ class Paper_version_review_model extends CI_Model
 
     public function getReviewerPendingReviews($reviewerId, $eventId = null)
     {
-        $this->db->select('paper_version_review_id, paper_version_number, paper_master.*');
+        $this->db->select('paper_version_number, paper_master.*, paper_version_review.*');
         $this->db->from('paper_version_review');
         $this->db->join('paper_version_master', 'paper_version_master.paper_version_id = paper_version_review.paper_version_id');
         $this->db->join('paper_master', 'paper_master.paper_id = paper_version_master.paper_id');
@@ -50,7 +50,7 @@ class Paper_version_review_model extends CI_Model
 
     public function getReviewerCompletedReviews($reviewerId, $eventId)
     {
-        $this->db->select('paper_version_review_id, paper_version_number, paper_master.*');
+        $this->db->select('paper_version_number, paper_master.*, paper_version_review.*');
         $this->db->from('paper_version_review');
         $this->db->join('paper_version_master', 'paper_version_master.paper_version_id = paper_version_review.paper_version_id');
         $this->db->join('paper_master', 'paper_master.paper_id = paper_version_master.paper_id');

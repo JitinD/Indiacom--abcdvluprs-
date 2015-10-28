@@ -151,6 +151,7 @@ class Login_model extends CI_Model
         if(APPID == $appId."a")
         {
             $_SESSION[APPID]['current_role_id'] = $roleId;
+            $_SESSION[APPID]['current_role_name'] = $roleInfo->role_name;
             $_SESSION[APPID]['authenticated'] = true;
         }
         else

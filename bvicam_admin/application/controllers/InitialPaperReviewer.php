@@ -51,7 +51,9 @@ class InitialPaperReviewer extends BaseController
             return;
         $page = "ReviewerDashboardHome";
         $this->load->model('event_model');
+        $this->load->model('review_stage_model');
         $this->data['events'] = $this->event_model->getAllActiveEvents();
+        $this->data['reviewStages'] = $this->review_stage_model->getAllReviewStages();
         $this->data['user_id'] = $_SESSION[APPID]['user_id'];
         foreach($this->data['events'] as $event)
         {

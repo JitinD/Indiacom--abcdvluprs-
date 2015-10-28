@@ -158,6 +158,7 @@ class FinalPaperReviewer extends BaseController
     {
         if(!$this->checkAccess("paperInfo"))
             return;
+        $this->load->model('review_stage_model');
         $page = 'paperInfo';
         $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
         //TODO: confirm usage of below condition
@@ -174,7 +175,7 @@ class FinalPaperReviewer extends BaseController
         $this->load->library('form_validation');
         $this->form_validation->set_rules('event', 'Event','');
 
-        if($this -> input -> post('Form2'))
+        if($this->input->post('Form2'))
         {
             if($this->form_validation->run())
             {
@@ -234,13 +235,15 @@ class FinalPaperReviewer extends BaseController
         }
         else if(($this->input->post('Form1')))
         {
-            if($this->form_validation->run() && is_array($this->input->post('reviewers')))
+            if($this->form_validation->run() && is_array($this->input->post('reviewers')) && is_array($this->input->post('reviewStages')))
             {
-                foreach($this->input->post('reviewers') as $reviewer_id)
+                $reviewStages = $this->input->post('reviewStages');
+                foreach($this->input->post('reviewers') as $index=>$reviewer_id)
                 {
                     $paper_version_review_record = array(
                         'paper_version_id' => $paper_version_id,
-                        'paper_version_reviewer_id' => $reviewer_id
+                        'paper_version_reviewer_id' => $reviewer_id,
+                        'paper_version_review_stage' => $reviewStages[$index]
                     );
 
                     if($this->paper_version_review_model->addPaperVersionReviewRecord($paper_version_review_record))
@@ -252,40 +255,41 @@ class FinalPaperReviewer extends BaseController
                 $this->setReviewerAssigned($paper_version_id, 1);
             }
         }
-        else if(($this -> input -> post('Form3')))
+        else if(($this->input->post('Form3')))
         {
             if($this->form_validation->run())
             {
-                if($this -> paper_version_review_model -> removePaperVersionReviewer($this -> input -> post('Form3')))
-                    $this -> data['message'] = "success";
+                if($this->paper_version_review_model->removePaperVersionReviewer($this->input->post('Form3')))
+                    $this->data['message'] = "Success";
                 else
-                    $this -> data['error3'] = "Sorry, there is some problem. Try again later";
-
+                    $this->data['error3'] = "Sorry, there is some problem. Try again later";
             }
         }
 
-        $this -> data['review_results'] = $this -> review_result_model -> getAllReviewResults();
-        $this -> data['comments'] = $this -> paper_version_model -> getPaperVersionComments($paper_version_id);
-        //$this -> data['reviewers'] = $this -> convener_model -> getReviewerIDs();
-        $this -> data['Allreviewers'] = $this -> reviewer_model -> getAllReviewers();
+        $this->data['review_results'] = $this->review_result_model->getAllReviewResults();
+        $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
+        $this->data['allReviewers'] = $this->reviewer_model->getAllReviewers();
+        $this->data['reviewStages'] = $this->review_stage_model->getAllReviewStages();
+        $totalReviewStages = 0;
 
-        $reviewers = array();
-
-        if(isset($this -> data['Allreviewers']) && $this -> data['Allreviewers'])
+        $reviewerNames = array();
+        foreach($this->data['allReviewers'] as $reviewer)
         {
-            foreach($this -> data['Allreviewers'] as $index=>$reviewer)
-            {
-                $reviewers[$reviewer -> user_id] = $reviewer -> user_name;
-            }
+            $reviewerNames[$reviewer->user_id] = $reviewer->user_name;
+        }
+        $reviewStageDetails = array();
+        foreach($this->data['reviewStages'] as $reviewStage)
+        {
+            $reviewStageDetails[$reviewStage->review_stage_id] = $reviewStage;
+            $totalReviewStages++;
         }
 
-        $this -> data['reviewers'] = $reviewers;
-
-        $this -> data['reviews'] = $this -> paper_version_review_model -> getPaperVersionAllReviews($paper_version_id);
-
-        if(empty($this -> data['reviews']))
-            $this -> setReviewerAssigned($paper_version_id, 0);
-
+        $this->data['totalReviewStages'] = $totalReviewStages;
+        $this->data['reviewerNames'] = $reviewerNames;
+        $this->data['reviewStageDetails'] = $reviewStageDetails;
+        $this->data['reviews'] = $this->paper_version_review_model->getPaperVersionAllReviews($paper_version_id);
+        if(empty($this->data['reviews']))
+            $this->setReviewerAssigned($paper_version_id, 0);
         $this->index($page);
     }
 

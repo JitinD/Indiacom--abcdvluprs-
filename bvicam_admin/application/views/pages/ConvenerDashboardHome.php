@@ -26,6 +26,8 @@
                     <ul class="nav nav-tabs">
                         <?php
                         $trackNo = 0;
+                        if(!isset($tracks[$event->event_id]))
+                            $tracks[$event->event_id] = array();
                         foreach($tracks[$event->event_id] as $track)
                         {
                         ?>
@@ -39,6 +41,12 @@
                         ?>
                     </ul>
                     <div class="tab-content">
+                        <?php
+                        if(empty($tracks[$event->event_id]))
+                        {
+                            echo "No tracks assigned in this event";
+                        }
+                        ?>
                         <?php
                         $trackNo = 0;
                         foreach($tracks[$event->event_id] as $track)
@@ -96,15 +104,18 @@
                                             {
                                                 foreach($no_reviewer_papers[$track->track_id] as $index=>$paper)
                                                 {
-                                                ?>
-                                                    <tr>
-                                                        <td><?php echo $index+1; ?></td>
-                                                        <td><?php echo $paper->paper_code; ?></td>
-                                                        <td><a target="new" href="/<?php echo BASEURL; ?>FinalPaperReviewer/paperInfo/<?php echo $paper->paper_version_id; ?>"><?php echo $paper->paper_title; ?></a></td>
-                                                        <td><?php echo $paper->paper_version_number; ?></td>
-                                                        <td><?php echo $paper->paper_version_date_of_submission; ?></td>
-                                                    </tr>
-                                                <?php
+                                                    if($paper->paper_version_review_result_id == null)
+                                                    {
+                                                    ?>
+                                                        <tr>
+                                                            <td><?php echo $index+1; ?></td>
+                                                            <td><?php echo $paper->paper_code; ?></td>
+                                                            <td><a target="new" href="/<?php echo BASEURL; ?>FinalPaperReviewer/paperInfo/<?php echo $paper->paper_version_id; ?>"><?php echo $paper->paper_title; ?></a></td>
+                                                            <td><?php echo $paper->paper_version_number; ?></td>
+                                                            <td><?php echo $paper->paper_version_date_of_submission; ?></td>
+                                                        </tr>
+                                                    <?php
+                                                    }
                                                 }
                                             }
                                             ?>
@@ -160,6 +171,7 @@
                                                 <th>#</th>
                                                 <th>Code</th>
                                                 <th>Title</th>
+                                                <th>Review Stage</th>
                                                 <th>Version number</th>
                                             </tr>
                                             </thead>
@@ -184,6 +196,7 @@
                                                         <td><?php echo $index+1; ?></td>
                                                         <td><?php echo $paper->paper_code; ?></td>
                                                         <td><a target="new" href="/<?php echo BASEURL; ?>FinalPaperReviewer/paperInfo/<?php echo $paper->paper_version_id; ?>"><?php echo $paper->paper_title; ?></a></td>
+                                                        <td><?php echo $paper->paper_version_review_stage; ?></td>
                                                         <td><?php echo $paper->paper_version_number; ?></td>
                                                     </tr>
                                                 <?php
@@ -247,7 +260,6 @@
         </div>
     </div>
 </div>
-
 <script>
     $(document).ready(function()
     {
