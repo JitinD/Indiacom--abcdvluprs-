@@ -128,10 +128,10 @@
                         <td><?php echo $paper->latest_paper_version_number; ?></td>
                         <td>
                             <?php
-                            if ($paper->review_result_type_name == null) {
-                                if ($paper->paper_version_is_reviewer_assigned == '0') {
-                                    echo "Not yet reviewed";
-                                } else if ($paper->paper_version_review_date == null) {
+                            if ($paper->review_result_id == null) {
+                                if ($paper->paper_version_review_id == null) {
+                                    echo "Awaiting Review";
+                                } else{
                                     echo "Under Review";
                                 }
                             } else

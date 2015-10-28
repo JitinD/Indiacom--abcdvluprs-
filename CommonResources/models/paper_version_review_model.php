@@ -77,9 +77,7 @@ class Paper_version_review_model extends CI_Model
         $this -> db -> where('paper_version_id', $paper_version_id);
 
         $query = $this -> db -> get();
-
-        if($query -> num_rows() > 0)
-            return $query -> result();
+        return $query -> result();
     }
 
     public function  getPaperVersionReviewerReview($paper_version_review_id)

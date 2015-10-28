@@ -86,7 +86,7 @@ class Paper_version_model extends CI_Model
 //        return $row->paper_version_id + 1;
 //    }
 
-    public function getAssignedPapers($user_id)
+    /*public function getAssignedPapers($user_id)
     {
         $this -> db -> select('paper_master.paper_id as paper_id, paper_version_id, paper_code, paper_version_number, paper_title');
         $this -> db -> from('paper_master');
@@ -97,56 +97,71 @@ class Paper_version_model extends CI_Model
 
         if($query -> num_rows() > 0)
             return $query -> result();
-    }
+    }*/
 
+    /*
+     * Papers whose latest versions have no assigned reviewers
+     */
     public function getNoReviewerPapers($eventId = null, $trackId = null)
     {
-        $this -> db -> select('*');
-        $this -> db -> from('paper_latest_version');
-        $this -> db -> join('paper_version_master', 'paper_version_master.paper_id = paper_latest_version.paper_id And paper_version_number = latest_paper_version_number');
-
-        if($eventId != null || $trackId != null)
-            $this -> db -> join('paper_subject_track_event', 'paper_subject_track_event.paper_id = paper_latest_version.paper_id');
-        if($eventId != null)
-            $this -> db -> where('event_id', $eventId);
-        else if($trackId != null)
-            $this->db->where('track_id', $trackId);
-
-        $this -> db -> where('paper_version_is_reviewer_assigned', 0);
-        $this -> db -> order_by('paper_version_date_of_submission','desc');
-        $query = $this -> db -> get();
-        if($query -> num_rows() > 0)
-            return $query -> result();
-    }
-
-    public function getReviewedPapers($eventId = null, $trackId = null)
-    {
-        $this -> db -> select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_master.paper_code, paper_version_number, paper_title');
-        $this -> db -> from('paper_master');
-        $this -> db -> join('paper_version_master', 'paper_master.paper_id = paper_version_master.paper_id');
-        $this -> db -> join('paper_version_review', 'paper_version_master.paper_version_id = paper_version_review.paper_version_id');
+        $this->db->select('paper_latest_version.*, paper_version_master.*');
+        $this->db->from('paper_latest_version');
+        $this->db->join('paper_version_master', 'paper_version_master.paper_id = paper_latest_version.paper_id And paper_version_number = latest_paper_version_number');
+        $this->db->join('paper_version_review', 'paper_version_master.paper_version_id = paper_version_review.paper_version_id', 'left');
 
         if($eventId != null || $trackId != null)
         {
-            $this -> db -> join('paper_subject_track_event', 'paper_subject_track_event.paper_id = paper_master.paper_id');
+            $this->db->join('paper_subject_track_event', 'paper_subject_track_event.paper_id = paper_latest_version.paper_id');
             $this->db->select('paper_subject_track_event.*');
         }
         if($eventId != null)
-            $this -> db -> where('event_id', $eventId);
+            $this->db->where('event_id', $eventId);
         else if($trackId != null)
             $this->db->where('track_id', $trackId);
 
-        $this -> db -> where('paper_version_is_reviewer_assigned', 1);
-        $this -> db -> where('paper_version_review_date_of_receipt Is Not null');
-        $this -> db -> where('paper_version_is_reviewed_convener', 0);
-        $this -> db -> order_by('paper_version_review_date_of_receipt','desc');
+        //$this -> db -> where('paper_version_is_reviewer_assigned', 0);
+        $this->db->where('paper_version_review.paper_version_id is null');
+        $this->db->order_by('paper_version_date_of_submission','desc');
+        $query = $this->db->get();
+        if($query->num_rows() > 0)
+            return $query->result();
+    }
 
-        $query = $this -> db -> get();
+    /*
+     * Papers whose latest versions have been reviewed by the assigned reviewer but, not yet reviewed by the convener
+     */
+    public function getReviewerReviewedPapers($eventId = null, $trackId = null)
+    {
+        $this->db->select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_master.paper_code, paper_version_number, paper_title');
+        $this->db->from('paper_master');
+        $this->db->join('paper_version_master', 'paper_master.paper_id = paper_version_master.paper_id');
+        $this->db->join('paper_version_review', 'paper_version_master.paper_version_id = paper_version_review.paper_version_id');
+
+        if($eventId != null || $trackId != null)
+        {
+            $this->db->join('paper_subject_track_event', 'paper_subject_track_event.paper_id = paper_master.paper_id');
+            $this->db->select('paper_subject_track_event.*');
+        }
+        if($eventId != null)
+            $this->db->where('event_id', $eventId);
+        else if($trackId != null)
+            $this->db->where('track_id', $trackId);
+
+        //$this -> db -> where('paper_version_is_reviewer_assigned', 1);
+        $this -> db -> where('paper_version_review_date_of_receipt Is Not null');   //reviewed by reviewer
+        //$this -> db -> where('paper_version_is_reviewed_convener', 0);
+        $this->db->where('paper_version_review_result_id is null'); //Not reviewed by convener
+        $this->db->order_by('paper_version_review_date_of_receipt','desc');
+
+        $query = $this->db->get();
 
         if($query -> num_rows() > 0)
             return $query -> result();
     }
 
+    /*
+     * Papers whose latest versions have been reviewed by convener.
+     */
     public function getConvenerReviewedPapers($eventId = null, $trackId = null)
     {
         $this -> db -> select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_master.paper_code, paper_version_number, paper_title');
@@ -163,7 +178,8 @@ class Paper_version_model extends CI_Model
         else if($trackId != null)
             $this->db->where('track_id', $trackId);
 
-        $this -> db -> where('paper_version_is_reviewed_convener', 1);
+        //$this -> db -> where('paper_version_is_reviewed_convener', 1);
+        $this->db->where('paper_version_review_result_id is not null');
         $this -> db -> order_by('paper_version_review_date','desc');
 
         $query = $this -> db -> get();
@@ -172,6 +188,9 @@ class Paper_version_model extends CI_Model
             return $query -> result();
     }
 
+    /*
+     * Papers whose latest versions have not been reviewed by assigned reviewer
+     */
     public function getNotReviewedPapers($eventId = null, $trackId = null)
     {
         $this -> db -> select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_master.paper_code, paper_version_number, paper_title');
@@ -189,8 +208,8 @@ class Paper_version_model extends CI_Model
         else if($trackId != null)
             $this->db->where('track_id', $trackId);
 
-        $this -> db -> where('paper_version_is_reviewer_assigned', 1);
-        $this -> db -> where('paper_version_review_date_of_receipt', null);
+        //$this -> db -> where('paper_version_is_reviewer_assigned', 1);
+        $this -> db -> where('paper_version_review_date_of_receipt is null');
         $this -> db -> order_by('paper_version_date_of_submission','desc');
 
         $query = $this -> db -> get();

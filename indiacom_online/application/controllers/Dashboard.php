@@ -165,20 +165,7 @@ class Dashboard extends BaseController
             {
                 $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
             }
-            //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id'], EVENT_ID);
             $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
-        
-            $this->data['events'] = $this->event_model->getAllActiveEvents();
-            $this->data['paperCanRevise'] = array();
-            foreach($this->data['events'] as $event)
-            {
-                $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
-                foreach($this->data['papers'][$event->event_id] as $paper)
-                {
-                    $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
-                }
-            }
-            //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
             $this->data['methodName'] = "submitPaperRevision";
         }
         $this->index($page);
@@ -506,14 +493,19 @@ class Dashboard extends BaseController
     {
         $this->load->model('paper_version_model');
         $this->load->model('review_result_model');
+        $this->load->model('paper_version_review_model');
         $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
-        $reviewResultDetails = $this->review_result_model->getReviewResultDetails($versionDetails->paper_version_review_result_id);
-        //TODO: is_final_review column not in review_result_master. Checked all db dumps. Such a column never existed. Yet this problem was discovered only on 9/20/2015. Investigate why this was not detected earlier. Plus what is the significance of using this in the following condition. Currently commented out its usage and replaced with true.
-        if(($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
-            && ($reviewResultDetails != null && /*$reviewResultDetails->is_final_review == 1*/ true || $reviewResultDetails == null)
-        )
+        if($versionDetails->paper_version_review_result_id == null)
         {
-            return true;
+            $reviews = $this->paper_version_review_model->getPaperVersionAllReviews($versionDetails->paper_version_id);
+            if(empty($reviews))
+                return true;
+        }
+        else
+        {
+            $reviewResultDetails = $this->review_result_model->getReviewResultDetails($versionDetails->paper_version_review_result_id);
+            if($reviewResultDetails->is_final_step_review_result == 1 && $reviewResultDetails->is_end_of_review_process == 0)
+                return true;
         }
         return false;
     }
