@@ -21,5 +21,8 @@ class DownloadUtil
             readfile($filePath);
             exit;
         }
+        else {
+            die("Could not fetch file!");
+        }
     }
 }

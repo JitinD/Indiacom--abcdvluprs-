@@ -126,9 +126,10 @@ class FinalPaperReviewer extends BaseController
 
     private function uploadComments($fileElem,$eventId,$paper_version_id)
     {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . CONVENER_REVIEW_FOLDER;
         $config['allowed_types'] = 'pdf|doc|docx';
-        $config['file_name'] = $paper_version_id . "reviews";
+        $config['file_name'] = FileNameUtil::makeConvenerReviewCommentsFilename($paper_version_id);
         $config['overwrite'] = true;
 
         $this->load->library('upload', $config);
@@ -139,7 +140,7 @@ class FinalPaperReviewer extends BaseController
         }
         $uploadData = $this->upload->data();
 
-        return UPLOAD_PATH . $eventId . "/" . CONVENER_REVIEW_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
     }
 
     public function setReviewerAssigned($paper_version_id, $value)
@@ -219,8 +220,9 @@ class FinalPaperReviewer extends BaseController
                                 "comments" => $this->input->post('comments')
                             )
                         );
-
-                        if($message != null && $this -> sendMail($email_id, $message, array(SERVER_ROOT.$doc_path)))
+                        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+                        $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
+                        if($message != null && $this -> sendMail($email_id, $message, array(SERVER_ROOT.UPLOAD_PATH."{$this->data['eventDetails']->event_id}/".PAPER_FOLDER.FileNameUtil::makePaperVersionFileName($this->data['paperVersionDetails']->paper_id, $this->data['paperVersionDetails']->paper_version_number,$doc_path))))
                             $this -> data['message'] = "success";
                         else
                             $this -> data['error2'] = "Sorry, there is some problem. Try again later";
@@ -267,7 +269,6 @@ class FinalPaperReviewer extends BaseController
         }
 
         $this->data['review_results'] = $this->review_result_model->getAllReviewResults();
-        $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
         $this->data['allReviewers'] = $this->reviewer_model->getAllReviewers();
         $this->data['reviewStages'] = $this->review_stage_model->getAllReviewStages();
         $totalReviewStages = 0;
@@ -317,6 +318,94 @@ class FinalPaperReviewer extends BaseController
                 break;
         }
         return null;
+    }
+
+    /*private function downloadPaperVersionDocuments($paperVersionId, $eventId, $documentPathFieldName)
+    {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makePaperVersionFileName(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->$documentPathFieldName
+        );
+        DownloadUtil::downloadFile(
+            SERVER_ROOT.UPLOAD_PATH.$eventId."/".PAPER_FOLDER.$fileName,
+            $fileName);
+    }*/
+
+    public function downloadPaperVersion($paperVersionId, $eventId)
+    {
+        if(!$this->checkAccess("downloadPaperVersion"))
+            return;
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makePaperVersionFilename(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->paper_version_document_path
+        );
+        DownloadUtil::downloadFile(
+            SERVER_ROOT.UPLOAD_PATH.$eventId."/".PAPER_FOLDER.$fileName,
+            $fileName);
+        //$this->downloadPaperVersionDocuments($paperVersionId, $eventId, "paper_version_document_path");
+    }
+
+    public function downloadComplianceReport($paperVersionId, $eventId)
+    {
+        if(!$this->checkAccess("downloadComplianceReport"))
+            return;
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makeComplianceReportFilename(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->paper_version_compliance_report_path
+        );
+        DownloadUtil::downloadFile(
+            SERVER_ROOT.UPLOAD_PATH.$eventId."/".COMPLIANCE_REPORT_FOLDER.$fileName,
+            $fileName);
+        //$this->downloadPaperVersionDocuments($paperVersionId, $eventId, "paper_version_compliance_report_path");
+    }
+
+    public function downloadConvenerReviewComments($paperVersionId, $eventId)
+    {
+        if(!$this->checkAccess("downloadConvenerReviewComments"))
+            return;
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makeConvenerReviewCommentsFilename(
+            $paperVersionId,
+            $versionInfo->paper_version_comments_path
+        );
+        DownloadUtil::downloadFile(
+            SERVER_ROOT.UPLOAD_PATH.$eventId."/".CONVENER_REVIEW_FOLDER.$fileName,
+            $fileName);
+        //$this->downloadPaperVersionDocuments($paperVersionId, $eventId, "paper_version_comments_path");
+    }
+
+    public function downloadReviewerComments($paperVersionReviewId, $eventId)
+    {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_review_model');
+        $versionReviewInfo = $this->paper_version_review_model->getPaperVersionReviewerReview($paperVersionReviewId);
+        $fileName = FileNameUtil::makeReviewerReviewCommentsFilename(
+            $paperVersionReviewId,
+            $versionReviewInfo->paper_version_review_comments_file_path
+        );
+        DownloadUtil::downloadFile(
+            SERVER_ROOT.UPLOAD_PATH.$eventId."/".REVIEWER_REVIEW_FOLDER.$fileName,
+            $fileName
+        );
     }
 }
 ?>

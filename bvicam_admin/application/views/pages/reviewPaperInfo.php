@@ -57,7 +57,7 @@
                             Paper
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-primary" href="/<?php echo $paperVersionDetails->paper_version_document_path; ?>">
+                            <a class="btn btn-sm btn-primary" target="newDownload" href="../downloadPaperVersion/<?php echo $paperVersionDetails->paper_version_id; ?>/<?php echo $eventDetails->event_id; ?>">
                                 <span class="glyphicon glyphicon-cloud-download"></span> Download
                             </a>
                         </td>
@@ -75,7 +75,7 @@
                         {
                         ?>
                             <b>Your comments: </b><?php echo $review->paper_version_review_comments; ?>
-                            <b><a href="/<?php echo $review->paper_version_review_comments_file_path; ?>">Comments File</a></b>
+                            <b><a href="../downloadReviewerComments/<?php echo $review->paper_version_review_id; ?>/<?php echo $eventDetails->event_id; ?>">Comments File</a></b>
                         <?php
                         }
                         else

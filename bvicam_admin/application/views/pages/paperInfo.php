@@ -60,7 +60,7 @@
                             Paper
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-primary" href="/<?php echo $paperVersionDetails->paper_version_document_path; ?>">
+                            <a class="btn btn-sm btn-primary" target="newDownload" href="../downloadPaperVersion/<?php echo $paperVersionDetails->paper_version_id; ?>/<?php echo $eventDetails->event_id; ?>">
                                 <span class="glyphicon glyphicon-cloud-download"></span> Download
                             </a>
                         </td>
@@ -74,7 +74,7 @@
                                 Compliance Report
                             </td>
                             <td>
-                                    <a class="btn btn-sm btn-primary" href="/<?php echo $paperVersionDetails->paper_version_compliance_report_path; ?>">
+                                    <a class="btn btn-sm btn-primary" target="newDownload" href="../downloadComplianceReport/<?php echo $paperVersionDetails->paper_version_id; ?>/<?php echo $eventDetails->event_id; ?>">
                                         <span class="glyphicon glyphicon-cloud-download"></span> Download
                                     </a>
                             </td>
@@ -155,7 +155,7 @@
                                     if($review->paper_version_review_comments_file_path != null)
                                     {
                                     ?>
-                                        <a href="/<?php echo $review->paper_version_review_comments_file_path; ?>" class="btn btn-sm btn-primary">
+                                        <a target="newDownload" href="../downloadReviewerComments/<?php echo $review->paper_version_review_id; ?>/<?php echo $eventDetails->event_id; ?>" class="btn btn-sm btn-primary">
                                             <span class="glyphicon glyphicon-cloud-download"></span>
                                             Download Comments
                                         </a>
@@ -277,7 +277,7 @@
                                     {
                                     ?>
                                         <div>
-                                            <a title="Download Report" class="btn btn-primary btn-block" href="/<?php echo $paperVersionDetails->paper_version_comments_path; ?>">Download <span class="glyphicon glyphicon-cloud-download"></span></a>
+                                            <a title="Download Report" class="btn btn-primary btn-block" target="newDownload" href="../downloadConvenerReviewComments/<?php echo $paperVersionDetails->paper_version_id; ?>/<?php echo $eventDetails->event_id; ?>">Download <span class="glyphicon glyphicon-cloud-download"></span></a>
                                         </div>
                                     <?php
                                     }

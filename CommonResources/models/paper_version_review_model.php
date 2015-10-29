@@ -80,7 +80,7 @@ class Paper_version_review_model extends CI_Model
         return $query -> result();
     }
 
-    public function  getPaperVersionReviewerReview($paper_version_review_id)
+    public function getPaperVersionReviewerReview($paper_version_review_id)
     {
         $this -> db -> select('*');
         $this -> db -> from('paper_version_review');

@@ -28,7 +28,6 @@ $privilege['Page']['AJAX']['tracks'] = array('A1');
 $privilege['Page']['AJAX']['subjects'] = array('A2');
 
 $privilege['Page']['Dashboard']['home'] = array('D0');
-$privilege['Page']['Dashboard']['uploadBiodata'] = array('D1');
 $privilege['Page']['Dashboard']['submitPaper'] = array('D2');
 $privilege['Page']['Dashboard']['authorsCheck'] = array('D3');
 $privilege['Page']['Dashboard']['paperTitleCheck'] = array('D4');

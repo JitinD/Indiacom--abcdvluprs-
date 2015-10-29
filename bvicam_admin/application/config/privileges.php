@@ -36,11 +36,16 @@ $privilege['Page']['UserManager']['deleteUserRole'] = array('UM8');
 
 $privilege['Page']['InitialPaperReviewer']['load'] = array('IPR0');
 $privilege['Page']['InitialPaperReviewer']['reviewPaperInfo'] = array('IPR1');
+$privilege['Page']['InitialPaperReviewer']['downloadPaperVersion'] = array('IPR2');
 
 $privilege['Page']['FinalPaperReviewer']['loadAllPapers'] = array('FPR0');
 $privilege['Page']['FinalPaperReviewer']['setReviewerAssigned'] = array('FPR1');
 $privilege['Page']['FinalPaperReviewer']['paperInfo'] = array('FPR2');
 $privilege['Page']['FinalPaperReviewer']['loadTrackPapers'] = array('FPR3');
+$privilege['Page']['FinalPaperReviewer']['downloadPaperVersion'] = array('FPR4');
+$privilege['Page']['FinalPaperReviewer']['downloadComplianceReport'] = array('FPR4');
+$privilege['Page']['FinalPaperReviewer']['downloadConvenerReviewComments'] = array('FPR4');
+$privilege['Page']['FinalPaperReviewer']['downloadReviewerComments'] = array('FPR4');
 
 $privilege['Page']['PaymentsManager']['load'] = array('PM0');
 $privilege['Page']['PaymentsManager']['viewPaymentsMemberWise'] = array('PM1');

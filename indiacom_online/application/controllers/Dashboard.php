@@ -42,11 +42,10 @@ class Dashboard extends BaseController
 
     private function uploadBiodata($fileElem, $memberId)
     {
-        if(!$this->checkAccess("uploadBiodata"))
-            return;
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
         $config['allowed_types'] = 'doc|docx';
-        $config['file_name'] = $memberId . "_biodata";
+        $config['file_name'] = FileNameUtil::makeBioDataFilename($memberId);
         $config['overwrite'] = true;
 
         $this->load->library('upload');
@@ -58,14 +57,15 @@ class Dashboard extends BaseController
         }
         $uploadData = $this->upload->data();
 
-        return UPLOAD_PATH . BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
     }
 
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "\\" . PAPER_FOLDER;
         $config['allowed_types'] = 'doc|docx';
-        $config['file_name'] = "Paper_" . $paperId . "v" . $versionNumber;
+        $config['file_name'] = FileNameUtil::makePaperVersionFilename($paperId, $versionNumber);
         $config['overwrite'] = true;
 
         $this->load->library('upload');
@@ -76,14 +76,15 @@ class Dashboard extends BaseController
             return false;
         }
         $uploadData = $this->upload->data();
-        return UPLOAD_PATH . $eventId . "/" . PAPER_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
     }
 
     private function uploadComplianceReport($fileElem, $eventId, $paperId, $versionNumber=1)
     {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . COMPLIANCE_REPORT_FOLDER;
         $config['allowed_types'] = 'pdf';
-        $config['file_name'] = "Report_" . $paperId . "v" . $versionNumber;
+        $config['file_name'] = FileNameUtil::makeComplianceReportFilename($paperId, $versionNumber);
         $config['overwrite'] = true;
 
         $this->load->library('upload');
@@ -94,7 +95,7 @@ class Dashboard extends BaseController
             return false;
         }
         $uploadData = $this->upload->data();
-        return UPLOAD_PATH . $eventId . "/" . COMPLIANCE_REPORT_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
     }
 
     private function sendMail($email_id, $message, $attachments = array())
@@ -264,7 +265,7 @@ class Dashboard extends BaseController
                     {
                         $members[] = $this->member_model->getMemberInfo($author);
                     }
-
+                    require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
                     $this->authorsCorrespondence(
                         $members,
                         array(
@@ -274,7 +275,7 @@ class Dashboard extends BaseController
                             "receipt_date" => date("Y")
                         ),
                         "PaperSubmission",
-                        array(SERVER_ROOT.$doc_path)
+                        array(SERVER_ROOT.UPLOAD_PATH."$eventId/".PAPER_FOLDER.FileNameUtil::makePaperVersionFilename($paperId, 1, $doc_path))
                     );
 
                     return true;
@@ -398,6 +399,7 @@ class Dashboard extends BaseController
                 //table correctly.
                 $this->db->trans_commit();
                 $this->db->trans_off();
+                require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
                 $attachments = array();
                 $versionDetails = array(
                     'paper_id' => $paperId,
@@ -406,7 +408,6 @@ class Dashboard extends BaseController
                 if($complianceReportReqd)
                 {
                     $versionDetails['paper_version_compliance_report_path'] = $report_path;
-                    $attachments[] = SERVER_ROOT.$report_path;
                 }
                 $this->db->trans_start();
                 $this->paper_version_model->addPaperVersion($versionDetails);
@@ -418,7 +419,11 @@ class Dashboard extends BaseController
                 {
                     $members[] = $this->member_model->getMemberInfo($submission->submission_member_id);
                 }
-                $attachments[] = SERVER_ROOT.$doc_path;
+
+                if($complianceReportReqd)
+                    $attachments[] = SERVER_ROOT.UPLOAD_PATH."$eventId/".COMPLIANCE_REPORT_FOLDER.FileNameUtil::makeComplianceReportFilename($paperId, $versionDetails['paper_version_number'], $report_path);
+                $attachments[] = SERVER_ROOT.UPLOAD_PATH."$eventId/".PAPER_FOLDER.FileNameUtil::makePaperVersionFilename($paperId, $versionDetails['paper_version_number'], $doc_path);
+                print_r($attachments);
                 $this->authorsCorrespondence(
                     $members,
                     array(
@@ -643,52 +648,108 @@ class Dashboard extends BaseController
     public function downloadBiodata()
     {
         require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $this->load->model('member_model');
         if(!$this->checkAccess("downloadBiodata"))
             return;
         $memberInfo = $this->member_model->getMemberInfo($_SESSION[APPID]['member_id']);
-        $pathInfo = pathinfo($memberInfo['member_biodata_path']);
-        DownloadUtil::downloadFile(SERVER_ROOT . $memberInfo['member_biodata_path'], "Bio Data." . $pathInfo['extension']);
+        DownloadUtil::downloadFile(
+            SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER.FileNameUtil::makeBioDataFilename($memberInfo['member_id'], $memberInfo['member_biodata_path']),
+            "Bio Data." . $memberInfo['member_biodata_path']
+        );
     }
 
-    private function downloadPaperVersionDocuments($paperVersionId, $documentPathFieldName)
+    /*private function downloadPaperVersionDocuments($paperVersionId, $documentPathFieldName)
     {
         require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $this->load->model('paper_model');
+        $this->load->model('submission_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $paperEvent = $this->paper_model->getPaperEventDetails($versionInfo->paper_id);
+        $fileName = FileNameUtil::makePaperVersionFileName(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->$documentPathFieldName
+        );
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
+            DownloadUtil::downloadFile(
+                SERVER_ROOT.UPLOAD_PATH.$paperEvent->event_id."/".PAPER_FOLDER.$fileName,
+                $fileName);
+        else
+            $this->loadUnauthorisedAccessPage();
+    }*/
+
+    public function downloadPaperVersion($paperVersionId, $eventId)
+    {
+        if(!$this->checkAccess("downloadPaperVersion"))
+            return;
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $this->load->model('paper_version_model');
         $this->load->model('submission_model');
         $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makePaperVersionFileName(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->paper_version_document_path
+        );
         if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
-            DownloadUtil::downloadFile(SERVER_ROOT . $versionInfo->$documentPathFieldName, basename($versionInfo->$documentPathFieldName));
+            DownloadUtil::downloadFile(
+                SERVER_ROOT.UPLOAD_PATH.$eventId."/".PAPER_FOLDER.$fileName,
+                $fileName
+            );
         else
             $this->loadUnauthorisedAccessPage();
+        //$this->downloadPaperVersionDocuments($paperVersionId, "paper_version_document_path");
     }
 
-    public function watchFlash()
-    {
-        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
-        $filePath = "D:/Extras/TV Shows/The Flash/Season 2/The.Flash.2014.S02E03.HDTV.x264-LOL[eztv].mp4";
-        DownloadUtil::downloadFile($filePath, basename($filePath));
-    }
-
-    public function downloadPaperVersion($paperVersionId)
-    {
-        if(!$this->checkAccess("downloadPaperVersion"))
-            return;
-        $this->downloadPaperVersionDocuments($paperVersionId, "paper_version_document_path");
-    }
-
-    public function downloadComplianceReport($paperVersionId)
+    public function downloadComplianceReport($paperVersionId, $eventId)
     {
         if(!$this->checkAccess("downloadComplianceReport"))
             return;
-        $this->downloadPaperVersionDocuments($paperVersionId, "paper_version_compliance_report_path");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $this->load->model('submission_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makeComplianceReportFilename(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->paper_version_compliance_report_path
+        );
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
+            DownloadUtil::downloadFile(
+                SERVER_ROOT.UPLOAD_PATH.$eventId."/".COMPLIANCE_REPORT_FOLDER.$fileName,
+                $fileName
+            );
+        else
+            $this->loadUnauthorisedAccessPage();
+        //$this->downloadPaperVersionDocuments($paperVersionId, "paper_version_compliance_report_path");
     }
 
-    public function downloadReviewerComments($paperVersionId)
+    public function downloadReviewerComments($paperVersionId, $eventId)
     {
-        if(!$this->checkAccess("downloadPaperVersion"))
+        if(!$this->checkAccess("downloadReviewerComments"))
             return;
-        $this->downloadPaperVersionDocuments($paperVersionId, "paper_version_comments_path");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $this->load->model('submission_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makeConvenerReviewCommentsFilename(
+            $paperVersionId,
+            $versionInfo->paper_version_comments_path
+        );
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
+            DownloadUtil::downloadFile(
+                SERVER_ROOT.UPLOAD_PATH.$eventId."/".CONVENER_REVIEW_FOLDER.$fileName,
+                $fileName
+            );
+        else
+            $this->loadUnauthorisedAccessPage();
+        //$this->downloadPaperVersionDocuments($paperVersionId, "paper_version_comments_path");
     }
 
     public function editProfile()

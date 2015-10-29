@@ -129,9 +129,10 @@ class Registration extends BaseController
     //uploading member bio data in temporary folder
     private function uploadTempBiodata($fileElem, $memberId)
     {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . TEMP_BIODATA_FOLDER;
         $config['allowed_types'] = 'doc|docx';
-        $config['file_name'] = $memberId . "_biodata";
+        $config['file_name'] = FileNameUtil::makeTempBioDataFilename($memberId);
         $config['overwrite'] = true;
 
         $this->load->library('upload');
@@ -143,7 +144,7 @@ class Registration extends BaseController
         $uploadData = $this->upload->data();
         //die(UPLOAD_PATH . TEMP_BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext']);
 
-        return UPLOAD_PATH . TEMP_BIODATA_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
     }
 
     public function forgotLoginCredentials()
@@ -442,13 +443,16 @@ class Registration extends BaseController
             $this->data['message'] = "Some problem occurred. Email can't be sent. Registration unsuccessful";
             $this->data['is_verified'] = 0;
 
-            $biodata_url = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
+            $biodata_url = SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER;
             $assignedMemberId = $this->registration_model->assignMemberId();
             if ($member_info['member_biodata_path'] != null) {
-                $biodata_path_array = pathinfo($member_info['member_biodata_path']);
-
-                rename(SERVER_ROOT . $member_info['member_biodata_path'], $biodata_url . "{$assignedMemberId}_biodata.".$biodata_path_array['extension']);
-                $member_info['member_biodata_path'] = UPLOAD_PATH . BIODATA_FOLDER . $assignedMemberId . "_biodata.".$biodata_path_array['extension'];
+                //$biodata_path_array = pathinfo($member_info['member_biodata_path']);
+                require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+                rename(
+                    SERVER_ROOT.UPLOAD_PATH.TEMP_BIODATA_FOLDER.FileNameUtil::makeTempBioDataFileName($member_info['member_id'], $member_info['member_biodata_path']),
+                    $biodata_url . FileNameUtil::makeBioDataFilename($assignedMemberId, $member_info['member_biodata_path'])
+                );
+                //$member_info['member_biodata_path'] = UPLOAD_PATH . BIODATA_FOLDER . $assignedMemberId . "_biodata.".$biodata_path_array['extension'];
                
             }
 
