@@ -63,7 +63,7 @@ class Dashboard extends BaseController
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
         require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
-        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "\\" . PAPER_FOLDER;
+        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . PAPER_FOLDER;
         $config['allowed_types'] = 'doc|docx';
         $config['file_name'] = FileNameUtil::makePaperVersionFilename($paperId, $versionNumber);
         $config['overwrite'] = true;

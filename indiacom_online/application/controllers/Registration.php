@@ -54,8 +54,8 @@ class Registration extends BaseController
     {
         if(!$this->checkAccess("validate_captcha"))
             return;
-        $url = 'https://www.google.com/recaptcha/api/siteverify';
-        $data = array('secret' => '6LcQQwYTAAAAAKGtQ968dkP7HCKcQ-PfG02jhRYp', 'response' => $this->input->post('g-recaptcha-response'));
+        $url = RECAPTCHA_LINK;
+        $data = array('secret' => RECAPTCHA_SECRET, 'response' => $this->input->post('g-recaptcha-response'));
 
         // use key 'http' even if you send the request to https://...
         $options = array(
