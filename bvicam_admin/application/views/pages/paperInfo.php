@@ -3,6 +3,20 @@
         <div class="col-sm-12 col-md-12">
             <div class="row body-text">
                 <span class="h2 text-theme">Paper Information</span>
+                <?php
+                if(validation_errors() != "" || isset($uploadError))
+                {
+                ?>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <?php
+                        echo validation_errors();
+                        if(isset($uploadError)) echo $uploadError;
+                        ?>
+                    </div>
+                <?php
+                }
+                ?>
                 <div class="col-md-12 text-center contentBlock-bottom">
                     <span class="h2">Paper: <?php echo $paperDetails->paper_title; ?></span>
                 </div>
@@ -315,16 +329,16 @@
                                     </div>
                                 </div>
                                 <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-                                    <?php
-                                    echo form_error('comments');
-                                    if(isset($uploadError)) echo $uploadError;
-                                    ?>
+                                    <?php if(isset($uploadError)) echo $uploadError; ?>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="comments" class="col-sm-2 control-label">Comments</label>
                                 <div class="col-sm-8">
-                                    <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>
+                                    <textarea name='comments' id="comments" rows="5" class="form-control"><?php echo set_value('comments'); ?></textarea>
+                                </div>
+                                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                    <?php echo form_error('comments'); ?>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -336,7 +350,7 @@
                                         foreach($review_results as $review_result)
                                         {
                                         ?>
-                                            <option value="<?php echo $review_result->review_result_id; ?>">
+                                            <option value="<?php echo $review_result->review_result_id; ?>" <?php if($review_result->review_result_id == set_value('review_result')) echo "selected"; ?>>
                                                 <?php echo $review_result->review_result_type_name; ?>
                                             </option>
                                         <?php
@@ -344,10 +358,13 @@
                                         ?>
                                     </select>
                                 </div>
+                                <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                    <?php echo form_error('review_result'); ?>
+                                </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-offset-2 col-sm-10">
-                                    <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Author</button>
+                                    <button name = "FormReviewSubmission" value = "FormReviewSubmission" class="btn btn-primary">Send to Author</button>
                                 </div>
                             </div>
                             <span class="body-text text-danger">

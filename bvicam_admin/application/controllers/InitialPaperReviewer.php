@@ -68,7 +68,7 @@ class InitialPaperReviewer extends BaseController
         require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . REVIEWER_REVIEW_FOLDER;
         $config['allowed_types'] = 'pdf|doc|docx';
-        $config['file_name'] = FileNameUtil::makeReviewerReviewCommentsFile($paper_version_review_id);
+        $config['file_name'] = FileNameUtil::makeReviewerReviewCommentsFileName($paper_version_review_id);
         $config['overwrite'] = true;
 
         $this->load->library('upload', $config);
@@ -79,7 +79,8 @@ class InitialPaperReviewer extends BaseController
         }
         $uploadData = $this->upload->data();
 
-        return UPLOAD_PATH . $eventId . "/" . REVIEWER_REVIEW_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
+        //return UPLOAD_PATH . $eventId . "/" . REVIEWER_REVIEW_FOLDER . $config['file_name'] . $uploadData['file_ext'];
     }
 
     public function reviewPaperInfo($paper_version_review_id)

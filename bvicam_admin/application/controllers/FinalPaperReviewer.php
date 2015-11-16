@@ -176,40 +176,41 @@ class FinalPaperReviewer extends BaseController
         $this->load->library('form_validation');
         $this->form_validation->set_rules('event', 'Event','');
 
-        if($this->input->post('Form2'))
+        if($this->input->post('FormReviewSubmission'))
         {
+            $this->form_validation->set_rules('comments', 'Comments', 'required');
+            $this->form_validation->set_rules('review_result', 'Review Result', 'required');
             if($this->form_validation->run())
             {
                 if(($doc_path = $comments_url = $this->uploadComments('comments',$this->data['eventDetails']->event_id,$paper_version_id)) == false)
                 {
                     $this->data['uploadError'] = $this->upload->display_errors();
                 }
-                else
+                /*else
                 {
                     $versionDetails = array(
                         "paper_version_comments_path" => $doc_path
                     );
                     $this->paper_version_model->sendConvenerReview($versionDetails, $paper_version_id);
-                }
-
-                if($this -> input -> post('comments'))
+                }*/
+                else
                 {
                     date_default_timezone_set('Asia/Kolkata');
-
                     $update_data = array(
-                                            'paper_version_review_result_id' => $this -> input -> post('review_result'),
-                                            'paper_version_review'      =>  $this -> input -> post('comments'),
-                                            'paper_version_review_date' =>  date("Y/m/d H:i:s"),
-                                            'paper_version_is_reviewed_convener' => 1
-                                        );
+                        'paper_version_review_result_id' => $this->input->post('review_result'),
+                        'paper_version_review' => $this->input->post('comments'),
+                        'paper_version_review_date' => date("Y/m/d H:i:s"),
+                        'paper_version_comments_path' => $doc_path,
+                        'paper_version_is_reviewed_convener' => 1
+                    );
 
-                    if($this -> paper_version_model -> sendConvenerReview($update_data, $paper_version_id))
+                    if($this->paper_version_model->sendConvenerReview($update_data, $paper_version_id))
                     {
-                        $this -> load -> model('submission_model');
-                        $this -> load -> model('member_model');
-                        $this -> load -> model('paper_model');
+                        $this->load->model('submission_model');
+                        $this->load->model('member_model');
+                        $this->load->model('paper_model');
 
-                        $member_info = $this -> member_model -> getMemberInfo($this->data['paperDetails']->paper_contact_author_id);
+                        $member_info = $this->member_model->getMemberInfo($this->data['paperDetails']->paper_contact_author_id);
                         $email_id = $member_info['member_email'];
                         $message =  $this->getReviewMailMessage(
                             $update_data['paper_version_review_result_id'],
@@ -222,17 +223,14 @@ class FinalPaperReviewer extends BaseController
                         );
                         require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
                         $this->data['paperVersionDetails'] = $this->paper_version_model->getPaperVersionDetails($paper_version_id);
-                        if($message != null && $this -> sendMail($email_id, $message, array(SERVER_ROOT.UPLOAD_PATH."{$this->data['eventDetails']->event_id}/".PAPER_FOLDER.FileNameUtil::makePaperVersionFileName($this->data['paperVersionDetails']->paper_id, $this->data['paperVersionDetails']->paper_version_number,$doc_path))))
-                            $this -> data['message'] = "success";
+                        if($message != null && $this->sendMail($email_id, $message, array(SERVER_ROOT.UPLOAD_PATH."{$this->data['eventDetails']->event_id}/".PAPER_FOLDER.FileNameUtil::makePaperVersionFileName($this->data['paperVersionDetails']->paper_id, $this->data['paperVersionDetails']->paper_version_number,$doc_path))))
+                            $this->data['message'] = "success";
                         else
-                            $this -> data['error2'] = "Sorry, there is some problem. Try again later";
-
+                            $this->data['error2'] = "Sorry, there is some problem. Try again later";
                     }
                     else
-                        $this -> data['error2'] = "Sorry, there is some problem. Try again later";
-
+                        $this->data['error2'] = "Sorry, there is some problem. Try again later";
                 }
-
             }
         }
         else if(($this->input->post('Form1')))
