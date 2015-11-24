@@ -66,8 +66,10 @@ class FinalPaperReviewer extends BaseController
         $page = "ConvenerDashboardHome";
         $this->load->model('event_model');
         $this->load->model('track_model');
+        $this->load->model('review_result_model');
 
         $this->data['events'] = $this->event_model->getAllActiveEvents();
+        $this->data['reviewResultTypes'] = $this->review_result_model->getAllReviewResultTypeNames();
         foreach($this->data['events'] as $event)
         {
             $this->data['tracks'][$event->event_id] = $this->track_model->getAllTracks($event->event_id);
