@@ -16,10 +16,19 @@ class Payable_class_model extends CI_Model
         $this->load->database();
     }
 
-    public function getAllPayableClassDetails()
+    public function updatePayableClass($details, $updateCond = array())
     {
-        $sql = "Select * From payable_class";
-        $query = $this->db->query($sql);
+        $this->db->update('payable_class', $details, $updateCond);
+        return $this->db->trans_status();
+    }
+
+    public function getAllPayableClassDetails($eventId = null)
+    {
+        $this->db->select('*');
+        $this->db->from('payable_class');
+        if($eventId != null)
+            $this->db->where('payable_class_event', $eventId);
+        $query = $this->db->get();
         if($query->num_rows() == 0)
             return array();
         return $query->result();

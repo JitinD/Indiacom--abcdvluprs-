@@ -508,4 +508,46 @@ class CsvController extends BaseController
             }
         }
     }
+
+    public function importTransactions()
+    {
+        $this->load->model('transaction_model');
+        $fileName = $this->dataPath . "Transactions.csv";
+        $fieldMapping = array(
+            "transaction_id",
+            "transaction_member_id",
+            "transaction_bank",
+            "transaction_number",
+            "transaction_mode",
+            "transaction_amount",
+            "transaction_date",
+            "transaction_currency",
+            "transaction_EQINR",
+            "is_waived_off",
+            "is_verified",
+            "is_open"
+        );
+
+        if (($handle = fopen($fileName, "r")) !== FALSE)
+        {
+            $row = 0;
+            while (($data = fgetcsv($handle, 0, ",")) !== FALSE)
+            {
+                echo "<hr><br/>Row $row <br/><br/>";
+                if($row++ == 0)
+                    continue;
+                $transDetails = array();
+                $num = count($data);
+
+                for ($c=0; $c < $num; $c++)
+                {
+                    $val = $data[$c];
+                    $transDetails[$fieldMapping[$c]] = $val;
+                    echo $fieldMapping[$c] . ": " . $data[$c] . "<br />\n";
+                }
+                $this->transaction_model->newTransaction($transDetails);
+            }
+            fclose($handle);
+        }
+    }
 }
