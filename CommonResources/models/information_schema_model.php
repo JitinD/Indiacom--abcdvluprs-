@@ -36,7 +36,8 @@ class Information_schema_model extends CI_Model
             From information_schema.views
             Where table_schema = ?
         )";
-        $query = $this->dbCon->query($sql, array('indiacom', 'indiacom'));
+        include(dirname(__FILE__) . "/../../global_config/database.php");
+        $query = $this->dbCon->query($sql, array($dbconfig['database'], $dbconfig['database']));
         if($query->num_rows() == 0)
             return array();
         return $query->result();

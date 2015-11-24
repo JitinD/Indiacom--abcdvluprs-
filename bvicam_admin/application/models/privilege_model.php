@@ -22,18 +22,23 @@ class Privilege_model extends CI_Model
 
     public function newPrivilege($privilegeDetails = array())
     {
+        $privId = null;
         $sql = "Select privilege_id From privilege_master Where privilege_entity = ? And privilege_operation = ?";  //do not check for dirty
         $query = $this->db->query($sql, array($privilegeDetails['privilege_entity'], $privilegeDetails['privilege_operation']));
         if($query->num_rows() == 0)
         {
-            $privilegeDetails['privilege_id'] = $this->assignPrivilegeId();
+            $privId = $privilegeDetails['privilege_id'] = $this->assignPrivilegeId();
             $this->db->insert('privilege_master', $privilegeDetails);
             if($this->db->trans_status() == false)
                 return false;
-            $query = $this->db->query($sql, array($privilegeDetails['privilege_entity'], $privilegeDetails['privilege_operation']));
         }
-        $row = $query->row();
-        return $row->privilege_id;
+        else
+        {
+            $row = $query->row();
+            $privId = $row->privilege_id;
+        }
+
+        return $privId;
     }
 
     private function assignPrivilegeId()
@@ -48,7 +53,7 @@ class Privilege_model extends CI_Model
 
     public function getPrivilegeDetails($privilegeIds = array(), $extraQuery = "")
     {
-        $sql = "Select * From privilege_master Where privilege_id IN (" . implode(',', $privilegeIds) . ") " . $extraQuery;
+        $sql = "Select * From privilege_master Where privilege_id IN ('" . implode("','", $privilegeIds) . "') " . $extraQuery;
         $query = $this->db->query($sql);
         if($query->num_rows() == 0)
             return null;

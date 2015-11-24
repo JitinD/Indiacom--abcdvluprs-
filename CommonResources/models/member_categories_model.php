@@ -13,6 +13,21 @@
             $this->load->database();
         }
 
+        public function getMemberCategoryId($categoryName)
+        {
+            $sql = "Select member_category_id
+                    From member_category_master
+                    Where member_category_name = ?";
+            $query = $this->db->query($sql, array($categoryName));
+
+            if($query->num_rows() == 1)
+            {
+                $row = $query->row();
+                return $row->member_category_id;
+            }
+            return null;
+        }
+
         public function getMemberCategoryInfo($member_category_id)
         {
             $query = $this -> db -> get_where('member_category_master', array('member_category_id' => $member_category_id));

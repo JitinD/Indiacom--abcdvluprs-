@@ -63,7 +63,7 @@ class Paper_model extends CI_Model
         return $query->row();
     }
 
-    public function getPaperID($paperCode)
+    public function getPaperID($paperCode, $eventId)
     {
         $sql = "Select paper_master.paper_id From
         paper_master  JOIN
@@ -75,10 +75,11 @@ class Paper_model extends CI_Model
         Where paper_master.paper_code = ? AND
         track_master.track_event_id=?";
 
-        $query = $this->db->query($sql, array($paperCode,EVENT_ID));
+        $query = $this->db->query($sql, array($paperCode, $eventId));
         if($query->num_rows() == 0)
             return null;
-        return $query->row();
+        $row = $query->row();
+        return $row->paper_id;
     }
 
     public function getPaperEventDetails($paperId)

@@ -16,6 +16,7 @@
                 <tr>
                     <th>#</th>
                     <th>User Name</th>
+                    <th>User email</th>
                     <th>Registrar</th>
                     <th>Operations</th>
                 </tr>
@@ -29,6 +30,7 @@
                     <tr <?php if($user->user_dirty) { ?> class="danger" <?php } ?>>
                         <td><?php echo $key+1; ?></td>
                         <td><?php echo $user->user_name; ?></td>
+                        <td><?php echo $user->user_email; ?></td>
                         <td>
                             <?php
                             if(in_array($user, $registrars))
@@ -43,7 +45,7 @@
                             if($user->user_dirty == 0)
                             {
                             ?>
-                                <a class="btn btn-sm btn-danger" href="disableUser/<?php echo $user->user_id; ?>">Disable User</a>
+                                <a class="btn btn-sm btn-warning" href="disableUser/<?php echo $user->user_id; ?>">Disable User</a>
                             <?php
                             }
                             else
@@ -68,6 +70,7 @@
                 ?>
                 </tbody>
             </table>
+            <a class="btn btn-success"  href="newUser"><span class="glyphicon glyphicon-plus"></span> Create new user</a>
         </div>
     </div>
 </div>

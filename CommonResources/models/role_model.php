@@ -44,11 +44,11 @@ class Role_model extends CI_Model
             $details['privilege_id'] = $privilegeId;
             $this->dbCon->insert('privilege_role_mapper', $details);
         }
-        if(!$this->dbCon->trans_status())
-        {
-            $this->error = "One or more privileges already assigned to role";
-            throw new Exception("Error inserting into privilege_role_mapper." . mysql_error());
-        }
+//        if(!$this->dbCon->trans_status())
+//        {
+//            $this->error = "One or more privileges already assigned to role";
+//            throw new Exception("Error inserting into privilege_role_mapper." . mysql_error());
+//        }
         return $this->dbCon->trans_status();
     }
 

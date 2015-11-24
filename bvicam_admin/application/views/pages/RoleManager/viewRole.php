@@ -12,70 +12,75 @@
 
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-            <form action="#" method="post">
+            <form id="privilege_form" action="#" method="post" data-role="<?php echo $roleInfo->role_id; ?>">
                 <div class="col-sm-8 col-sm-offset-4 text-danger h5">
                     <?php if (isset($pageError)) echo $pageError; ?>
                     <?php echo validation_errors(); ?>
                 </div>
-                <div class="col-md-12">
-                    <table class="table">
+                <table class="table table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Module Name</th>
+                        <th>Module Operations</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    foreach($modules[$roleInfo->role_application_id."a"]['Page'] as $moduleName => $privs)
+                    {
+                    ?>
                         <tr>
+                            <td><?php echo $moduleName; ?></td>
                             <td>
-                                <button type="button" class="btn btn-primary" id="addPrivilege">Add privilege to role
-                                </button>
-                            </td>
-                            <td id="selectEntityPlaceHolder"></td>
-                            <td id="selectOperationPlaceHolder"></td>
-                            <td>
-                                <button type="submit" id="submitButton" style="display: none;" class="btn btn-primary">
-                                    Submit
-                                </button>
+                                <table class="table table-responsive table-condensed">
+                                    <?php
+                                    foreach($privs as $operationName => $privId)
+                                    {
+                                    ?>
+                                        <tr <?php if (isset($privilegeDirtyStatus[$privId[0]]) && $privilegeDirtyStatus[$privId[0]]) { ?> class="danger" <?php } ?>>
+                                            <td>
+                                                <input type="checkbox" <?php echo (isset($privilegeDirtyStatus[$privId[0]])) ? "checked" : ""; ?>
+                                                       class="check_privilege"
+                                                       data-priv="<?php echo $privId[0]; ?>"
+                                                       data-role="<?php echo $roleInfo->role_id; ?>">
+                                                <?php echo $operationName; ?>
+                                            </td>
+                                            <td>
+                                                <?php
+                                                if(isset($privilegeDirtyStatus[$privId[0]]))
+                                                {
+                                                    if ($privilegeDirtyStatus[$privId[0]] == 0)
+                                                    {
+                                                        ?>
+                                                        <button class="btn btn-sm btn-warning disablePrivilege" type="button"
+                                                                data-role="<?php echo $roleInfo->role_id; ?>"
+                                                                data-priv="<?php echo $privId[0]; ?>">Disable</button>
+                                                    <?php
+                                                    }
+                                                    else
+                                                    {
+                                                        ?>
+                                                        <button class="btn btn-sm btn-success enablePrivilege" type="button"
+                                                                data-role="<?php echo $roleInfo->role_id; ?>"
+                                                                data-priv="<?php echo $privId[0]; ?>">Enable</button>
+                                                    <?php
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </table>
                             </td>
                         </tr>
-                    </table>
-                </div>
-            </form>
-            <table class="table table-responsive table-hover">
-                <thead>
-                <tr>
-                    <th>Privilege Id</th>
-                    <th>Entity</th>
-                    <th>Operation</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php
-                foreach ($privilegeDetails as $privilege) {
+                    <?php
+                    }
                     ?>
-                    <tr <?php if ($privilegeDirtyStatus[$privilege->privilege_id]) { ?> class="danger" <?php } ?>>
-                        <td><?php echo $privilege->privilege_id; ?></td>
-                        <td><?php echo $privilege->privilege_entity; ?></td>
-                        <td><?php echo $privilege->privilege_operation; ?></td>
-                        <td>
-                            <?php
-                            if ($privilegeDirtyStatus[$privilege->privilege_id] == 0) {
-                                ?>
-                                <a class="btn btn-sm btn-default"
-                                   href="../disableRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Disable</a>
-                            <?php
-                            } else {
-                                ?>
-                                <a class="btn btn-sm btn-default"
-                                   href="../enableRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Enable</a>
-                            <?php
-                            }
-                            ?>
-                            <a class="btn btn-sm btn-default"
-                               href="../deleteRolePrivilege/<?php echo $roleInfo->role_id; ?>/<?php echo $privilege->privilege_id; ?>">Delete</a>
-                        </td>
-                    </tr>
-                <?php
-                }
-                ?>
-
-                </tbody>
-            </table>
-            </td>
+                    </tbody>
+                </table>
+            </form>
         </div>
     </div>
 </div>
@@ -83,45 +88,59 @@
 
 <script>
     $(document).ready(function () {
-        $('#addPrivilege').click(function () {
-            var operationOptions = "";
-            var entityOptions = "";
-            <?php
-            foreach($entities as $entity)
+        $(".check_privilege").click(function()
+        {
+            var privId = $(this).attr("data-priv");
+            var roleId = $(this).attr("data-role");
+            var data = "roleId=" + roleId + "&privilegeId=" + privId;
+            var url = "/<?php echo BASEURL; ?>RoleManager/";
+            if($(this).is(":checked"))
             {
-            ?>
-            entityOptions += "<option value=\"<?php echo $entity->table_name; ?>\"><?php echo $entity->table_name; ?></option>";
-            <?php
+                url += "addRolePrivilege_AJAX";
             }
-            ?>
-            var html = "<select name=\"entity\" class=\"form-control entityyList\">" +
-                "<option value>Select Entity</option>" +
-                entityOptions +
-                "</select>";
-            var html2 = "<select name=\"operation\" class=\"form-control\">" +
-                "<option value>Select Operation</option>" +
-                "<option value=\"Select\">Select</option>" +
-                "<option value=\"Update\">Update</option>" +
-                "<option value=\"Insert\">Insert</option>" +
-                "<option value=\"Delete\">Delete</option>" +
-                "</select>";
-            $('#selectEntityPlaceHolder').append(html);
-            $('#selectOperationPlaceHolder').append(html2);
-            $('#submitButton').css('display', 'initial');
-            $(this).css('display', 'none');
-
-            $('.entityyList').change(function () {
-                var optionSelected = $(this).find("option:selected");
-                $('#selectOperationPlaceHolder').empty();
-                var html = "<select name=\"operation\" class=\"form-control\">" +
-                    "<option value>Select Operation</option>" +
-                    "<option value=\"Select\">Select</option>" +
-                    "<option value=\"Update\">Update</option>" +
-                    "<option value=\"Insert\">Insert</option>" +
-                    "<option value=\"Delete\">Delete</option>" +
-                    "</select>";
-                $('#selectOperationPlaceHolder').append(html);
-            });
+            else
+            {
+                url += "deleteRolePrivilege_AJAX";
+            }
+            callAJAX(url, data);
         });
+
+        $(".enablePrivilege").click(function()
+        {
+            var roleId = $(this).attr("data-role");
+            var privId = $(this).attr("data-priv");
+            var data = "roleId=" + roleId + "&privilegeId=" + privId;
+            var url = "/<?php echo BASEURL; ?>RoleManager/enableRolePrivilege_AJAX";
+            callAJAX(url, data);
+        });
+
+        $(".disablePrivilege").click(function()
+        {
+            var roleId = $(this).attr("data-role");
+            var privId = $(this).attr("data-priv");
+            var data = "roleId=" + roleId + "&privilegeId=" + privId;
+            var url = "/<?php echo BASEURL; ?>RoleManager/disableRolePrivilege_AJAX";
+            callAJAX(url, data);
+        });
+
+        function callAJAX(url, data)
+        {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(msg){
+                    if(msg == true)
+                    {
+                        location.reload();
+                    }
+                    else
+                    {
+                        alert("ERROR : " + msg);
+                        location.reload();
+                    }
+                }
+            });
+        }
     });
 </script>

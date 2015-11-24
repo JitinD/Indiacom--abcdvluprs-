@@ -6,31 +6,27 @@
  * Time: 2:36 PM
  */
 
-class DeliverablesManager extends CI_Controller
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class DeliverablesManager extends BaseController
 {
-
-    private $data = array();
-
     public function __construct()
     {
         parent::__construct();
+        $this->controllerName = "DeliverablesManager";
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
-        $this->load->model('access_model');
-        require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "DeliverablesManager";
+        $sidebarData['controllerName'] = $this->controllerName;
         $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . 'views/pages/DeliverablesManager/' . $page . '.php')) {
             show_404();
         }
-        if (isset($privilege['Page']['DeliverablesManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['DeliverablesManager'][$page])) {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header');
         $this->load->view('templates/navbar', $sidebarData);
@@ -45,6 +41,11 @@ class DeliverablesManager extends CI_Controller
 
     public function assignDeliverables_AJAX()
     {
+        if(!$this->checkAccess("assignDeliverables_AJAX"))
+        {
+            echo json_encode(false);
+            return;
+        }
         $this->load->model("deliverables_model");
         $this->load->model("submission_model");
 
@@ -117,6 +118,8 @@ class DeliverablesManager extends CI_Controller
     //show assign deliverables page for a member
     public function assignMemberDeliverables($member_id)
     {
+        if(!$this->checkAccess("assignMemberDeliverables"))
+            return;
         $page = "assignMemberDeliverables";
 
         $this -> load -> model('deliverables_model');
@@ -135,6 +138,8 @@ class DeliverablesManager extends CI_Controller
     //show assign deliverables page containing all authors of a paper
     public function assignPaperDeliverables($paper_id)
     {
+        if(!$this->checkAccess("assignPaperDeliverables"))
+            return;
         $page = "assignPaperDeliverables";
 
         $this -> load -> model('submission_model');

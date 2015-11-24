@@ -6,43 +6,39 @@
  * Time: 10:53
  */
 ?>
-
+<style>
+    a:hover{
+        color: #ff0000;
+    }
+</style>
 <div class="row">
-    <div class="col-md-10 col-sm-10 col-xs-12 text-center contentBlock-top">
-        <ul class="list-inline" style="font-size: 16px;">
-            <span class="h4 text-muted">Quick Links &raquo;</span
+    <div class="col-md-12 col-sm-12 col-xs-12 text-center contentBlock-top">
+        <ul class="list-inline">
+            <span class="h4 text-muted">Quick Links &raquo;</span>
             <li>
-                <a href="/<?php echo INDIACOM; ?>callForPapers">Call For Papers</a>
+                <a style="" href="http://www.ieee.org/conferences_events/conferences/organizers/conf_app.html?confRecNum=37465">IEEE Conference ID 37465</a>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>importantdates">Important Dates</a>
+                <a href="/<?php echo BASEURL; ?>callForPapers">Call For Papers</a>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>reachingBVICAM">Reaching BVICAM</a>
+                <strong><a href="/<?php echo BASEURL; ?>specialSessions">Special Sessions</a></strong>
             </li>
             <li>
-                <a href="/<?php echo INDIACOM; ?>accomodation">Accomodation</a>
+                <a href="/<?php echo BASEURL; ?>importantdates">Important Dates</a>
             </li>
-            <?php
-            if ( !isset($_SESSION[APPID]['member_id']) )
-            {
-            ?>
             <li>
-                <a href="/<?php echo INDIACOM; ?>d/Registration/signUp">Register</a>
+                <a href="/<?php echo BASEURL; ?>reachingBVICAM">Reaching BVICAM</a>
             </li>
-            <?php
-            }
-            ?>
+            <li>
+<!--                <a href="/--><?php //echo BASEURL; ?><!--accomodation">Accomodation</a>-->
+            </li>
+            <li>
+                <a href="/<?php echo BASEURL; ?>faqs">FAQs</a>
+            </li>
+            <li>
+                <a href="/<?php echo BASEURL; ?>registrationDetails">Registration Details</a>
+            </li>
         </ul>
-    </div>
-    <div class="col-md-2 col-sm-2 col-xs-12 contentBlock-top">
-        <form role="search">
-            <div class="input-group input-group-sm">
-                <input type="text" class="form-control input-sm" placeholder="Search" name="srch-term" id="srch-term">
-                <div class="input-group-btn">
-                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
-                </div>
-            </div>
-        </form>
     </div>
 </div>

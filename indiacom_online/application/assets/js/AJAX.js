@@ -94,7 +94,7 @@ $(document).ready(function(){
 
     var categoryValue = function()
     {
-        if($("#category").val() == 5 || $("#category").val() == 6)
+        if($("#category").val() == 3 || $("#category").val() == 4)
             $(".category-based").show();
         else
             $(".category-based").hide();

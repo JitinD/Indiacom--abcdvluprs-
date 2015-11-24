@@ -14,6 +14,16 @@
             <?php
             if (isset($_SESSION) && isset($_SESSION[APPID]['authenticated'])) {
                 ?>
+                <?php
+                if(isset($_SESSION[APPID]['current_role_name']))
+                {
+                ?>
+                    <span class="text-info">
+                        Logged in as <?php echo $_SESSION[APPID]['current_role_name']; ?>
+                    </span>
+                <?php
+                }
+                ?>
                 <a href="/<?php echo BASEURL; ?>index.php/Page/login" type="submit" class="btn btn-default navbar-btn">
                     Change Role
                 </a>
@@ -49,7 +59,7 @@
         foreach ($loadableComponents as $component) {
             ?>
             <li>
-                <a href="/<?php echo BASEURL . "index.php/" . $ControllerDefaultLink[$component]; ?>">
+                <a href="/<?php echo (isset($ControllerDefaultLink[$component])) ? BASEURL . "index.php/" . $ControllerDefaultLink[$component] : ""; ?>">
                     <?php echo $component; ?>
                 </a>
             </li>

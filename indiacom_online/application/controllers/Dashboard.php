@@ -5,28 +5,28 @@
  * Date: 7/21/14
  * Time: 8:18 PM
  */
-class Dashboard extends CI_Controller
+
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class Dashboard extends BaseController
 {
-    private $data = array();
     public function __construct()
     {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
+        $this->controllerName = "Dashboard";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
-    private function index($page = "dashboardHome")
+    private function index($page)
     {
-        require(dirname(__FILE__).'/../config/privileges.php');
         require_once(dirname(__FILE__).'/../utils/ViewUtils.php');
         $this->load->model('access_model');
-        if ( ! file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
+        
+        if ( !file_exists(APPPATH.'views/pages/dashboard/'.$page.'.php'))
         {
             show_404();
-        }
-        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
         }
 
         loginModalInit($this->data);
@@ -40,26 +40,12 @@ class Dashboard extends CI_Controller
         $this->load->view('templates/footer');
     }
 
-    public function home()
+    private function uploadBiodata($fileElem, $memberId)
     {
-        $this->load->model('paper_status_model');
-        $this->load->model('member_model');
-        $page = "dashboardHome";
-        if(isset($_SESSION[APPID]['member_id']))
-        {
-            $this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id'], EVENT_ID);
-            $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
-        }
-        $this->index($page);
-    }
-
-
-    public function uploadBiodata($fileElem,$eventId,$memberId)
-    {
-        $config['upload_path'] = "C:/xampp/htdocs/Indiacom2015/uploads/biodata/".$eventId;
-        //$config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER . $eventId ;
-        $config['allowed_types'] = 'pdf';
-        $config['file_name'] = $memberId . "biodata";
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . BIODATA_FOLDER;
+        $config['allowed_types'] = 'doc|docx';
+        $config['file_name'] = FileNameUtil::makeBioDataFilename($memberId);
         $config['overwrite'] = true;
 
         $this->load->library('upload');
@@ -71,15 +57,15 @@ class Dashboard extends CI_Controller
         }
         $uploadData = $this->upload->data();
 
-        return UPLOAD_PATH . BIODATA_FOLDER . $eventId . "/" . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
     }
 
     private function uploadPaperVersion($fileElem, $eventId, $paperId, $versionNumber=1)
     {
-
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . PAPER_FOLDER;
         $config['allowed_types'] = 'doc|docx';
-        $config['file_name'] = "Paper_" . $paperId . "v" . $versionNumber;
+        $config['file_name'] = FileNameUtil::makePaperVersionFilename($paperId, $versionNumber);
         $config['overwrite'] = true;
 
         $this->load->library('upload');
@@ -90,14 +76,15 @@ class Dashboard extends CI_Controller
             return false;
         }
         $uploadData = $this->upload->data();
-        return UPLOAD_PATH . $eventId . "/" . PAPER_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
     }
 
     private function uploadComplianceReport($fileElem, $eventId, $paperId, $versionNumber=1)
     {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
         $config['upload_path'] = SERVER_ROOT . UPLOAD_PATH . $eventId . "/" . COMPLIANCE_REPORT_FOLDER;
         $config['allowed_types'] = 'pdf';
-        $config['file_name'] = "Report_" . $paperId . "v" . $versionNumber;
+        $config['file_name'] = FileNameUtil::makeComplianceReportFilename($paperId, $versionNumber);
         $config['overwrite'] = true;
 
         $this->load->library('upload');
@@ -108,35 +95,116 @@ class Dashboard extends CI_Controller
             return false;
         }
         $uploadData = $this->upload->data();
-        return UPLOAD_PATH . $eventId . "/" . COMPLIANCE_REPORT_FOLDER . $config['file_name'] . $uploadData['file_ext'];
+        return $uploadData['file_ext'];
+    }
+
+    private function sendMail($email_id, $message, $attachments = array())
+    {
+        $this->load->library('email');
+
+        $this->email->from('conference@bvicam.ac.in', 'Indiacom');
+        $this->email->to($email_id);
+        $this->email->reply_to("conference@bvicam.ac.in");
+        $this->email->subject('Indiacom Paper Submission');
+        $this->email->message($message);
+        foreach($attachments as $attachment)
+        {
+            $this->email->attach($attachment);
+        }
+
+        if($this->email->send())
+            return true;
+
+        return false;
+    }
+
+    private function sendSms($to, $text)
+    {
+        $url = SMS_SEND_LINK;
+        $data = array(
+            "username" => SMS_SERVICE_USER_ID,
+            "password" => SMS_SERVICE_PWD,
+            "to" => $to,
+            "from" => SMS_FROM,
+            "text" => $text
+        );
+        $options = array(
+            'http' => array(
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data),
+            ),
+        );
+        $context  = stream_context_create($options);
+        file_get_contents($url, false, $context);
+    }
+
+    private function authorsCorrespondence($authors = array(), $emailMessageVars, $emailContentView, $attachments)
+    {
+        foreach($authors as $author)
+        {
+            $emailMessageVars['member_name'] = $author['member_salutation'] . " " . $author['member_name'];
+            $message = $this->load->view("pages/Email/$emailContentView", $emailMessageVars, true);
+            $this->sendMail($author['member_email'], $message, $attachments);
+            //TODO: check valid format of member mobile avaialbale or not
+            $this->sendSms($author['member_mobile'], $this->load->view("pages/Sms/$emailContentView", $emailMessageVars, true));
+        }
+    }
+
+    public function home()
+    {
+        if(!$this->checkAccess("home"))
+            return;
+        $this->load->model('paper_status_model');
+        $this->load->model('member_model');
+        $this->load->model('event_model');
+        $page = "dashboardHome";
+        if(isset($_SESSION[APPID]['member_id']))
+        {
+            $this->data['events'] = $this->event_model->getAllActiveEvents();
+            foreach($this->data['events'] as $event)
+            {
+                $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
+            }
+            $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
+            $this->data['methodName'] = "submitPaperRevision";
+        }
+        $this->index($page);
     }
 
     public function submitPaper()
     {
+        if(!$this->checkAccess("submitPaper"))
+            return;
         $this->load->model('event_model');
+        $this->load->helper('url');
         $page = 'submitpaper';
         $this->data['events'] = $this->event_model->getAllActiveEvents();
 
-        if($this->submitPaperSubmitHandle())
-                $page = "submitPaperSuccess";
+        if($this->submitPaperSubmitHandle($paperId))
+        {
+            $_SESSION[APPID]['messages'][] = "Paper added succesfully.";
+            redirect('Dashboard/paperInfo/'.$paperId);
+        }
 
         $this->index($page);
     }
 
-    private function submitPaperSubmitHandle()
+    private function submitPaperSubmitHandle(&$paperId)
     {
         $this->load->model('paper_model');
         $this->load->model('submission_model');
         $this->load->model('paper_version_model');
         $this->load->model('subject_model');
+        $this->load->model('member_model');
         $this->load->library('form_validation');
-        $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheck");
+
+        $this->form_validation->set_rules('paper_title', "Paper Title", "required|callback_paperTitleCheckCallback");
         $this->form_validation->set_rules('event', 'Event', 'required');
         $this->form_validation->set_rules('track', 'Track', 'required');
         $this->form_validation->set_rules('subject', 'Subject', 'required');
-        //$this->form_validation->set_rules('paper_doc', 'Paper', 'required');
         $this->form_validation->set_rules('main_author', 'Main Author', 'required');
-        $this->form_validation->set_rules('authors', 'Author Id(s)', 'required|callback_authorsCheck');
+        $this->form_validation->set_rules('authors', 'Author Id(s)', 'required|callback_authorsCheckCallback');
 
         if($this->form_validation->run())
         {
@@ -189,7 +257,27 @@ class Dashboard extends CI_Controller
                 else
                 {
                     $this->db->trans_commit();
+                    $paperId = $versionDetails['paper_id'];
                     $this->data['paper_code'] = $paperDetails['paper_code'];
+
+                    $members = array();
+                    foreach($authors as $author)
+                    {
+                        $members[] = $this->member_model->getMemberInfo($author);
+                    }
+                    require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+                    $this->authorsCorrespondence(
+                        $members,
+                        array(
+                            "member_ids" => $authors,
+                            "paper_code" => $paperDetails['paper_code'],
+                            "paper_title" => $paperDetails['paper_title'],
+                            "receipt_date" => date("Y")
+                        ),
+                        "PaperSubmission",
+                        array(SERVER_ROOT.UPLOAD_PATH."$eventId/".PAPER_FOLDER.FileNameUtil::makePaperVersionFilename($paperId, 1, $doc_path))
+                    );
+
                     return true;
                 }
             }
@@ -197,7 +285,19 @@ class Dashboard extends CI_Controller
         return false;
     }
 
-    public function authorsCheck($authors = array())
+    /*public function emailPage($pageName)
+    {
+        $this->load->view("pages/Email/$pageName", array(
+            "member_name" => "Saurabv",
+            "paper_title" => "sd",
+            "paper_code" => 23,
+            "complianceReport" => true,
+            "receipt_date" => "September 17, 2015",
+            "member_ids" => array(5413, 5414)
+        ));
+    }*/
+
+    public function authorsCheckCallback($authors = array())
     {
         $retVal = false;
         $this->form_validation->set_message('authorsCheck', 'Signed in author missing in authors list');
@@ -216,7 +316,7 @@ class Dashboard extends CI_Controller
         return $retVal;
     }
 
-    public function paperTitleCheck($paperTitle)
+    public function paperTitleCheckCallback($paperTitle)
     {
         $this->load->model('paper_model');
         if($this->paper_model->isUniquePaperTitle($paperTitle, $this->input->post('event')))
@@ -227,9 +327,12 @@ class Dashboard extends CI_Controller
 
     public function submitPaperRevision($paperId = null)
     {
+        if(!$this->checkAccess("submitPaperRevision"))
+            return;
         $this->load->model('paper_model');
         $this->load->model('paper_version_model');
         $this->load->model('submission_model');
+        $this->load->model('member_model');
         if(isset($paperId))
             $page = "submitPaperRevision";
         else
@@ -240,7 +343,7 @@ class Dashboard extends CI_Controller
 
         if(!$this->isValidPaper($paperId) || !$this->canSubmitRevision($paperId))
         {
-            $this->load->view('pages/errorPage', array('page_error' => "Ooops! Where'd you get that link???"));
+            $this->loadUnauthorisedAccessPage();
             return;
         }
         $paperDetails = $this->paper_model->getPaperDetails($paperId);
@@ -248,6 +351,7 @@ class Dashboard extends CI_Controller
         $this->data['paper_code'] = $paperDetails->paper_code;
         $this->data['paper_main_author'] = $paperDetails->paper_contact_author_id;
         $this->data['paper_version'] = $this->paper_version_model->getLatestPaperVersionNumber($paperId) + 1;
+        $complianceReportReqd = $this->data['complianceReportReqd'] = $this->isComplianceReportReqd($paperId);
         $submissions = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paperId);
         $authors = array();
         foreach($submissions as $key=>$submission)
@@ -281,7 +385,7 @@ class Dashboard extends CI_Controller
                 $this->data['uploadRevisionError'] = $this->upload->display_errors();
                 $this->db->trans_rollback();
             }
-            else if(($report_path = $this->uploadComplianceReport('compliance_report_doc', $eventId, $paperId, $this->data['paper_version'])) == false)
+            else if($complianceReportReqd && ($report_path = $this->uploadComplianceReport('compliance_report_doc', $eventId, $paperId, $this->data['paper_version'])) == false)
             {
                 $this->data['uploadReportError'] = $this->upload->display_errors();
                 $this->db->trans_rollback();
@@ -295,33 +399,73 @@ class Dashboard extends CI_Controller
                 //table correctly.
                 $this->db->trans_commit();
                 $this->db->trans_off();
+                require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+                $attachments = array();
                 $versionDetails = array(
                     'paper_id' => $paperId,
-                    'paper_version_document_path' => $doc_path,
-                    'paper_version_compliance_report_path' => $report_path
+                    'paper_version_document_path' => $doc_path
                 );
+                if($complianceReportReqd)
+                {
+                    $versionDetails['paper_version_compliance_report_path'] = $report_path;
+                }
                 $this->db->trans_start();
                 $this->paper_version_model->addPaperVersion($versionDetails);
-                $page .= "Success";
                 $this->db->trans_complete();
+
+                $submissions = $this->submission_model->getSubmissionsByAttribute('submission_paper_id', $paperId);
+                $members = array();
+                foreach($submissions as $submission)
+                {
+                    $members[] = $this->member_model->getMemberInfo($submission->submission_member_id);
+                }
+
+                if($complianceReportReqd)
+                    $attachments[] = SERVER_ROOT.UPLOAD_PATH."$eventId/".COMPLIANCE_REPORT_FOLDER.FileNameUtil::makeComplianceReportFilename($paperId, $versionDetails['paper_version_number'], $report_path);
+                $attachments[] = SERVER_ROOT.UPLOAD_PATH."$eventId/".PAPER_FOLDER.FileNameUtil::makePaperVersionFilename($paperId, $versionDetails['paper_version_number'], $doc_path);
+                print_r($attachments);
+                $this->authorsCorrespondence(
+                    $members,
+                    array(
+                        "paper_version" => $versionDetails['paper_version_number'],
+                        "paper_code" => $paperDetails->paper_code,
+                        "complianceReport" => $complianceReportReqd
+                    ),
+                    "PaperRevisionSubmission",
+                    $attachments
+                );
+
+                $_SESSION[APPID]['messages'][] = "Paper version added successfully.";
+                redirect('Dashboard/paperInfo/'.$versionDetails['paper_id']);
             }
         }
         $this->index($page);
     }
-    /*public function payment($page)
-    {
-        $this->load->model('payment_model');
-        $this->load->model('paper_model');
-        $this->data['paperDetails']=$this->paper_model->getAllPapers($_SESSION[APPID]['member_id']);
-        $this->data['brcharges']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
-        $this->data['eps']=$this->payment_model->getEPCharges();
-        $this->data['brs']=$this->payment_model->getBRCharges($_SESSION[APPID]['member_id'],1,2);
-        $this->index($page);
-    }*/
 
+    private function paperVersionList()
+    {
+        $this->load->model('paper_status_model');
+        $this->load->model('event_model');
+        $page = "submitPaperRevisionList";
+        $this->data['events'] = $this->event_model->getAllActiveEvents();
+        $this->data['paperCanRevise'] = array();
+        foreach($this->data['events'] as $event)
+        {
+            $this->data['papers'][$event->event_id] = $this->paper_status_model->getMemberPapers($_SESSION[APPID]['member_id'], $event->event_id);
+            foreach($this->data['papers'][$event->event_id] as $paper)
+            {
+                $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
+            }
+        }
+        //$this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
+        $this->data['methodName'] = "submitPaperRevision";
+        $this->index($page);
+    }
 
     public function paperInfo($paperId)
     {
+        if(!$this->checkAccess("paperInfo"))
+            return;
         $this->load->model('submission_model');
         $this->load->model('paper_model');
         $this->load->model('subject_model');
@@ -343,22 +487,9 @@ class Dashboard extends CI_Controller
         }
         else
         {
-            $this->data['invalidAuthorAccess'] = true;
+            $this->load->view('pages/unauthorizedAccess');
+            return;
         }
-        $this->index($page);
-    }
-
-    private function paperVersionList()
-    {
-        $this->load->model('paper_status_model');
-        $page = "submitPaperRevisionList";
-        $this->data['papers'] = $this -> paper_status_model -> getMemberPapers($_SESSION[APPID]['member_id']);
-        $this->data['paperCanRevise'][] = array();
-        foreach($this->data['papers'] as $paper)
-        {
-            $this->data['paperCanRevise'][$paper->paper_id] = $this->canSubmitRevision($paper->paper_id);
-        }
-        $this->data['methodName'] = "submitPaperRevision";
         $this->index($page);
     }
 
@@ -366,8 +497,29 @@ class Dashboard extends CI_Controller
     private function canSubmitRevision($paperId)
     {
         $this->load->model('paper_version_model');
+        $this->load->model('review_result_model');
+        $this->load->model('paper_version_review_model');
         $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
-        if($versionDetails->paper_version_is_reviewer_assigned == 0 || $versionDetails->paper_version_review_date != '')
+        if($versionDetails->paper_version_review_result_id == null)
+        {
+            $reviews = $this->paper_version_review_model->getPaperVersionAllReviews($versionDetails->paper_version_id);
+            if(empty($reviews))
+                return true;
+        }
+        else
+        {
+            $reviewResultDetails = $this->review_result_model->getReviewResultDetails($versionDetails->paper_version_review_result_id);
+            if($reviewResultDetails->is_final_step_review_result == 1 && $reviewResultDetails->is_end_of_review_process == 0)
+                return true;
+        }
+        return false;
+    }
+
+    private function isComplianceReportReqd($paperId)
+    {
+        $this->load->model('paper_version_model');
+        $versionDetails = $this->paper_version_model->getLatestPaperVersionDetails($paperId);
+        if($versionDetails->paper_version_review_date != '')
         {
             return true;
         }
@@ -390,9 +542,12 @@ class Dashboard extends CI_Controller
     //Allows user to change current password
     public function changePassword($toResetPassword = false)
     {
+        if(!$this->checkAccess("changePassword"))
+            return;
+
         $page = "changePassword";
 
-        $this -> data['toResetPassword'] = $toResetPassword;
+        $this->data['toResetPassword'] = $toResetPassword;
 
         $this->load->model('registration_model');
         $this->load->library('form_validation');
@@ -401,7 +556,6 @@ class Dashboard extends CI_Controller
 
         if(!$toResetPassword)
             $this->form_validation->set_rules('currentPassword', 'Current Password', 'required|callback_validateCurrentPassword');
-
         $this->form_validation->set_rules('newPassword', 'New Password', 'required');
         $this->form_validation->set_rules('confirmPassword', 'Confirm Password', 'required|callback_validateConfirmPassword');
 
@@ -410,49 +564,59 @@ class Dashboard extends CI_Controller
             $encrypted_password = md5($this -> input -> post('newPassword'));
 
             $update_data = array(
-                                    'member_password'       =>  $encrypted_password,
-                                    'member_is_activated'   =>  1
-                                );
+                'member_password' => $encrypted_password,
+                'member_is_activated' => 1
+            );
 
             if($this -> member_model -> updateMemberInfo($update_data, $member_id))
             {
+                if($toResetPassword)
+                    return true;
                 $page .= "Success";
-               // return true;
             }
-
-            //return false;
         }
 
         $this->index($page);
-
-        //return false;
+        return false;
     }
 
     public function resetPassword($member_id, $activation_code)
     {
-        $page = "resetPassword";
-
-        $_SESSION['sudo'] = true;
         $this -> load -> model('login_model');
         $this -> load -> model('member_model');
 
         $this -> login_model -> setUsername($member_id);
         $this -> login_model -> setPassword($activation_code);
         $this -> login_model -> setLoginType('LM');
-        $this -> login_model -> authenticate();
+
+        if(!($auth = $this->login_model->authenticate(false)) || !$this->checkAccess("resetPassword"))
+        {
+            if(!$auth)
+                $this->loadUnauthorisedAccessPage();
+            return;
+        }
 
         $update_data = array('member_is_activated'   =>  0);
 
-        if($this -> member_model -> updateMemberInfo($update_data, $member_id))
+        if($this->member_model->updateMemberInfo($update_data, $member_id))
         {
-            if($this -> changePassword(true))
-                redirect('Login/Logout');
+            if($this->changePassword(true))
+            {
+                $this->login_model->setUsername($member_id);
+                $this->login_model->setPassword($this->input->post('newPassword'));
+                $this->login_model->setLoginType('M');
+                $this->login_model->authenticate();
+                $this->index("changePasswordSuccess");
+                return;
+            }
         }
-
+        $this->login_model->logout();
     }
 
     public function validateCurrentPassword()
     {
+        if(!$this->checkAccess("validateCurrentPassword"))
+            return;
         $this->load->model('member_model');
 
         $member_id  = $_SESSION[APPID]['member_id'];
@@ -470,6 +634,8 @@ class Dashboard extends CI_Controller
 
     public function validateConfirmPassword()
     {
+        if(!$this->checkAccess("validateConfirmPassword"))
+            return;
         if(strcmp($this->input->post('newPassword'),$this->input->post('confirmPassword')))
         {
             $this->form_validation->set_message('validateConfirmPassword',"Both passwords should match");
@@ -481,93 +647,190 @@ class Dashboard extends CI_Controller
 
     public function downloadBiodata()
     {
-        $this->load-> helper ('download');
-        $data=file_get_contents(SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER."1/".$_SESSION[APPID]['member_id']."biodata.pdf");
-        $name = $_SESSION[APPID]['member_id']."biodata.pdf";
-        force_download ($name, $data);
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('member_model');
+        if(!$this->checkAccess("downloadBiodata"))
+            return;
+        $memberInfo = $this->member_model->getMemberInfo($_SESSION[APPID]['member_id']);
+        DownloadUtil::downloadFile(
+            SERVER_ROOT.UPLOAD_PATH.BIODATA_FOLDER.FileNameUtil::makeBioDataFilename($memberInfo['member_id'], $memberInfo['member_biodata_path']),
+            "Bio Data." . $memberInfo['member_biodata_path']
+        );
+    }
+
+    /*private function downloadPaperVersionDocuments($paperVersionId, $documentPathFieldName)
+    {
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $this->load->model('paper_model');
+        $this->load->model('submission_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $paperEvent = $this->paper_model->getPaperEventDetails($versionInfo->paper_id);
+        $fileName = FileNameUtil::makePaperVersionFileName(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->$documentPathFieldName
+        );
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
+            DownloadUtil::downloadFile(
+                SERVER_ROOT.UPLOAD_PATH.$paperEvent->event_id."/".PAPER_FOLDER.$fileName,
+                $fileName);
+        else
+            $this->loadUnauthorisedAccessPage();
+    }*/
+
+    public function downloadPaperVersion($paperVersionId, $eventId)
+    {
+        if(!$this->checkAccess("downloadPaperVersion"))
+            return;
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $this->load->model('submission_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makePaperVersionFileName(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->paper_version_document_path
+        );
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
+            DownloadUtil::downloadFile(
+                SERVER_ROOT.UPLOAD_PATH.$eventId."/".PAPER_FOLDER.$fileName,
+                $fileName
+            );
+        else
+            $this->loadUnauthorisedAccessPage();
+        //$this->downloadPaperVersionDocuments($paperVersionId, "paper_version_document_path");
+    }
+
+    public function downloadComplianceReport($paperVersionId, $eventId)
+    {
+        if(!$this->checkAccess("downloadComplianceReport"))
+            return;
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $this->load->model('submission_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makeComplianceReportFilename(
+            $versionInfo->paper_id,
+            $versionInfo->paper_version_number,
+            $versionInfo->paper_version_compliance_report_path
+        );
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
+            DownloadUtil::downloadFile(
+                SERVER_ROOT.UPLOAD_PATH.$eventId."/".COMPLIANCE_REPORT_FOLDER.$fileName,
+                $fileName
+            );
+        else
+            $this->loadUnauthorisedAccessPage();
+        //$this->downloadPaperVersionDocuments($paperVersionId, "paper_version_compliance_report_path");
+    }
+
+    public function downloadReviewerComments($paperVersionId, $eventId)
+    {
+        if(!$this->checkAccess("downloadReviewerComments"))
+            return;
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/DownloadUtil.php");
+        require_once(dirname(__FILE__) . "/../../../CommonResources/Utils/FileNameUtil.php");
+        $this->load->model('paper_version_model');
+        $this->load->model('submission_model');
+        $versionInfo = $this->paper_version_model->getPaperVersionDetails($paperVersionId);
+        $fileName = FileNameUtil::makeConvenerReviewCommentsFilename(
+            $paperVersionId,
+            $versionInfo->paper_version_comments_path
+        );
+        if($this->submission_model->isMemberValidAuthorOfPaper($_SESSION[APPID]['member_id'], $versionInfo->paper_id))
+            DownloadUtil::downloadFile(
+                SERVER_ROOT.UPLOAD_PATH.$eventId."/".CONVENER_REVIEW_FOLDER.$fileName,
+                $fileName
+            );
+        else
+            $this->loadUnauthorisedAccessPage();
+        //$this->downloadPaperVersionDocuments($paperVersionId, "paper_version_comments_path");
     }
 
     public function editProfile()
     {
+        if(!$this->checkAccess("editProfile"))
+            return;
         $this->load->model('member_model');
         $this->load->model('registration_model');
+        $this->load->model('organization_model');
         $page="editProfile";
-        $this->data['editProfile'] =$this->member_model->getMemberInfo($_SESSION[APPID]['member_id']);
+        $this -> data['countries'] = $this -> registration_model -> getCountries();
+        $this->data['editProfile'] = $this->member_model->getMemberInfo($_SESSION[APPID]['member_id']);
+        $this->data['organizationDetails'] =  $this->organization_model->getOrganizationInfo($this->data['editProfile']['member_organization_id']);
         $this -> data['member_categories'] = $this -> registration_model -> getMemberCategories();
         $this->data['miniProfile'] = $this -> member_model -> getMemberMiniProfile($_SESSION[APPID]['member_id']);
         $this->load->library('form_validation');
         $this->form_validation->set_rules('salutation', 'Salutation', 'required');
         $this->form_validation->set_rules('name', 'Name', 'required');
-        $this->form_validation->set_rules('address', 'Address', 'required');
-        $this->form_validation->set_rules('pincode', 'Pincode', 'required');
         $this->form_validation->set_rules('email', 'Email', 'required');
-        $this->form_validation->set_rules('phoneNumber', 'Phone number', 'required');
+        $this->form_validation->set_rules('country', 'Country', 'required');
+        $this->form_validation->set_rules('address', 'Address', 'required');
+        $this->form_validation->set_rules('city', 'City', 'required');
+        $this->form_validation->set_rules('state', 'State', 'required');
+        $this->form_validation->set_rules('pincode', 'Pincode', 'required');
+        $this->form_validation->set_rules('countryCode', 'Country Code', 'required');
         $this->form_validation->set_rules('mobileNumber', 'Mobile number', 'required');
-        $this->form_validation->set_rules('organization', 'Organization', 'required');
         $this->form_validation->set_rules('category', 'Category', 'required');
+        $this->form_validation->set_rules('organization', 'Organization', 'required');
         $this->form_validation->set_rules('department', 'Department', 'required');
 
         if($this->form_validation->run())
         {
             $organization_id_array = $this -> registration_model -> getOrganizationId($this -> input -> post('organization'));
 
-            if(($doc_path = $biodata_url=$this->uploadBiodata('biodata',1,$_SESSION[APPID]['member_id'])) == false)
+            if(!empty($_FILES['biodata']['name']) && ($doc_path = $this->uploadBiodata('biodata', $_SESSION[APPID]['member_id'])) == false)
             {
                 $this->data['uploadError'] = $this->upload->display_errors();
-                $this->db->trans_rollback();
             }
-            if($organization_id_array)
+            else if($organization_id_array)
             {
                 $member_record = array(
-                    'member_id' => $_SESSION[APPID]['member_id'],
                     'member_salutation' => $this->input->post('salutation'),
                     'member_name' => $this->input->post('name'),
-                    'member_address' => $this->input->post('address'),
-                    'member_pincode' => $this->input->post('pincode'),
                     'member_email' => $this->input->post('email'),
-                    'member_phone' => $this->input->post('phoneNumber'),
+                    'member_country' => $this->input->post('country'),
+                    'member_address' => $this->input->post('address'),
+                    'member_city' => $this->input->post('city'),
+                    'member_state' => $this->input->post('state'),
+                    'member_pincode' => $this->input->post('pincode'),
+                    'member_country_code' => $this->input->post('countryCode'),
                     'member_mobile' => $this->input->post('mobileNumber'),
+                    'member_phone_countryCode' => $this->input->post('telephoneNumber_country'),
+                    'member_phone_cityCode' => $this->input->post('telephoneNumber_city'),
+                    'member_phone' => $this->input->post('telephoneNumber'),
+                    'member_fax_countryCode' => $this->input->post('fax_country'),
+                    'member_fax_cityCode' => $this->input->post('fax_city'),
                     'member_fax' => $this->input->post('fax'),
-                    'member_designation' => $this->input->post('designation'),
-                    'member_csi_mem_no' => $this->input->post('csimembershipno'),
                     'member_iete_mem_no' => $this->input->post('ietemembershipno'),
-                    'member_organization_id' => $organization_id_array['organization_id'],
-                    'member_biodata_path' => $doc_path,
+                    'member_csi_mem_no' => $this->input->post('csimembershipno'),
                     'member_category_id' => $this->input->post('category'),
+                    'member_organization_id' => $organization_id_array['organization_id'],
                     'member_department' => $this->input->post('department'),
-                    'member_experience' => $this->input->post('experience'),
-                    'member_is_activated' => ""
+                    'member_designation' => $this->input->post('designation'),
+                    'member_experience' => $this->input->post('experience')
                 );
+                if(isset($doc_path))
+                    $member_record['member_biodata_path'] = $doc_path;
 
                 if($this->member_model->updateMemberInfo($member_record, $_SESSION[APPID]['member_id']))
                     $page .= "Success";
             }
             else
-                $this -> data['error'] = "No such organization";
+                $this -> data['error'] = "Invalid organization. Contact Admin.";
         }
-                $this->index($page);
-    }
-
-    private function getOLPCAmount($paperID)
-    {
-        $olpc_amount = 0;
-
-        $this -> load -> model('payment_model');
-
-        if($this -> payment_model -> checkOLPCValid($paperID))
-        {
-            if(!(checkOLPCPaid($paperID)))
-            {
-                $olpc_amount_object = getOLPCCharges();
-                $olpc_amount = $olpc_amount_object -> payable_class_amount;
-            }
-        }
-
-        return $olpc_amount;
+        $this->index($page);
     }
 
     public function payment()
     {
+        if(!$this->checkAccess("payment"))
+            return;
         $page = "paymentHome";
         $memberID = $_SESSION[APPID]['member_id'];
 
@@ -793,6 +1056,8 @@ class Dashboard extends CI_Controller
 
     public function transaction()
     {
+        if(!$this->checkAccess("transaction"))
+            return;
         $page="transactionHistory";
         $this->load->model('transaction_model');
         $this->load->model('transaction_mode_model');
@@ -803,6 +1068,8 @@ class Dashboard extends CI_Controller
 
     public function payablesChart()
     {
+        if(!$this->checkAccess("payablesChart"))
+            return;
         $this->load->model('payable_class_model');
         $this->load->model('member_categories_model');
         $this->load->model('nationality_model');
@@ -826,6 +1093,293 @@ class Dashboard extends CI_Controller
                            [$dateType][$payableClass->is_general] = $payableClass;
         }
         $this->data['payableClasses'] = $payableClasses;
+        $this->index($page);
+    }
+    
+    
+    
+    private function request_special_session_handle($member_id)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('session_name', "Session Name", "required");
+        $this->form_validation->set_rules('session_aim', "Session Aim", "required");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $subject_name = htmlentities($this->input->post('session_name'));
+            $session_aim = htmlentities($this->input->post('session_aim'));
+            $ss_id = $this->request_special_session->insertSpecialSessionSubject($member_id, $subject_name, $session_aim);
+            
+            if($ss_id > 0){
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+        }
+        return $retVal;
+    }
+
+    private function edit_session_Chairperson_handle($sid)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('profile', "Profile", "required");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $profile = htmlentities($this->input->post('profile'));
+            $ss_id = $this->request_special_session->updateChairPersonProfile($sid, $profile);
+            
+            if($ss_id){
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+        }
+        return $retVal;
+    }
+
+    private function add_aoc_handle($sid)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('aoc', "Area of Coverage", "required");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $aoc = htmlentities($this->input->post('aoc'));
+            $ss_id = $this->request_special_session->insertSpecialSessionAOC($sid, $aoc);
+            
+            if($ss_id){
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+        }
+        return $retVal;
+    }
+
+    private function add_tpc_handle($sid)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('tpc', "Technical Programme Committee", "required");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $tpc = htmlentities($this->input->post('tpc'));
+            $ss_id = $this->request_special_session->insertSpecialSessionTPC($sid, $tpc);
+            
+            if($ss_id){
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+        }
+        return $retVal;
+    }
+
+    /*
+    * function to handle request special session form with aoc and tpc multiple inputs for each field
+    private function request_special_session_details_handle($member_id)
+    {
+        $this->load->library('form_validation');
+        $this->load->model('request_special_session');
+        $this->form_validation->set_rules('session_name', "Session Name", "required|alpha_dash");
+        $this->form_validation->set_rules('session_aim', "Session Aim", "required|alpha_dash");
+        $this->form_validation->set_rules('aoc[]', "Area of Coverage", "required|min_length[1]");
+        $this->form_validation->set_rules('tpc[]', "Technical Programme Committee", "required|min_length[1]");
+        $retVal = false;
+        if($this->form_validation->run()){
+            $subject_name = $this->input->post('session_name');
+            $session_aim = $this->input->post('session_aim');
+            $aoc = $this->input->post('aoc');
+            $tpc = $this->input->post('tpc');
+            $this->db->trans_begin();
+            $ss_id = $this->request_special_session->insertSpecialSessionSubject($member_id, $subject_name, $session_aim);
+            
+            if($ss_id > 0){
+                foreach($aoc as $item){
+                    if(!$this->request_special_session->insertSpecialSessionAOC($ss_id, $item)){
+                        $retVal = false;
+                        break;
+                    } else{
+                        $retVal = true;
+                    }
+                }
+                if($retVal){
+                    foreach($tpc as $tpc_item){
+                        if(!$this->request_special_session->insertSpecialSessionTPC($ss_id, $tpc_item)){
+                            $retVal = false;
+                            break;
+                        } else{
+                            $retVal = true;
+                        }
+                    }
+                }
+                $retVal = true;
+            } else{
+                $retVal = false;
+            }
+            
+            if (!$retVal || $this->db->trans_status() === FALSE){
+                $this->db->trans_rollback();
+                $retVal = false;
+            }
+            else{
+                $this->db->trans_commit();
+                $retVal = true;
+            }
+            
+        }
+        return $retVal;
+    }
+    */
+    
+    public function request_special_session()
+    {
+        if(!$this->checkAccess("request_special_session"))
+            return;
+        $this->load->model('event_model');
+        $this->load->helper('url');
+
+        $page = 'request_special_session';
+        
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            if(isset($_POST['submit'])){
+                if( $this->request_special_session_handle($member_id)){
+                    $_SESSION[APPID]['message'] = "Request sent succesfully! Please review 'my special sessions' from sidebar links to add details to your requested special session once it has been verified.";
+                } else{
+                    $_SESSION[APPID]['message'] = "Technical Error occured!";
+                }
+            }
+        }
+        $this->index($page);    
+    }
+
+    public function special_sessions_list()
+    {
+        if(!$this->checkAccess("special_sessions_list"))
+            return;
+        $this->load->model('ss_track_model');
+        $this->load->helper('url');
+        $page = 'special_sessions_list';
+        $this->data['sessions'] = $this->ss_track_model->getAllTracks();
+        $this->index($page);    
+    }
+
+    public function my_special_session()
+    {
+        if(!$this->checkAccess("my_special_session"))
+            return;
+        $this->load->model('request_special_session');
+        $page = 'my_special_session';
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            $this->data['special_session'] = $this->request_special_session->get_special_session($member_id);
+        }
+        $this->index($page);    
+    }
+
+    public function special_session($sid)
+    {
+        if(!$this->checkAccess("special_session"))
+            return;
+        $this->load->model('request_special_session');
+        $page = 'special_session';
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $this->data['special_session'] = $this->request_special_session->get_special_session_by_sid($sid);
+            $this->data['aoc'] = $this->request_special_session->get_aoc($sid);
+            $this->data['tpc'] = $this->request_special_session->get_tpc($sid);
+            
+        }
+        $this->index($page);
+    }
+
+
+    public function special_session_details($sid)
+    {
+        if(!$this->checkAccess("special_session_details"))
+            return;
+        $this->load->model('request_special_session');
+        $page = 'special_session_details';
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $this->data['sid'] = $sid;
+            $this->data['aoc'] = $this->request_special_session->get_aoc($sid);
+            $this->data['tpc'] = $this->request_special_session->get_tpc($sid);
+        }
+        $this->index($page);
+    }
+
+    public function edit_session_Chairperson($sid)
+    {
+        if(!$this->checkAccess("edit_session_Chairperson"))
+            return;
+        $this->load->model('request_special_session');
+        $this->load->helper('url');
+        $page = 'edit_chairperson';
+        $this->data['sid'] = $sid;
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            if(isset($_POST['submit'])){
+                if( $this->edit_session_Chairperson_handle($sid)){
+                    $_SESSION[APPID]['message'] = "Profile edited succesfully.";
+                } else{
+                    $_SESSION[APPID]['message'] = "Technical Error occured!";
+                }
+            }
+
+            $result = $this->request_special_session->get_special_session_by_sid($sid);
+            $result = array_pop($result);
+            $this->data['chairper_profile'] = $result->profile;
+            
+        }
+        $this->index($page);
+    }
+
+    public function add_aoc($sid)
+    {
+        if(!$this->checkAccess("add_aoc"))
+            return;
+        $this->load->model('request_special_session');
+        $this->load->helper('url');
+        $page = 'add_aoc';
+        $this->data['sid'] = $sid;
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            if(isset($_POST['submit'])){
+                if( $this->add_aoc_handle($sid)){
+                    $_SESSION[APPID]['message'] = "AOC edited succesfully.";
+                } else{
+                    $_SESSION[APPID]['message'] = "Technical Error occured!";
+                }
+            }
+            
+        }
+        $this->index($page);
+    }
+
+    public function add_tpc($sid)
+    {
+        if(!$this->checkAccess("add_tpc"))
+            return;
+        $this->load->model('request_special_session');
+        $this->load->helper('url');
+        $page = 'add_tpc';
+        $this->data['sid'] = $sid;
+        if (isset($_SESSION) && isset($_SESSION[APPID]['member_id'])){
+            $member_id = $_SESSION[APPID]['member_id'];
+            if(isset($_POST['submit'])){
+                if( $this->add_tpc_handle($sid)){
+                    $_SESSION[APPID]['message'] = "AOC edited succesfully.";
+                } else{
+                    $_SESSION[APPID]['message'] = "Technical Error occured!";
+                }
+            }
+            
+        }
         $this->index($page);
     }
 }

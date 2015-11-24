@@ -515,7 +515,11 @@
         })
 
         $('.payAmounts').change(function () {
-            calculateTotalSelectedAmount()
+            calculateTotalSelectedAmount();
+        });
+
+        $('.radio').click(function() {
+            calculateTotalSelectedAmount();
         });
 
         $("#mappedTransaction").change(function () {

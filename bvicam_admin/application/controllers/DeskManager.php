@@ -6,37 +6,34 @@
  * Date: 2/14/15
  * Time: 2:21 PM
  */
-class DeskManager extends CI_Controller
-{
-    private $data = array();
 
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class DeskManager extends BaseController
+{
     public function __construct()
     {
         parent::__construct();
         $this->load->helper(array('form', 'url'));
-
         $this->load->model('paper_model'); //paper
         $this->load->model('subject_model'); //subject
         $this->load->model('track_model'); //track
         $this->load->model('event_model'); //event
         $this->load->model('submission_model');
+        $this->controllerName = "DeskManager";
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
-        $this->load->model('access_model');
-        require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "DeskManager";
+        $sidebarData['controllerName'] = $this->controllerName;
         $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . 'views/pages/DeskManager/' . $page . '.php')) {
             show_404();
         }
-        if (isset($privilege['Page']['DeskManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['DeskManager'][$page])) {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header');
         $this->load->view('templates/navbar', $sidebarData);
@@ -52,8 +49,8 @@ class DeskManager extends CI_Controller
 
     public function home()
     {
-//        $page = "index";
-
+        if(!$this->checkAccess("home"))
+        return;
         $this->load->library('form_validation');
 
         $this->form_validation->set_rules('searchValue', 'Search value', 'required');
@@ -108,14 +105,16 @@ class DeskManager extends CI_Controller
 
     public function viewPaperAuthorsPayments($paper_code = null)
     {
+        if(!$this->checkAccess("viewPaperAuthorsPayments"))
+            return;
         $page = "paperAuthorsPayments";
 
         $this -> home();
         $this->load->model('paper_model');
-        $paper_id_obj=$this->paper_model->getPaperID($paper_code);
+        $paper_id = $this->paper_model->getPaperID($paper_code, EVENT_ID);
 
-        if(isset($paper_id_obj))
-            $paper_id = $paper_id_obj -> paper_id;
+        /*if(isset($paper_id_obj))
+            $paper_id = $paper_id_obj -> paper_id;*/
 
         if(isset($paper_id) && $paper_id)
         {
@@ -184,6 +183,8 @@ class DeskManager extends CI_Controller
 
     public function viewAuthorPapersPayments($member_id = null)
     {
+        if(!$this->checkAccess("viewAuthorPapersPayments"))
+            return;
         $page = "authorPapersPayments";
 
         $this -> home();

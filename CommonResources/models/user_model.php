@@ -156,6 +156,16 @@ class User_model extends CI_Model
         return array();
     }
 
+    public function getUsersByRole($roleId)
+    {
+        $sql = "Select user_master.*
+                From user_master
+                        Join user_event_role_mapper on user_master.user_id = user_event_role_mapper.user_id
+                Where role_id = ? And user_event_role_mapper_dirty = 0";
+        $query = $this->db->query($sql, array($roleId));
+        return $query->result();
+    }
+
     public function getRegistrarUsers()
     {
         $sql = "Select * From user_master

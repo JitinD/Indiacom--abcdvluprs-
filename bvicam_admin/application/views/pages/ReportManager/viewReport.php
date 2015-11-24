@@ -18,7 +18,7 @@
                     class="glyphicon glyphicon-minus"></span></button>
         </div>
         <?php
-        if(file_exists(SERVER_ROOT.INDIACOM.'reports/report.csv'))
+        if(file_exists(SERVER_ROOT.BASEURL.'reports/report.csv'))
         {
             ?>
             <div class="col-sm-4">

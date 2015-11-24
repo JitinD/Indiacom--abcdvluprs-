@@ -20,9 +20,13 @@ class Paper_status_model extends CI_Model
                   paper_latest_version.paper_code,
                   paper_title,
                   latest_paper_version_number,
+                  review_result_id,
                   review_result_type_name,
                   event_id,
-                  event_name
+                  event_name,
+                  paper_version_is_reviewer_assigned,
+                  paper_version_review_date,
+                  paper_version_review.paper_version_review_id
                 From
                   paper_latest_version
                     Join
@@ -31,6 +35,13 @@ class Paper_status_model extends CI_Model
                     Join
                   paper_subject_track_event
                     On paper_latest_version.paper_id = paper_subject_track_event.paper_id
+                    Join
+                  paper_version_master
+                    On paper_version_master.paper_id = paper_latest_version.paper_id
+                       And paper_version_master.paper_version_number = paper_latest_version.latest_paper_version_number
+                    Left JOIN
+                  paper_version_review
+                    On paper_version_master.paper_version_id = paper_version_review.paper_version_id
                 Where
                   submission_member_id = ? And submission_dirty = 0";
         $params = array($member_id);

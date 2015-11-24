@@ -13,7 +13,7 @@
                 <!--?php include(dirname(__FILE__) . "/../pages/loginPage.php"); ?-->
                 <div class="row">
                     <div class="col-md-9 formDiv">
-                        <form role="form" class="form-horizontal" method="post" action="/<?php echo INDIACOM; ?>d/Login?redirect=<?php echo $_SERVER['REQUEST_URI']; ?>">
+                        <form role="form" class="form-horizontal" method="post" action="/<?php echo BASEURL; ?>d/Login?redirect=<?php echo $_SERVER['REQUEST_URI']; ?>">
                             <div class="form-group">
                                 <label for="memberID" class="col-sm-4 control-label h4">Member ID</label>
                                 <div class="col-sm-8">
@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group">
                                 <div class="col-sm-8 col-sm-offset-4">
-                                    <a href="/<?php echo BASEURL; ?>Registration/forgotPassword" class="btn btn-danger btn-block">Forgot Member Id / Password</a>
+                                    <a href="/<?php echo BASEURL; ?>Registration/forgotLoginCredentials" class="btn btn-danger btn-block">Forgot Member Id / Password</a>
 
                                 </div>
                             </div>

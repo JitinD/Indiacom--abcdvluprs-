@@ -6,19 +6,23 @@
  * Date: 2/16/15
  * Time: 10:24 AM
  */
-class AttendanceManager extends CI_Controller
-{
-    private $data = array();
 
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class AttendanceManager extends BaseController
+{
     public function __construct()
     {
         parent::__construct();
-
+        $this->controllerName = "AttendanceManager";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     public function markDeskAttendance_AJAX()
     {
-
+        if(!$this->checkAccess("markDeskAttendance_AJAX"))
+            return;
         $this->load->model('member_model');
         $this->load->model('paper_status_model');
         $this->load->model('payment_model');
@@ -73,6 +77,8 @@ class AttendanceManager extends CI_Controller
 
     public function markTrackAttendance_AJAX()
     {
+        if(!$this->checkAccess("markTrackAttendance_AJAX"))
+            return;
         $this->load->model("attendance_model");
         $submission_id = $this->input->post('submissionId');
         $is_present = $this->input->post('isPresent');

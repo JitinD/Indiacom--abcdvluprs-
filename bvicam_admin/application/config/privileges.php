@@ -6,228 +6,101 @@
  * Time: 11:38 PM
  */
 
-/*
- * application_master select
- * news_master select
- *
- */
-$privilege['Page']['NewsManager']['allNews'] = array(81, 61);
+$privilege['Page']['NewsManager']['load'] = array('NM0');
 
-/*
- * event_master select
- * application_master select
- * news_master insert
- * indiacom_news_master insert
- * indiacom_news_attachments insert
- */
-$privilege['Page']['NewsManager_IndiacomOnlineSystem']['addNews'] = array(73, 81, 63, 91, 87);
+$privilege['Page']['NewsManager_IndiacomOnlineSystem']['addNews'] = array('NM_IOS0');
+$privilege['Page']['NewsManager_IndiacomOnlineSystem']['disableNews'] = array('NM_IOS1');
+$privilege['Page']['NewsManager_IndiacomOnlineSystem']['enableNews'] = array('NM_IOS2');
+$privilege['Page']['NewsManager_IndiacomOnlineSystem']['deleteNews'] = array('NM_IOS3');
 
-/*
- * news_master update
- * indiacom_news_master update
- */
-$privilege['Page']['NewsManager_IndiacomOnlineSystem']['disableNews'] = array(62, 90);
+$privilege['Page']['RoleManager']['load']=array('RM0');
+$privilege['Page']['RoleManager']['newRole']=array('RM1');
+$privilege['Page']['RoleManager']['viewRole']=array('RM2');
+$privilege['Page']['RoleManager']['enableRolePrivilege_AJAX']=array('RM3');
+$privilege['Page']['RoleManager']['disableRolePrivilege_AJAX']=array('RM4');
+$privilege['Page']['RoleManager']['addRolePrivilege_AJAX']=array('RM5');
+$privilege['Page']['RoleManager']['deleteRolePrivilege_AJAX']=array('RM6');
+$privilege['Page']['RoleManager']['disableRole_AJAX']=array('RM7');
+$privilege['Page']['RoleManager']['enableRole_AJAX']=array('RM8');
+$privilege['Page']['RoleManager']['deleteRole_AJAX']=array('RM9');
 
-/*
- * news_master update
- * indiacom_news_master update
- */
-$privilege['Page']['NewsManager_IndiacomOnlineSystem']['enableNews'] = array(62, 90);
+$privilege['Page']['UserManager']['load'] = array('UM0');
+$privilege['Page']['UserManager']['newUser'] = array('UM1');
+$privilege['Page']['UserManager']['viewUser'] = array('UM2');
+$privilege['Page']['UserManager']['enableUser'] = array('UM3');
+$privilege['Page']['UserManager']['disableUser'] = array('UM4');
+$privilege['Page']['UserManager']['deleteUser'] = array('UM5');
+$privilege['Page']['UserManager']['enableUserRole'] = array('UM6');
+$privilege['Page']['UserManager']['disableUserRole'] = array('UM7');
+$privilege['Page']['UserManager']['deleteUserRole'] = array('UM8');
 
-/*
- * indiacom_news_attachments select
- * indiacom_news_attachments delete
- * indiacom_news_master delete
- * news_master delete
-*/
-$privilege['Page']['NewsManager_IndiacomOnlineSystem']['deleteNews'] = array(85, 88, 92, 64);
+$privilege['Page']['InitialPaperReviewer']['load'] = array('IPR0');
+$privilege['Page']['InitialPaperReviewer']['reviewPaperInfo'] = array('IPR1');
+$privilege['Page']['InitialPaperReviewer']['downloadPaperVersion'] = array('IPR2');
 
-/*
- * index-
- * role_master-Select-21
- */
-$privilege['Page']['RoleManager']['index']=array(21);
+$privilege['Page']['FinalPaperReviewer']['loadAllPapers'] = array('FPR0');
+$privilege['Page']['FinalPaperReviewer']['setReviewerAssigned'] = array('FPR1');
+$privilege['Page']['FinalPaperReviewer']['paperInfo'] = array('FPR2');
+$privilege['Page']['FinalPaperReviewer']['loadTrackPapers'] = array('FPR3');
+$privilege['Page']['FinalPaperReviewer']['downloadPaperVersion'] = array('FPR4');
+$privilege['Page']['FinalPaperReviewer']['downloadComplianceReport'] = array('FPR4');
+$privilege['Page']['FinalPaperReviewer']['downloadConvenerReviewComments'] = array('FPR4');
+$privilege['Page']['FinalPaperReviewer']['downloadReviewerComments'] = array('FPR4');
 
-/*newRole
-application_master-Select-81
-role_master-Insert-23
-role_master-Select-21
-privilege_master-Insert-39
-privilege_master-Select-37
-privilege_roll_mapper-insert-35*/
-$privilege['Page']['RoleManager']['newRole']=array(81,23,21,39,37,35);
+$privilege['Page']['PaymentsManager']['load'] = array('PM0');
+$privilege['Page']['PaymentsManager']['viewPaymentsMemberWise'] = array('PM1');
+$privilege['Page']['PaymentsManager']['viewPaymentsPaperWise'] = array('PM2');
+$privilege['Page']['PaymentsManager']['newPayment'] = array('PM3');
+$privilege['Page']['PaymentsManager']['paymentBreakup'] = array('PM4');
+$privilege['Page']['PaymentsManager']['changePayableClass'] = array('PM5');
+$privilege['Page']['PaymentsManager']['changeDiscountType'] = array('PM6');
+$privilege['Page']['PaymentsManager']['paymentWaiveOffAJAX'] = array('PM7');
+$privilege['Page']['PaymentsManager']['spotPayments'] = array('PM8');
 
-/*viewRole
-role_master-Select-21
-privilege_role_mapper-select-33
-privilege_role_mapper-insert-35
-privilege_master-select-37
-privilege_master-insert-39*/
-$privilege['Page']['RoleManager']['viewRole']=array(21,33,35,37,39);
+$privilege['Page']['TransactionManager']['newTransaction'] = array('TM0');
+$privilege['Page']['TransactionManager']['loadUnusedTransactions'] = array('TM1');
+$privilege['Page']['TransactionManager']['load'] = array('TM2');
+$privilege['Page']['TransactionManager']['viewTransaction'] = array('TM3');
+$privilege['Page']['TransactionManager']['setTransactionVerificationStatus_AJAX'] = array('TM4');
 
-/*
-enableRolePrivilege
-privilege_role_mapper-update-34
- */
-$privilege['Page']['RoleManager']['enableRolePrivilege']=array(34);
+$privilege['Page']['ReportManager']['downloadReport'] = array('ReM0');
+$privilege['Page']['ReportManager']['getReport'] = array('ReM1');
+$privilege['Page']['ReportManager']['home'] = array('ReM2');
+$privilege['Page']['ReportManager']['paymentsReport'] = array('ReM3');
 
-/*
- * disableRolePrivilege
- privilege_role_mapper-update-34
- */
-$privilege['Page']['RoleManager']['disableRolePrivilege']=array(34);
+$privilege['Page']['DeskManager']['home'] = array('DM0');
+$privilege['Page']['DeskManager']['viewPaperAuthorsPayments'] = array('DM1');
+$privilege['Page']['DeskManager']['viewAuthorPapersPayments'] = array('DM2');
 
-/*
- * deleteRolePrivilege
- * privilege_role_mapper-delete-36
- */
-$privilege['Page']['RoleManager']['deleteRolePrivilege']=array(36);
+$privilege['Page']['TrackManager']['home'] = array('TraM0');
+$privilege['Page']['TrackManager']['markAuthorAttendance'] = array('TraM1');
+$privilege['Page']['TrackManager']['markPaperAttendance'] = array('TraM2');
 
-/*
- * disableRole
- * role_master-update-22
- */
-$privilege['Page']['RoleManager']['disableRole']=array(22);
+$privilege['Page']['DeliverablesManager']['assignDeliverables_AJAX'] = array('DeM0');
+$privilege['Page']['DeliverablesManager']['assignMemberDeliverables'] = array('DeM1');
+$privilege['Page']['DeliverablesManager']['assignPaperDeliverables'] = array('DeM2');
 
-/*
- * enableRole
- * role_master-update-22
- */
-$privilege['Page']['RoleManager']['enableRole']=array(22);
+$privilege['Page']['CertificateManager']['markOutwardNumber_AJAX'] = array('CM0');
+$privilege['Page']['CertificateManager']['markCertificateGiven_AJAX'] = array('CM1');
+$privilege['Page']['CertificateManager']['removeCertificateRecord_AJAX'] = array('CM2');
 
-/*
- *deleteRole-
- * privilege_role_mapper-delete-36
- * role_master-select-21
- * role_master-delete-24
- * user_event_role_mapper-delete-8
- */
-$privilege['Page']['RoleManager']['deleteRole']=array(36,21,24,8);
+$privilege['Page']['AttendanceManager']['markDeskAttendance_AJAX'] = array('AM0');
+$privilege['Page']['AttendanceManager']['markTrackAttendance_AJAX'] = array('AM1');
 
-$privilege['Page']['UserManager']['index'] = array(1);
-/*
-Select - User_Master - 1
-*/
+$privilege['Page']['Page']['home'] = array('P0');
 
-$privilege['Page']['UserManager']['newUser'] = array(81,3,1,21,7);
-/*
-select - application_master - 81
-Select - user_master - 1
-insert - user_master - 3
-select - role_master - 21
-Insert - user_event_role_mapper - 7
-*/
+$privilege['Page']['SpecialSessionRequests']['session_details'] = array('SSR0');
+$privilege['Page']['SpecialSessionRequests']['add_sessions'] = array('SSR1');
+$privilege['Page']['SpecialSessionRequests']['view_sessions'] = array('SSR2');
+$privilege['Page']['SpecialSessionRequests']['verify_sessions_tracks'] = array('SSR3');
+$privilege['Page']['SpecialSessionRequests']['view_request_fail'] = array('SSR4');
+$privilege['Page']['SpecialSessionRequests']['view_request_success'] = array('SSR5');
 
-$privilege['Page']['UserManager']['viewUser'] = array(81,5,7,21,1);
-/*
-Select - application_master - 81
-Select - user_event_role_mapper - 5
-Insert - user_event_role_mapper - 7
-Select - user_master -
-Select - role_master - 21
-*/
+$privilege['Page']['EventManager']['load'] = array('EM0');
+$privilege['Page']['EventManager']['newEvent'] = array('EM1');
+$privilege['Page']['EventManager']['viewEvent'] = array('EM2');
+$privilege['Page']['EventManager']['enableEvent_AJAX'] = array('EM3');
+$privilege['Page']['EventManager']['disableEvent_AJAX'] = array('EM4');
 
-$privilege['Page']['UserManager']['enableUser'] = array(2);
-/*
-Update - user_master - 2
-*/
-
-$privilege['Page']['UserManager']['disableUser'] = array(2);
-/*
-Update - user_master - 2
-*/
-
-$privilege['Page']['UserManager']['deleteUser'] = array(8,4);
-/*
-Delete - user_event_role_mapper - 8
-Delete - user_master - 4
-*/
-
-$privilege['Page']['UserManager']['enableUserRole'] = array(6);
-/*
-Update - user_event_role_mapper - 6
-*/
-
-$privilege['Page']['UserManager']['disableUserRole'] = array(6);
-/*
-Update - user_event_role_mapper - 6
-*/
-
-$privilege['Page']['UserManager']['deleteUserRole'] = array(8);
-/*
-Delete - user_event_role_mapper - 8
-*/
-
-//	INITIAL PAPER REVIEWER
-
-/*	index	-	paper_master 			select
-                paper_version_master 	select
-                paper_version_review 	select
-
-*/
-
-$privilege['Page']['InitialPaperReviewer']['ReviewerDashboardHome'] = array(49, 45, 41);
-
-/*	reviewPaperInfo	-	paper_master 			select
-                        subject_master 			select
-                        track_master 			select
-                        event_master 			select
-                        submission_master 		select
-                        paper_version_review 	select, update
-                        paper_version_master 	select
-
-*/
-
-$privilege['Page']['InitialPaperReviewer']['reviewPaperInfo'] = array(49, 17, 9, 73, 13, 41, 42, 45);
-
-
-//	FINAL PAPER REVIEWER
-
-/*	index	-	paper_master 			select
-                paper_version_master 	select
-
-*/
-
-$privilege['Page']['FinalPaperReviewer']['ConvenerDashboardHome'] = array(49,45);
-
-/*	setReviewerAssigned	-	paper_version_master 	update		*/
-
-$privilege['Page']['FinalPaperReviewer']['setReviewerAssigned'] = array(46);
-
-/*	paperInfo	-	paper_master 			select
-                    subject_master 			select
-                    track_master 			select
-                    event_master 			select
-                    submission_master 		select
-                    paper_version_master 	select, update
-                    paper_version_review 	insert, delete, select
-                    review_result_master 	select
-                    reviewer_master 		select
-                    user_master 			select
-
-*/
-
-$privilege['Page']['FinalPaperReviewer']['paperInfo'] = array(49, 17, 9, 73, 13, 45, 46, 43, 44, 41, 25, 29, 1);
-
-/*$privilege['Page']['PaymentsManager']['viewPayments'] = array(112,13,120,124,116,104,65,21,33,49);
-$privilege['Page']['PaymentsManager']['newPayment'] = array(120,112,65,148,173,69,53,13,49,17,9,96,100,116,104,108,124,21,33,126);
-$privilege['Page']['PaymentsManager']['viewPaymentBreakup'] = array(112,104,120,115,65,148,173,69,53,13,49,17,9,96,100,116,108,124,21,33);
-$privilege['Page']['PaymentsManager']['changePayableClass'] = array(69,108,124,104,115,21,33);
-$privilege['Page']['PaymentsManager']['changeDiscountType'] = array(115,112,116,104,21,33);
-$privilege['Page']['PaymentsManager']['spotPayment'] = array(124,116,21,33,53,13,49,17,9,96,100,122,113,124,65,112,120,104,108);*/
-$privilege['Page']['PaymentsManager'][] = array();
-
-$privilege['Page']['TransactionManager'][] = array();
-
-$privilege['Page']['ReportManager'][] = array(65345);
-
-$privilege['Page']['DeskManager']['paperAuthorsPayments'] = array(49,17,9,112,104,13,116,120,65,53,96,100,128,108,124,21,33,73);
-$privilege['Page']['DeskManager']['authorPapersPayments'] = array(124,65,69,53,13,49,17,9,96,100,112,104,116,120,128,108,21,33);
-
-$privilege['Page']['TrackManager']['markAuthorAttendance'] = array(53,13,49,17,9,96,100,65,128,132);
-$privilege['Page']['TrackManager']['markPaperAttendance'] = array(53,13,49,17,9,96,100,65,128,132);
-
-$privilege['Page']['DeliverablesManager']['assignMemberDeliverables'] = array(124,112,120,13,104,116,136,21,33);
-$privilege['Page']['DeliverablesManager']['assignPaperDeliverables'] = array(124,112,120,13,104,116,136,21,33);
-
-$privilege['Page']['Page']['home'] = array(21,33);
+$privilege['Page']['CoConvenerManager']['load'] = array('CCM0');
+$privilege['Page']['CoConvenerManager']['setTrackCoConvener_AJAX'] = array('CCM1');

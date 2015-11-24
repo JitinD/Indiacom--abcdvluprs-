@@ -6,32 +6,28 @@
  * Date: 2/18/15
  * Time: 8:06 PM
  */
-class ReportManager extends CI_Controller
+
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class ReportManager extends BaseController
 {
-
-    private $data = array();
-
     public function __construct()
     {
         parent::__construct();
-
+        $this->controllerName = "ReportManager";
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
-        $this->load->model('access_model');
-        require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "ReportManager";
+        $sidebarData['controllerName'] = $this->controllerName;
         $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . 'views/pages/ReportManager/' . $page . '.php')) {
             show_404();
         }
-        if (isset($privilege['Page']['ReportManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['ReportManager'][$page])) {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header');
         $this->load->view('templates/navbar', $sidebarData);
@@ -47,14 +43,18 @@ class ReportManager extends CI_Controller
 
     public function downloadReport()
     {
+        if(!$this->checkAccess("downloadReport"))
+            return;
         $this->load-> helper ('download');
-        $data=file_get_contents(SERVER_ROOT.INDIACOM.'reports/report.csv');
+        $data=file_get_contents(SERVER_ROOT.BASEURL.'reports/report.csv');
         $name = date("Y/m/d").".csv";
         force_download ($name, $data);
 
     }
     public function getReport($sql1)
     {
+        if(!$this->checkAccess("getReport"))
+            return;
         $page = "viewReport";
         $this->load->helper('url');
         $this->load->model('reports_model');
@@ -69,6 +69,8 @@ class ReportManager extends CI_Controller
 
     public function home()
     {
+        if(!$this->checkAccess("home"))
+            return;
         $page = "queryInput";
         $this->load->helper('url');
         $this->load->library('form_validation');
@@ -89,6 +91,8 @@ class ReportManager extends CI_Controller
 
     public function paymentsReport()
     {
+        if(!$this->checkAccess("paymentsReport"))
+            return;
         $page = "paymentReport";
         $this->load->model('paper_status_model');
         $this->load->model('member_model');

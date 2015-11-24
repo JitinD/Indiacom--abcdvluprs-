@@ -6,16 +6,23 @@
  * Date: 2/17/15
  * Time: 3:45 PM
  */
-class CertificateManager extends CI_Controller
+
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class CertificateManager extends BaseController
 {
     public function __construct()
     {
         parent::__construct();
-
+        $this->controllerName = "CertificateManager";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     public function markOutwardNumber_AJAX()
     {
+        if(!$this->checkAccess("markOutwardNumber_AJAX"))
+            return;
         $this->load->model("certificate_model");
         $submission_id = $this->input->post('submissionId');
         $outward_number = $this->input->post('certificate_outward_no');
@@ -31,6 +38,8 @@ class CertificateManager extends CI_Controller
 
     public function markCertificateGiven_AJAX()
     {
+        if(!$this->checkAccess("markCertificateGiven_AJAX"))
+            return;
         $this->load->model("certificate_model");
         $this->load->model('attendance_model');
         $this->load->model('submission_model');
@@ -83,6 +92,8 @@ class CertificateManager extends CI_Controller
 
     public function removeCertificateRecord_AJAX()
     {
+        if(!$this->checkAccess("removeCertificateRecord_AJAX"))
+            return;
         $this->load->model("certificate_model");
         $submission_id = $this->input->post('submissionId');
         $certificateRecord = $this->certificate_model->getCertificateRecord($submission_id);
@@ -90,6 +101,5 @@ class CertificateManager extends CI_Controller
         {
             echo json_encode($this->certificate_model->deleteCertificateRecord($submission_id));
         }
-
     }
 }

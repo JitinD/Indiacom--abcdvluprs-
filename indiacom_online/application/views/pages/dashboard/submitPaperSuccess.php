@@ -15,7 +15,7 @@
                 <div class="col-md-12">
                     Paper successfully submitted.<br>
                     Paper code is <?php echo $paper_code; ?><br>
-                    <a href="/<?php echo INDIACOM; ?>Dashboard/home">Dashboard Home</a>
+                    <a href="/<?php echo BASEURL; ?>Dashboard/home">Dashboard Home</a>
                 </div>
             </div>
         </div>

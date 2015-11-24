@@ -5,27 +5,24 @@
  * Date: 7/27/14
  * Time: 9:45 AM
  */
-class News extends CI_Controller
-{
-    private $data;
 
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class News extends BaseController
+{
     public function __construct() {
-        parent:: __construct();
+        parent::__construct();
+        $this->controllerName = "News";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
-        require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $this->load->model('access_model');
         if ( ! file_exists(APPPATH.'views/pages/news/'.$page.'.php'))
         {
             show_404();
-        }
-        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
         }
 
         loginModalInit($this->data);
@@ -38,6 +35,8 @@ class News extends CI_Controller
 
     public function load($page = 0)
     {
+        if(!$this->checkAccess("load"))
+            return;
         $this->load->library("pagination");
         $this->load->model('indiacom_news_model');
         /*$config = array();
@@ -58,6 +57,8 @@ class News extends CI_Controller
 
     public function viewNews($newsId)
     {
+        if(!$this->checkAccess("viewNews"))
+            return;
         $this->load->model('indiacom_news_model');
         $this->load->model('news_model');
         $this->data['extraDetails'] = $this->indiacom_news_model->getNewsDetails($newsId);

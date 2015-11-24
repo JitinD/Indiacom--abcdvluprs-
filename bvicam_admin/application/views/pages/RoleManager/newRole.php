@@ -44,39 +44,50 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="add_entity" class="col-sm-3 control-label">Add Entity</label>
+                    <label for="add_module" class="col-sm-3 control-label">Select Module Privileges</label>
                     <div class="col-sm-9">
-                        <select class="form-control" id="add_entity">
-                            <option value>Select Entity To Add</option>
-                            <?php
-                            foreach($entities as $entity)
-                            {
+                        <?php
+                        foreach($modules as $application => $appModules)
+                        {
+                        ?>
+                            <table class="table table-responsive modules" style="display: none;" id="appModules<?php echo $application; ?>">
+                                <thead>
+                                <tr>
+                                    <th>Module Name</th>
+                                    <th>Module Operations</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <?php
+                                foreach($appModules['Page'] as $moduleName => $operations)
+                                {
+                                    ?>
+                                    <tr>
+                                        <td><input type="checkbox"> <?php echo $moduleName; ?></td>
+                                        <td>
+                                            <ul style="list-style: none;">
+                                                <?php
+                                                foreach($operations as $operationName => $privs)
+                                                {
+                                                    ?>
+                                                    <li>
+                                                        <input type="checkbox" name="<?php echo $moduleName . ":" . $operationName; ?>">
+                                                        <?php echo $operationName; ?>
+                                                    </li>
+                                                <?php
+                                                }
+                                                ?>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                <?php
+                                }
                                 ?>
-                                <option value="<?php echo $entity->table_name; ?>"><?php echo $entity->table_name; ?></option>
-                            <?php
-                            }
-                            ?>
-                        </select>
-                    </div>
-                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
-
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="" class="col-sm-3 control-label">Entity wise privileges</label>
-                    <div class="col-sm-9">
-                        <table class="table table-responsive table-hover">
-                            <thead>
-                            <tr>
-                                <th>Entity Name</th>
-                                <th>Privileges</th>
-                            </tr>
-                            </thead>
-                            <tbody id="items">
-
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        <?php
+                        }
+                        ?>
                     </div>
                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
 
@@ -96,22 +107,10 @@
 <script>
     $(document).ready(function()
     {
-        $('#add_entity').change(function () {
-            var optionSelected = $(this).find("option:selected");
-            //var id = "#entity_" + $(optionSelected).val();
-            //$(id).css('display', 'table-row');
-            var html =  "<tr>" +
-                        "<td>" + $(optionSelected).val() + "</td>" +
-                        "<td>" +
-                            "<ul style=\"list-style: none;\">" +
-                                "<li><input type=\"checkbox\" name=\"" + $(optionSelected).val() + ":Select\"> Select" +
-                                "<li><input type=\"checkbox\" name=\"" + $(optionSelected).val() + ":Update\"> Update" +
-                                "<li><input type=\"checkbox\" name=\"" + $(optionSelected).val() + ":Insert\"> Insert" +
-                                "<li><input type=\"checkbox\" name=\"" + $(optionSelected).val() + ":Delete\"> Delete" +
-                            "</ul>" +
-                        "</td>" +
-                    "</tr>";
-            $('#items').prepend(html);
+        $('#application').change(function () {
+            var appId = $(this).val() + "a";
+            $('.modules').hide();
+            $("#appModules" + appId).show();
         });
 
         $('.remove_entity').click(function() {

@@ -6,32 +6,29 @@
  * Time: 8:31 PM
  */
 
-class UserManager extends CI_Controller
-{
-    private $data;
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
 
+class UserManager extends BaseController
+{
     public function __construct()
     {
         parent::__construct();
+        $this->controllerName = "UserManager";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
         $this->load->model('access_model');
-        require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $sidebarData['controllerName'] = $controllerName = "UserManager";
+        $sidebarData['controllerName'] = $this->controllerName;
         $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/UserManager/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privilege['Page']['UserManager'][$page]) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-        $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Page']);
+        $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
         $this->load->view('templates/navbar', $sidebarData);
@@ -48,6 +45,8 @@ class UserManager extends CI_Controller
 
     public function load()
     {
+        if(!$this->checkAccess("load"))
+            return;
         $this->load->model('user_model');
         $page = "index";
         $this->data['users'] = $this->user_model->getAllUsersInclDirty();
@@ -57,6 +56,8 @@ class UserManager extends CI_Controller
 
     public function newUser()
     {
+        if(!$this->checkAccess("newUser"))
+            return;
         $page = "newUser";
         $this->load->model('role_model');
         $this->load->model('user_model');
@@ -110,6 +111,8 @@ class UserManager extends CI_Controller
 
     public function viewUser($userId)
     {
+        if(!$this->checkAccess("viewUser"))
+            return;
         $page = "viewUser";
         $this->load->model('role_model');
         $this->load->model('user_model');
@@ -134,12 +137,8 @@ class UserManager extends CI_Controller
 
     public function enableUser($userId)
     {
-        require(dirname(__FILE__) . '/../config/privileges.php');
-        $this->load->model('access_model');
-        if (isset($privilege['Page']['UserManager']['enableUser']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['enableUser'])) {
-            $this->load->view('pages/unauthorizedAccess');
+        if(!$this->checkAccess("enableUser"))
             return;
-        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->enableUser($userId);
@@ -148,12 +147,8 @@ class UserManager extends CI_Controller
 
     public function disableUser($userId)
     {
-        require(dirname(__FILE__) . '/../config/privileges.php');
-        $this->load->model('access_model');
-        if (isset($privilege['Page']['UserManager']['disableUser']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['disableUser'])) {
-            $this->load->view('pages/unauthorizedAccess');
+        if(!$this->checkAccess("disableUser"))
             return;
-        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->disableUser($userId);
@@ -162,12 +157,8 @@ class UserManager extends CI_Controller
 
     public function deleteUser($userId)
     {
-        require(dirname(__FILE__) . '/../config/privileges.php');
-        $this->load->model('access_model');
-        if (isset($privilege['Page']['UserManager']['deleteUser']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['deleteUser'])) {
-            $this->load->view('pages/unauthorizedAccess');
+        if(!$this->checkAccess("deleteUser"))
             return;
-        }
         $this->load->model('user_model');
         $this->load->helper('url');
         try
@@ -184,12 +175,8 @@ class UserManager extends CI_Controller
 
     public function enableUserRole($userId, $roleId)
     {
-        require(dirname(__FILE__) . '/../config/privileges.php');
-        $this->load->model('access_model');
-        if (isset($privilege['Page']['UserManager']['enableUserRole']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['enableUserRole'])) {
-            $this->load->view('pages/unauthorizedAccess');
+        if(!$this->checkAccess("enableUserRole"))
             return;
-        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->enableUserRole($userId, $roleId);
@@ -198,12 +185,8 @@ class UserManager extends CI_Controller
 
     public function disableUserRole($userId, $roleId)
     {
-        require(dirname(__FILE__) . '/../config/privileges.php');
-        $this->load->model('access_model');
-        if (isset($privilege['Page']['UserManager']['disableUserRole']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['disableUserRole'])) {
-            $this->load->view('pages/unauthorizedAccess');
+        if(!$this->checkAccess("disableUserRole"))
             return;
-        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->disableUserRole($userId, $roleId);
@@ -212,12 +195,8 @@ class UserManager extends CI_Controller
 
     public function deleteUserRole($userId, $roleId)
     {
-        require(dirname(__FILE__) . '/../config/privileges.php');
-        $this->load->model('access_model');
-        if (isset($privilege['Page']['UserManager']['deleteUserRole']) && !$this->access_model->hasPrivileges($privilege['Page']['UserManager']['deleteUserRole'])) {
-            $this->load->view('pages/unauthorizedAccess');
+        if(!$this->checkAccess("deleteUserRole"))
             return;
-        }
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->deleteUserRole($userId, $roleId);

@@ -55,14 +55,12 @@ class Member_model extends CI_Model
         return $this -> getMemberInfo_Id('temp_member_master', $member_id);
     }
 
-    public function getMemberInfo_Email($email_id)
+    public function getMemberInfoByEmail($email_id)
     {
         $query = $this -> dbCon -> get_where('member_master', array('member_email' => $email_id));
-
-        if($query -> num_rows() > 0)
-            return $query -> row_array();
-        else
-            return null;
+        if($query -> num_rows() == 1)
+            return $query -> row();
+        return null;
     }
 
     public function getMembers()

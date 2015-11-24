@@ -1,6 +1,6 @@
 <html>
 <head lang="en">
-    <title>INDIACom 2015</title>
+    <title>INDIACom 2016</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href= "/<?php echo PATH ?>assets/css/bootstrap.css">
@@ -21,12 +21,13 @@
 			</center>
 		</div>
 		<div class="col-md-12 col-sm-12 col-xs-12 alert alert-danger">
-		<center>
-		<h1>Sorry, You are not authorized to access this page!</h1>
-				<p class="lead">
-					Or If you were searching for Meth, Call Heisenberg!
-				</p>
-				</center>
+            <?php if(isset($message)) echo "<h4>$message</h4>"; ?>
+		    <center>
+		    <h1>Sorry, You are not authorized to access this page!</h1>
+            <p class="lead">
+                Or If you were searching for Meth, Call Heisenberg!
+            </p>
+            </center>
         </div>
     </div>
 </div>
