@@ -10,7 +10,7 @@ require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.
 
 class CsvController extends BaseController
 {
-    private $dataPath = "C:\\Users\\saura_000\\Desktop\\";
+    private $dataPath = "G:\\CSI Data for Import\\CSVs\\";
     public function __construct()
     {
         parent::__construct();
