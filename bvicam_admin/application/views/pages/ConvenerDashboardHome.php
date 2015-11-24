@@ -215,6 +215,7 @@
                                                 <th>Code</th>
                                                 <th>Title</th>
                                                 <th>Version number</th>
+                                                <th>Review Status</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -237,8 +238,9 @@
                                                     <tr>
                                                         <td><?php echo $index+1; ?></td>
                                                         <td><?php echo $paper->paper_code; ?></td>
-                                                        <td><a target="new"z href="/<?php echo BASEURL; ?>FinalPaperReviewer/paperInfo/<?php echo $paper->paper_version_id; ?>"><?php echo $paper->paper_title; ?></a></td>
+                                                        <td><a target="new" href="/<?php echo BASEURL; ?>FinalPaperReviewer/paperInfo/<?php echo $paper->paper_version_id; ?>"><?php echo $paper->paper_title; ?></a></td>
                                                         <td><?php echo $paper->paper_version_number; ?></td>
+                                                        <td><?php echo $reviewResultTypes[$paper->paper_version_review_result_id]; ?></td>
                                                     </tr>
                                                 <?php
                                                 }

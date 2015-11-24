@@ -164,7 +164,7 @@ class Paper_version_model extends CI_Model
      */
     public function getConvenerReviewedPapers($eventId = null, $trackId = null)
     {
-        $this -> db -> select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_master.paper_code, paper_version_number, paper_title');
+        $this -> db -> select('paper_master.paper_id as paper_id, paper_version_master.paper_version_id, paper_master.paper_code, paper_version_number, paper_title, paper_version_review_result_id');
         $this -> db -> from('paper_master');
         $this -> db -> join('paper_version_master', 'paper_master.paper_id = paper_version_master.paper_id');
 
