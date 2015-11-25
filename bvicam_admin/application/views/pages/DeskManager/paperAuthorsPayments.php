@@ -134,7 +134,7 @@
                 </thead>
                 <tbody>
                 <?php
-                if(empty($member_id_name_array))
+                if(empty($authorsInfo))
                 {
                     ?>
                     <tr>
@@ -144,12 +144,12 @@
                 }
                 else
                 {
-                    foreach ($member_id_name_array as $member_id => $member_name)
+                    foreach ($authorsInfo as $authorInfo)
                     {
                         ?>
                         <tr class = "authors" style = "cursor: pointer; cursor: hand;">
-                            <td class = "author"><?php echo $member_id; ?></td>
-                            <td><?php echo $member_name; ?></td>
+                            <td class = "author"><?php echo $authorInfo['member_id']; ?></td>
+                            <td><?php echo $authorInfo['member_name']; ?></td>
                         </tr>
                     <?php
                     }

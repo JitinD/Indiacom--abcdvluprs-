@@ -56,7 +56,7 @@ class Paper_status_model extends CI_Model
         return array();
     }
 
-    public function getMemberAcceptedPapers($memberId)
+    public function getMemberAcceptedPapers($memberId, $eventId)
     {
         $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,schedule_master.track_id,schedule_master.session_id,schedule_master.sub_session_id,schedule_master.venue,schedule_master.start_time,schedule_master.end_time
                  From
@@ -85,14 +85,15 @@ class Paper_status_model extends CI_Model
                 Where
                   submission_member_id = ? And
                   submission_dirty = 0 AND
-                  review_result_id = ?";
-        $query = $this->db->query($sql, array($memberId, REVIEW_RESULT_ACCEPTED_ID));
+                  review_result_id = ? And
+                  track_event_id = ?";
+        $query = $this->db->query($sql, array($memberId, REVIEW_RESULT_ACCEPTED_ID, $eventId));
         if ($query->num_rows() > 0)
             return $query->result();
         return array();
     }
 
-    //Get accepted papers of a track
+    //Get accepted papers of a member in a track
     public function getTrackAcceptedPapersInfo($member_id)
     {
         $sql = "Select paper_master.paper_id, paper_master.paper_code, paper_master.paper_title,submission_master.submission_member_id,submission_master.submission_id,schedule_master.track_id,schedule_master.session_id,schedule_master.sub_session_id,schedule_master.venue,schedule_master.start_time,schedule_master.end_time,member_master.member_name
@@ -112,10 +113,10 @@ class Paper_status_model extends CI_Model
                      JOIN
                      track_master
                      On subject_master.subject_track_id=track_master.track_id
-                     JOIN
+                     Left JOIN
                      paper_schedule_tracker
                      On paper_latest_version.paper_id=paper_schedule_tracker.paper_id
-                     JOIN
+                     Left JOIN
                      schedule_master
                      On paper_schedule_tracker.schedule_id=schedule_master.schedule_id
                      JOIN
@@ -154,10 +155,10 @@ class Paper_status_model extends CI_Model
                      JOIN
                      track_master
                      On subject_master.subject_track_id=track_master.track_id
-                     JOIN
+                     Left JOIN
                      paper_schedule_tracker
                      On paper_latest_version.paper_id=paper_schedule_tracker.paper_id
-                     JOIN
+                     Left JOIN
                      schedule_master
                      On paper_schedule_tracker.schedule_id=schedule_master.schedule_id
                 Where

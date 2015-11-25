@@ -53,7 +53,7 @@ class Payable_class_model extends CI_Model
         return $query->row();
     }
 
-    public function getPayableClass($payhead, $isGeneral, $regCat, $currency, $transDate)
+    public function getPayableClass($payhead, $isGeneral, $regCat, $currency, $transDate, $eventId)
     {
         $sql = "
         Select *
@@ -85,21 +85,22 @@ class Payable_class_model extends CI_Model
                 When Nationality_currency Is Not Null
                 Then Nationality_currency = ?
                 Else 1
-            End";
-        $query = $this->db->query($sql, array($isGeneral, $payhead, $regCat, $currency));
+            End And
+            payable_class_event = ?";
+        $query = $this->db->query($sql, array($isGeneral, $payhead, $regCat, $currency, $eventId));
         if($query->num_rows() == 0)
             return null;
         return $query->row();
     }
 
-    public function getBrPayableClass($isGeneral, $regCat, $currency, $transDate)
+    public function getBrPayableClass($isGeneral, $regCat, $currency, $transDate, $eventId)
     {
-        return $this->getPayableClass(1, $isGeneral, $regCat, $currency, $transDate);
+        return $this->getPayableClass(1, $isGeneral, $regCat, $currency, $transDate, $eventId);
     }
 
-    public function getEpPayableClass($isGeneral, $regCat, $currency, $transDate)
+    public function getEpPayableClass($isGeneral, $regCat, $currency, $transDate, $eventId)
     {
-        return $this->getPayableClass(2, $isGeneral, $regCat, $currency, $transDate);
+        return $this->getPayableClass(2, $isGeneral, $regCat, $currency, $transDate, $eventId);
     }
 
     public function getDateGroups($payheadId)

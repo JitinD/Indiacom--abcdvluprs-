@@ -93,7 +93,6 @@ class TrackManager extends BaseController
                     return;
             }
         }
-
     }
 
     private function getMatchingMembers_AJAX($member_name)
@@ -124,7 +123,7 @@ class TrackManager extends BaseController
 
             $this->data['memberId'] = true;
             $this->data['memberDetails'] = $this->member_model->getMemberInfo($member_id);
-            $this->data['papers'] = $this->paper_status_model->getTrackAcceptedPapersInfo($member_id);
+            $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($member_id, EVENT_ID);
 
             $this->data['registrationCat'] = $this->member_model->getMemberCategory($member_id);
             //$papers = $this->paper_status_model->getMemberAcceptedPapers($member_id);
@@ -143,7 +142,8 @@ class TrackManager extends BaseController
                     DEFAULT_CURRENCY,
                     $this->data['registrationCat'],
                     $this->data['papers'],
-                    date("Y-m-d")
+                    date("Y-m-d"),
+                    EVENT_ID
                 );
 
             foreach ($this->data['papers'] as $paper) {
@@ -170,55 +170,11 @@ class TrackManager extends BaseController
         $this->home();
 
         if (isset($paper_id) && $paper_id) {
-            $this->load->helper('url');
             $this->load->model('paper_status_model');
-            $this->load->model('attendance_model');
-            $this->load->model('certificate_model');
-            $this->load->model('submission_model');
-            $this->load->model('certificate_model');
-            $this->load->model('paper_status_model');
-            $this->load->model('attendance_model');
-            $this->load->model('certificate_model');
-            $this->load->model('submission_model');
-            $this->load->model('certificate_model');
             $this->load->model('payment_model');
-            $this->load->model('discount_model');
-
             $this->getPaperInfo($paper_id);
             $this->data['PaperRegistered'] = $this->payment_model->isPaperRegistered($paper_id);
             $this->data['members'] = $this->paper_status_model->getTrackMemberInfo($paper_id);
-
-            foreach ($this->data['members'] as $index => $member) {
-                $this->data['papers'][$member -> submission_member_id] = $this->paper_status_model->getTrackAcceptedPapersInfo($member->submission_member_id);
-
-                foreach ($this->data['papers'][$member -> submission_member_id] as $index => $paper) {
-                    if(!isset($this->data['attendance'][$paper->submission_id]))
-                    {
-                        $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
-
-                    }
-
-                    $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($member -> submission_member_id, $this->data['papers'][$member -> submission_member_id]);
-
-                    if($this->discount_model->error != null)
-                        die($this->discount_model->error);
-
-                    $this->data['registrationCat'][$member -> submission_member_id] = $this->member_model->getMemberCategory($member -> submission_member_id);
-
-                    $paperPayables = $this->payment_model->calculatePayables(
-                        $member -> submission_member_id,
-                        DEFAULT_CURRENCY,
-                        $this->data['registrationCat'][$member -> submission_member_id],
-                        $this->data['papers'][$member -> submission_member_id],
-                        date("Y-m-d")
-                    );
-
-                    $this->data['paper_authors_payables'][$member -> submission_member_id] = $paperPayables;
-
-                    $this->data['certificate'][$paper->submission_id] = $this->certificate_model->getCertificateRecord($paper->submission_id);
-
-                }
-            }
         } else {
             $this->data['paperId'] = false;
         }
