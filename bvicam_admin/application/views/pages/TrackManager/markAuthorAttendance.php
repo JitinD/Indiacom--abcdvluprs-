@@ -200,7 +200,7 @@
                                     {
                                         if($paymentHead->payment_head_name == "OLPC")
                                             continue;
-                                        if(
+                                        /*if(
                                             (
                                                 isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id][$paper->paper_id])
                                                 || isset($validDiscounts['global'][$paymentHead->payment_head_id])
@@ -210,7 +210,7 @@
                                                 !isset($papersInfo[$paper->paper_id]['paid'])
                                                 || isset($papersInfo[$paper->paper_id]['discountType'])
                                             )
-                                        )
+                                        )*/
                                         {
                                             $discountArray = array();
                                             if(isset($papersInfo[$paper->paper_id]['discountType']))
@@ -258,7 +258,7 @@
                                                 }
                                             }
                                         }
-                                        else
+                                        //else
                                         {
                                             ?>
                                             <input type="radio" class="radio"
