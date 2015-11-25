@@ -138,7 +138,7 @@
                                     <?php echo $paper->submission_member_id; ?>
                                 </td>
                                 <td>
-                                    <?php echo $paper->member_name; ?>
+                                    <?php echo $memberDetails['member_name']; ?>
                                 </td>
                                 <td data-submission_id="<?php echo $paper->submission_id; ?>"
                                     class="submission_id"><?php echo $paper->paper_code; ?></td>

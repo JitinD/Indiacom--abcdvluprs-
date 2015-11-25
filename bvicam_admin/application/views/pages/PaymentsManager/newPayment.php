@@ -373,7 +373,7 @@
                                     {
                                         if($paymentHead->payment_head_name == "OLPC")
                                             continue;
-                                        if(
+                                        /*if(
                                             (
                                                 isset($validDiscounts['paperSpecific'][$paymentHead->payment_head_id][$paper->paper_id])
                                                 || isset($validDiscounts['global'][$paymentHead->payment_head_id])
@@ -384,7 +384,8 @@
                                                 || isset($papersInfo[$paper->paper_id]['discountType'])
                                             )
 
-                                        )
+                                        )*/
+                                        //with discount payables
                                         {
                                             $discountArray = array();
                                             if(isset($papersInfo[$paper->paper_id]['discountType']))
@@ -427,12 +428,12 @@
                                                         if(isset($papersInfo[$paper->paper_id]['paid']))
                                                             echo " checked";
                                                         ?>>
-                                                    <?php echo $paymentHead->payment_head_name." with ".$discount->discount_type_name; ?>
+                                                    <?php echo "{$paymentHead->payment_head_name} with {$discount->discount_type_name} discount"; ?>
                                                 <?php
                                                 }
                                             }
                                         }
-                                        else
+                                        //without discount payables
                                         {
                                         ?>
                                             <input type="radio" class="radio"

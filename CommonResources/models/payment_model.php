@@ -507,7 +507,7 @@ class Payment_model extends CI_Model
         $this->dbCon->query($sql, array($paymentId));
     }
 
-    public function calculatePayables($memberID, $selectedCurrency, $registrationCat, $papers, $transDate)
+    public function calculatePayables($memberID, $selectedCurrency, $registrationCat, $papers, $transDate, $eventId)
     {
         $this->load->model('payable_class_model');
         $this->load->model('submission_model');
@@ -517,13 +517,15 @@ class Payment_model extends CI_Model
             !$this->member_model->isProfBodyMember($memberID),
             $registrationCat->member_category_id,
             $currency,
-            $transDate
+            $transDate,
+            $eventId
         );
         $epPayableClass = $this->payable_class_model->getEpPayableClass(
             !$this->member_model->isProfBodyMember($memberID),
             $registrationCat->member_category_id,
             $currency,
-            $transDate
+            $transDate,
+            $eventId
         );
         if($brPayableClass == null || $epPayableClass == null)
             return array();

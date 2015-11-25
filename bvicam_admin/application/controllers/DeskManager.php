@@ -113,64 +113,18 @@ class DeskManager extends BaseController
         $this->load->model('paper_model');
         $paper_id = $this->paper_model->getPaperID($paper_code, EVENT_ID);
 
-        /*if(isset($paper_id_obj))
-            $paper_id = $paper_id_obj -> paper_id;*/
-
-        if(isset($paper_id) && $paper_id)
+        if($paper_id != null)
         {
-            $this->load->model('paper_status_model');
-            $this->load->model('member_categories_model');
-            $this->load->model('member_model');
             $this->load->model('payment_model');
-            $this->load->model('discount_model');
-            $this->load->model('paper_model');
-            $this->load->model('attendance_model');
-            $this->load->model('discount_model');
-
+            $this->load->model('member_model');
+            $this->load->model('submission_model');
             $this->getPaperInfo($paper_id);
             $this->data['PaperRegistered'] = $this->payment_model->isPaperRegistered($paper_id);
-
-            $paper_authors_array = $this->submission_model->getAllAuthorsOfPaper($paper_id);
-
-            if(isset($paper_authors_array))
+            $paperAuthors = $this->submission_model->getAllAuthorsOfPaper($paper_id);
+            $this->data['authorsInfo'] = array();
+            foreach($paperAuthors as $author)
             {
-                foreach ($paper_authors_array as $index => $author)
-                {
-                    $member_id = $author->submission_member_id;
-
-                    $memberInfo = $this->member_model->getMemberInfo($member_id);
-
-                    $member_id_name_array[$member_id] = $memberInfo['member_name'];
-                    $this->data['member_id_name_array'] = $member_id_name_array;
-
-                    if ($memberInfo) {
-                        $this->data['registrationCat'][$member_id] = $this->member_model->getMemberCategory($member_id);
-                        $this->data['papers'][$member_id] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
-                        $this->data['isMemberRegistered'][$member_id] = $this->payment_model->isMemberRegistered($member_id);
-                        $this->data['discounts'][$member_id] = $this->discount_model->getMemberEligibleDiscounts($member_id, $this->data['papers'][$member_id]);
-                        if($this->discount_model->error != null)
-                            die($this->discount_model->error);
-                        $papers = $this->data['papers'][$member_id];
-
-                        foreach ($papers as $index => $paper) {
-                            $this->data['isPaperRegistered'][$paper->paper_id] = $this->payment_model->isPaperRegistered($paper->paper_id);
-                            $this->data['attendance'][$paper->submission_id] = $this->attendance_model->getAttendanceRecord($paper->submission_id);
-                        }
-
-                        //$this->data['isPaperRegistered'] = $isPaperRegistered;
-
-                        $paperPayables = $this->payment_model->calculatePayables(
-                            $member_id,
-                            DEFAULT_CURRENCY,
-                            $this->data['registrationCat'][$member_id],
-                            $this->data['papers'][$member_id],
-                            date("Y-m-d")
-                        );
-                    }
-                    //$paper_authors_payables[$member_id] = $paperPayables;
-
-                    $this->data['paper_authors_payables'][$member_id] = $paperPayables;
-                }
+                $this->data['authorsInfo'][] = $this->member_model->getMemberInfo($author->submission_member_id);
             }
         }
         else
@@ -204,7 +158,7 @@ class DeskManager extends BaseController
             if ($this->data['memberDetails']) {
                 $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
                 $this->data['registrationCat'] = $this->member_model->getMemberCategory($member_id);
-                $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($member_id);
+                $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($member_id, EVENT_ID);
                 $this->data['isMemberRegistered'] = $this->payment_model->isMemberRegistered($member_id);
                 $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($member_id, $this->data['papers']);
                 $this->data['memberDetails']['category_name'] = $this->member_categories_model->getMemberCategoryName($this->data['memberDetails']['member_category_id']);
@@ -226,7 +180,8 @@ class DeskManager extends BaseController
                     DEFAULT_CURRENCY,
                     $this->data['registrationCat'],
                     $this->data['papers'],
-                    date("Y-m-d")
+                    date("Y-m-d"),
+                    EVENT_ID
                 );
             }
         }

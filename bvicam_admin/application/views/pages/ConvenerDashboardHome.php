@@ -128,7 +128,7 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Code</th>
+                                                <th>Paper ID</th>
                                                 <th>Title</th>
                                                 <th>Version number</th>
                                             </tr>
@@ -169,7 +169,7 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Code</th>
+                                                <th>Paper ID</th>
                                                 <th>Title</th>
                                                 <th>Review Stage</th>
                                                 <th>Version number</th>
@@ -212,7 +212,7 @@
                                             <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Code</th>
+                                                <th>Paper ID</th>
                                                 <th>Title</th>
                                                 <th>Version number</th>
                                                 <th>Review Status</th>

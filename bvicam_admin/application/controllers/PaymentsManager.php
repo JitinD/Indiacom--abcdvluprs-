@@ -144,7 +144,7 @@ class PaymentsManager extends BaseController
                     $this->data['isProfBodyMember'] = $this->member_model->isProfBodyMember($memberId);
                     $this->data['registrationCategories'] = $this->member_categories_model->getMemberCategories();
                     $this->data['registrationCat'] = $this->member_model->getMemberCategory($memberId);
-                    $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberId);
+                    $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($memberId, EVENT_ID);
                     $this->data['transaction_modes'] = $this->transaction_mode_model->getAllTransactionModes();
                     $this->data['discounts'] = $this->discount_model->getMemberEligibleDiscounts($memberId, $this->data['papers']);
                     if($this->discount_model->error != null)
@@ -166,7 +166,8 @@ class PaymentsManager extends BaseController
                         $this->data['transDetails']->transaction_currency,
                         $this->data['registrationCat'],
                         $this->data['papers'],
-                        $this->data['transDetails']->transaction_date
+                        $this->data['transDetails']->transaction_date,
+                        EVENT_ID
                     );
                 }
                 else
@@ -175,10 +176,6 @@ class PaymentsManager extends BaseController
                     unset($this->data['paymentMemberId']);
                 }
             }
-            /*else if(empty($this->data['transDetails']))
-            {
-                unset($_SESSION[APPID]['transId']);
-            }*/
             else if(!empty($this->data['transDetails']))
             {
                 $this->data['currencyName'] = $this->currency_model->getCurrencyName($this->data['transDetails']->transaction_currency);
@@ -189,7 +186,6 @@ class PaymentsManager extends BaseController
         else
         {
             $this->index($page);
-            //echo "No transaction selected";
         }
     }
 

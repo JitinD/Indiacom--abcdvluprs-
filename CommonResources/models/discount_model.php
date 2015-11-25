@@ -165,7 +165,7 @@ class Discount_model extends CI_Model
             switch($discountType->discount_type_name)
             {
                 case "Alumni":
-                    if($this->isAlumniDiscountValid($memberId))
+                    //if($this->isAlumniDiscountValid($memberId))
                     {
                         $discounts[$discountType->discount_type_id] = $discountType;
                     }
@@ -173,7 +173,7 @@ class Discount_model extends CI_Model
                 case "Co - Author":
                     foreach($papers as $paper)
                     {
-                        if($this->isCoAuthorDiscountValid($memberId, $paper->paper_id))
+                        //if($this->isCoAuthorDiscountValid($memberId, $paper->paper_id))
                         {
                             $discounts[$discountType->discount_type_id][$paper->paper_id] = $discountType;
                         }
@@ -182,7 +182,7 @@ class Discount_model extends CI_Model
                 case "Bulk Registration":
                     $this->load->model('member_model');
                     $memberInfo = $this->member_model->getMemberInfo($memberId);
-                    if(!$this->member_model->isProfBodyMember($memberId) && $this->isBulkRegistrationDiscountValid($memberInfo['member_organization_id'], $noofRegistrations))
+                    //if(!$this->member_model->isProfBodyMember($memberId) && $this->isBulkRegistrationDiscountValid($memberInfo['member_organization_id'], $noofRegistrations))
                     {
                         $discounts[$discountType->discount_type_id] = $discountType;
                     }
