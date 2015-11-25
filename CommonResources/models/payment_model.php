@@ -549,6 +549,7 @@ class Payment_model extends CI_Model
                     $papersInfo[$paper->paper_id]
                 );
             }
+            $papersInfo[$paper->paper_id]['tax'] = $this->getTax($transDate);
         }
         return $papersInfo;
     }
@@ -587,7 +588,7 @@ class Payment_model extends CI_Model
                 $payable = $paperInfo['payable'][] = $paymentClassDetails->payable_class_amount - $discountAmount;
                 $paperInfo['payhead'][] = $payheadDetails;
                 $paperInfo['payableClass'][] = $paymentClassDetails;
-                $paperInfo['pending'][] = $payable - $paid - $waiveOff;
+                //$paperInfo['pending'][] = $payable - $paid - $waiveOff;
             }
             return true;
         }
@@ -655,5 +656,15 @@ class Payment_model extends CI_Model
                 }
             }
         }
+    }
+
+    private function getTax($transDate)
+    {
+        $taxRate = HIGHER_TAX;
+        $transTimestamp = strtotime($transDate);
+        if($transTimestamp < TAX_DECISION_DATE)
+            $taxRate = LOWER_TAX;
+        $tax = 1 + ($taxRate/100);
+        return $tax;
     }
 }

@@ -42,6 +42,9 @@
     define('FAKE_BANK', "BVICAM");
     define('CASH_MODE_ID', 1);
     define('DEFAULT_CURRENCY', 1);
+    define('LOWER_TAX', 14);
+    define('HIGHER_TAX', 14.5);
+    define('TAX_DECISION_DATE', mktime(0, 0, 0, 11, 17, 2015));
     require('application/config/paths.php');
     require('application/config/exceptions.php');
 /*
