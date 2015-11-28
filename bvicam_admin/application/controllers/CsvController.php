@@ -10,7 +10,7 @@ require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.
 
 class CsvController extends BaseController
 {
-    private $dataPath = "G:\\CSI Data for Import\\CSVs\\";
+    private $dataPath = "C:\\Users\\saura_000\\Desktop\\";
     public function __construct()
     {
         parent::__construct();
@@ -514,7 +514,7 @@ class CsvController extends BaseController
         $this->load->model('transaction_model');
         $fileName = $this->dataPath . "Transactions.csv";
         $fieldMapping = array(
-            "transaction_id",
+            "order_id",
             "transaction_member_id",
             "transaction_bank",
             "transaction_number",
@@ -546,6 +546,7 @@ class CsvController extends BaseController
                     echo $fieldMapping[$c] . ": " . $data[$c] . "<br />\n";
                 }
                 $this->transaction_model->newTransaction($transDetails);
+                echo mysql_error();
             }
             fclose($handle);
         }

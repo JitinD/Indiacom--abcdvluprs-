@@ -27,8 +27,9 @@
             <table class="table table-responsive table-hover table-condensed">
                 <thead>
                 <tr>
-                    <th class="sort btn-link" data-sort="sno">#</th>
-                    <th>Trans ID</th>
+                    <th>#</th>
+                    <!--<th>Trans ID</th>-->
+                    <th class="sort btn-link" data-sort="trans_order_id">Order Id</th>
                     <th class="sort btn-link" data-sort="trans_member_id">Trans Member ID</th>
                     <th class="sort btn-link" data-sort="trans_bank">Bank</th>
                     <th>Trans number</th>
@@ -58,8 +59,9 @@
                 {
                 ?>
                     <tr>
-                        <td class="sno"><?php echo $sno++; ?></td>
-                        <td class="trans_id"><?php echo $trans->transaction_id; ?></td>
+                        <td><?php echo $sno++; ?></td>
+                        <!--<td class="trans_id"><?php /*echo $trans->transaction_id; */?></td>-->
+                        <td class="trans_order_id"><?php echo $trans->order_id; ?></td>
                         <td class="trans_member_id"><?php echo $trans->transaction_member_id; ?></td>
                         <td class="trans_bank"><?php echo $trans->transaction_bank; ?></td>
                         <td><?php echo $trans->transaction_number; ?></td>
@@ -121,7 +123,7 @@
 <script>
     var options = {
         valueNames: [
-            'sno',
+            'trans_order_id',
             'trans_member_id',
             'trans_bank',
             'trans_mode',
