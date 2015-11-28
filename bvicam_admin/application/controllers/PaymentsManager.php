@@ -133,7 +133,7 @@ class PaymentsManager extends BaseController
             $memberId =  $this->input->post('payment_memberId');
             $this->data['transDetails'] = $this->transaction_model->getTransactionDetails($transId);
             $this->data['transUsedAmount'] = $this->transaction_model->getTransactionUsedAmount($transId);
-            if($memberId != null && !empty($this->data['transDetails']))
+            if($memberId != null && !empty($this->data['transDetails']) && $this->data['transDetails']->is_verified == 1)
             {
                 $this->data['paymentMemberId'] = $memberId;
                 $this->data['memberDetails'] = $this->member_model->getMemberInfo($memberId);
@@ -180,6 +180,8 @@ class PaymentsManager extends BaseController
             {
                 $this->data['currencyName'] = $this->currency_model->getCurrencyName($this->data['transDetails']->transaction_currency);
                 $this->data['transModeDetails'] = $this->transaction_mode_model->getTransactionModeDetails($this->data['transDetails']->transaction_mode);
+                if($this->data['transDetails']->is_verified != 1)
+                    $this->data['pay_error'] = "Cannot use this transaction as it hasn't been accepted.";
             }
             $this->index($page);
         }
@@ -232,7 +234,8 @@ class PaymentsManager extends BaseController
                     $payHeadId,
                     $currency,
                     $transDate,
-                    $discountType
+                    $discountType,
+                    EVENT_ID
                 );
 
                 if($payAmount > $payableClass->payable_class_amount)
@@ -489,7 +492,8 @@ class PaymentsManager extends BaseController
         $this->form_validation->set_rules('trans_memberId', "Member ID", 'required');
         if($this->form_validation->run())
         {
-            $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($this->input->post('trans_memberId'));
+            $this->data['papers'] = $this->paper_status_model->getMemberAcceptedPapers($this->input->post('trans_memberId'), EVENT_ID);
+            //return false;
         }
         $this->form_validation->set_rules('trans_amount', "Amount", 'required');
         $this->form_validation->set_rules('trans_no', "Transaction Number", 'required');
@@ -510,7 +514,8 @@ class PaymentsManager extends BaseController
                 $this->input->post('trans_payhead'),
                 DEFAULT_CURRENCY,
                 date("Y-m-d"),
-                $discountType
+                $discountType,
+                EVENT_ID
             );
             if($this->input->post('trans_amount') <= $payableClass->payable_class_amount)
             {
@@ -572,6 +577,7 @@ class PaymentsManager extends BaseController
             }
             return true;
         }
+        return false;
     }
 
     private function verifyPayheadDiscountCombination($payheadId, $discountType)
@@ -597,7 +603,7 @@ class PaymentsManager extends BaseController
         return true;
     }
 
-    private function getPseudoPayableClass($memberId, $paperId, $payheadId, $currency, $date, &$discountType)
+    private function getPseudoPayableClass($memberId, $paperId, $payheadId, $currency, $date, &$discountType, $eventId)
     {
         $this->load->model('member_model');
         $this->load->model('payment_model');
@@ -608,8 +614,7 @@ class PaymentsManager extends BaseController
             $paperId,
             $payheadId
         );
-        $discountAmt = 0;
-        $paidAmount = 0;
+        $tax = $this->payment_model->getTax($date);
         if(empty($paidPayments))
         {
             $payableClass = $this->payable_class_model->getPayableClass(
@@ -617,21 +622,25 @@ class PaymentsManager extends BaseController
                 !$this->member_model->isProfBodyMember($memberId),
                 $registrationCat->member_category_id,
                 $currency,
-                $date
+                $date,
+                $eventId
             );
+            $payableClass->payable_class_amount *= $tax;
         }
         else
         {
             $payableClass = $this->payable_class_model->getPayableClassDetails($paidPayments[0]->payment_payable_class);
             $discountType = $paidPayments[0]->payment_discount_type;
             $paidAmount = $paidPayments[0]->paid_amount + $paidPayments[0]->waiveoff_amount;
+            if($discountType != null)
+            {
+                $detail = $this->discount_model->getDiscountDetails($discountType);
+                $discountAmt = floor($payableClass->payable_class_amount * $detail->discount_type_amount);
+                $payableClass->payable_class_amount -= $discountAmt;
+            }
+            $payableClass->payable_class_amount *= $tax;
+            $payableClass->payable_class_amount -= $paidAmount;
         }
-        if($discountType != null)
-        {
-            $detail = $this->discount_model->getDiscountDetails($discountType);
-            $discountAmt = floor($payableClass->payable_class_amount * $detail->discount_type_amount);
-        }
-        $payableClass->payable_class_amount -= ($paidAmount + $discountAmt);
         return $payableClass;
     }
 

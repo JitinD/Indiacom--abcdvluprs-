@@ -34,10 +34,10 @@ class Payment_model extends CI_Model
         $paymentDetails['payment_is_transferred'] = 0;
         $this->dbCon->insert('payment_master', $paymentDetails);
         $transStatus = $this->dbCon->trans_status();
-        if($transStatus)
+        /*if($transStatus)
         {
             $this->checkAutomatedBulkDiscount($paymentDetails);
-        }
+        }*/
         return $transStatus;
     }
 
@@ -282,7 +282,8 @@ class Payment_model extends CI_Model
             transaction_master
                 On transaction_id = payment_trans_id
         Where payment_submission_id = ? And
-              payable_class_payhead_id = ?";
+              payable_class_payhead_id = ?
+          Order By transaction_date";
         $query = $this->dbCon->query($sql, array($submissionId, $payhead));
         if($query->num_rows() == 0)
             return array();
@@ -536,7 +537,14 @@ class Payment_model extends CI_Model
         {
             $isPaperRegistered = $this->isPaperRegistered($paper->paper_id);
             $isPaid = $this->setPaidPayments($memberID, $paper, $papersInfo[$paper->paper_id]);
-            if(!$isPaid)
+            if($isPaid)
+            {
+                $this->load->model('submission_model');
+                $submissionId = $this->submission_model->getSubmissionId($memberID, $paper->paper_id);
+                $breakup = $this->getPaymentBreakup($submissionId, $papersInfo[$paper->paper_id]['payhead'][0]->payment_head_id);
+                $papersInfo[$paper->paper_id]['tax'] = $this->getTax($breakup[0]->transaction_date);
+            }
+            else
             {
                 $this->setPayablePayments(
                     $memberID,
@@ -548,8 +556,8 @@ class Payment_model extends CI_Model
                     $epPayableClass,
                     $papersInfo[$paper->paper_id]
                 );
+                $papersInfo[$paper->paper_id]['tax'] = $this->getTax($transDate);
             }
-            $papersInfo[$paper->paper_id]['tax'] = $this->getTax($transDate);
         }
         return $papersInfo;
     }
@@ -658,7 +666,7 @@ class Payment_model extends CI_Model
         }
     }
 
-    private function getTax($transDate)
+    public function getTax($transDate)
     {
         $taxRate = HIGHER_TAX;
         $transTimestamp = strtotime($transDate);

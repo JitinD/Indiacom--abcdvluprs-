@@ -117,11 +117,11 @@
                 Member Deliverables</a>
         </div>
         <?php
-        if(empty($papersInfo))
+        /*if(empty($papersInfo))
         {
-            echo "";
+
         }
-        else
+        else*/
         {
             $validDiscounts = array();
             foreach($discounts as $discount)
@@ -214,7 +214,9 @@
                                         $payableClass = $papersInfo[$paper->paper_id]['payableClass'][$index];
                                         $waiveOffAmount = $papersInfo[$paper->paper_id]['waiveOff'][$index];
                                         $paidAmount = $papersInfo[$paper->paper_id]['paid'][$index];
-                                        $pendingAmount = $papersInfo[$paper->paper_id]['pending'][$index];
+                                        $pendingAmount = $payable - $paidAmount - $waiveOffAmount;
+                                        if($pendingAmount < 1 && $pendingAmount > 0)
+                                            $pendingAmount = 0;
                                     }
                                 }
                             }
@@ -271,6 +273,7 @@
                                         )
 
                                     )*/
+                                    if(!isset($papersInfo[$paper->paper_id]['paid']) || isset($papersInfo[$paper->paper_id]['discountType']))
                                     {
                                         $discountArray = array();
                                         if(isset($papersInfo[$paper->paper_id]['discountType']))
@@ -314,12 +317,12 @@
                                                     if(isset($papersInfo[$paper->paper_id]['paid']))
                                                         echo " checked";
                                                     ?>>
-                                                <?php echo "{$paymentHead->payment_head_name} with {$discount->discount_type_name} discount + {$taxRate}% tax"; ?>
+                                                <?php $discountRate = $discount->discount_type_amount * 100; echo "{$paymentHead->payment_head_name} with {$discount->discount_type_name} discount ({$discountRate}%) + {$taxRate}% tax"; ?>
                                             <?php
                                             }
                                         }
                                     }
-                                    //else
+                                    if(!isset($papersInfo[$paper->paper_id]['paid']) || !isset($papersInfo[$paper->paper_id]['discountType']))
                                     {
                                         ?>
                                         <input type="radio" class="radio"

@@ -55,6 +55,7 @@
                                             <th>Discount</th>
                                             <th>Discount Type</th>
                                             <th>Payable<br>(with waiveoff and discount)</th>
+                                            <th>Tax Rate Applied</th>
                                             <th>Paid</th>
                                             <th>Outstanding</th>
                                             <th></th>
@@ -91,6 +92,7 @@
                                                     ?>
                                                 </td>
                                                 <td><?php echo $currency; ?> <?php echo $actualPayable = $payableAmt - ($waiveOffAmt + $discountAmt); ?>/-</td>
+                                                <td></td>
                                                 <td>
                                                     <button class="btn btn-link">
                                                         <?php echo $currency; ?> <?php echo $paidAmt = $memberPayment->paid_amount / $exchangeRate[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency]; ?>/-

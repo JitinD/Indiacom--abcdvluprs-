@@ -188,7 +188,8 @@ class Discount_model extends CI_Model
                     }
                     break;
                 default:
-                    $this->error = "Unknown Discount Type in db";
+                    $discounts[$discountType->discount_type_id] = $discountType;
+                    //$this->error = "Unknown Discount Type in db";
                     break;
             }
         }

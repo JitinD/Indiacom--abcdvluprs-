@@ -316,6 +316,8 @@
                                             $waiveOffAmount = $papersInfo[$paper->paper_id]['waiveOff'][$index];
                                             $paidAmount = $papersInfo[$paper->paper_id]['paid'][$index];
                                             $pendingAmount = $payable - $paidAmount - $waiveOffAmount; //$papersInfo[$paper->paper_id]['pending'][$index];
+                                            if($pendingAmount < 1 && $pendingAmount > 0)
+                                                $pendingAmount = 0;
                                         }
                                     }
                                 }
@@ -397,6 +399,7 @@
 
                                         )*/
                                         //with discount payables
+                                        if(!isset($papersInfo[$paper->paper_id]['paid']) || isset($papersInfo[$paper->paper_id]['discountType']))
                                         {
                                             $discountArray = array();
                                             if(isset($papersInfo[$paper->paper_id]['discountType']))
@@ -434,17 +437,18 @@
                                                            data-pending="<?php echo $pendingAmount; ?>"
                                                            data-payheadId="<?php echo $payableClasses[$index]->payable_class_payhead_id; ?>"
                                                         <?php
-                                                        if (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount <= 0)
+                                                        if (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount <= 0 && isset($papersInfo[$paper->paper_id]['discountType']))
                                                             echo "disabled";
-                                                        if(isset($papersInfo[$paper->paper_id]['paid']))
+                                                        if(isset($papersInfo[$paper->paper_id]['paid']) && isset($papersInfo[$paper->paper_id]['discountType']))
                                                             echo " checked";
                                                         ?>>
-                                                    <?php echo "{$paymentHead->payment_head_name} with {$discount->discount_type_name} discount + {$taxRate}% tax"; ?>
+                                                    <?php $discountRate = $discount->discount_type_amount * 100; echo "{$paymentHead->payment_head_name} with {$discount->discount_type_name} discount ({$discountRate}%) + {$taxRate}% tax"; ?>
                                                 <?php
                                                 }
                                             }
                                         }
                                         //without discount payables
+                                        if(!isset($papersInfo[$paper->paper_id]['paid']) || !isset($papersInfo[$paper->paper_id]['discountType']))
                                         {
                                         ?>
                                             <input type="radio" class="radio"
@@ -464,9 +468,9 @@
                                                    ?>"
                                                    data-payheadId="<?php echo $payableClasses[$index]->payable_class_payhead_id; ?>"
                                                 <?php
-                                                if (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount <= 0)
+                                                if (isset($papersInfo[$paper->paper_id]['paid']) && $pendingAmount <= 0  && !isset($papersInfo[$paper->paper_id]['discountType']))
                                                     echo "disabled";
-                                                if(isset($papersInfo[$paper->paper_id]['paid']))
+                                                if(isset($papersInfo[$paper->paper_id]['paid']) && !isset($papersInfo[$paper->paper_id]['discountType']))
                                                     echo " checked";
                                                 ?>>
                                             <?php echo "{$paymentHead->payment_head_name} + {$taxRate}% tax"; ?>
