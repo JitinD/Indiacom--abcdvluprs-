@@ -21,10 +21,28 @@
                         <div class="form-group">
                             <label for="event" class="col-sm-3 control-label">Event</label>
                             <div class="col-sm-9">
-                                <select class="form-control" name="event" id="events">
-                                    <option value>Select Event</option>
-                                    <?php echo $events; ?>
-                                </select>
+                                <?php
+                                if(empty($events))
+                                {
+                                    echo "No active events!";
+                                }
+                                else
+                                {
+                                ?>
+                                    <select class="form-control" name="event" id="events">
+                                        <option value>Select Event</option>
+                                        <?php
+                                        foreach($events as $event)
+                                        {
+                                        ?>
+                                            <option value="<?php echo $event->event_id; ?>"><?php echo $event->event_name; ?></option>
+                                        <?php
+                                        }
+                                        ?>
+                                    </select>
+                                <?php
+                                }
+                                ?>
                             </div>
                             <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                 <?php echo form_error('event'); ?>
@@ -143,7 +161,7 @@
             $('#subjects').prop('disabled', true);
             $.ajax({
                 type: "POST",
-                url: "/<?php echo INDIACOM; ?>d/AJAX/tracks",
+                url: "/<?php echo BASEURL; ?>d/AJAX/tracks",
                 data: "eventId="+optionSelected.val(),
                 success: function(msg){
                     if(msg != 0)
@@ -167,7 +185,7 @@
             $('#subjects').prop('disabled', true);
             $.ajax({
                 type: "POST",
-                url: "/<?php echo INDIACOM; ?>d/AJAX/subjects",
+                url: "/<?php echo BASEURL; ?>d/AJAX/subjects",
                 data: "trackId="+optionSelected.val(),
                 success: function(msg){
                     if(msg != 0)

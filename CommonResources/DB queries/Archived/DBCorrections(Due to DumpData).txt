@@ -1,0 +1,35 @@
+Subject Master ->
+	Increased size of subject_master.name;
+
+Member Master ->
+	Salutation is Null
+	Country Code Null
+	Mobile field length is 20
+	country code by default +91
+	Department Null
+	ID 6653 didn't select a category
+	ID 262 no category
+	2360 organization id = 1
+	2370 organization id = 1
+	2371 organization id = 1
+
+Paper Master ->
+	id 414 and 415 not inserted
+
+Paper_version_master ->
+	is_reviewer_assigned = 1
+	is_reviewed_convener = 1
+	date_of_submission is now of dateTime data type
+	Convener ID foreign key constraint removed!
+	id 1751, 1752, 1840, 1844 not inserted
+
+
+Paper_version_review ->
+	reviewer_id default = 1 (foreign key constraint removed)
+	date_sent_for_review data type = date
+	date_sent_for_review default null
+	review comments length = 700
+
+
+Submission_master ->
+	id 604,605 removed

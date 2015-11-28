@@ -25,7 +25,7 @@ class Login extends CI_Controller
             unset($_SESSION['isFormError']);
             unset($_SESSION['usernameError']);
             unset($_SESSION['passwordError']);
-            header('Location: /' . INDIACOM . 'Dashboard/home');
+            header('Location: /' . BASEURL . 'Dashboard/home');
         }
         else
         {
@@ -63,8 +63,9 @@ class Login extends CI_Controller
         //session_destroy();
         /*$_SESSION[APPID]['dbUserName'] = 'Minimal';
         $_SESSION[APPID]['dbPassword'] = '1234';*/
-        unset($_SESSION[APPID]);
-        header('location: /' . INDIACOM . 'index');
+        $this->load->model('login_model');
+        $this->login_model->logout();
+        header('location: /' . BASEURL . 'index');
     }
 
 }

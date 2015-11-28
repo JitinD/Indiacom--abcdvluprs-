@@ -6,7 +6,11 @@
  * Time: 12:21 AM
  */
 
-define('SERVER_ROOT', 'D:/wamp/www/');
+include(dirname(__FILE__) . "/../../../global_config/paths.php");
+
+/*
+ * End all paths with /
+ */
 
 //Upload Folders
 define('UPLOAD_FOLDER', 'uploads/');
@@ -17,6 +21,7 @@ define('COMPLIANCE_REPORT_FOLDER', 'compliance_reports/');
 define('BIODATA_FOLDER', 'biodata/');
 define('NEWS_FOLDER', 'News/');
 define('NEWS_ATTACHMENT_FOLDER', 'Attachments/');
+define('REPORTS_FOLDER','reports/');
 
 //Upload base path
-define('UPLOAD_PATH', 'indiacom/'.UPLOAD_FOLDER);
+define('UPLOAD_PATH', UPLOAD_PATH_PREFIX.UPLOAD_FOLDER);

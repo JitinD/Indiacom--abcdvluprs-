@@ -6,18 +6,24 @@
  * Time: 12:21 AM
  */
 
+include(dirname(__FILE__) . "/../../../global_config/paths.php");
+
 /*
  * End all paths with /
  */
 
-define('SERVER_ROOT', 'C:/xampp/htdocs/');
-
-//Upload Paths
+//Upload Folders
 define('UPLOAD_FOLDER', 'uploads/');
+define('DOWNLOAD_FOLDER', 'downloads/');
 define('PAPER_FOLDER', 'papers/');
 define('CONVENER_REVIEW_FOLDER', 'convener_reviews/');
 define('REVIEWER_REVIEW_FOLDER', 'reviewer_reviews/');
 define('COMPLIANCE_REPORT_FOLDER', 'compliance_reports/');
 define('BIODATA_FOLDER', 'biodata/');
 define('TEMP_BIODATA_FOLDER','biodata_temp/');
-define('UPLOAD_PATH', 'indiacom/'.UPLOAD_FOLDER);
+
+//Upload base path
+define('UPLOAD_PATH', UPLOAD_PATH_PREFIX.UPLOAD_FOLDER);
+
+//Downloads base path
+define('DOWNLOAD_PATH', UPLOAD_PATH_PREFIX.DOWNLOAD_FOLDER);

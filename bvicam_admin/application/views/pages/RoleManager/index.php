@@ -6,8 +6,7 @@
  * Time: 11:47 PM
  */
 ?>
-
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div id="contentPanel" class="col-sm-12 col-md-12">
     <h1 class="page-header">Roles</h1>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -16,9 +15,9 @@
                 <tr>
                     <th>#</th>
                     <th>Role Name</th>
+                    <th>Role Application</th>
                     <th>Operations</th>
                 </tr>
-
                 </thead>
                 <tbody>
                 <?php
@@ -28,31 +27,27 @@
                     <tr <?php if($role->role_dirty) { ?> class="danger" <?php } ?>>
                         <td><?php echo $key+1; ?></td>
                         <td><?php echo $role->role_name; ?></td>
+                        <td></td>
                         <td>
-                            <a class="btn btn-sm btn-default" href="viewRole/<?php echo $role->role_id; ?>">Edit Role</a>
+                            <a class="btn btn-sm btn-info" href="viewRole/<?php echo $role->role_id; ?>">Edit Role</a>
                             <?php
                             if($role->role_dirty == 0)
                             {
                                 ?>
-                                <a class="btn btn-sm btn-default" href="disableRole/<?php echo $role->role_id; ?>">Disable Role</a>
+                                <button type="button" class="btn btn-sm btn-warning disableRole"
+                                        data-role="<?php echo $role->role_id; ?>">Disable Role</button>
                             <?php
                             }
                             else
                             {
                                 ?>
-                                <a class="btn btn-sm btn-default" href="enableRole/<?php echo $role->role_id; ?>">Enable Role</a>
+                                <button type="button" class="btn btn-sm btn-success enableRole"
+                                        data-role="<?php echo $role->role_id; ?>">Enable Role</button>
                             <?php
                             }
                             ?>
-                            <a class="btn btn-sm btn-default" href="deleteRole/<?php echo $role->role_id; ?>">Delete Role</a>
-                            <?php
-                            if($_SESSION[APPID]['current_role_id'] != $role->role_id)
-                            {
-                            ?>
-                                <a class="btn btn-sm btn-default" href="refreshRoleDbUser/<?php echo $role->role_id; ?>">Refresh DB User</a>
-                            <?php
-                            }
-                            ?>
+                            <button type="button" class="btn btn-sm btn-danger deleteRole"
+                                    data-role="<?php echo $role->role_id; ?>">Delete Role</button>
                         </td>
                     </tr>
                 <?php
@@ -64,4 +59,52 @@
         </div>
     </div>
 </div>
-</div>
+<script>
+    $(document).ready(function()
+    {
+        $(".disableRole").click(function()
+        {
+            var roleId = $(this).attr("data-role");
+            var data = "roleId=" + roleId;
+            var url = "/<?php echo BASEURL; ?>RoleManager/disableRole_AJAX";
+            callAJAX(url, data);
+        });
+
+        $(".enableRole").click(function()
+        {
+            var roleId = $(this).attr("data-role");
+            var data = "roleId=" + roleId;
+            var url = "/<?php echo BASEURL; ?>RoleManager/enableRole_AJAX";
+            callAJAX(url, data);
+        });
+
+        $(".deleteRole").click(function()
+        {
+            if(!confirm("You clicked Delete Role. Are you sure you want to continue"))
+                return;
+            var roleId = $(this).attr("data-role");
+            var data = "roleId=" + roleId;
+            var url = "/<?php echo BASEURL; ?>RoleManager/deleteRole_AJAX";
+            callAJAX(url, data);
+        });
+
+        function callAJAX(url, data)
+        {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: data,
+                success: function(msg){
+                    if(msg == true)
+                    {
+                        location.reload();
+                    }
+                    else
+                    {
+                        alert("ERROR : " + msg);
+                    }
+                }
+            });
+        }
+    });
+</script>

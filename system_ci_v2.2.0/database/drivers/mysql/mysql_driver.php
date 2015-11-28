@@ -321,7 +321,7 @@ class CI_DB_mysql_driver extends CI_DB {
 		}
 		elseif (function_exists('mysql_escape_string'))
 		{
-			$str = mysql_escape_string($str);
+			$str = mysql_real_escape_string($str);
 		}
 		else
 		{

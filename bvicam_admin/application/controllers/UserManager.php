@@ -6,37 +6,47 @@
  * Time: 8:31 PM
  */
 
-class UserManager extends CI_Controller
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class UserManager extends BaseController
 {
     public function __construct()
     {
         parent::__construct();
+        $this->controllerName = "UserManager";
+        require(dirname(__FILE__).'/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
         $this->load->model('access_model');
-        require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
+        $sidebarData['controllerName'] = $this->controllerName;
+        $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/UserManager/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-
+        $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
         $this->load->view('templates/header', $this->data);
-        $this->load->view('templates/sidebar');
+        $this->load->view('templates/navbar', $sidebarData);
         $this->load->view('pages/UserManager/'.$page, $this->data);
         $this->load->view('templates/footer');
     }
 
+    private function setSidebarLinks()
+    {
+        $links['newUser'] = "Create New User";
+        $links['load'] = "View All Users";
+        return $links;
+    }
+
     public function load()
     {
+        if(!$this->checkAccess("load"))
+            return;
         $this->load->model('user_model');
         $page = "index";
         $this->data['users'] = $this->user_model->getAllUsersInclDirty();
@@ -46,6 +56,8 @@ class UserManager extends CI_Controller
 
     public function newUser()
     {
+        if(!$this->checkAccess("newUser"))
+            return;
         $page = "newUser";
         $this->load->model('role_model');
         $this->load->model('user_model');
@@ -99,6 +111,8 @@ class UserManager extends CI_Controller
 
     public function viewUser($userId)
     {
+        if(!$this->checkAccess("viewUser"))
+            return;
         $page = "viewUser";
         $this->load->model('role_model');
         $this->load->model('user_model');
@@ -123,6 +137,8 @@ class UserManager extends CI_Controller
 
     public function enableUser($userId)
     {
+        if(!$this->checkAccess("enableUser"))
+            return;
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->enableUser($userId);
@@ -131,6 +147,8 @@ class UserManager extends CI_Controller
 
     public function disableUser($userId)
     {
+        if(!$this->checkAccess("disableUser"))
+            return;
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->disableUser($userId);
@@ -139,6 +157,8 @@ class UserManager extends CI_Controller
 
     public function deleteUser($userId)
     {
+        if(!$this->checkAccess("deleteUser"))
+            return;
         $this->load->model('user_model');
         $this->load->helper('url');
         try
@@ -155,6 +175,8 @@ class UserManager extends CI_Controller
 
     public function enableUserRole($userId, $roleId)
     {
+        if(!$this->checkAccess("enableUserRole"))
+            return;
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->enableUserRole($userId, $roleId);
@@ -163,6 +185,8 @@ class UserManager extends CI_Controller
 
     public function disableUserRole($userId, $roleId)
     {
+        if(!$this->checkAccess("disableUserRole"))
+            return;
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->disableUserRole($userId, $roleId);
@@ -171,6 +195,8 @@ class UserManager extends CI_Controller
 
     public function deleteUserRole($userId, $roleId)
     {
+        if(!$this->checkAccess("deleteUserRole"))
+            return;
         $this->load->model('user_model');
         $this->load->helper('url');
         $this->user_model->deleteUserRole($userId, $roleId);

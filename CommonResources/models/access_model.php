@@ -14,7 +14,7 @@ class Access_model extends CI_Model
         $_SESSION['sudo'] = true;
         if(isset($_SESSION['sudo']))
         {
-            $this->dbCon = $this->load->database('default', TRUE);
+            $this->dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
@@ -63,23 +63,4 @@ class Access_model extends CI_Model
         }
         return $loadableComponents;
     }
-
-        /*$this->load->model('role_model');
-        if(!isset($_SESSION[APPID]['current_role_id']))
-        {
-        $_SESSION[APPID]['current_role_id'] = $this->role_model->getRoleId($_SESSION[APPID]['dbUserName']);
-        }
-        $roleId = $_SESSION[APPID]['current_role_id'];
-        $rolePrivileges = $this->role_model->getRolePrivileges($roleId);
-        $rolePrivs = array();
-        $loadableComponents = array();
-        foreach($rolePrivileges as $privilege)
-        {
-            $rolePrivs[] = $privilege->privilege_id;
-        }
-        foreach($componentPrivs as $component=>$privs)
-        {
-            $diffPrivs = array_diff($privs, $rolePrivs);
-            if(count($diffPrivs) == 0)
-        }*/
 }

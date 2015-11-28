@@ -12,7 +12,7 @@
              <div class="row body-text">
                 <div class="col-md-12">
                 Password successfully changed.<br>
-                <a href="/<?php echo INDIACOM; ?>Dashboard/home">Dashboard Home</a>
+                <a href="/<?php echo BASEURL; ?>Dashboard/home">Dashboard Home</a>
 </div>
 </div>
 </div>

@@ -16,6 +16,12 @@ class Submission_model extends CI_Model
         $this->load->database();
     }
 
+    public function addSubmissionArray($submissionDetails = array())
+    {
+        $this->db->insert('submission_master', $submissionDetails);
+        return $this->db->trans_status();
+    }
+
     public function addSubmission($paperId, $members = array())
     {
         $details = array(
@@ -69,6 +75,16 @@ class Submission_model extends CI_Model
         return $query->result();
     }
 
+    public function getAllPapersByAuthor($memberId)
+    {
+        return $this->getSubmissionsByAttribute("submission_member_id", $memberId);
+    }
+
+    public function getAllAuthorsOfPaper($paperId)
+    {
+        return $this->getSubmissionsByAttribute("submission_paper_id", $paperId);
+    }
+
     public function isMemberValidAuthorOfPaper($memberId, $paperId)
     {
         $sql = "Select submission_id From submission_master Where submission_member_id = ? And submission_paper_id = ?";
@@ -87,4 +103,51 @@ class Submission_model extends CI_Model
         $row = $query->row();
         return $row->submission_id + 1;
     }
+
+    public function getSubmissionID($member_id, $paper_id)
+    {
+        $sql = "Select submission_id
+                From submission_master
+                Where
+                  submission_paper_id = ? AND
+                  submission_member_id = ?";
+        $query = $this->db->query($sql, array($paper_id, $member_id));
+        if ($query->num_rows() == 0)
+            return null;
+        $row = $query->row();
+        return $row->submission_id;
+    }
+
+    public function getMemberID($submission_id)
+    {
+        $sql = "Select submission_member_id
+                From submission_master
+                Where
+                  submission_id = ?";
+
+        $query = $this->db->query($sql, array($submission_id));
+
+        if ($query->num_rows() == 0)
+            return null;
+        $row = $query->row();
+
+        return $row->submission_member_id;
+    }
+
+    public function getPaperID($submission_id)
+    {
+        $sql = "Select submission_paper_id
+                From submission_master
+                Where
+                  submission_id = ?";
+
+        $query = $this->db->query($sql, array($submission_id));
+
+        if ($query->num_rows() == 0)
+            return null;
+        $row = $query->row();
+
+        return $row->submission_paper_id;
+    }
+
 }

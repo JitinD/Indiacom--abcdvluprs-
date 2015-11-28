@@ -13,7 +13,7 @@ class User_model extends CI_Model
     {
         if(isset($_SESSION['sudo']))
         {
-            $this->dbCon = $this->load->database('default', TRUE);
+            $this->dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
@@ -142,19 +142,6 @@ class User_model extends CI_Model
         return false;
     }
 
-    public function getUsersByRoleId($roleId)
-    {
-        $sql = "Select user_master.*
-                From user_master
-                    Join user_event_role_mapper
-                        On user_master.user_id = user_event_role_mapper.user_id
-                Where role_id = ?";
-        $query = $this->dbCon->query($sql, array($roleId));
-        if(!$this->dbCon->trans_status())
-            throw new SelectException("Error selecting users by role", mysql_error(), mysql_errno());
-        return $query->result();
-    }
-
     public function getUserRoles($userId)
     {
         $sql = "Select role_master.role_id, role_name, role_application_id, user_event_role_mapper_dirty
@@ -167,6 +154,16 @@ class User_model extends CI_Model
             return $query->result();
         }
         return array();
+    }
+
+    public function getUsersByRole($roleId)
+    {
+        $sql = "Select user_master.*
+                From user_master
+                        Join user_event_role_mapper on user_master.user_id = user_event_role_mapper.user_id
+                Where role_id = ? And user_event_role_mapper_dirty = 0";
+        $query = $this->db->query($sql, array($roleId));
+        return $query->result();
     }
 
     public function getRegistrarUsers()

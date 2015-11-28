@@ -9,7 +9,7 @@
 ?>
 <html>
 <head lang="en">
-    <title>INDIACom 2015</title>
+    <title>INDIACom 2016</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="stylesheet" href= "/<?php echo PATH ?>assets/css/bootstrap.css">
@@ -22,7 +22,7 @@
 <body>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-8 col-md-offset-4 col-sm-9 col-sm-offset-3 col-xs-12 col-xs-offset-0">
+        <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="row">
                 <div class="col-md-3 col-sm-3 col-xs-12">
                     <center><img src="/<?php echo PATH ?>assets/images/bvicamlogo.png" class="img-responsive"></center>

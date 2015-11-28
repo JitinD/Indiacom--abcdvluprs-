@@ -1,100 +1,94 @@
-<style type="text/css">
-    .navbar .nav > li > a {
-        padding: 10px 0px 10px;
-    }
-    .navbar-default {
-        background-color: #004080;
-        border-color: #48a4ff;
-    }
-    .navbar-default .navbar-brand {
-        color: #cecece;
-    }
-    .navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
-        color: #ffffff;
-    }
-    .navbar-default .navbar-text {
-        color: #cecece;
-    }
-    .navbar-default .navbar-nav > li > a {
-        color: #cecece;
-    }
-    .navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-        color: #ffffff;
-    }
-    .navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
-        color: #ffffff;
-        background-color: #48a4ff;
-    }
-    .navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
-        color: #ffffff;
-        background-color: #48a4ff;
-    }
-    .navbar-default .navbar-toggle {
-        border-color: #48a4ff;
-    }
-    .navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
-        background-color: #48a4ff;
-    }
-    .navbar-default .navbar-toggle .icon-bar {
-        background-color: #cecece;
-    }
-    .navbar-default .navbar-collapse,
-    .navbar-default .navbar-form {
-        border-color: #cecece;
-    }
-    .navbar-default .navbar-link {
-        color: #cecece;
-    }
-    .navbar-default .navbar-link:hover {
-        color: #ffffff;
-    }
-
-    @media (max-width: 767px) {
-        .navbar-default .navbar-nav .open .dropdown-menu > li > a {
-            color: #cecece;
-        }
-        .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
-            color: #ffffff;
-        }
-        .navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
-            color: #ffffff;
-            background-color: #48a4ff;
-        }
-    }
-
-</style>
-<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+<?php include(dirname(__FILE__) . "/../../config/links.php"); ?>
+<div class="navbar navbar-default navbar-fixed-top" role="navigation" style="border-bottom: solid #c0c0c0 1px;">
     <div class="container-fluid">
-        <a class="navbar-brand" href="/<?php echo BASEURL; ?>index.php/Page/index">BVICAM Admin System</a>
-        <div class="col-sm-1 col-xs-1 nav navbar-nav navbar-right">
-            <ul class="nav navbar-nav">
+        <div class="col-md-1 col-sm-1 col-xs-2">
+            <button type="button" class="btn btn-default navbar-btn" id="show_myNavmenu">
+                <img src="/<?php echo PATH ?>assets/images/hamburger-menu.png" style="height: 20px; ;">
+            </button>
+
+        </div>
+        <div class="col-md-7 col-sm-7 col-xs-10">
+            <a href="/<?php echo BASEURL; ?>Page"><span class="navbar-brand">BVICAM Admin System</span></a>
+        </div>
+        <div class="nav navbar-nav navbar-right">
+            <?php
+            if (isset($_SESSION) && isset($_SESSION[APPID]['authenticated'])) {
+                ?>
                 <?php
-                if(isset($_SESSION) && isset($_SESSION[APPID]['authenticated']))
+                if(isset($_SESSION[APPID]['current_role_name']))
                 {
                 ?>
-                <li>
-                    <a href="/<?php echo BASEURL; ?>index.php/Page/logout" class="btn navbar-btn btn-danger">Logout</a>
-                </li>
+                    <span class="text-info">
+                        Logged in as <?php echo $_SESSION[APPID]['current_role_name']; ?>
+                    </span>
                 <?php
                 }
                 ?>
-            </ul>
-        </div>
-        <div class="col-xs-1 col-sm-1 navbar-right nav navbar-nav">
-            <ul class="nav navbar-nav">
-                <a href="/<?php echo BASEURL; ?>index.php/Page/login" class="btn btn-primary navbar-btn">Change Role</a>
-            </ul>
-        </div>
-        <div class="col-sm-1 col-xs-1 nav navbar-nav">
-            <ul class="nav navbar-nav">
-                <li>
-                    <a>
-                        <?php
-                        echo $_SESSION[APPID]['dbUserName'];
-                        ?>
-                    </a>
-                </li>
-            </ul>
+                <a href="/<?php echo BASEURL; ?>index.php/Page/login" type="submit" class="btn btn-default navbar-btn">
+                    Change Role
+                </a>
+                <a href="/<?php echo BASEURL; ?>index.php/Page/logout" type="submit" class="btn btn-default navbar-btn">
+                    <span class="glyphicon glyphicon-user"></span> Logout
+                </a>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>
+<nav id="myNavmenu" class="navmenu navmenu-default navmenu-fixed-left" style="display: none;" role="navigation">
+
+    <span class="navmenu-brand" href="#"><a href="#"><?php echo $controllerName; ?></a></span>
+
+    <ul class="nav navmenu-nav">
+        <?php
+        if (isset($links)) {
+            foreach ($links as $link => $linkName) {
+                ?>
+                <li>
+                    <a href="/<?php echo BASEURL . "index.php/" . $controllerName . "/" . $link; ?>"><?php echo $linkName; ?></a>
+                </li>
+            <?php
+            }
+        }
+        ?>
+    </ul>
+    <hr>
+    <ul class="nav">
+        <?php
+        foreach ($loadableComponents as $component) {
+            ?>
+            <li>
+                <a href="/<?php echo (isset($ControllerDefaultLink[$component])) ? BASEURL . "index.php/" . $ControllerDefaultLink[$component] : ""; ?>">
+                    <?php echo $component; ?>
+                </a>
+            </li>
+        <?php
+        }
+        ?>
+    </ul>
+</nav>
+
+<script>
+    $(document).ready(function () {
+        var speed = 100;
+        $("#show_myNavmenu").click(function () {
+            //$("#myNavmenu").removeClass("offcanvas");
+            $("#myNavmenu").show(speed);
+        });
+        $("#hide_myNavmenu").click(function () {
+            //$("#myNavmenu").addClass("offcanvas");
+            $("#myNavmenu").hide(speed);
+        });
+        $("#contentPanel").click(function () {
+            $("#myNavmenu").hide(speed);
+        });
+
+        $(document).keyup(function (e) {
+
+            if (e.keyCode == 27) {
+                $("#myNavmenu").toggle(speed);
+            }
+        });
+    });
+</script>

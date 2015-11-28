@@ -9,21 +9,28 @@
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6 col-md-offset-2">
+        <div class="col-md-12">
+            <h1 class="page-header">Select Role</h1>
             <form role="form" action="setRole" method="post">
-                <h2 class="form-signin-heading">Please select the role you want to login as:</h2>
-                <select name="role_id" class="form-control">
-                    <option value>Select Role</option>
-                    <?php
-                    foreach($roles as $role)
-                    {
-                    ?>
-                        <option value="<?php echo $role->role_id; ?>"><?php echo $applications[$role->role_application_id] . " : " . $role->role_name; ?></option>
-                    <?php
-                    }
-                    ?>
-                </select>
-                <input type="submit">
+                <h3 class="form-signin-heading">Please select the role you want to login as:</h3>
+                <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                        <select name="role_id" class="form-control input-lg">
+                            <option value>Select Role</option>
+                            <?php
+                            foreach($roles as $role)
+                            {
+                                ?>
+                                <option value="<?php echo $role->role_id; ?>"><?php echo $role->role_name; ?></option>
+                            <?php
+                            }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="col-md-6 col-sm-6">
+                        <input type="submit" class="btn btn-lg btn-primary">
+                    </div>
+                </div>
             </form>
         </div>
     </div>

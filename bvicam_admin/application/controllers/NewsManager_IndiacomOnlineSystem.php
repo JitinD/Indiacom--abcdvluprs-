@@ -10,9 +10,18 @@ require("NewsManager.php");
 
 class NewsManager_IndiacomOnlineSystem extends NewsManager
 {
-    private $data;
+    public function __construct()
+    {
+        parent::__construct();
+        $this->controllerName = "NewsManager_IndiacomOnlineSystem";
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
+    }
+
     public function addNews()
     {
+        if(!$this->checkAccess("addNews"))
+            return;
         $folder = "NewsManager/";
         if($this->addNewsSubmitHandle())
         {
@@ -29,6 +38,8 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
 
     public function disableNews($newsId)
     {
+        if(!$this->checkAccess("disableNews"))
+            return;
         $this->load->model('indiacom_news_model');
         $this->load->helper('url');
         parent::disableNews($newsId);
@@ -38,6 +49,8 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
 
     public function enableNews($newsId)
     {
+        if(!$this->checkAccess("enableNews"))
+            return;
         $this->load->model('indiacom_news_model');
         $this->load->helper('url');
         parent::enableNews($newsId);
@@ -47,6 +60,8 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
 
     public function deleteNews($newsId)
     {
+        if(!$this->checkAccess("deleteNews"))
+            return;
         $this->load->model('indiacom_news_model');
         $this->load->helper('url');
         try{
@@ -60,7 +75,7 @@ class NewsManager_IndiacomOnlineSystem extends NewsManager
         redirect("NewsManager/load");
     }
 
-    public function addNewsSubmitHandle()
+    protected function addNewsSubmitHandle()
     {
         $this->load->model('application_model');
         $this->load->model('indiacom_news_model');

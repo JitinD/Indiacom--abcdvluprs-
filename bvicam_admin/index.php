@@ -18,25 +18,33 @@
  * NOTE: If you change these, also change the error_reporting() code below
  *
  */
-//try{
     session_start();
-    define('TESTHOST', 'localhost/');
-    define('DEPLOYHOST', 'bvicam.in');
-    define('HOST', TESTHOST);
-    define('BASEURL', 'indiacom/bvicam_admin/');
-    define('INDIACOM', 'indiacom/bvicam_admin/');
-    define('DEFAULT_ROLE', 0);
+    require_once("../global_config/config.php");
+    define('BASEURL', BASEURL_PREFIX.'bvicam_admin/');
+
+    define('DEFAULT_ROLE', 30);
 	define('ENVIRONMENT', 'development');
     define('COMMON', 'CommonResources/');
     define('APPID', '2a');
-    //define('ADMIN', 'Indiacom2015/bvicam_admin/');
+
+    require_once('application/config/database.php');
+
     if(!isset($_SESSION[APPID]['dbUserName']))
     {
-       /* $_SESSION[APPID]['dbUserName'] = 'root';
-        $_SESSION[APPID]['dbPassword'] = '';*/
-        $_SESSION[APPID]['dbUserName'] = 'Minimal_Admin';
-        $_SESSION[APPID]['dbPassword'] = '1234';
+        $_SESSION[APPID]['dbUserName'] = $dbconfig['username'];
+        $_SESSION[APPID]['dbPassword'] = $dbconfig['password'];
+        $_SESSION[APPID]['current_role_id'] = 30;
+
     }
+    define('REVIEW_RESULT_ACCEPTED_ID', 8);
+    define('BULK_REGISTRATION_MIN_REGISTRATION_VALUE', 3);
+    define('EVENT_ID',4);
+    define('FAKE_BANK', "BVICAM");
+    define('CASH_MODE_ID', 1);
+    define('DEFAULT_CURRENCY', 1);
+    define('LOWER_TAX', 14);
+    define('HIGHER_TAX', 14.5);
+    define('TAX_DECISION_DATE', mktime(0, 0, 0, 11, 17, 2015));
     require('application/config/paths.php');
     require('application/config/exceptions.php');
 /*
@@ -225,8 +233,4 @@ require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
-/*}
-catch(Exception $ex)
-{
-    echo $ex;
-}*/
+?>

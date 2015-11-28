@@ -11,7 +11,7 @@
             <div class="row body-text">
                 <div class="col-md-12">
                     Profile edited successfully.<br>
-                    <a href="/<?php echo INDIACOM; ?>Dashboard/home">Dashboard Home</a>
+                    <a href="/<?php echo BASEURL; ?>Dashboard/home">Dashboard Home</a>
                 </div>
             </div>
         </div>

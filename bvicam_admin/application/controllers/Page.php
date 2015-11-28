@@ -6,36 +6,42 @@
  * Time: 9:47 AM
  */
 
-class Page extends CI_Controller
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class Page extends BaseController
 {
-    private $data;
     public function __construct()
     {
         parent::__construct();
+        $this->controllerName = "Page";
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     public function index($page = 'home')
     {
-        require(dirname(__FILE__).'/../config/privileges.php');
         require(dirname(__FILE__).'/../utils/ViewUtils.php');
-        $this->load->model('access_model');
+        $sidebarData['controllerName'] = $this->controllerName;
+        $sidebarData['links'] = $this->setSidebarLinks();
         if ( ! file_exists(APPPATH.'views/pages/'.$page.'.php'))
         {
             show_404();
         }
-        if(isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page]))
-        {
-            $this->load->view('pages/unauthorizedAccess');
+
+        if($page == 'home' && !$this->checkAccess('home'))
             return;
-        }
-        if($page == "home")
-        {
-            $this->data['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($privilege['Component']);
-        }
+        $this->load->model('access_model');
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
         $this->data['navbarItem'] = pageNavbarItem($page);
-        $this->load->view('templates/header', $this->data);
+        $this->load->view('templates/header');
+        $this->load->view('templates/navbar', $sidebarData);
         $this->load->view('pages/'.$page, $this->data);
         $this->load->view('templates/footer');
+    }
+
+    private function setSidebarLinks()
+    {
+
     }
 
     public function login()
@@ -43,6 +49,7 @@ class Page extends CI_Controller
         $page = "login";
         /*$this->load->model('role_model');
         $this->load->model('login_model');*/
+        $this->load->helper('url');
         $this->load->model('event_model');
         $this->load->library('form_validation');
 
@@ -64,30 +71,29 @@ class Page extends CI_Controller
             {
                 $_SESSION['sudo'] = true;
                 $this->load->model('role_model');
-                $_SESSION['sudo'] = true;
-                $this->load->model('application_model');
-                $applications = $this->application_model->getAllApplications();
-                foreach($applications as $app)
-                {
-                    $this->data['applications'][$app->application_id] = $app->application_name;
-                }
                 $roles = array();
                 foreach($_SESSION[APPID]['role_id'] as $roleId)
                 {
-                    {
-                        $roleDetails = $this->role_model->getRoleDetails($roleId);
-                        if($roleDetails != null)
-                            $roles[] = $roleDetails;
-                    }
+                    $roleDetails = $this->role_model->getRoleDetails($roleId);
+                    if($roleDetails != null && $roleDetails->role_application_id."a" == APPID)
+                        $roles[] = $roleDetails;
                 }
-                $this->data['roles'] = $roles;
-                $page = "selectRole";
+                if(count($roles) > 1)
+                {
+                    $this->data['roles'] = $roles;
+                    $page = "selectRole";
+                }
+                else
+                {
+                    $this->setRole($roles[0]->role_id);
+                    return;
+                }
             }
         }
         $this->index($page);
     }
 
-    public function setRole()
+    public function setRole($roleId = null)
     {
         $this->load->model('event_model');
         if(isset($_SESSION[APPID]['authenticated']) && $_SESSION[APPID]['authenticated'])
@@ -98,11 +104,19 @@ class Page extends CI_Controller
         $this->load->library('form_validation');
         $this->load->helper('url');
         $this->form_validation->set_rules('role_id', 'Role', 'required');
-        if($this->form_validation->run())
+        if($this->form_validation->run() || $roleId != null)
         {
-            $role = $this->input->post('role_id');
-            $this->login_model->adminSetRole($role);
-            redirect('Page/index');
+            if($roleId == null)
+                $roleId = $this->input->post('role_id');
+            if($this->login_model->adminSetRole($roleId))
+                redirect('Page/index');
+            else
+                redirect('Page/logout');
+            return;
+        }
+        else
+        {
+            redirect('Page/login');
         }
     }
 

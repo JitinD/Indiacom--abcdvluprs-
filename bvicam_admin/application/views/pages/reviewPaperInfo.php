@@ -1,6 +1,6 @@
 <div class="container-fluid">
     <div class="row">
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+        <div class="col-sm-12 col-md-12">
             <span class="h2 text-theme">Paper Information</span>
             <div class="row body-text">
                 <div class="col-md-12 text-center contentBlock-bottom">
@@ -57,7 +57,7 @@
                             Paper
                         </td>
                         <td>
-                            <a class="btn btn-sm btn-primary" href="/<?php echo $paperVersionDetails->paper_version_document_path; ?>">
+                            <a class="btn btn-sm btn-primary" target="newDownload" href="../downloadPaperVersion/<?php echo $paperVersionDetails->paper_version_id; ?>/<?php echo $eventDetails->event_id; ?>">
                                 <span class="glyphicon glyphicon-cloud-download"></span> Download
                             </a>
                         </td>
@@ -70,13 +70,14 @@
                 </div>
 
                 <div>
-                    <b>Your comments: </b><br/><br/>
                     <?php
-
-                    foreach($reviews as $index => $review)
-                    {
-                        if($review -> paper_version_review_comments)
-                            echo "<h4>".$review -> paper_version_review_comments."</h4>";
+                        if($review->paper_version_review_comments != null)
+                        {
+                        ?>
+                            <b>Your comments: </b><?php echo $review->paper_version_review_comments; ?>
+                            <b><a href="../downloadReviewerComments/<?php echo $review->paper_version_review_id; ?>/<?php echo $eventDetails->event_id; ?>">Comments File</a></b>
+                        <?php
+                        }
                         else
                         {
                             ?>
@@ -84,11 +85,11 @@
                                 <div class="form-group">
                                     <label for="comments" class="col-sm-2 control-label">Upload Comments file(.doc,.docx,pdf)</label>
                                     <div class="col-sm-9">
-                                        <input type="file" name = "comments" class="form-control" id="comments" placeholder="Choose File">
+                                        <input type="file" name="commentsFile" class="form-control" id="commentsFile" placeholder="Choose File">
                                     </div>
                                     <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
                                         <?php
-                                        echo form_error('comments');
+                                        echo form_error('commentsFile');
                                         if(isset($uploadError)) echo $uploadError;
                                         ?>
                                     </div>
@@ -96,7 +97,12 @@
                                 <div class="form-group">
                                     <label for="comments" class="col-sm-2 control-label">Comments</label>
                                     <div class="col-sm-8">
-                                        <textarea name = 'comments' id="comments" rows="5" class="form-control"></textarea>
+                                        <textarea name='comments' id="comments" rows="5" class="form-control"></textarea>
+                                    </div>
+                                    <div class="col-sm-8 col-sm-offset-4 text-danger h5" id="errorText">
+                                        <?php
+                                        echo form_error('comments');
+                                        ?>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -104,19 +110,17 @@
                                         <button name = "Form2" value = "Form2" class="btn btn-primary">Send to Convener</button>
                                     </div>
                                 </div>
-                                <span class="body-text text-danger">
-                                    <?php
-                                    if(isset($error2))
-                                        echo $error2;
-                                    ?>
-                                </span>
+                                    <span class="body-text text-danger">
+                                        <?php
+                                        if(isset($error2))
+                                            echo $error2;
+                                        ?>
+                                    </span>
                             </form>
                         <?php
                         }
-                    }
                     ?>
-
-                    <a href = "/<?php echo BASEURL; ?>index.php/InitialPaperReviewer" > View papers assigned</a>
+                    <a href = "/<?php echo BASEURL; ?>InitialPaperReviewer" > View papers assigned</a>
                 </div>
             </div>
         </div>

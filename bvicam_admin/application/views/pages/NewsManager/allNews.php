@@ -9,7 +9,7 @@
         xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html"></script>
 <link rel="stylesheet" href="/<?php echo PATH ?>assets/css/AJAXstyle.css">
 
-<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+<div class="col-sm-12 col-md-12" id="contentPanel">
     <h1 class="page-header">News</h1>
     <div class="row">
         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -42,7 +42,7 @@
                 </div>
             </form>
 
-            <table class="table table-responsive table-hover">
+            <table class="table table-hover">
                 <thead>
                 <tr>
                     <th>#</th>
@@ -59,35 +59,37 @@
                             <td><?php echo $key+1; ?></td>
                             <td><?php echo $news->news_title; ?></td>
                             <td>
+                                <div class="btn-group">
                                 <?php
                                 if($currentAppId != -1)
                                 {
                                 ?>
-                                    <a class="btn btn-sm btn-warning"  href="#"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
+                                    <a class="btn btn-sm btn-default"  href="#"><span class="glyphicon glyphicon-pencil"></span> Edit</a>
                                     <?php
                                     if($news->news_dirty == 0)
                                     {
                                     ?>
-                                        <a class="btn btn-sm btn-warning"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/disableNews/<?php echo $news->news_id; ?>">
-                                            <span class="glyphicon glyphicon-pencil"></span> Disable
+                                        <a class="btn btn-sm btn-default"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/disableNews/<?php echo $news->news_id; ?>">
+                                            <span class="glyphicon glyphicon-ban-circle"></span> Disable
                                         </a>
                                     <?php
                                     }
                                     else
                                     {
                                     ?>
-                                        <a class="btn btn-sm btn-warning"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/enableNews/<?php echo $news->news_id; ?>">
-                                            <span class="glyphicon glyphicon-pencil"></span> Enable
+                                        <a class="btn btn-sm btn-default"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/enableNews/<?php echo $news->news_id; ?>">
+                                            <span class="glyphicon glyphicon-ok-circle"></span> Enable
                                         </a>
                                     <?php
                                     }
                                     ?>
-                                    <a class="btn btn-sm btn-danger"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/deleteNews/<?php echo $news->news_id; ?>">
-                                        <span class="glyphicon glyphicon-minus"></span> Delete
+                                    <a class="btn btn-sm btn-default"  href="/<?php echo BASEURL; ?><?php echo $addNewsController; ?>/deleteNews/<?php echo $news->news_id; ?>">
+                                        <span class="glyphicon glyphicon-remove"></span> Delete
                                     </a>
                                 <?php
                                 }
                                 ?>
+                                </div>
                             </td>
                         </tr>
                     <?php

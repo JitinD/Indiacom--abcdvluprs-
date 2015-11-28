@@ -14,7 +14,7 @@ class Review_result_model extends CI_Model
         $this->load->database();
     }
 
-    //TODO:Redundant
+    //To get all review result names as an associative array with indexing on review result id
     public function getAllReviewResultTypeNames()
     {
         $sql = "Select review_result_id, review_result_type_name From review_result_master Where review_result_dirty = 0";
@@ -27,7 +27,6 @@ class Review_result_model extends CI_Model
         return $types;
     }
 
-    //TODO:Redundant;
     public function getAllReviewResults()
     {
         $this -> db -> select('review_result_id, review_result_type_name');
@@ -37,5 +36,17 @@ class Review_result_model extends CI_Model
             return $query -> result();
     }
 
+    public function getReviewResultDetails($reviewResultId)
+    {
+        $sql = "
+        Select *
+        From review_result_master
+        Where review_result_id = ?";
 
+        $query = $this->db->query($sql, array($reviewResultId));
+        if($query->num_rows() == 1)
+            return $query->row();
+        else
+            return null;
+    }
 }

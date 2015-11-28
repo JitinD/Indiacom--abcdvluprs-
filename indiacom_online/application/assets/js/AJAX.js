@@ -14,7 +14,7 @@ $(document).ready(function(){
 				 $("#loading").css("visibility","visible");
 				 $.ajax({
 				   type: "POST",
-				   url: "/indiacom/indiacom_online/AJAX/fetchOrganisationNames",
+				   url: "/Indiacom2015/indiacom_online/AJAX/fetchOrganisationNames",
 				   data: "data="+keyword,
 				   success: function(msg){	
 					if(msg != 0)
@@ -94,7 +94,7 @@ $(document).ready(function(){
 
     var categoryValue = function()
     {
-        if($("#category").val() == 5 || $("#category").val() == 6)
+        if($("#category").val() == 3 || $("#category").val() == 4)
             $(".category-based").show();
         else
             $(".category-based").hide();

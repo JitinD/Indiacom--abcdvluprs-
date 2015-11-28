@@ -1,1 +1,0 @@
-This folder contains document files of paper versions.

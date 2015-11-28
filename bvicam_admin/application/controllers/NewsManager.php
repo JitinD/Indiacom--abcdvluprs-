@@ -6,35 +6,48 @@
  * Date: 8/10/14
  * Time: 2:00 PM
  */
-class NewsManager extends CI_Controller
-{
-    private $data;
 
+require_once(dirname(__FILE__) . "/../../../CommonResources/Base/BaseController.php");
+
+class NewsManager extends BaseController
+{
     public function __construct()
     {
         parent::__construct();
+        $this->controllerName = "NewsManager";
+        require(dirname(__FILE__) . '/../config/privileges.php');
+        $this->privileges = $privilege;
     }
 
     private function index($page)
     {
         $folder = "NewsManager/";
-        require(dirname(__FILE__) . '/../config/privileges.php');
         require(dirname(__FILE__) . '/../utils/ViewUtils.php');
+        $sidebarData['controllerName'] = $this->controllerName;
+        $sidebarData['links'] = $this->setSidebarLinks();
         if (!file_exists(APPPATH . "views/pages/$folder" . $page . '.php')) {
             show_404();
         }
-        if (isset($privilege['Page'][$page]) && !$this->access_model->hasPrivileges($privilege['Page'][$page])) {
-            $this->load->view('pages/unauthorizedAccess');
-            return;
-        }
-
-        $this->load->view('templates/header', $this->data);
+        $sidebarData['loadableComponents'] = $this->access_model->getLoadableDashboardComponents($this->privileges['Page']);
+        $this->load->view('templates/header');
+        $this->load->view('templates/navbar', $sidebarData);
         $this->load->view("pages/{$folder}$page", $this->data);
         $this->load->view('templates/footer');
     }
 
+    private function setSidebarLinks()
+    {
+        /*$links['viewPaymentsMemberWise'] = "View payments memberwise";
+        $links['viewPaymentsPaperWise'] = "View payments paperwise";
+        $links['newPayment'] = "New payment";
+        $links['spotPayments'] = "Spot payment";
+        return $links;*/
+    }
+
     public function load($appId = -1)
     {
+        if(!$this->checkAccess("load"))
+            return;
         $page = "allNews";
         $this->load->library('form_validation');
         $this->load->model('application_model');

@@ -12,9 +12,9 @@ class Role_model extends CI_Model
     public $error;
     public function __construct()
     {
-        if(isset($_SESSION['sudo']))
+        if(false && isset($_SESSION['sudo']))
         {
-            $this->dbCon = $this->load->database('default', TRUE);
+            $this->dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
@@ -44,11 +44,11 @@ class Role_model extends CI_Model
             $details['privilege_id'] = $privilegeId;
             $this->dbCon->insert('privilege_role_mapper', $details);
         }
-        if(!$this->dbCon->trans_status())
-        {
-            throw new Exception("Error inserting into privilege_role_mapper." . mysql_error());
-            $this->error = "One or more privileges already assigned to role";
-        }
+//        if(!$this->dbCon->trans_status())
+//        {
+//            $this->error = "One or more privileges already assigned to role";
+//            throw new Exception("Error inserting into privilege_role_mapper." . mysql_error());
+//        }
         return $this->dbCon->trans_status();
     }
 
@@ -86,7 +86,7 @@ class Role_model extends CI_Model
     {
         if(isset($_SESSION['sudo']))
         {
-            $dbCon = $this->load->database('default', TRUE);
+            $dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
@@ -108,7 +108,7 @@ class Role_model extends CI_Model
     {
         if(isset($_SESSION['sudo']))
         {
-            $dbCon = $this->load->database('default', TRUE);
+            $dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
@@ -127,7 +127,7 @@ class Role_model extends CI_Model
     {
         if(isset($_SESSION['sudo']))
         {
-            $dbCon = $this->load->database('default', TRUE);
+            $dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
@@ -154,7 +154,7 @@ class Role_model extends CI_Model
     {
         if(isset($_SESSION['sudo']))
         {
-            $dbCon = $this->load->database('default', TRUE);
+            $dbCon = $this->load->database(DBGROUP, TRUE);
             unset($_SESSION['sudo']);
         }
         else
