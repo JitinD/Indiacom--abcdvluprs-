@@ -528,7 +528,15 @@ class Payment_model extends CI_Model
             $transDate,
             $eventId
         );
-        if($brPayableClass == null || $epPayableClass == null)
+        $comboPayableClass = $this->payable_class_model->getComboPayableClass(
+            !$this->member_model->isProfBodyMember($memberID),
+            $registrationCat->member_category_id,
+            $currency,
+            $transDate,
+            $eventId
+        );
+        //TODO: check the below condition
+        if($brPayableClass == null && $epPayableClass == null && $comboPayableClass == null)
             return array();
         $isAuthorRegistered = $this->isMemberRegistered($memberID);
         $papersInfo = array();
@@ -554,6 +562,7 @@ class Payment_model extends CI_Model
                     $noofPapers,
                     $brPayableClass,
                     $epPayableClass,
+                    $comboPayableClass,
                     $papersInfo[$paper->paper_id]
                 );
                 $papersInfo[$paper->paper_id]['tax'] = $this->getTax($transDate);
@@ -603,9 +612,10 @@ class Payment_model extends CI_Model
         return false;
     }
 
-    private function setPayablePayments($mid, $paper, $isPaperRegistered, $isAuthorRegistered, $noofPapers, $brPayableClass, $epPayableClass, &$paperInfo = array())
+    private function setPayablePayments($mid, $paper, $isPaperRegistered, $isAuthorRegistered, $noofPapers, $brPayableClass, $epPayableClass, $comboPayableClass, &$paperInfo = array())
     {
         $this->load->model('payment_head_model');
+        $this->load->model('member_model');
         if($noofPapers == 1)
         {
             if(!$isAuthorRegistered)
@@ -663,6 +673,11 @@ class Payment_model extends CI_Model
                     //Payment error. All eps received against paper.
                 }
             }
+        }
+        if($comboPayableClass != null)
+        {
+            $paperInfo['payhead'][] = $this->payment_head_model->getPayheadDetails($comboPayableClass->payable_class_payhead_id);
+            $paperInfo['payableClass'][] = $comboPayableClass;
         }
     }
 

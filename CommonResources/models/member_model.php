@@ -119,14 +119,17 @@ class Member_model extends CI_Model
 
     public function isProfBodyMember($mid)
     {
-        $sql = "Select member_csi_mem_no, member_iete_mem_no
+        /*$sql = "Select member_csi_mem_no, member_iete_mem_no
+                From member_master
+                Where member_id = ?";*/
+        $sql = "Select member_csi_mem_no
                 From member_master
                 Where member_id = ?";
         $query = $this->dbCon->query($sql, array($mid));
         if($query->num_rows() == 0)
             return false;
         $row = $query->row();
-        if($row->member_csi_mem_no == '' && $row->member_iete_mem_no == '')
+        if($row->member_csi_mem_no == '')// && $row->member_iete_mem_no == '')
         {
             return false;
         }

@@ -103,6 +103,11 @@ class Payable_class_model extends CI_Model
         return $this->getPayableClass(2, $isGeneral, $regCat, $currency, $transDate, $eventId);
     }
 
+    public function getComboPayableClass($isGeneral, $regCat, $currency, $transDate, $eventId)
+    {
+        return $this->getPayableClass(5, $isGeneral, $regCat, $currency, $transDate, $eventId);
+    }
+
     public function getDateGroups($payheadId)
     {
         $sql = "
