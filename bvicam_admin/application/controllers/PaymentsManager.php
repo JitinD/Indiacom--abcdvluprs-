@@ -76,6 +76,7 @@ class PaymentsManager extends BaseController
         }
         $this->data['viewBy'] = "members";
         $this->data['membersPayments'] = array();
+        $this->data['payment_model'] = $this->payment_model;
         foreach($members as $member)
         {
             $this->data['membersPayments'][$member->member_id] = $this->payment_model->getMemberPayments($member->member_id);
@@ -107,6 +108,7 @@ class PaymentsManager extends BaseController
         $this->data['discountTypes'] = $this->discount_model->getAllDiscountsAsAssocArray();
         $this->data['viewBy'] = "papers";
         $this->data['papersPayments'] = array();
+        $this->data['payment_model'] = $this->payment_model;
         foreach($papers as $paper)
         {
             $this->data['papersPayments'][$paper->paper_id] = $this->payment_model->getPaperPayments($paper->paper_id);

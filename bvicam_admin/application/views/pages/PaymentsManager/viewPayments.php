@@ -56,6 +56,7 @@
                                             <th>Discount Type</th>
                                             <th>Payable<br>(with waiveoff and discount)</th>
                                             <th>Tax Rate Applied</th>
+                                            <th>Payable After Tax</th>
                                             <th>Paid</th>
                                             <th>Outstanding</th>
                                             <th></th>
@@ -68,17 +69,30 @@
                                             ?>
                                             <tr>
                                                 <?php $currency = $currencyDetails[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency]->currency_name; ?>
+                                                <?php
+                                                $payableAmt = $memberPayment->payable_class_amount;
+                                                $waiveOffAmt = $memberPayment->waiveoff_amount;
+                                                $discountAmt = floor($memberPayment->payable_class_amount * $memberPayment->discount_type_amount);
+                                                $discountedPayable = $payableAmt - $discountAmt;
+                                                $tax = $payment_model->getTax($memberPayment->transaction_date);
+                                                $taxedPayableAmount = $discountedPayable * $tax;
+                                                $actualPayable = $taxedPayableAmount - $waiveOffAmt;
+                                                $paidAmt = $memberPayment->paid_amount / $exchangeRate[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency];
+                                                $outstanding = $actualPayable - $paidAmt;
+                                                if($outstanding < 1 && $outstanding > 0)
+                                                    $outstanding = 0;
+                                                ?>
                                                 <td><?php echo $memberPayment->submission_paper_id; ?></td>
                                                 <td><?php echo $payheadDetails[$memberPayment->payable_class_payhead_id]; ?></td>
                                                 <td>
                                                     <?php echo $currency; ?>
-                                                    <?php echo $payableAmt = $memberPayment->payable_class_amount; ?>/-
+                                                    <?php echo $payableAmt; ?>/-
                                                 </td>
-                                                <td class="<?php if(($waiveOffAmt = $memberPayment->waiveoff_amount) > 0) echo "bg-info"; ?>">
+                                                <td class="<?php if($waiveOffAmt > 0) echo "bg-info"; ?>">
                                                     <?php echo $currency; ?> <?php echo $waiveOffAmt; ?>/-
                                                 </td>
                                                 <td class="<?php
-                                                            if(($discountAmt = floor($memberPayment->payable_class_amount * $memberPayment->discount_type_amount)) > 0)
+                                                            if($discountAmt > 0)
                                                                 echo "bg-silver";
                                                             ?>">
                                                     <?php echo $currency; ?> <?php echo $discountAmt; ?>/-
@@ -91,15 +105,16 @@
                                                         echo "N.A.";
                                                     ?>
                                                 </td>
-                                                <td><?php echo $currency; ?> <?php echo $actualPayable = $payableAmt - ($waiveOffAmt + $discountAmt); ?>/-</td>
-                                                <td></td>
+                                                <td><?php echo $currency; ?> <?php echo $actualPayable; ?>/-</td>
+                                                <td><?php echo ($tax - 1) * 100 . "%"; ?></td>
+                                                <td><?php echo $taxedPayableAmount; ?></td>
                                                 <td>
                                                     <button class="btn btn-link">
-                                                        <?php echo $currency; ?> <?php echo $paidAmt = $memberPayment->paid_amount / $exchangeRate[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency]; ?>/-
+                                                        <?php echo $currency; ?> <?php echo $paidAmt; ?>/-
                                                     </button>
                                                 </td>
                                                 <td class="<?php
-                                                            if(($outstanding = $actualPayable - $paidAmt) > 0)
+                                                            if($outstanding > 0)
                                                                 echo "bg-primary";
                                                             else if($outstanding < 0)
                                                                 echo "bg-danger";
@@ -184,14 +199,27 @@
                                             ?>
                                             <tr>
                                                 <?php $currency = $currencyDetails[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency]->currency_name; ?>
+                                                <?php
+                                                $payableAmt = $paperPayment->payable_class_amount;
+                                                $waiveOffAmt = $paperPayment->waiveoff_amount;
+                                                $discountAmt = floor($paperPayment->payable_class_amount * $paperPayment->discount_type_amount);
+                                                $discountedPayable = $payableAmt - $discountAmt;
+                                                $tax = $payment_model->getTax($paperPayment->transaction_date);
+                                                $taxedPayableAmount = $discountedPayable * $tax;
+                                                $actualPayable = $taxedPayableAmount - $waiveOffAmt;
+                                                $paidAmt = $paperPayment->paid_amount / $exchangeRate[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency];
+                                                $outstanding = $actualPayable - $paidAmt;
+                                                if($outstanding < 1 && $outstanding > 0)
+                                                    $outstanding = 0;
+                                                ?>
                                                 <td><?php echo $paperPayment->submission_member_id; ?></td>
                                                 <td><?php echo $payheadDetails[$paperPayment->payable_class_payhead_id]; ?></td>
-                                                <td><?php echo $currency; ?> <?php echo $payableAmt = $paperPayment->payable_class_amount; ?>/-</td>
-                                                <td class="<?php if(($waiveOffAmt = $paperPayment->waiveoff_amount) > 0) echo "bg-info"; ?>">
+                                                <td><?php echo $currency; ?> <?php echo $payableAmt; ?>/-</td>
+                                                <td class="<?php if($waiveOffAmt > 0) echo "bg-info"; ?>">
                                                     <?php echo $currency; ?> <?php echo $waiveOffAmt; ?>/-
                                                 </td>
                                                 <td class="<?php
-                                                            if(($discountAmt = floor($paperPayment->payable_class_amount * $paperPayment->discount_type_amount)) > 0)
+                                                            if($discountAmt > 0)
                                                                 echo "bg-silver";
                                                             ?>">
                                                     <?php echo $currency; ?> <?php echo $discountAmt; ?>/-
@@ -204,14 +232,14 @@
                                                         echo "N.A.";
                                                     ?>
                                                 </td>
-                                                <td><?php echo $currency; ?> <?php echo $actualPayable = $payableAmt - ($waiveOffAmt + $discountAmt); ?>/-</td>
+                                                <td><?php echo $currency; ?> <?php echo $actualPayable; ?>/-</td>
                                                 <td>
                                                     <button class="btn btn-link">
-                                                        <?php echo $currency; ?> <?php echo $paidAmt = $paperPayment->paid_amount / $exchangeRate[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency]; ?>/-
+                                                        <?php echo $currency; ?> <?php echo $paidAmt; ?>/-
                                                     </button>
                                                 </td>
                                                 <td class="<?php
-                                                            if(($outstanding = $actualPayable - $paidAmt) > 0)
+                                                            if($outstanding > 0)
                                                                 echo "bg-primary";
                                                             else if($outstanding < 0)
                                                                 echo "bg-danger";

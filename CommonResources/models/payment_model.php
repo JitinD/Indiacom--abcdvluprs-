@@ -173,16 +173,18 @@ class Payment_model extends CI_Model
             End As paid_amount,
             payment_discount_type,
             discount_type_amount,
-            table1.is_verified
+            table1.is_verified,
+            table1.transaction_date
         From
-            (/* total amount against mid,pid,payhead including waiveoff amount (not discount) */
+            (/* retrieve total amount paid against mid,pid,payhead including waiveoff amount (not discount) */
                 Select
                     payment_payable_class,
                     payment_submission_id,
                     payment_member_id,
                     payment_discount_type,
                     SUM(payment_amount_paid) As total_amount,
-                    is_verified
+                    is_verified,
+                    transaction_date
                 From
                     payment_master
                         Join
@@ -197,7 +199,7 @@ class Payment_model extends CI_Model
                     End, payment_payable_class
             ) As table1
             Left Join
-            (/* waiveoff_amount against mid,pid,payhead */
+            (/* retrieve waiveoff_amount against mid,pid,payhead */
                 Select
                     payment_payable_class,
                     payment_submission_id,
