@@ -82,8 +82,11 @@ if($viewBy == "members")
                                     {
                                         ?>
                                         <tr>
-                                            <?php $currency = $currencyDetails[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency]->currency_name; ?>
                                             <?php
+                                            if(isset($memberPayment->payable_class_nationality))
+                                                $currency = $currencyDetails[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency]->currency_name;
+                                            else
+                                                $currency = $currencyDetails[DEFAULT_CURRENCY]->currency_name;
                                             $payableAmt = $memberPayment->payable_class_amount;
                                             $waiveOffAmt = $memberPayment->waiveoff_amount;
                                             $discountAmt = floor($memberPayment->payable_class_amount * $memberPayment->discount_type_amount);
@@ -91,7 +94,10 @@ if($viewBy == "members")
                                             $tax = $payment_model->getTax($memberPayment->transaction_date);
                                             $taxedPayableAmount = $discountedPayable * $tax;
                                             $actualPayable = $taxedPayableAmount - $waiveOffAmt;
-                                            $paidAmt = $memberPayment->paid_amount / $exchangeRate[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency];
+                                            if(isset($memberPayment->payable_class_nationality))
+                                                $paidAmt = $memberPayment->paid_amount / $exchangeRate[$nationalities[$memberPayment->payable_class_nationality]->Nationality_currency];
+                                            else
+                                                $paidAmt = $memberPayment->paid_amount / $exchangeRate[DEFAULT_CURRENCY];
                                             $outstanding = $actualPayable - $paidAmt;
                                             if($outstanding < 1 && $outstanding > 0)
                                                 $outstanding = 0;
@@ -226,8 +232,11 @@ else if($viewBy == "papers")
                                     {
                                         ?>
                                         <tr>
-                                            <?php $currency = $currencyDetails[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency]->currency_name; ?>
                                             <?php
+                                            if(isset($memberPayment->payable_class_nationality))
+                                                $currency = $currencyDetails[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency]->currency_name;
+                                            else
+                                                $currency = $currencyDetails[DEFAULT_CURRENCY]->currency_name;
                                             $payableAmt = $paperPayment->payable_class_amount;
                                             $waiveOffAmt = $paperPayment->waiveoff_amount;
                                             $discountAmt = floor($paperPayment->payable_class_amount * $paperPayment->discount_type_amount);
@@ -235,7 +244,10 @@ else if($viewBy == "papers")
                                             $tax = $payment_model->getTax($paperPayment->transaction_date);
                                             $taxedPayableAmount = $discountedPayable * $tax;
                                             $actualPayable = $taxedPayableAmount - $waiveOffAmt;
-                                            $paidAmt = $paperPayment->paid_amount / $exchangeRate[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency];
+                                            if(isset($memberPayment->payable_class_nationality))
+                                                $paidAmt = $paperPayment->paid_amount / $exchangeRate[$nationalities[$paperPayment->payable_class_nationality]->Nationality_currency];
+                                            else
+                                                $paidAmt = $paperPayment->paid_amount / $exchangeRate[DEFAULT_CURRENCY];
                                             $outstanding = $actualPayable - $paidAmt;
                                             if($outstanding < 1 && $outstanding > 0)
                                                 $outstanding = 0;

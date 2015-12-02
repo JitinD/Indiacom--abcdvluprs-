@@ -116,8 +116,9 @@ class ReportManager extends BaseController
                     $submission->member_id,
                     DEFAULT_CURRENCY,
                     $this->member_model->getMemberCategory($submission->member_id),
-                    $this->paper_status_model->getMemberAcceptedPapers($submission->member_id),
-                    date("Y-m-d")
+                    $this->paper_status_model->getMemberAcceptedPapers($submission->member_id, EVENT_ID),
+                    date("Y-m-d"),
+                    EVENT_ID
                 );
             }
         }
