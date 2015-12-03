@@ -65,18 +65,25 @@ class CertificateManager extends BaseController
                 DEFAULT_CURRENCY,
                 $registrationCat,
                 $papers,
-                date("Y-m-d")
+                date("Y-m-d"),
+                EVENT_ID
             );
 
         $payheads = $papersInfo[$paper_id]['payhead'];
 
         foreach($payheads as $index=>$payhead)
         {
-            if($payhead->payment_head_name == "BR" || $payhead->payment_head_name == "EP")
+            if($payhead->payment_head_name == "BR" || $payhead->payment_head_name == "EP" || $payhead->payment_head_name == "COMBO")
             {
                 if(isset($papersInfo[$paper_id]['paid']))
-                    $pendingAmount = $papersInfo[$paper_id]['pending'][$index];
-
+                {
+                    $payable = $papersInfo[$paper_id]['payable'][$index] * $papersInfo[$paper_id]['tax'];
+                    $waiveOffAmount = $papersInfo[$paper_id]['waiveOff'][$index];
+                    $paidAmount = $papersInfo[$paper_id]['paid'][$index];
+                    $pendingAmount = $payable - $paidAmount - $waiveOffAmount; //$papersInfo[$paper->paper_id]['pending'][$index];
+                    if($pendingAmount < 1 && $pendingAmount > 0)
+                        $pendingAmount = 0;
+                }
             }
         }
 

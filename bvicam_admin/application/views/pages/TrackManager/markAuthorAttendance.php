@@ -166,7 +166,7 @@
                                 $payableClasses = $papersInfo[$paper->paper_id]['payableClass'];
                                 foreach($payheads as $index=>$payhead)
                                 {
-                                    if($payhead->payment_head_name == "BR" || $payhead->payment_head_name == "EP")
+                                    if($payhead->payment_head_name == "BR" || $payhead->payment_head_name == "EP" || $payhead->payment_head_name == "COMBO")
                                     {
                                         if(isset($papersInfo[$paper->paper_id]['paid']))
                                         {
@@ -493,9 +493,13 @@
                         }
                         $(".attInfo", ref_td).html("Updated");
                     }
-                    else {
+                    else if(msg == "false") {
                         $(".attInfo", ref_td).html("");
                         $(".attError", ref_td).html("Could not update");
+                    }
+                    else
+                    {
+                        alert(msg);
                     }
                 }
             });

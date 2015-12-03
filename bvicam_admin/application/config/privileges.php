@@ -54,7 +54,7 @@ $privilege['Page']['PaymentsManager']['newPayment'] = array('PM3');
 $privilege['Page']['PaymentsManager']['paymentBreakup'] = array('PM4');
 $privilege['Page']['PaymentsManager']['changePayableClass'] = array('PM5');
 $privilege['Page']['PaymentsManager']['changeDiscountType'] = array('PM6');
-$privilege['Page']['PaymentsManager']['paymentWaiveOffAJAX'] = array('PM7');
+$privilege['Page']['PaymentsManager']['paymentWaiveOff_AJAX'] = array('PM7');
 $privilege['Page']['PaymentsManager']['spotPayments'] = array('PM8');
 
 $privilege['Page']['TransactionManager']['newTransaction'] = array('TM0');

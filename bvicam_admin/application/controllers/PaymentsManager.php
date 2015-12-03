@@ -436,7 +436,8 @@ class PaymentsManager extends BaseController
                 !$this->member_model->isProfBodyMember($memberId),
                 $regCat->member_category_id,
                 $transDetails['transaction_currency'],
-                $transDetails['transaction_date']
+                $transDetails['transaction_date'],
+                EVENT_ID
             );
             $paymentDetails = array(
                 "payment_trans_id" => $transDetails['transaction_id'],
