@@ -30,6 +30,12 @@ class Paper_model extends CI_Model
         return $paperDetails['paper_id'];
     }
 
+    public function updatePaperDetails($paperDetails, $paperId)
+    {
+        $this->db->update('paper_master', $paperDetails, array("paper_id"=>$paperId));
+        return $this->db->trans_status();
+    }
+
     public function isUniquePaperTitle($paperTitle, $eventId)
     {
         $papers = $this->getAllPaperDetails($eventId);

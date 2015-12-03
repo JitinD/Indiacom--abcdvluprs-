@@ -493,13 +493,9 @@
                         }
                         $(".attInfo", ref_td).html("Updated");
                     }
-                    else if(msg == "false") {
+                    else {
                         $(".attInfo", ref_td).html("");
                         $(".attError", ref_td).html("Could not update");
-                    }
-                    else
-                    {
-                        alert(msg);
                     }
                 }
             });
