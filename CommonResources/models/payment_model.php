@@ -336,7 +336,7 @@ class Payment_model extends CI_Model
             Join transaction_master
 		        On transaction_id = payment_trans_id And is_verified = 1
         Where
-            payable_class_payhead_id = 1 And
+            payable_class_payhead_id In (1, 5) And
             submission_member_id = ?
         Group By payment_submission_id";
         $query = $this->dbCon->query($sql, array($mid));

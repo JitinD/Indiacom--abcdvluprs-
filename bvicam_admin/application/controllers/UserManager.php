@@ -130,7 +130,7 @@ class UserManager extends BaseController
             $this->user_model->assignRoleToUser($userId, $this->input->post('role'));
         }
         $this->data['userInfo'] = $this->user_model->getUserInfo($userId);
-        $this->data['userRoles'] = $this->user_model->getUserRoles($userId);
+        $this->data['userRoles'] = $this->user_model->getUserRolesInclDirty($userId);
         $this->data['roles'] = $this->role_model->getAllRoles();
         $this->index($page);
     }

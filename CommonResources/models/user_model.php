@@ -122,7 +122,7 @@ class User_model extends CI_Model
 
     public function getUserInfo($userId)
     {
-        $sql = "Select * From user_master Where user_id = ? And user_dirty = 0";
+        $sql = "Select * From user_master Where user_id = ?";
         $query = $this->dbCon->query($sql, array($userId));
         if($query->num_rows() == 1)
         {
@@ -148,6 +148,20 @@ class User_model extends CI_Model
                 From user_event_role_mapper
                       Join role_master On user_event_role_mapper.role_id = role_master.role_id
                 Where user_id = ? And user_event_role_mapper_dirty = 0";
+        $query = $this->dbCon->query($sql, array($userId));
+        if($query->num_rows() > 0)
+        {
+            return $query->result();
+        }
+        return array();
+    }
+
+    public function getUserRolesInclDirty($userId)
+    {
+        $sql = "Select role_master.role_id, role_name, role_application_id, user_event_role_mapper_dirty
+                From user_event_role_mapper
+                      Join role_master On user_event_role_mapper.role_id = role_master.role_id
+                Where user_id = ?";
         $query = $this->dbCon->query($sql, array($userId));
         if($query->num_rows() > 0)
         {
